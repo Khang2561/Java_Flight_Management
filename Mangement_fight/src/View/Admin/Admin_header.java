@@ -72,7 +72,7 @@ public class Admin_header extends JPanel {
 		lblNewLabel.setBounds(0, 0, 140, 80);
 		add(lblNewLabel);
 		
-		
+		//test
 		
 		
 	}
