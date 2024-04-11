@@ -15,7 +15,7 @@ public class FormAdmin extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-
+	//da thay doi 
 	/**
 	 * Launch the application.
 	 */
@@ -31,7 +31,7 @@ public class FormAdmin extends JFrame {
 			}
 		});
 	}
-
+//test
 	/**
 	 * Create the frame.
 	 */

@@ -13,7 +13,7 @@ import java.awt.Font;
 public class HomeAdmin extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	//chung to da thay doi 
+	//chung to da thay doi gfh
 	/**
 	 * Create the panel.
 	 */
