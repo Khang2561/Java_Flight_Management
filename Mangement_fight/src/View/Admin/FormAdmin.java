@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import View.Admin.AccountAndPermission.AccountAndPermission;
+import View.Admin.ChatBox.ChatBox;
 import View.Admin.Flight.FlightListUC;
 import View.Admin.Flight.FlightUC;
 import View.Admin.Setting.Setting;
@@ -16,7 +17,6 @@ public class FormAdmin extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	//da thay doi 
 	/**
 	 * Launch the application.
 	 */
@@ -68,10 +68,21 @@ public class FormAdmin extends JFrame {
 		//homeadmin.setLocation(0, 70);
 		//contentPane.add(homeadmin);
 		//Setting 
-		JPanel setting = new Setting();
-		setting.setSize(1500, 653);
-		setting.setLocation(0, 70);
-		contentPane.add(setting);
+		//JPanel setting = new Setting();
+		//setting.setSize(1500, 653);
+		//setting.setLocation(0, 70);
+		//contentPane.add(setting);
+		//tai khoang va phan quyen 
+		//JPanel accountadnpermission = new AccountAndPermission();
+		//accountadnpermission.setSize(1500, 653);
+		//accountadnpermission.setLocation(0, 70);
+		//contentPane.add(accountadnpermission);
+		
+		//Chat box AI
+		JPanel chatbox = new ChatBox();
+		chatbox.setSize(1500, 653);
+		chatbox.setLocation(0, 70);
+		contentPane.add(chatbox);
 		
 		
 		setContentPane(contentPane);
