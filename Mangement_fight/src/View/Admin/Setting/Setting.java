@@ -250,7 +250,7 @@ public class Setting extends JPanel {
 		JPanel panel_1_2 = new JPanel();
 		panel_1_2.setLayout(null);
 		panel_1_2.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		panel_1_2.setBounds(664, 338, 836, 290);
+		panel_1_2.setBounds(639, 338, 836, 290);
 		add(panel_1_2);
 		
 		JLabel lblNewLabel_1_9 = new JLabel("Tên hạng vé :");
@@ -299,7 +299,7 @@ public class Setting extends JPanel {
 		panel_1_2.add(lblHngV);
 		
 		JScrollPane scrollPane_1 = new JScrollPane((Component) null);
-		scrollPane_1.setBounds(10, 43, 382, 247);
+		scrollPane_1.setBounds(10, 45, 382, 247);
 		panel_1_2.add(scrollPane_1);
 		
 		table_1 = new JTable();

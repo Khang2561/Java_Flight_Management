@@ -16,7 +16,6 @@ public class FormAdmin extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	//da thay doi 
 	/**
 	 * Launch the application.
 	 */
@@ -68,10 +67,15 @@ public class FormAdmin extends JFrame {
 		//homeadmin.setLocation(0, 70);
 		//contentPane.add(homeadmin);
 		//Setting 
-		JPanel setting = new Setting();
-		setting.setSize(1500, 653);
-		setting.setLocation(0, 70);
-		contentPane.add(setting);
+		//JPanel setting = new Setting();
+		//setting.setSize(1500, 653);
+		//setting.setLocation(0, 70);
+		//contentPane.add(setting);
+		//tai khoang va phan quyen 
+		JPanel accountadnpermission = new AccountAndPermission();
+		accountadnpermission.setSize(1500, 653);
+		accountadnpermission.setLocation(0, 70);
+		contentPane.add(accountadnpermission);
 		
 		
 		setContentPane(contentPane);
