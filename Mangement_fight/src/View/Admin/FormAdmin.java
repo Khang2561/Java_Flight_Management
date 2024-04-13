@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import View.Admin.AccountAndPermission.AccountAndPermission;
+import View.Admin.ChatBox.ChatBox;
 import View.Admin.Flight.FlightListUC;
 import View.Admin.Flight.FlightUC;
 import View.Admin.Setting.Setting;
@@ -72,10 +73,16 @@ public class FormAdmin extends JFrame {
 		//setting.setLocation(0, 70);
 		//contentPane.add(setting);
 		//tai khoang va phan quyen 
-		JPanel accountadnpermission = new AccountAndPermission();
-		accountadnpermission.setSize(1500, 653);
-		accountadnpermission.setLocation(0, 70);
-		contentPane.add(accountadnpermission);
+		//JPanel accountadnpermission = new AccountAndPermission();
+		//accountadnpermission.setSize(1500, 653);
+		//accountadnpermission.setLocation(0, 70);
+		//contentPane.add(accountadnpermission);
+		
+		//Chat box AI
+		JPanel chatbox = new ChatBox();
+		chatbox.setSize(1500, 653);
+		chatbox.setLocation(0, 70);
+		contentPane.add(chatbox);
 		
 		
 		setContentPane(contentPane);
