@@ -36,6 +36,7 @@ public class Setting extends JPanel {
 	private JTextField textField_12;
 	private JTextField textField_13;
 	private JTable table_1;
+	static JPanel contentPane;
 
 	/**
 	 * Create the panel.
