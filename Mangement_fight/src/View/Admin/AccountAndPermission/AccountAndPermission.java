@@ -19,6 +19,7 @@ import javax.swing.DefaultComboBoxModel;
 import java.awt.Button;
 import java.awt.Scrollbar;
 import java.awt.Panel;
+import javax.swing.JRadioButton;
 
 public class AccountAndPermission extends JPanel {
 
@@ -28,6 +29,7 @@ public class AccountAndPermission extends JPanel {
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField_3;
+	static JPanel contentPane;
 
 	/**
 	 * Create the panel.
@@ -71,7 +73,7 @@ public class AccountAndPermission extends JPanel {
 		lblNewLabel_1_1_1_1.setBounds(520, 0, 169, 49);
 		panel.add(lblNewLabel_1_1_1_1);
 		
-		JLabel lblNewLabel_1_1_1_1_1 = new JLabel("Tài Khoản Và Quyền ");
+		JLabel lblNewLabel_1_1_1_1_1 = new JLabel("Tài Khoản Và Phân Quyền ");
 		lblNewLabel_1_1_1_1_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1_1_1_1_1.setFont(new Font("Times New Roman", Font.PLAIN, 17));
 		lblNewLabel_1_1_1_1_1.setBackground(new Color(114, 114, 114));
@@ -85,7 +87,7 @@ public class AccountAndPermission extends JPanel {
 		lblNewLabel_1_1_1_1_1_1.setBounds(1019, 0, 243, 49);
 		panel.add(lblNewLabel_1_1_1_1_1_1);
 		
-		JLabel lblNewLabel_1_1_1_1_1_1_1 = new JLabel("Chiêu Cuối");
+		JLabel lblNewLabel_1_1_1_1_1_1_1 = new JLabel("Chat Box");
 		lblNewLabel_1_1_1_1_1_1_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1_1_1_1_1_1_1.setFont(new Font("Times New Roman", Font.PLAIN, 17));
 		lblNewLabel_1_1_1_1_1_1_1.setBackground(new Color(114, 114, 114));
@@ -119,6 +121,126 @@ public class AccountAndPermission extends JPanel {
 		lblNewLabel_1_1_2_1_2.setBackground(new Color(114, 114, 114));
 		lblNewLabel_1_1_2_1_2.setBounds(0, 204, 146, 49);
 		panel.add(lblNewLabel_1_1_2_1_2);
+		
+		JRadioButton rdbtnNewRadioButton = new JRadioButton("");
+		rdbtnNewRadioButton.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnNewRadioButton.setBounds(223, 55, 21, 41);
+		panel.add(rdbtnNewRadioButton);
+		
+		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("");
+		rdbtnNewRadioButton_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnNewRadioButton_1.setBounds(223, 108, 21, 41);
+		panel.add(rdbtnNewRadioButton_1);
+		
+		JRadioButton rdbtnNewRadioButton_2 = new JRadioButton("");
+		rdbtnNewRadioButton_2.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnNewRadioButton_2.setBounds(223, 156, 21, 41);
+		panel.add(rdbtnNewRadioButton_2);
+		
+		JRadioButton rdbtnNewRadioButton_3 = new JRadioButton("");
+		rdbtnNewRadioButton_3.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnNewRadioButton_3.setBounds(223, 204, 21, 41);
+		panel.add(rdbtnNewRadioButton_3);
+		
+		JRadioButton rdbtnNewRadioButton_4 = new JRadioButton("");
+		rdbtnNewRadioButton_4.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnNewRadioButton_4.setBounds(414, 55, 21, 41);
+		panel.add(rdbtnNewRadioButton_4);
+		
+		JRadioButton rdbtnNewRadioButton_5 = new JRadioButton("");
+		rdbtnNewRadioButton_5.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnNewRadioButton_5.setBounds(414, 108, 21, 41);
+		panel.add(rdbtnNewRadioButton_5);
+		
+		JRadioButton rdbtnNewRadioButton_6 = new JRadioButton("");
+		rdbtnNewRadioButton_6.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnNewRadioButton_6.setBounds(414, 156, 21, 41);
+		panel.add(rdbtnNewRadioButton_6);
+		
+		JRadioButton rdbtnNewRadioButton_7 = new JRadioButton("");
+		rdbtnNewRadioButton_7.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnNewRadioButton_7.setBounds(414, 204, 21, 41);
+		panel.add(rdbtnNewRadioButton_7);
+		
+		JRadioButton rdbtnNewRadioButton_8 = new JRadioButton("");
+		rdbtnNewRadioButton_8.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnNewRadioButton_8.setBounds(595, 55, 21, 41);
+		panel.add(rdbtnNewRadioButton_8);
+		
+		JRadioButton rdbtnNewRadioButton_9 = new JRadioButton("");
+		rdbtnNewRadioButton_9.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnNewRadioButton_9.setBounds(595, 108, 21, 41);
+		panel.add(rdbtnNewRadioButton_9);
+		
+		JRadioButton rdbtnNewRadioButton_10 = new JRadioButton("");
+		rdbtnNewRadioButton_10.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnNewRadioButton_10.setBounds(595, 156, 21, 41);
+		panel.add(rdbtnNewRadioButton_10);
+		
+		JRadioButton rdbtnNewRadioButton_11 = new JRadioButton("");
+		rdbtnNewRadioButton_11.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnNewRadioButton_11.setBounds(595, 204, 21, 41);
+		panel.add(rdbtnNewRadioButton_11);
+		
+		JRadioButton rdbtnNewRadioButton_12 = new JRadioButton("");
+		rdbtnNewRadioButton_12.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnNewRadioButton_12.setBounds(842, 55, 21, 41);
+		panel.add(rdbtnNewRadioButton_12);
+		
+		JRadioButton rdbtnNewRadioButton_13 = new JRadioButton("");
+		rdbtnNewRadioButton_13.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnNewRadioButton_13.setBounds(842, 108, 21, 41);
+		panel.add(rdbtnNewRadioButton_13);
+		
+		JRadioButton rdbtnNewRadioButton_14 = new JRadioButton("");
+		rdbtnNewRadioButton_14.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnNewRadioButton_14.setBounds(842, 156, 21, 41);
+		panel.add(rdbtnNewRadioButton_14);
+		
+		JRadioButton rdbtnNewRadioButton_15 = new JRadioButton("");
+		rdbtnNewRadioButton_15.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnNewRadioButton_15.setBounds(842, 204, 21, 41);
+		panel.add(rdbtnNewRadioButton_15);
+		
+		JRadioButton rdbtnNewRadioButton_16 = new JRadioButton("");
+		rdbtnNewRadioButton_16.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnNewRadioButton_16.setBounds(1129, 55, 21, 41);
+		panel.add(rdbtnNewRadioButton_16);
+		
+		JRadioButton rdbtnNewRadioButton_17 = new JRadioButton("");
+		rdbtnNewRadioButton_17.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnNewRadioButton_17.setBounds(1129, 116, 21, 41);
+		panel.add(rdbtnNewRadioButton_17);
+		
+		JRadioButton rdbtnNewRadioButton_18 = new JRadioButton("");
+		rdbtnNewRadioButton_18.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnNewRadioButton_18.setBounds(1129, 164, 21, 41);
+		panel.add(rdbtnNewRadioButton_18);
+		
+		JRadioButton rdbtnNewRadioButton_19 = new JRadioButton("");
+		rdbtnNewRadioButton_19.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnNewRadioButton_19.setBounds(1129, 204, 21, 41);
+		panel.add(rdbtnNewRadioButton_19);
+		
+		JRadioButton rdbtnNewRadioButton_20 = new JRadioButton("");
+		rdbtnNewRadioButton_20.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnNewRadioButton_20.setBounds(1377, 55, 21, 41);
+		panel.add(rdbtnNewRadioButton_20);
+		
+		JRadioButton rdbtnNewRadioButton_21 = new JRadioButton("");
+		rdbtnNewRadioButton_21.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnNewRadioButton_21.setBounds(1377, 108, 21, 41);
+		panel.add(rdbtnNewRadioButton_21);
+		
+		JRadioButton rdbtnNewRadioButton_22 = new JRadioButton("");
+		rdbtnNewRadioButton_22.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnNewRadioButton_22.setBounds(1377, 156, 21, 41);
+		panel.add(rdbtnNewRadioButton_22);
+		
+		JRadioButton rdbtnNewRadioButton_23 = new JRadioButton("");
+		rdbtnNewRadioButton_23.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnNewRadioButton_23.setBounds(1377, 204, 21, 41);
+		panel.add(rdbtnNewRadioButton_23);
 		
 
 

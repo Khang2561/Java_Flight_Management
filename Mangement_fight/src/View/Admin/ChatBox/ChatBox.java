@@ -1,6 +1,8 @@
 package View.Admin.ChatBox;
 
 import java.awt.Color;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.Font;
 import java.awt.Button;
 import javax.swing.JPanel;
@@ -59,6 +61,7 @@ public class ChatBox extends JPanel {
             }
         });
         add(button_3);
+   
 
         // NHAP TIN NHAN
         txtNhp = new JTextField();
@@ -69,6 +72,7 @@ public class ChatBox extends JPanel {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         // Connect to the server
+        
         try {
             socket = new Socket("localhost", 4999);
             out = new PrintWriter(socket.getOutputStream(), true);
@@ -105,6 +109,8 @@ public class ChatBox extends JPanel {
             txtNhp.setText(""); // Clear the text field after sending the message
         }
     }
+    
+  
 
     // Method to append a message to the JTextArea
     private void appendMessageToTextArea(String sender, String message) {
@@ -112,7 +118,9 @@ public class ChatBox extends JPanel {
         String formattedMessage = "[" + timeStamp + "] " + sender + ": " + message + "\n";
         textArea.append(formattedMessage);
     }
-
+    
+    
+    
     // Override the JPanel's finalize method to close the socket when the ChatBox is destroyed
     @Override
     protected void finalize() throws Throwable {
