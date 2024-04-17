@@ -6,16 +6,21 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Button;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 
 public class loggin_form extends JPanel {
 
     public static final long serialVersionUID = 1L;
     private JTextField txtUsername;
     private JPasswordField txtPassword;
-    private JLabel lblForgotPassword;
+    public JLabel lblForgotPassword;
     private JLabel lbl2;
     private JLabel lblSignUp;
+
 
     public loggin_form() {
 		setBackground(new Color(255, 255, 255));
@@ -33,12 +38,21 @@ public class loggin_form extends JPanel {
 		add(txtPassword);
 		
 		JLabel lbl1 = new JLabel("Đăng nhập");
-		lbl1.setFont(new Font("Arial", Font.BOLD, 24));
+		lbl1.setFont(new Font("Times New Roman", Font.BOLD, 24));
 		lbl1.setBounds(86, 41, 138, 29);
 		add(lbl1);
 		
 		lblForgotPassword = new JLabel("Quên mật khẩu");
-	
+		lblForgotPassword.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				lblForgotPassword.setCursor(new Cursor(Cursor.HAND_CURSOR));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				lblForgotPassword.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+			}
+		});
 		lblForgotPassword.setForeground(new Color(128, 152, 249));
 		lblForgotPassword.setFont(new Font("Arial", Font.PLAIN, 14));
 		lblForgotPassword.setBounds(163, 203, 105, 17);
