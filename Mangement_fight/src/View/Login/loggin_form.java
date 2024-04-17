@@ -33,7 +33,7 @@ public class loggin_form extends JPanel {
 		add(txtPassword);
 		
 		JLabel lbl1 = new JLabel("Đăng nhập");
-		lbl1.setFont(new Font("Arial", Font.BOLD, 24));
+		lbl1.setFont(new Font("Times New Roman", Font.BOLD, 24));
 		lbl1.setBounds(86, 41, 138, 29);
 		add(lbl1);
 		

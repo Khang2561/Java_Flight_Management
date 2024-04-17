@@ -20,7 +20,6 @@ public class ForgotPassword1 extends JPanel {
 	 * Create the panel.
 	 */
 	public ForgotPassword1() {
-		setLayout(null);
 
 		setBackground(new Color(255, 255, 255));
 		setLayout(null);
@@ -37,8 +36,8 @@ public class ForgotPassword1 extends JPanel {
 		
 		JLabel lblNewLabel = new JLabel("Nhập email của bạn và nhận mã OTP để xác minh ");
 		lblNewLabel.setForeground(new Color(113, 113, 122));
-		lblNewLabel.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblNewLabel.setBounds(9, 77, 282, 15);
+		lblNewLabel.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		lblNewLabel.setBounds(38, 81, 282, 15);
 		add(lblNewLabel);
 		
 		Button btnGetOTP = new Button("Lấy mã OTP");
