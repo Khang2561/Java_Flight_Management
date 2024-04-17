@@ -7,15 +7,16 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import View.Admin.AccountAndPermission.AccountAndPermission;
+import View.Admin.ChatBox.ChatBox;
 import View.Admin.Flight.FlightListUC;
 import View.Admin.Flight.FlightUC;
+import View.Admin.Setting.Setting;
 import View.Login.ForgotPassword3;
 
 public class FormAdmin extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
-	//da thay doi 
+	static JPanel contentPane;
 	/**
 	 * Launch the application.
 	 */
@@ -46,26 +47,7 @@ public class FormAdmin extends JFrame {
 		JPanel header1 = new Admin_header();
 		header1.setBounds(0, 0, 1500, 70);
 		contentPane.add(header1);
-		//tai khoang va phan quyen 
-		//JPanel accountPermit = new AccountAndPermission();
-		//accountPermit.setLocation(0, 71);
-		//contentPane.add(accountPermit);
-		//FLIGHT
-		JPanel flightuc = new FlightUC();
-		flightuc.setSize(1500, 50);
-		flightuc.setLocation(0, 70);
-		contentPane.add(flightuc);
-		//fight list
-		//JPanel FlightListUC = new FlightListUC();
-		//FlightListUC.setSize(1500, 600);
-		//FlightListUC.setLocation(0, 118);
-		//contentPane.add(FlightListUC);
-		//flight operation flight
-		//HomeAdmin
-		JPanel homeadmin = new HomeAdmin();
-		flightuc.setSize(1500, 50);
-		homeadmin.setLocation(0, 70);
-		contentPane.add(homeadmin);
+		
 		
 		
 		setContentPane(contentPane);
