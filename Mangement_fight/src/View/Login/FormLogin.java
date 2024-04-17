@@ -71,7 +71,7 @@ public class FormLogin extends JFrame {
                 setLocation(x - mouseX, y - mouseY);
             }
         });
-				
+        		
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(0, 128, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
