@@ -28,6 +28,7 @@ public class FormLogin extends JFrame {
 	private int mouseX, mouseY;
 	JPanel panelLogin;
 	JPanel panelForgotPassword1;
+	JPanel panelRegister;
 
 	/**
 	 * Launch the application.
@@ -82,6 +83,7 @@ public class FormLogin extends JFrame {
 		//hien thi form dang nhap
 		panelLogin = new loggin_form();
 		panelForgotPassword1 = new ForgotPassword1();
+		panelRegister = new Register();
         panelLogin.setBounds(417, 44, 300, 406);
         contentPane.add(panelLogin);
         
@@ -115,6 +117,37 @@ public class FormLogin extends JFrame {
                 contentPane.repaint();
             }
         });
+        
+        //chuyen sang form dang ky
+        ((loggin_form) panelLogin).lblSignUp.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {            
+                
+                contentPane.remove(panelLogin);
+                
+                panelRegister.setBounds(417, 44, 300, 406);
+                contentPane.add(panelRegister);
+                
+                contentPane.revalidate();
+                contentPane.repaint();
+            }
+        });
+        
+        //chuyen tu form dang ky ve dang nhap
+        ((Register) panelRegister).lblLogin.addMouseListener(new MouseAdapter() {	
+            public void mouseClicked(MouseEvent e) {  
+                
+                contentPane.remove(panelRegister);
+                
+                panelLogin.setBounds(417, 44, 300, 406);
+                contentPane.add(panelLogin);
+                
+                contentPane.revalidate();
+                contentPane.repaint();
+            }
+        		
+        });
+       
         	
         	    
         //add anh login
