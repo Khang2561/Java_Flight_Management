@@ -300,7 +300,7 @@ public class Setting extends JPanel {
 		panel_1_2.add(lblHngV);
 		
 		JScrollPane scrollPane_1 = new JScrollPane((Component) null);
-		scrollPane_1.setBounds(10, 45, 382, 247);
+		scrollPane_1.setBounds(10, 45, 382, 235);
 		panel_1_2.add(scrollPane_1);
 		
 		table_1 = new JTable();
