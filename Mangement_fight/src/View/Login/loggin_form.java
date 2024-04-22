@@ -19,7 +19,7 @@ public class loggin_form extends JPanel {
     private JPasswordField txtPassword;
     public JLabel lblForgotPassword;
     private JLabel lbl2;
-    private JLabel lblSignUp;
+    public JLabel lblSignUp;
 
 
     public loggin_form() {
@@ -65,6 +65,16 @@ public class loggin_form extends JPanel {
 		add(lbl2);
 		
 		lblSignUp = new JLabel("Đăng ký");
+		lblSignUp.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				lblSignUp.setCursor(new Cursor(Cursor.HAND_CURSOR));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				lblSignUp.setCursor(new Cursor(Cursor.HAND_CURSOR));
+			}
+		});
 		lblSignUp.setForeground(new Color(128, 152, 249));
 		lblSignUp.setFont(new Font("Arial", Font.BOLD, 12));
 		lblSignUp.setBounds(179, 295, 58, 15);
