@@ -86,17 +86,20 @@
 * Lập báo cáo năm: Hệ thống có thể quản lý Báo cáo doanh thu năm, bao gồm các thông tin: Tháng, Số chuyến bay, Số vé, Doanh thu, Tỉ lệ, truy vấn và thống kê doanh số, số lượng chuyến bay của từng tháng theo năm và in báo cáo.
 * Thay đổi quy định: Được thay đổi ràng buộc về số lượng, phạm vi giới hạn, Thay đổi quy định về số lượng sân bay: Thay đổi số lượng sân bay, thay đổi quy định về thời gian bay tối thiểu: Thay đổi thời gian bay tối thiểu, thay đổi quy định về số sân bay trung gian tối đa: Thay đổi số lượng sân bay trung gian tối đa, thay đổi quy định về thời gian dừng tối thiểu tại các sân bay trung gian: Thay đổi thời gian dừng tối thiểu tại các sân bay trung gian, thay đổi quy định về thời gian dừng tối đa tại các sân bay trung gian: Thay đổi thời gian dừng tối đa tại các sân bay trung gian, thay đổi quy định về số lượng các hạng vé: Thay đổi số lượng các hạng vé, thay đổi quy định về thời gian chậm nhất khi đặt vé: Thay đổi thời gian chậm nhất khi đặt vé, thay đổi quy định về thời gian hủy đặt vé: Thay đổi thời gian hủy đặt vé.
 * Phân quyền đăng nhập: Hệ thống quản lý các tài khoản với các vai trò khác nhau để đảm bảo tính bảo mật.
+* Chat box : giúp giải đáp thắc mắc của khách hàng về các câu hỏi thường gặp bằng AIAI
 <!-- TÁC GIẢ -->
 <div id="Tacgia"></div>
 
 ## III. Tác giả
-
+1. Nguyễn Phúc Khang - 21522194
+2. Lý Nam Kháng - 21522191
+3. 
 
 <!-- NGƯỜI HƯỚNG DẪN -->
 <div id="Nguoihuongdan"></div>
 
 ## IV. Người hướng dẫn
-* Giảng viên: 
+* Giảng viên: Nguyễn Văn Kiệt 
 
 <!-- HƯỚNG DẪN SỬ DỤNG -->
 <div id="HuongDanCaiDat"></div>
@@ -118,9 +121,9 @@
 ## VI. Tổng kết
 * Một sản phẩm là kết quả của một dự án được hoàn thành bởi các thành viên trong nhóm. Qua quá trình này, các thành viên đã có được những kiến ​​thức và kỹ năng chuyên môn nhất định về quy trình lập trình thực tế, hiểu rõ hơn về lập trình, đồng thời tích lũy cho mình những kinh nghiệm và bài học quý báu cho công việc sau này.
 
-* Ngoài ra, nhóm cũng xin gửi lời cảm ơn chân thành và sâu sắc đến thầy giáo hướng dẫn Đỗ Thị Thanh Tuyền đã đồng hành cùng nhóm để đạt được kết quả như ngày hôm nay trong suốt quá trình thực hiện đề tài.
+* Ngoài ra, nhóm cũng xin gửi lời cảm ơn chân thành và sâu sắc đến thầy giáo hướng dẫn Nguyễn Văn Kiệt đã đồng hành cùng nhóm để đạt được kết quả như ngày hôm nay trong suốt quá trình thực hiện đề tài.
 
-* Sản phẩm của một nhóm có thể để lại nhiều điều mong muốn khi nó được xây dựng và phát triển. Vì vậy, đừng ngần ngại gửi đề xuất hoặc nhận xét của bạn tới email 21522401@gm.uit.edu.vn. Mỗi đóng góp của bạn sẽ được ghi nhận và là động lực để đội ngũ hoàn thiện sản phẩm hơn nữa.
+* Sản phẩm của một nhóm có thể để lại nhiều điều mong muốn khi nó được xây dựng và phát triển. Vì vậy, đừng ngần ngại gửi đề xuất hoặc nhận xét của bạn tới email 21522194@gm.uit.edu.vn. Mỗi đóng góp của bạn sẽ được ghi nhận và là động lực để đội ngũ hoàn thiện sản phẩm hơn nữa.
 
 * Cám ơn vì sự quan tâm của bạn!
 
