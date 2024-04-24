@@ -42,7 +42,7 @@ public class Admin_header extends JPanel {
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon(Admin_header.class.getResource("/Resource/LogoMAT_180x40.png")));
 		add(lblNewLabel);
-		
+		//button chuyen bay 
 		Button button = new Button("Chuyến bay ");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -53,47 +53,50 @@ public class Admin_header extends JPanel {
 		button.setBackground(new Color(245, 245, 248));
 		button.setForeground(new Color(0, 0, 0));
 		add(button);
-		
+		//button ve may bay
 		Button button_1 = new Button("Vé máy bay");
 		button_1.setFont(new Font("Times New Roman", Font.BOLD, 18));
-		
-		
 		button_1.setForeground(new Color(0, 0, 0));
 		button_1.setBackground(new Color(245, 245, 248));
 		add(button_1);
 		
+		//button may bay
 		Button button_1_1 = new Button("Máy bay");
 		button_1_1.setFont(new Font("Times New Roman", Font.BOLD, 18));
-		
 		button_1_1.setForeground(new Color(0, 0, 0));
 		button_1_1.setBackground(new Color(245, 245, 248));
 		add(button_1_1);
 		
+		//button tai khoan va phan quyen
 		Button button_1_1_1 = new Button("Tài khoảng và quyền ");
 		button_1_1_1.setFont(new Font("Times New Roman", Font.BOLD, 18));
 		button_1_1_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JPanel aap = new AccountAndPermission();
+				/*JPanel aap = new AccountAndPermission();
 				aap.setSize(1500, 653);
 				aap.setLocation(0, 70);
+				FormAdmin.contentPane.removeAll();
 		        FormAdmin.contentPane.add(aap);
 		        FormAdmin.contentPane.revalidate();
-		        FormAdmin.contentPane.repaint();
+		        FormAdmin.contentPane.repaint();*/
+				clearAndShow(new AccountAndPermission());
 			}
 		});
 		button_1_1_1.setForeground(new Color(0, 0, 0));
 		button_1_1_1.setBackground(new Color(245, 245, 248));
 		add(button_1_1_1);
 		
+		//buttion cai dat
 		Button button_1_1_1_1_1 = new Button("Cài đặt");
 		button_1_1_1_1_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JPanel setting = new Setting();
+				/*JPanel setting = new Setting();
 				setting.setSize(1500, 653);
 				setting.setLocation(0, 70);
 		        FormAdmin.contentPane.add(setting);
 		        FormAdmin.contentPane.revalidate();
-		        FormAdmin.contentPane.repaint();
+		        FormAdmin.contentPane.repaint();*/
+				clearAndShow(new Setting());
 			}
 		});
 		button_1_1_1_1_1.setFont(new Font("Times New Roman", Font.BOLD, 18));
@@ -101,15 +104,17 @@ public class Admin_header extends JPanel {
 		button_1_1_1_1_1.setBackground(new Color(245, 245, 248));
 		add(button_1_1_1_1_1);
 		
+		//button box chat 
 		Button button_1_1_1_1 = new Button("Chat Box");
 		button_1_1_1_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JPanel chatbox = new ChatBox();
+				/*JPanel chatbox = new ChatBox();
 		        chatbox.setSize(1500, 653);
 		        chatbox.setLocation(0, 70);
 		        FormAdmin.contentPane.add(chatbox);
 		        FormAdmin.contentPane.revalidate();
-		        FormAdmin.contentPane.repaint();
+		        FormAdmin.contentPane.repaint();*/
+				clearAndShow(new ChatBox());
 			}
 		});
 		button_1_1_1_1.setFont(new Font("Times New Roman", Font.BOLD, 18));
@@ -121,4 +126,14 @@ public class Admin_header extends JPanel {
 		
 		
 	}
+	//ham xoa va tao form moi
+	private void clearAndShow(JPanel newPanel) {
+        FormAdmin.contentPane.removeAll(); // Xóa tất cả các thành phần trên contentPane
+        FormAdmin.contentPane.add(this); // Thêm lại Admin_header vào contentPane
+        FormAdmin.contentPane.add(newPanel); // Thêm form mới vào contentPane
+        newPanel.setSize(1500, 653);
+        newPanel.setLocation(0, 70);
+        FormAdmin.contentPane.revalidate(); // Cập nhật giao diện
+        FormAdmin.contentPane.repaint(); // Vẽ lại giao diện
+    }
 }
