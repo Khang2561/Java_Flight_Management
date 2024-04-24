@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 
+import DAO.AirportDAO;
+import View.Admin.Setting.Setting;
+
 public class JDBCUtil {
 	public static Connection getConnection() {
     	Connection c = null;
@@ -14,13 +17,7 @@ public class JDBCUtil {
             String password = "Khang0943069831";
 
             c = DriverManager.getConnection(url, userName, password);
-            //String sql = "select * from FLIGHT";
-            //Statement statement = connection.createStatement();
-            //ResultSet rs = statement.executeQuery(sql);
-            //while(rs.next()) {
-            //    System.out.println(rs.getString(1));
-            //    System.out.println(rs.getString(2));
-            //}
+            
             System.out.println("Ket noi thanh cong");
         } catch (Exception e) {
             e.printStackTrace();

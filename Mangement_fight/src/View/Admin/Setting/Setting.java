@@ -4,9 +4,14 @@ import java.awt.Color;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+
+import DALs.AirportDAL;
+import DAO.AirportDAO;
 
 import java.awt.Font;
 import javax.swing.JTable;
@@ -14,13 +19,16 @@ import javax.swing.border.BevelBorder;
 import javax.swing.JTextField;
 import java.awt.Button;
 import java.awt.Panel;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.awt.Component;
 import javax.swing.JScrollBar;
 
 public class Setting extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JTable table;
+	private static JTable table;
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
@@ -37,7 +45,7 @@ public class Setting extends JPanel {
 	private JTextField textField_13;
 	private JTable table_1;
 	static JPanel contentPane;
-
+	
 	/**
 	 * Create the panel.
 	 */
@@ -67,20 +75,23 @@ public class Setting extends JPanel {
 		table.setColumnSelectionAllowed(true);
 		table.setCellSelectionEnabled(true);
 		table.setFont(new Font("Times New Roman", Font.BOLD, 15)); // Thiết lập font cho bảng
+		
 		table.setModel(new DefaultTableModel( // Thiết lập mô hình mặc định cho bảng
 		    new Object[][] {
-		        {"sadfS", "sadfS","sadfS"}, // Dữ liệu ban đầu, bạn có thể thêm các dòng khác tại đây
+		        {"", "",""}, // Dữ liệu ban đầu, bạn có thể thêm các dòng khác tại đây
 		    },
 		    new String[] {
 		        "Tên sân bay", "Tên thành phố", "Tên đất nước" // Tiêu đề của các cột
 		    }
 		));
-		table.getColumnModel().getColumn(0).setPreferredWidth(200); // Thiết lập độ rộng ưu tiên cho cột 0 (Tên sân bay)
-		table.getColumnModel().getColumn(1).setPreferredWidth(200); // Thiết lập độ rộng ưu tiên cho cột 1 (Tên thành phố)
-		table.getColumnModel().getColumn(2).setPreferredWidth(200); // Thiết lập độ rộng ưu tiên cho cột 2 (Tên đất nước)
-	
 		
 		table.setRowHeight(30);
+		
+		//LẤY DANH SÁCH SÂN BAY TỪ AIRPORTDAL
+		
+        // Thêm bảng vào panel và panel vào frame
+        panel.add(new JScrollPane(table));
+        add(panel);
 
 		// Tạo thanh cuộn cho bảng
 		JScrollPane scrollPane = new JScrollPane(table);
@@ -312,9 +323,17 @@ public class Setting extends JPanel {
 			}
 		));
 		scrollPane_1.setViewportView(table_1);
-		
-		
-		
-		
+	}
+	public static void loadRsToTable(ResultSet rs) throws SQLException {
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		model.setRowCount(0);
+		while(rs.next()) {
+			model.addRow(new Object[] {
+					rs.getString("AirportID"),
+					rs.getString("AirportName"),
+					rs.getString("CountryName"),
+					
+			});
+		}
 	}
 }
