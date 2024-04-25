@@ -285,7 +285,7 @@ public class AccountAndPermission extends JPanel {
 
 		// Tạo thanh cuộn cho bảng
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(10, 368, 630, 274); // Thiết lập vị trí và kích thước của thanh cuộn
+		scrollPane.setBounds(10, 368, 630, 264); // Thiết lập vị trí và kích thước của thanh cuộn
 
 		// Thêm thanh cuộn vào panel
 		add(scrollPane);
