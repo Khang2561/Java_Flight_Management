@@ -280,20 +280,6 @@ public class AccountAndPermission extends JPanel {
 		modelAccount.setColumnIdentifiers(column);
 		table.setModel(modelAccount);
 		
-		/*
-		table.setModel(new DefaultTableModel( // Thiết lập mô hình mặc định cho bảng
-		    new Object[][] {
-		        {"sadfS", "sadfS","sadfS"}, // Dữ liệu ban đầu, bạn có thể thêm các dòng khác tại đây
-		    },
-		    new String[] {
-		        "Tên tài khoản", "Ngày tạo", "Nhóm quyền" // Tiêu đề của các cột
-		    }
-		));*/
-		/*table.setBounds(207, 491, 1, 1);
-		table.getColumnModel().getColumn(0).setPreferredWidth(200); // Thiết lập độ rộng ưu tiên cho cột 0 (Tên sân bay)
-		table.getColumnModel().getColumn(1).setPreferredWidth(200); // Thiết lập độ rộng ưu tiên cho cột 1 (Tên thành phố)
-		table.getColumnModel().getColumn(2).setPreferredWidth(200); // Thiết lập độ rộng ưu tiên cho cột 2 (Tên đất nước)
-		*/
 		
 		table.setRowHeight(30);
 		//LAY DANH SACH TAI KHOANG TU DATA 
@@ -390,27 +376,5 @@ public class AccountAndPermission extends JPanel {
 			});
 		}
 	}
-	/*
-public void loadRsToTable(ResultSet rs) throws SQLException {
-    DefaultTableModel modelAccount = (DefaultTableModel) table.getModel();
-    modelAccount.setRowCount(0);
-    while(rs.next()) {
-        String roleID = rs.getString("RoleID");
-        String roleName = "Unknown"; // Mặc định là Unknown nếu không có ánh xạ
-        if (roleID.equals("RL0001")) {
-            roleName = "Siêu quản trị";
-        } else if (roleID.equals("RL0002")) {
-            roleName = "Quản trị";
-        } else if (roleID.equals("RL0003")) {
-            roleName = "Ban giám đốc";
-        }
-        modelAccount.addRow(new Object[] {
-            rs.getString("AccountID"),
-            rs.getString("Name"),
-            roleName
-        });
-    }
-}
-
-	*/
+	
 }

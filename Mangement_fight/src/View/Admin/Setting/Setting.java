@@ -11,7 +11,9 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
 import DALs.AirportDAL;
+import DAO.AAADAO;
 import DAO.AirportDAO;
+import DAO.TicketClassDAO;
 import libData.JDBCUtil;
 
 import java.awt.Font;
@@ -48,9 +50,11 @@ public class Setting extends JPanel {
 	private JTable table_1;
 	static JPanel contentPane;
 	DefaultTableModel model;
+	private DefaultTableModel modelTicketLevel;
 	
 	/**
 	 * Create the panel.
+	 * @param table_1 
 	 */
 	public Setting() {
 		setBackground(new Color(240, 240, 240));
@@ -320,15 +324,27 @@ public class Setting extends JPanel {
 		scrollPane_1.setBounds(10, 45, 382, 235);
 		panel_1_2.add(scrollPane_1);
 		
+		//table ticket class
 		table_1 = new JTable();
-		table_1.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Tên hạng vé", "Phần trăm", 
-			}
-		));
+		table_1.setSurrendersFocusOnKeystroke(true);
+		table_1.setColumnSelectionAllowed(true);
+		table_1.setCellSelectionEnabled(true);
+		table_1.setFont(new Font("Times New Roman", Font.BOLD, 15)); // Thiết lập font cho bảng
+		
+		Object [] column1 = {"Tên hạng vé","Phần trăm"};
+		modelTicketLevel = new DefaultTableModel();
+		modelTicketLevel.setColumnIdentifiers(column1);
+		table_1.setModel(modelTicketLevel);
+		//upload data
+		try {
+			ResultSet rs = TicketClassDAO.selectAll();
+			loadRsToTableTicketLevel(rs);
+		}catch(SQLException | ClassNotFoundException ex){
+			ex.printStackTrace();
+		}
 		scrollPane_1.setViewportView(table_1);
+		
+		
 	}
 	
 	//load data len teable tai bang setting 
@@ -343,6 +359,18 @@ public class Setting extends JPanel {
 					
 			});
 		}
+	}
+	
+	// Phương thức để load dữ liệu lên bảng hạng vé
+	public void loadRsToTableTicketLevel(ResultSet rs) throws SQLException {
+	    DefaultTableModel modelTicketLevel = (DefaultTableModel) table_1.getModel();
+	    modelTicketLevel.setRowCount(0);
+	    while (rs.next()) {
+	        modelTicketLevel.addRow(new Object[] {
+	            rs.getString("TicketClassName"),
+	            rs.getString("PricePercentage"),
+	        });
+	    }
 	}
 	
 }
