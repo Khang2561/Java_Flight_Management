@@ -330,6 +330,8 @@ public class Setting extends JPanel {
 		));
 		scrollPane_1.setViewportView(table_1);
 	}
+	
+	//load data len teable tai bang setting 
 	public void loadRsToTable(ResultSet rs) throws SQLException {
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		model.setRowCount(0);
