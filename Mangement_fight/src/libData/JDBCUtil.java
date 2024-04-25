@@ -18,7 +18,7 @@ public class JDBCUtil {
 
             c = DriverManager.getConnection(url, userName, password);
             
-            System.out.println("Ket noi thanh cong");
+           
         } catch (Exception e) {
             e.printStackTrace();
         }

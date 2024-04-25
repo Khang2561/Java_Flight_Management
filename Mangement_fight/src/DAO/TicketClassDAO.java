@@ -8,41 +8,37 @@ import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import Model.Account;
-import Model.Airport;
+import Model.TicketClass;
 import libData.JDBCUtil;
 
-public class AAADAO implements DAOInterface<Account>{
-	
-	public static AAADAO getInstance() {
-		return new AAADAO();
-	}
-	
+public class TicketClassDAO implements DAOInterface<TicketClass>{
+
 	@Override
-	public int insert(Account t) {
+	public int insert(TicketClass t) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int update(Account t) {
+	public int update(TicketClass t) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int delete(Account t) {
+	public int delete(TicketClass t) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public Account selectById(Account t) {
+	public TicketClass selectById(TicketClass t) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ArrayList<Account> selectByCondition(String condition) {
+	public ArrayList<TicketClass> selectByCondition(String condition) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -52,7 +48,7 @@ public class AAADAO implements DAOInterface<Account>{
 		Connection connect = null;
 	    PreparedStatement stmt = null;
 	    ResultSet rs = null;
-	    String query = "SELECT * FROM ACCOUNT LEFT JOIN PERMISSION ON ACCOUNT.RoleID = PERMISSION.RoleID;";
+	    String query = "SELECT * FROM TICKET_CLASS;";
 	    try {
 	    	connect = JDBCUtil.getConnection();
 	    	stmt = connect.prepareStatement(query);
