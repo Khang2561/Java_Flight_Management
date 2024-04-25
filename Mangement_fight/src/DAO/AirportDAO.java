@@ -136,28 +136,30 @@ public class AirportDAO implements DAOInterface<Airport> {
 	    return rowsAffected;
 	}
 	
-	public void selectAll() throws SQLException, ClassNotFoundException {
+	public static ResultSet selectAll() throws SQLException, ClassNotFoundException {
 	    
 	    //thu cua thay
-	    Connection connect = null;
-	    Statement stmt = null;
+		Connection connect = null;
+	    PreparedStatement stmt = null;
+	    ResultSet rs = null;
+	    String query = "SELECT * FROM AIRPORT";
 	    try {
 	    	connect = JDBCUtil.getConnection();
-	    	stmt = connect.createStatement();
-	    	ResultSet result = stmt.executeQuery("SELECT * FROM AIRPORT");
-	    	Setting.loadRsToTable(result);
+	    	stmt = connect.prepareStatement(query);
+	    	rs = stmt.executeQuery();
 	    //
 	    } catch (SQLException ex) {
 	       Logger.getLogger(null);
 	       throw ex;
-	    } finally {
+	    } /*finally {
 	        if (stmt !=null &&!stmt.isClosed()) {
 	        	stmt.close();
 	        }
 	        if(connect != null && !connect.isClosed()) {
 	        	connect.close();
 	        }
-	    }
+	    }*/
+		return rs;
 	}
 
 	

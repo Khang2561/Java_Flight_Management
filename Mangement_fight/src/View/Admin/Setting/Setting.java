@@ -12,6 +12,7 @@ import javax.swing.table.DefaultTableModel;
 
 import DALs.AirportDAL;
 import DAO.AirportDAO;
+import libData.JDBCUtil;
 
 import java.awt.Font;
 import javax.swing.JTable;
@@ -19,6 +20,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.JTextField;
 import java.awt.Button;
 import java.awt.Panel;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -45,6 +47,7 @@ public class Setting extends JPanel {
 	private JTextField textField_13;
 	private JTable table_1;
 	static JPanel contentPane;
+	DefaultTableModel model;
 	
 	/**
 	 * Create the panel.
@@ -70,24 +73,27 @@ public class Setting extends JPanel {
 		lblNewLabel.setBounds(741, 5, 88, 25);
 		panel.add(lblNewLabel);
 		// Tạo bảng cho dữ liệu sân bay
-		JTable table = new JTable(); // Tạo một JTable mới
+		table = new JTable(); // Tạo một JTable mới
 		table.setSurrendersFocusOnKeystroke(true);
 		table.setColumnSelectionAllowed(true);
 		table.setCellSelectionEnabled(true);
 		table.setFont(new Font("Times New Roman", Font.BOLD, 15)); // Thiết lập font cho bảng
 		
-		table.setModel(new DefaultTableModel( // Thiết lập mô hình mặc định cho bảng
-		    new Object[][] {
-		        {"", "",""}, // Dữ liệu ban đầu, bạn có thể thêm các dòng khác tại đây
-		    },
-		    new String[] {
-		        "Tên sân bay", "Tên thành phố", "Tên đất nước" // Tiêu đề của các cột
-		    }
-		));
+        model = new DefaultTableModel();
+        Object[] column = {"Tên sân bay", "Tên thành phố", "Tên đất nước"};
+        model.setColumnIdentifiers(column);
+        table.setModel(model);
 		
 		table.setRowHeight(30);
 		
 		//LẤY DANH SÁCH SÂN BAY TỪ AIRPORTDAL
+        try {
+        	ResultSet rs = AirportDAO.selectAll();
+        	loadRsToTable(rs);      
+        } catch (SQLException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
+        
 		
         // Thêm bảng vào panel và panel vào frame
         panel.add(new JScrollPane(table));
@@ -324,7 +330,7 @@ public class Setting extends JPanel {
 		));
 		scrollPane_1.setViewportView(table_1);
 	}
-	public static void loadRsToTable(ResultSet rs) throws SQLException {
+	public void loadRsToTable(ResultSet rs) throws SQLException {
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		model.setRowCount(0);
 		while(rs.next()) {
@@ -336,4 +342,5 @@ public class Setting extends JPanel {
 			});
 		}
 	}
+	
 }

@@ -1,6 +1,7 @@
 package DALs;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -19,7 +20,7 @@ public static AirportDAL _ins;
     }
     
  // Lấy danh sách sân bay
-    public String[] getListAirport() {
+    public static String[] getListAirport() {
     	Connection connection = null;
         Statement statement = null;
         ResultSet resultSet = null;

@@ -1,5 +1,7 @@
 package DAO;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -13,7 +15,9 @@ public interface DAOInterface<T> {
 	
 	public int delete(T t);
 	
-	public void selectAll() throws SQLException, ClassNotFoundException;
+	public static ResultSet selectAll() throws SQLException, ClassNotFoundException {
+		return null;
+	}
 	
 	public T selectById(T t);
 	
