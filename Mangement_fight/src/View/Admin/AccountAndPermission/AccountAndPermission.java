@@ -9,6 +9,10 @@ import java.awt.Font;
 
 import javax.swing.border.BevelBorder;
 import javax.swing.table.DefaultTableModel;
+
+import DAO.AAADAO;
+import DAO.AirportDAO;
+
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -18,6 +22,8 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.Button;
 import java.awt.Scrollbar;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.awt.Panel;
 import javax.swing.JRadioButton;
 
@@ -29,6 +35,7 @@ public class AccountAndPermission extends JPanel {
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField_3;
+	private DefaultTableModel modelAccount;
 	static JPanel contentPane;
 
 	/**
@@ -261,12 +268,19 @@ public class AccountAndPermission extends JPanel {
 		lblQuynHngCa.setBounds(10, 331, 376, 35);
 		add(lblQuynHngCa);
 		
-		// QUYEN CUA CAC TAI KHOAN
-		JTable table = new JTable(); // Tạo một JTable mới
+		//BANG CHUA QUYEN CUA CAC TAI KHOAN
+		table = new JTable(); // Tạo một JTable mới
 		table.setSurrendersFocusOnKeystroke(true);
 		table.setColumnSelectionAllowed(true);
 		table.setCellSelectionEnabled(true);
 		table.setFont(new Font("Times New Roman", Font.BOLD, 15)); // Thiết lập font cho bảng
+		
+		modelAccount = new DefaultTableModel();
+		Object [] column = {"Tên tài khoản","Ngày tạo","Nhóm quyền"};
+		modelAccount.setColumnIdentifiers(column);
+		table.setModel(modelAccount);
+		
+		/*
 		table.setModel(new DefaultTableModel( // Thiết lập mô hình mặc định cho bảng
 		    new Object[][] {
 		        {"sadfS", "sadfS","sadfS"}, // Dữ liệu ban đầu, bạn có thể thêm các dòng khác tại đây
@@ -274,14 +288,21 @@ public class AccountAndPermission extends JPanel {
 		    new String[] {
 		        "Tên tài khoản", "Ngày tạo", "Nhóm quyền" // Tiêu đề của các cột
 		    }
-		));
-		table.setBounds(207, 491, 1, 1);
+		));*/
+		/*table.setBounds(207, 491, 1, 1);
 		table.getColumnModel().getColumn(0).setPreferredWidth(200); // Thiết lập độ rộng ưu tiên cho cột 0 (Tên sân bay)
 		table.getColumnModel().getColumn(1).setPreferredWidth(200); // Thiết lập độ rộng ưu tiên cho cột 1 (Tên thành phố)
 		table.getColumnModel().getColumn(2).setPreferredWidth(200); // Thiết lập độ rộng ưu tiên cho cột 2 (Tên đất nước)
-	
+		*/
 		
 		table.setRowHeight(30);
+		//LAY DANH SACH TAI KHOANG TU DATA 
+		try {
+			ResultSet rs = AAADAO.selectAll();
+			loadRsToTable(rs);
+		}catch(SQLException | ClassNotFoundException ex){
+			ex.printStackTrace();
+		}
 
 		// Tạo thanh cuộn cho bảng
 		JScrollPane scrollPane = new JScrollPane(table);
@@ -356,4 +377,40 @@ public class AccountAndPermission extends JPanel {
 		panel_1.add(button);
 		
 	}
+	//LOAD DATA TO ACCOUNT TABLE 
+	public void loadRsToTable(ResultSet rs) throws SQLException {
+		DefaultTableModel modelAccount = (DefaultTableModel) table.getModel();
+		modelAccount.setRowCount(0);
+		while(rs.next()) {
+			modelAccount.addRow(new Object[] {
+					rs.getString("AccountID"),
+					rs.getString("Name"),
+					rs.getString("RoleName"),
+					
+			});
+		}
+	}
+	/*
+public void loadRsToTable(ResultSet rs) throws SQLException {
+    DefaultTableModel modelAccount = (DefaultTableModel) table.getModel();
+    modelAccount.setRowCount(0);
+    while(rs.next()) {
+        String roleID = rs.getString("RoleID");
+        String roleName = "Unknown"; // Mặc định là Unknown nếu không có ánh xạ
+        if (roleID.equals("RL0001")) {
+            roleName = "Siêu quản trị";
+        } else if (roleID.equals("RL0002")) {
+            roleName = "Quản trị";
+        } else if (roleID.equals("RL0003")) {
+            roleName = "Ban giám đốc";
+        }
+        modelAccount.addRow(new Object[] {
+            rs.getString("AccountID"),
+            rs.getString("Name"),
+            roleName
+        });
+    }
+}
+
+	*/
 }
