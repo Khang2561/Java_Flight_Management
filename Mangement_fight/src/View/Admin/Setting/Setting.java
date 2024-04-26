@@ -14,6 +14,7 @@ import DALs.AirportDAL;
 import DAO.AAADAO;
 import DAO.AirportDAO;
 import DAO.TicketClassDAO;
+import Model.Airport;
 import libData.JDBCUtil;
 
 import java.awt.Font;
@@ -28,14 +29,16 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.awt.Component;
 import javax.swing.JScrollBar;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Setting extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private static JTable table;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField inputNameAirport;
+	private JTextField inputNameCity;
+	private JTextField inputNameCountry;
 	private JTextField textField_3;
 	private JTextField textField_4;
 	private JTextField textField_5;
@@ -117,53 +120,101 @@ public class Setting extends JPanel {
 		panel.add(panel_1);
 		panel_1.setLayout(null);
 		
-		JLabel lblNewLabel_1 = new JLabel("Tên sân bay :");
-		lblNewLabel_1.setFont(new Font("Times New Roman", Font.BOLD, 15));
-		lblNewLabel_1.setBounds(35, 25, 99, 26);
-		panel_1.add(lblNewLabel_1);
+		JLabel labelNameAirport = new JLabel("Tên sân bay :");
+		labelNameAirport.setFont(new Font("Times New Roman", Font.BOLD, 15));
+		labelNameAirport.setBounds(35, 25, 99, 26);
+		panel_1.add(labelNameAirport);
 		
-		JLabel lblNewLabel_1_1 = new JLabel("Tên thành phố :");
-		lblNewLabel_1_1.setFont(new Font("Times New Roman", Font.BOLD, 15));
-		lblNewLabel_1_1.setBounds(35, 87, 199, 26);
-		panel_1.add(lblNewLabel_1_1);
+		JLabel lbNameCity = new JLabel("Tên thành phố :");
+		lbNameCity.setFont(new Font("Times New Roman", Font.BOLD, 15));
+		lbNameCity.setBounds(35, 87, 199, 26);
+		panel_1.add(lbNameCity);
 		
-		JLabel lblNewLabel_1_2 = new JLabel("Tên đất nước :");
-		lblNewLabel_1_2.setFont(new Font("Times New Roman", Font.BOLD, 15));
-		lblNewLabel_1_2.setBounds(35, 147, 99, 26);
-		panel_1.add(lblNewLabel_1_2);
+		JLabel lbNameCountry = new JLabel("Tên đất nước :");
+		lbNameCountry.setFont(new Font("Times New Roman", Font.BOLD, 15));
+		lbNameCountry.setBounds(35, 147, 99, 26);
+		panel_1.add(lbNameCountry);
 		
-		textField = new JTextField();
-		textField.setBounds(161, 25, 334, 24);
-		panel_1.add(textField);
-		textField.setColumns(10);
+		inputNameAirport = new JTextField();
+		inputNameAirport.setBounds(161, 25, 334, 24);
+		panel_1.add(inputNameAirport);
+		inputNameAirport.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(161, 87, 334, 24);
-		panel_1.add(textField_1);
+		inputNameCity = new JTextField();
+		inputNameCity.setColumns(10);
+		inputNameCity.setBounds(161, 87, 334, 24);
+		panel_1.add(inputNameCity);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(161, 147, 334, 24);
-		panel_1.add(textField_2);
+		inputNameCountry = new JTextField();
+		inputNameCountry.setColumns(10);
+		inputNameCountry.setBounds(161, 147, 334, 24);
+		panel_1.add(inputNameCountry);
 		
-		Button button = new Button("Thêm ");
-		button.setForeground(new Color(255, 255, 255));
-		button.setBackground(new Color(3, 4, 94));
-		button.setBounds(95, 210, 99, 37);
-		panel_1.add(button);
+		//btn insert Airport
+		Button btInsertAirport = new Button("Thêm ");
+		btInsertAirport.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        try {
+		            // Kiểm tra xem sân bay có trùng không
+		            boolean isAirportExists = AirportDAO.isAirportExists(inputNameAirport.getText(), inputNameCity.getText(), inputNameCountry.getText());
+		            
+		            if (isAirportExists) {
+		                JOptionPane.showMessageDialog(null, "Sân bay đã tồn tại!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+		            } else {
+		                // Nếu sân bay chưa tồn tại, tiến hành thêm mới
+		                ResultSet rs = AirportDAO.countAirport();
+		                if (rs.next()) {
+		                    int airportCount = rs.getInt(1);
+		                    String inputAirportId = "AP0" + (airportCount + 1);
+
+		                    Airport air = new Airport();
+		                    air.setAirportID(inputAirportId);
+		                    air.setAirportName(inputNameAirport.getText());
+		                    air.setCityName(inputNameCity.getText());
+		                    air.setCountryName(inputNameCountry.getText());
+		                    AirportDAO.getInstance().insert(air);
+		                    
+		                    // Thông báo nhập thành công
+		                    JOptionPane.showMessageDialog(null, "Đã thêm sân bay thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+		                    
+		                    // Xóa nội dung trong các trường nhập liệu
+		                    inputNameAirport.setText("");
+		                    inputNameCity.setText("");
+		                    inputNameCountry.setText("");
+		                    // Load lại dữ liệu lên JTable
+		                    ResultSet updatedRs = AirportDAO.selectAll();
+		                    loadRsToTable(updatedRs);
+		                } else {
+		                    // Xử lý trường hợp không có kết quả từ phương thức countAirport()
+		                }
+		            }
+		        } catch (SQLException ex) {
+		            ex.printStackTrace();
+		            // Xử lý ngoại lệ khi có lỗi xảy ra khi truy vấn cơ sở dữ liệu
+		        } catch (ClassNotFoundException ex) {
+		            // Xử lý ngoại lệ ClassNotFoundException
+		            ex.printStackTrace();
+		            // Hoặc thông báo lỗi cho người dùng
+		            JOptionPane.showMessageDialog(null, "Không tìm thấy lớp cơ sở dữ liệu: " + ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+		        }
+		    }
+		});
+		btInsertAirport.setForeground(new Color(255, 255, 255));
+		btInsertAirport.setBackground(new Color(3, 4, 94));
+		btInsertAirport.setBounds(95, 210, 99, 37);
+		panel_1.add(btInsertAirport);
 		
-		Button button_1 = new Button("Cập nhập");
-		button_1.setForeground(new Color(255, 255, 255));
-		button_1.setBackground(new Color(3, 4, 94));
-		button_1.setBounds(253, 210, 99, 37);
-		panel_1.add(button_1);
+		Button btUpdate = new Button("Cập nhập");
+		btUpdate.setForeground(new Color(255, 255, 255));
+		btUpdate.setBackground(new Color(3, 4, 94));
+		btUpdate.setBounds(253, 210, 99, 37);
+		panel_1.add(btUpdate);
 		
-		Button button_2 = new Button("Hủy");
-		button_2.setForeground(new Color(255, 255, 255));
-		button_2.setBackground(new Color(192, 192, 192));
-		button_2.setBounds(396, 210, 99, 37);
-		panel_1.add(button_2);
+		Button btDelete = new Button("Xóa");
+		btDelete.setForeground(new Color(255, 255, 255));
+		btDelete.setBackground(new Color(192, 192, 192));
+		btDelete.setBounds(396, 210, 99, 37);
+		panel_1.add(btDelete);
 		
 		//cai dat co ban 
 		JPanel panel_1_1 = new JPanel();
