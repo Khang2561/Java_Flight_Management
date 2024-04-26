@@ -161,6 +161,22 @@ public class AirportDAO implements DAOInterface<Airport> {
 	    }*/
 		return rs;
 	}
+	
+	public static ResultSet countAirport() throws SQLException, ClassNotFoundException {
+        Connection connect = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        String query = "SELECT COUNT(*) FROM AIRPORT";
+        try {
+            connect = JDBCUtil.getConnection();
+            stmt = connect.prepareStatement(query);
+            rs = stmt.executeQuery();
+            return rs;
+        } catch (SQLException ex) {
+            Logger.getLogger(null);
+            throw ex;
+        } 
+    }
 
 	
 	//tim san bay theo dia chi ip
@@ -175,6 +191,30 @@ public class AirportDAO implements DAOInterface<Airport> {
 	public ArrayList<Airport> selectByCondition(String condition) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	public static boolean isAirportExists(String airportName, String cityName, String countryName) throws SQLException, ClassNotFoundException {
+		Connection connect = null;
+	    PreparedStatement stmt = null;
+	    ResultSet rs = null;
+	    String query = "SELECT * FROM AIRPORT WHERE AirportName = ? ";
+	    try {
+	        connect = JDBCUtil.getConnection();
+	        stmt = connect.prepareStatement(query);
+	        stmt.setString(1, airportName);
+	        rs = stmt.executeQuery();
+	        return rs.next(); // Trả về true nếu có ít nhất một dòng kết quả
+	    } finally {
+	        // Đóng tài nguyên
+	        if (rs != null) {
+	            rs.close();
+	        }
+	        if (stmt != null) {
+	            stmt.close();
+	        }
+	        if (connect != null) {
+	            connect.close();
+	        }
+	    }
 	}
 
 }
