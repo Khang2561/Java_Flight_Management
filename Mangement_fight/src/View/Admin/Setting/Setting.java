@@ -48,8 +48,8 @@ public class Setting extends JPanel {
 	private JTextField textField_9;
 	private JTextField textField_10;
 	private JTextField textField_11;
-	private JTextField textField_12;
-	private JTextField textField_13;
+	private JTextField inputNameClass;
+	private JTextField inputNamePercent;
 	private JTable table_1;
 	static JPanel contentPane;
 	DefaultTableModel model;
@@ -199,6 +199,8 @@ public class Setting extends JPanel {
 		        }
 		    }
 		});
+		
+		
 		btInsertAirport.setForeground(new Color(255, 255, 255));
 		btInsertAirport.setBackground(new Color(3, 4, 94));
 		btInsertAirport.setBounds(95, 210, 99, 37);
@@ -319,6 +321,8 @@ public class Setting extends JPanel {
 		button_3.setBackground(new Color(3, 4, 94));
 		button_3.setBounds(10, 243, 570, 37);
 		panel_1_1.add(button_3);
+		
+		
 		//HANG VE
 		JPanel panel_1_2 = new JPanel();
 		panel_1_2.setLayout(null);
@@ -326,37 +330,37 @@ public class Setting extends JPanel {
 		panel_1_2.setBounds(639, 338, 836, 290);
 		add(panel_1_2);
 		
-		JLabel lblNewLabel_1_9 = new JLabel("Tên hạng vé :");
-		lblNewLabel_1_9.setFont(new Font("Times New Roman", Font.BOLD, 15));
-		lblNewLabel_1_9.setBounds(416, 59, 99, 26);
-		panel_1_2.add(lblNewLabel_1_9);
+		JLabel lbNameClass = new JLabel("Tên hạng vé :");
+		lbNameClass.setFont(new Font("Times New Roman", Font.BOLD, 15));
+		lbNameClass.setBounds(416, 59, 99, 26);
+		panel_1_2.add(lbNameClass);
 		
-		JLabel lblNewLabel_1_1_1 = new JLabel("Phần trăm đơn giá :");
-		lblNewLabel_1_1_1.setFont(new Font("Times New Roman", Font.BOLD, 15));
-		lblNewLabel_1_1_1.setBounds(416, 121, 199, 26);
-		panel_1_2.add(lblNewLabel_1_1_1);
+		JLabel lbNamePercent = new JLabel("Phần trăm đơn giá :");
+		lbNamePercent.setFont(new Font("Times New Roman", Font.BOLD, 15));
+		lbNamePercent.setBounds(416, 121, 199, 26);
+		panel_1_2.add(lbNamePercent);
 		
-		textField_12 = new JTextField();
-		textField_12.setColumns(10);
-		textField_12.setBounds(558, 62, 221, 24);
-		panel_1_2.add(textField_12);
+		inputNameClass = new JTextField();
+		inputNameClass.setColumns(10);
+		inputNameClass.setBounds(558, 62, 221, 24);
+		panel_1_2.add(inputNameClass);
 		
-		textField_13 = new JTextField();
-		textField_13.setColumns(10);
-		textField_13.setBounds(558, 124, 221, 24);
-		panel_1_2.add(textField_13);
+		inputNamePercent = new JTextField();
+		inputNamePercent.setColumns(10);
+		inputNamePercent.setBounds(558, 124, 221, 24);
+		panel_1_2.add(inputNamePercent);
 		
-		Button button_4 = new Button("Thêm ");
-		button_4.setForeground(Color.WHITE);
-		button_4.setBackground(new Color(3, 4, 94));
-		button_4.setBounds(426, 180, 99, 37);
-		panel_1_2.add(button_4);
+		Button btnThemTicketClass = new Button("Thêm ");
+		btnThemTicketClass.setForeground(Color.WHITE);
+		btnThemTicketClass.setBackground(new Color(3, 4, 94));
+		btnThemTicketClass.setBounds(426, 180, 99, 37);
+		panel_1_2.add(btnThemTicketClass);
 		
-		Button button_1_1 = new Button("Cập nhập");
-		button_1_1.setForeground(Color.WHITE);
-		button_1_1.setBackground(new Color(3, 4, 94));
-		button_1_1.setBounds(584, 180, 99, 37);
-		panel_1_2.add(button_1_1);
+		Button btnUpdateTicketClass = new Button("Cập nhập");
+		btnUpdateTicketClass.setForeground(Color.WHITE);
+		btnUpdateTicketClass.setBackground(new Color(3, 4, 94));
+		btnUpdateTicketClass.setBounds(584, 180, 99, 37);
+		panel_1_2.add(btnUpdateTicketClass);
 		
 		Button button_2_1 = new Button("Hủy");
 		button_2_1.setForeground(Color.WHITE);
@@ -364,12 +368,12 @@ public class Setting extends JPanel {
 		button_2_1.setBounds(727, 180, 99, 37);
 		panel_1_2.add(button_2_1);
 		
-		JLabel lblHngV = new JLabel("HẠNG VÉ");
-		lblHngV.setHorizontalAlignment(SwingConstants.CENTER);
-		lblHngV.setForeground(new Color(0, 0, 160));
-		lblHngV.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblHngV.setBounds(0, 10, 696, 25);
-		panel_1_2.add(lblHngV);
+		JLabel lbHangVe = new JLabel("HẠNG VÉ");
+		lbHangVe.setHorizontalAlignment(SwingConstants.CENTER);
+		lbHangVe.setForeground(new Color(0, 0, 160));
+		lbHangVe.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lbHangVe.setBounds(0, 10, 696, 25);
+		panel_1_2.add(lbHangVe);
 		
 		JScrollPane scrollPane_1 = new JScrollPane((Component) null);
 		scrollPane_1.setBounds(10, 45, 382, 235);
@@ -394,7 +398,6 @@ public class Setting extends JPanel {
 			ex.printStackTrace();
 		}
 		scrollPane_1.setViewportView(table_1);
-		
 		
 	}
 	
