@@ -14,7 +14,9 @@ import DALs.AirportDAL;
 import DAO.AAADAO;
 import DAO.AirportDAO;
 import DAO.TicketClassDAO;
+import Model.Account;
 import Model.Airport;
+import Model.TicketClass;
 import libData.JDBCUtil;
 
 import java.awt.Font;
@@ -27,6 +29,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.Random;
 import java.awt.Component;
 import javax.swing.JScrollBar;
 import java.awt.event.ActionListener;
@@ -351,6 +354,50 @@ public class Setting extends JPanel {
 		panel_1_2.add(inputNamePercent);
 		
 		Button btnThemTicketClass = new Button("Thêm ");
+		btnThemTicketClass.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+			        // Kiểm tra xem tài khoản có tồn tại không
+			        boolean isClassTicketExists = TicketClassDAO.isTicketClassExists(inputNameAirport.getText());
+			        if (isClassTicketExists) {
+			            JOptionPane.showMessageDialog(null, "Tài khoản đã tồn tại!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+			        } else {
+			        	// Nếu sân bay chưa tồn tại, tiến hành thêm mới
+		                ResultSet rs = TicketClassDAO.countTicketClass();
+		                if (rs.next()) {
+		                   
+		                    String inputAirportId = generateUniqueTicketClassId();
+
+		                    TicketClass ticketClass = new TicketClass();
+		                    ticketClass.setTicketClassID(inputAirportId);
+		                    ticketClass.setTicketClassName(inputNameClass.getText());
+		                    ticketClass.setPricePercentage(inputNamePercent.getText());
+		                    TicketClassDAO.getInstance().insert(ticketClass);
+		                    
+		                    // Thông báo nhập thành công
+		                    JOptionPane.showMessageDialog(null, "Đã thêm sân bay thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+		                    
+		                    // Xóa nội dung trong các trường nhập liệu
+		                    inputNameClass.setText("");
+		                    inputNamePercent.setText("");
+		               
+		                    // Load lại dữ liệu lên JTable
+		                    ResultSet updatedRs = TicketClassDAO.selectAll();
+		                    loadRsToTableTicketLevel(updatedRs);
+		                } else {
+		                    // Xử lý trường hợp không có kết quả từ phương thức countAirport()
+		                }
+		            }
+			    } catch (SQLException ex) {
+			        ex.printStackTrace();
+			        // Xử lý ngoại lệ khi có lỗi xảy ra khi truy vấn cơ sở dữ liệu
+			    } catch (ClassNotFoundException ex) {
+			        ex.printStackTrace();
+			        // Xử lý ngoại lệ ClassNotFoundException
+			        JOptionPane.showMessageDialog(null, "Không tìm thấy lớp cơ sở dữ liệu: " + ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+			    }
+			}
+		});
 		btnThemTicketClass.setForeground(Color.WHITE);
 		btnThemTicketClass.setBackground(new Color(3, 4, 94));
 		btnThemTicketClass.setBounds(426, 180, 99, 37);
@@ -421,10 +468,36 @@ public class Setting extends JPanel {
 	    modelTicketLevel.setRowCount(0);
 	    while (rs.next()) {
 	        modelTicketLevel.addRow(new Object[] {
-	            rs.getString("TicketClassName"),
-	            rs.getString("PricePercentage"),
+	            rs.getString("TicketClassName"), // Use getString instead of getInt
+	            rs.getString("PricePercentage"), // Assuming PricePercentage is also a string
 	        });
 	    }
+	}
+	private String generateUniqueTicketClassId() {
+		String accountIdPrefix = "AC"; // Tiền tố của mã tài khoản
+		int accountIdDigits = 3; // Số chữ số sau tiền tố
+		String accountId = "";
+		boolean isUnique = false;
+			    
+		while (!isUnique) {
+			accountId = accountIdPrefix + generateRandomDigits(accountIdDigits); // Tạo mã tài khoản mới
+			// Kiểm tra xem mã tài khoản mới đã tồn tại hay chưa
+			 try {
+			            isUnique = !AAADAO.isAccountIdExists(accountId);
+			        } catch (SQLException | ClassNotFoundException e) {
+			            e.printStackTrace();
+			        }
+			    }
+			    
+			    return accountId;
+	}
+	private String generateRandomDigits(int length) {
+		StringBuilder sb = new StringBuilder();
+		Random random = new Random();
+		for (int i = 0; i < length; i++) {
+			sb.append(random.nextInt(10)); // Thêm một chữ số ngẫu nhiên vào chuỗi
+		}
+		return sb.toString();
 	}
 	
 }

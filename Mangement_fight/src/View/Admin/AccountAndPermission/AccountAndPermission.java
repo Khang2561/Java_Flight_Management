@@ -258,11 +258,6 @@ public class AccountAndPermission extends JPanel {
 		rdbtnNewRadioButton_23.setBounds(1377, 204, 21, 41);
 		panel.add(rdbtnNewRadioButton_23);
 		
-
-
-		
-		
-		
 		JLabel lblNewLabel = new JLabel("QUYỀN HẠNG CỦA CÁC NHÓM TÀI KHOẢN");
 		lblNewLabel.setForeground(new Color(0, 0, 160));
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 20));

@@ -5,14 +5,14 @@ import java.awt.Color;
 public class TicketClass {
 	private String ticketClassID;
     private String ticketClassName;
-    private int pricePercentage;
+    private String pricePercentage;
     private Color colorTicketClass;
 
     // Constructors
     public TicketClass() {
     }
 
-    public TicketClass(String ticketClassName, int pricePercentage, String ticketClassID) {
+    public TicketClass(String ticketClassName, String pricePercentage, String ticketClassID) {
         this.ticketClassName = ticketClassName;
         this.pricePercentage = pricePercentage;
         this.ticketClassID = ticketClassID;
@@ -35,11 +35,11 @@ public class TicketClass {
         this.ticketClassName = ticketClassName;
     }
 
-    public int getPricePercentage() {
+    public String getPricePercentage() {
         return pricePercentage;
     }
 
-    public void setPricePercentage(int pricePercentage) {
+    public void setPricePercentage(String pricePercentage) {
         this.pricePercentage = pricePercentage;
     }
 
