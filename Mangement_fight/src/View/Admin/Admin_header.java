@@ -80,7 +80,12 @@ public class Admin_header extends JPanel {
 		        FormAdmin.contentPane.add(aap);
 		        FormAdmin.contentPane.revalidate();
 		        FormAdmin.contentPane.repaint();*/
-				clearAndShow(new AccountAndPermission());
+				try {
+					clearAndShow(new AccountAndPermission());
+				} catch (ClassNotFoundException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		button_1_1_1.setForeground(new Color(0, 0, 0));

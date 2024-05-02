@@ -1,9 +1,9 @@
 package Model;
 
 public class Permission {
-	    private String roleID;
-	    private String roleName;
-	    private String permissionCode;
+	    public String roleID;
+	    public String roleName;
+	    public String permissionCode;
 
 	    // Constructor
 
@@ -37,4 +37,5 @@ public class Permission {
 	    public void setPermissionCode(String permissionCode) {
 	        this.permissionCode = permissionCode;
 	    }
+	    
 }

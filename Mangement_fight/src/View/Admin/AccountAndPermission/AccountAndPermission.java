@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 
 import javax.swing.border.BevelBorder;
@@ -12,8 +13,11 @@ import javax.swing.table.DefaultTableModel;
 
 import DAO.AAADAO;
 import DAO.AirportDAO;
+import DAO.ParametersDAO;
+import DAO.PermissionDAO;
 import Model.Account;
 import Model.Airport;
+import Model.Permission;
 
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
@@ -22,6 +26,8 @@ import javax.swing.JTextField;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.AbstractButton;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.Button;
 import java.awt.Scrollbar;
@@ -35,14 +41,38 @@ import java.awt.event.ActionEvent;
 import java.util.Random;
 public class AccountAndPermission extends JPanel {
 
-	private static final long serialVersionUID = 1L;
-	private JTable table;
-	private JTextField tfHoVaTen;
-	private JTextField tfEmail;
-	private JTextField tfSDT;
-	private JTextField tfMK;
+	public static final long serialVersionUID = 1L;
+	public JTable table;
+	public JTextField tfHoVaTen;
+	public JTextField tfEmail;
+	public JTextField tfSDT;
+	public JTextField tfMK;
 	static JPanel contentPane ;
-	private DefaultTableModel modelAccount;
+	public DefaultTableModel modelAccount;
+	private Component rdbtnSQTChatBox;
+	private JRadioButton rdbtnSQTChuyenBay;
+	private JComponent rdbtnQTChuyenBay;
+	private JRadioButton rdbtnBGDChuyenBay;
+	private JRadioButton rdbtnNhanVien1;
+	private JComponent rdbtnSQTVeChuyenBay;
+	private JRadioButton rdbtnQTVeChuyenBay;
+	private JComponent rdbtnBGDVeChuyenBay;
+	private JRadioButton rdbtnNhanVien2;
+	private JComponent rdbtnSQTMayBay;
+	private JRadioButton rdbtnQTMayBay;
+	private JComponent rdbtnBGDMayBay;
+	private JRadioButton rdbtnNhanVien3;
+	private JRadioButton rdbtnSQLTKvaPP;
+	private JComponent rdbtnQTTKvaPQ;
+	private JRadioButton rdbtnBGDTKvaPQ;
+	private JRadioButton rdbtnNhanVien4;
+	private JRadioButton rdbtnSQTCaiDat;
+	private JRadioButton rdbtnQTCaiDat;
+	private JRadioButton rdbtnBGDCaiDat;
+	private JRadioButton rdbtnNhanVien5;
+	private JComponent rdbtnQTChatBox;
+	private JRadioButton rdbtnBGDChatBox;
+	private JRadioButton rdbtnNhanVien6;
 	
 
 	
@@ -50,7 +80,7 @@ public class AccountAndPermission extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public AccountAndPermission() {
+	public AccountAndPermission() throws ClassNotFoundException, SQLException{
 		setBackground(new Color(240, 240, 240));
 		setBounds(0, 71, 1500, 642);
 		setLayout(null);
@@ -138,125 +168,125 @@ public class AccountAndPermission extends JPanel {
 		lblNewLabel_1_1_2_1_2.setBounds(0, 204, 146, 49);
 		panel.add(lblNewLabel_1_1_2_1_2);
 		
-		JRadioButton rdbtnNewRadioButton = new JRadioButton("");
-		rdbtnNewRadioButton.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		rdbtnNewRadioButton.setBounds(223, 55, 21, 41);
-		panel.add(rdbtnNewRadioButton);
+		rdbtnSQTChuyenBay = new JRadioButton("");
+		rdbtnSQTChuyenBay.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnSQTChuyenBay.setBounds(223, 55, 21, 41);
+		panel.add(rdbtnSQTChuyenBay);
 		
-		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("");
-		rdbtnNewRadioButton_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		rdbtnNewRadioButton_1.setBounds(223, 108, 21, 41);
-		panel.add(rdbtnNewRadioButton_1);
+		rdbtnQTChuyenBay = new JRadioButton("");
+		rdbtnQTChuyenBay.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnQTChuyenBay.setBounds(223, 108, 21, 41);
+		panel.add(rdbtnQTChuyenBay);
 		
-		JRadioButton rdbtnNewRadioButton_2 = new JRadioButton("");
-		rdbtnNewRadioButton_2.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		rdbtnNewRadioButton_2.setBounds(223, 156, 21, 41);
-		panel.add(rdbtnNewRadioButton_2);
+		rdbtnBGDChuyenBay = new JRadioButton("");
+		rdbtnBGDChuyenBay.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnBGDChuyenBay.setBounds(223, 156, 21, 41);
+		panel.add(rdbtnBGDChuyenBay);
 		
-		JRadioButton rdbtnNewRadioButton_3 = new JRadioButton("");
-		rdbtnNewRadioButton_3.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		rdbtnNewRadioButton_3.setBounds(223, 204, 21, 41);
-		panel.add(rdbtnNewRadioButton_3);
+		rdbtnNhanVien1 = new JRadioButton("");
+		rdbtnNhanVien1.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnNhanVien1.setBounds(223, 204, 21, 41);
+		panel.add(rdbtnNhanVien1);
 		
-		JRadioButton rdbtnNewRadioButton_4 = new JRadioButton("");
-		rdbtnNewRadioButton_4.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		rdbtnNewRadioButton_4.setBounds(414, 55, 21, 41);
-		panel.add(rdbtnNewRadioButton_4);
+		rdbtnSQTVeChuyenBay = new JRadioButton("");
+		rdbtnSQTVeChuyenBay.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnSQTVeChuyenBay.setBounds(414, 55, 21, 41);
+		panel.add(rdbtnSQTVeChuyenBay);
 		
-		JRadioButton rdbtnNewRadioButton_5 = new JRadioButton("");
-		rdbtnNewRadioButton_5.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		rdbtnNewRadioButton_5.setBounds(414, 108, 21, 41);
-		panel.add(rdbtnNewRadioButton_5);
+		rdbtnQTVeChuyenBay = new JRadioButton("");
+		rdbtnQTVeChuyenBay.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnQTVeChuyenBay.setBounds(414, 108, 21, 41);
+		panel.add(rdbtnQTVeChuyenBay);
 		
-		JRadioButton rdbtnNewRadioButton_6 = new JRadioButton("");
-		rdbtnNewRadioButton_6.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		rdbtnNewRadioButton_6.setBounds(414, 156, 21, 41);
-		panel.add(rdbtnNewRadioButton_6);
+		rdbtnBGDVeChuyenBay = new JRadioButton("");
+		rdbtnBGDVeChuyenBay.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnBGDVeChuyenBay.setBounds(414, 156, 21, 41);
+		panel.add(rdbtnBGDVeChuyenBay);
 		
-		JRadioButton rdbtnNewRadioButton_7 = new JRadioButton("");
-		rdbtnNewRadioButton_7.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		rdbtnNewRadioButton_7.setBounds(414, 204, 21, 41);
-		panel.add(rdbtnNewRadioButton_7);
+		rdbtnNhanVien2 = new JRadioButton("");
+		rdbtnNhanVien2.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnNhanVien2.setBounds(414, 204, 21, 41);
+		panel.add(rdbtnNhanVien2);
 		
-		JRadioButton rdbtnNewRadioButton_8 = new JRadioButton("");
-		rdbtnNewRadioButton_8.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		rdbtnNewRadioButton_8.setBounds(595, 55, 21, 41);
-		panel.add(rdbtnNewRadioButton_8);
+		rdbtnSQTMayBay = new JRadioButton("");
+		rdbtnSQTMayBay.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnSQTMayBay.setBounds(595, 55, 21, 41);
+		panel.add(rdbtnSQTMayBay);
 		
-		JRadioButton rdbtnNewRadioButton_9 = new JRadioButton("");
-		rdbtnNewRadioButton_9.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		rdbtnNewRadioButton_9.setBounds(595, 108, 21, 41);
-		panel.add(rdbtnNewRadioButton_9);
+		rdbtnQTMayBay = new JRadioButton("");
+		rdbtnQTMayBay.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnQTMayBay.setBounds(595, 108, 21, 41);
+		panel.add(rdbtnQTMayBay);
 		
-		JRadioButton rdbtnNewRadioButton_10 = new JRadioButton("");
-		rdbtnNewRadioButton_10.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		rdbtnNewRadioButton_10.setBounds(595, 156, 21, 41);
-		panel.add(rdbtnNewRadioButton_10);
+		rdbtnBGDMayBay = new JRadioButton("");
+		rdbtnBGDMayBay.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnBGDMayBay.setBounds(595, 156, 21, 41);
+		panel.add(rdbtnBGDMayBay);
 		
-		JRadioButton rdbtnNewRadioButton_11 = new JRadioButton("");
-		rdbtnNewRadioButton_11.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		rdbtnNewRadioButton_11.setBounds(595, 204, 21, 41);
-		panel.add(rdbtnNewRadioButton_11);
+		rdbtnNhanVien3 = new JRadioButton("");
+		rdbtnNhanVien3.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnNhanVien3.setBounds(595, 204, 21, 41);
+		panel.add(rdbtnNhanVien3);
 		
-		JRadioButton rdbtnNewRadioButton_12 = new JRadioButton("");
-		rdbtnNewRadioButton_12.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		rdbtnNewRadioButton_12.setBounds(842, 55, 21, 41);
-		panel.add(rdbtnNewRadioButton_12);
+		rdbtnSQLTKvaPP = new JRadioButton("");
+		rdbtnSQLTKvaPP.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnSQLTKvaPP.setBounds(842, 55, 21, 41);
+		panel.add(rdbtnSQLTKvaPP);
 		
-		JRadioButton rdbtnNewRadioButton_13 = new JRadioButton("");
-		rdbtnNewRadioButton_13.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		rdbtnNewRadioButton_13.setBounds(842, 108, 21, 41);
-		panel.add(rdbtnNewRadioButton_13);
+		rdbtnQTTKvaPQ = new JRadioButton("");
+		rdbtnQTTKvaPQ.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnQTTKvaPQ.setBounds(842, 108, 21, 41);
+		panel.add(rdbtnQTTKvaPQ);
 		
-		JRadioButton rdbtnNewRadioButton_14 = new JRadioButton("");
-		rdbtnNewRadioButton_14.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		rdbtnNewRadioButton_14.setBounds(842, 156, 21, 41);
-		panel.add(rdbtnNewRadioButton_14);
+		rdbtnBGDTKvaPQ = new JRadioButton("");
+		rdbtnBGDTKvaPQ.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnBGDTKvaPQ.setBounds(842, 156, 21, 41);
+		panel.add(rdbtnBGDTKvaPQ);
 		
-		JRadioButton rdbtnNewRadioButton_15 = new JRadioButton("");
-		rdbtnNewRadioButton_15.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		rdbtnNewRadioButton_15.setBounds(842, 204, 21, 41);
-		panel.add(rdbtnNewRadioButton_15);
+		rdbtnNhanVien4 = new JRadioButton("");
+		rdbtnNhanVien4.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnNhanVien4.setBounds(842, 204, 21, 41);
+		panel.add(rdbtnNhanVien4);
 		
-		JRadioButton rdbtnNewRadioButton_16 = new JRadioButton("");
-		rdbtnNewRadioButton_16.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		rdbtnNewRadioButton_16.setBounds(1129, 55, 21, 41);
-		panel.add(rdbtnNewRadioButton_16);
+		rdbtnSQTCaiDat = new JRadioButton("");
+		rdbtnSQTCaiDat.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnSQTCaiDat.setBounds(1129, 55, 21, 41);
+		panel.add(rdbtnSQTCaiDat);
 		
-		JRadioButton rdbtnNewRadioButton_17 = new JRadioButton("");
-		rdbtnNewRadioButton_17.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		rdbtnNewRadioButton_17.setBounds(1129, 116, 21, 41);
-		panel.add(rdbtnNewRadioButton_17);
+		rdbtnQTCaiDat = new JRadioButton("");
+		rdbtnQTCaiDat.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnQTCaiDat.setBounds(1129, 116, 21, 41);
+		panel.add(rdbtnQTCaiDat);
 		
-		JRadioButton rdbtnNewRadioButton_18 = new JRadioButton("");
-		rdbtnNewRadioButton_18.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		rdbtnNewRadioButton_18.setBounds(1129, 164, 21, 41);
-		panel.add(rdbtnNewRadioButton_18);
+		rdbtnBGDCaiDat = new JRadioButton("");
+		rdbtnBGDCaiDat.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnBGDCaiDat.setBounds(1129, 164, 21, 41);
+		panel.add(rdbtnBGDCaiDat);
 		
-		JRadioButton rdbtnNewRadioButton_19 = new JRadioButton("");
-		rdbtnNewRadioButton_19.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		rdbtnNewRadioButton_19.setBounds(1129, 204, 21, 41);
-		panel.add(rdbtnNewRadioButton_19);
+		rdbtnNhanVien5 = new JRadioButton("");
+		rdbtnNhanVien5.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnNhanVien5.setBounds(1129, 204, 21, 41);
+		panel.add(rdbtnNhanVien5);
 		
-		JRadioButton rdbtnNewRadioButton_20 = new JRadioButton("");
-		rdbtnNewRadioButton_20.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		rdbtnNewRadioButton_20.setBounds(1377, 55, 21, 41);
-		panel.add(rdbtnNewRadioButton_20);
+		rdbtnSQTChatBox = new JRadioButton("");
+		rdbtnSQTChatBox.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnSQTChatBox.setBounds(1377, 55, 21, 41);
+		panel.add(rdbtnSQTChatBox);
 		
-		JRadioButton rdbtnNewRadioButton_21 = new JRadioButton("");
-		rdbtnNewRadioButton_21.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		rdbtnNewRadioButton_21.setBounds(1377, 108, 21, 41);
-		panel.add(rdbtnNewRadioButton_21);
+		rdbtnQTChatBox = new JRadioButton("");
+		rdbtnQTChatBox.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnQTChatBox.setBounds(1377, 108, 21, 41);
+		panel.add(rdbtnQTChatBox);
 		
-		JRadioButton rdbtnNewRadioButton_22 = new JRadioButton("");
-		rdbtnNewRadioButton_22.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		rdbtnNewRadioButton_22.setBounds(1377, 156, 21, 41);
-		panel.add(rdbtnNewRadioButton_22);
+		rdbtnBGDChatBox = new JRadioButton("");
+		rdbtnBGDChatBox.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnBGDChatBox.setBounds(1377, 156, 21, 41);
+		panel.add(rdbtnBGDChatBox);
 		
-		JRadioButton rdbtnNewRadioButton_23 = new JRadioButton("");
-		rdbtnNewRadioButton_23.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		rdbtnNewRadioButton_23.setBounds(1377, 204, 21, 41);
-		panel.add(rdbtnNewRadioButton_23);
+		rdbtnNhanVien6 = new JRadioButton("");
+		rdbtnNhanVien6.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnNhanVien6.setBounds(1377, 204, 21, 41);
+		panel.add(rdbtnNhanVien6);
 		
 		JLabel lblNewLabel = new JLabel("QUYỀN HẠNG CỦA CÁC NHÓM TÀI KHOẢN");
 		lblNewLabel.setForeground(new Color(0, 0, 160));
@@ -280,7 +310,7 @@ public class AccountAndPermission extends JPanel {
 		table.setFont(new Font("Times New Roman", Font.BOLD, 15)); // Thiết lập font cho bảng
 		
 		modelAccount = new DefaultTableModel();
-		Object [] column = {"Tên tài khoản","Ngày tạo","Nhóm quyền"};
+		Object [] column = {"Tên tài khoản","Email","Nhóm quyền"};
 		modelAccount.setColumnIdentifiers(column);
 		table.setModel(modelAccount);
 		
@@ -427,7 +457,7 @@ public class AccountAndPermission extends JPanel {
 		buttonLuuAp.setBackground(new Color(0, 0, 160));
 		buttonLuuAp.setBounds(1328, 0, 151, 39);
 		add(buttonLuuAp);
-			
+		loadPermit();
 	}
 	private String generateUniqueAccountId() {
 		String accountIdPrefix = "AC"; // Tiền tố của mã tài khoản
@@ -469,5 +499,126 @@ public class AccountAndPermission extends JPanel {
 			});
 		}
 	}
+	//LOAD QUYEN 
+	public void loadPermit() throws ClassNotFoundException, SQLException {
+		Permission SQT = new Permission();
+		Permission QT = new Permission();
+		Permission BGD = new Permission();
+		Permission NV = new Permission();
+		
+		SQT = PermissionDAO.getInstance().setPMS("RL0001");
+		QT	= PermissionDAO.getInstance().setPMS("RL0002");
+		BGD = PermissionDAO.getInstance().setPMS("RL0003");
+		NV = PermissionDAO.getInstance().setPMS("RL0004");
+		
+		//HIEN THI CAC NUT SIEU QUANT TRI 
+		int roleIdInt = Integer.parseInt(SQT.getPermissionCode());
+		if (roleIdInt % 10 == 1) {
+			((AbstractButton) rdbtnSQTChatBox).setSelected(true);
+		}
+		roleIdInt = roleIdInt/10;
+		if (roleIdInt % 10 == 1) {
+			((AbstractButton) rdbtnSQTCaiDat).setSelected(true);
+		}
+		roleIdInt = roleIdInt/10;
+		if (roleIdInt % 10 == 1) {
+			((AbstractButton) rdbtnSQLTKvaPP).setSelected(true);
+		}
+		roleIdInt = roleIdInt/10;
+		if (roleIdInt % 10 == 1) {
+			((AbstractButton) rdbtnSQTMayBay).setSelected(true);
+		}
+		roleIdInt = roleIdInt/10;
+		if (roleIdInt % 10 == 1) {
+			((AbstractButton) rdbtnSQTVeChuyenBay ).setSelected(true);
+		}
+		roleIdInt = roleIdInt/10;
+		if (roleIdInt % 10 == 1) {
+			((AbstractButton) rdbtnSQTChuyenBay).setSelected(true);
+		}
+		roleIdInt = roleIdInt/10;
+		
+		//HIEN THI CAC NUT QUANT TRI 
+		roleIdInt = Integer.parseInt(QT.getPermissionCode());
+		if (roleIdInt % 10 == 1) {
+			((AbstractButton) rdbtnQTChatBox).setSelected(true);
+		}
+		roleIdInt = roleIdInt/10;
+		if (roleIdInt % 10 == 1) {
+			((AbstractButton) rdbtnQTCaiDat).setSelected(true);
+		}
+		roleIdInt = roleIdInt/10;
+		if (roleIdInt % 10 == 1) {
+			((AbstractButton) rdbtnQTTKvaPQ).setSelected(true);
+		}
+		roleIdInt = roleIdInt/10;
+		if (roleIdInt % 10 == 1) {
+			((AbstractButton) rdbtnQTMayBay).setSelected(true);
+		}
+		roleIdInt = roleIdInt/10;
+		if (roleIdInt % 10 == 1) {
+			((AbstractButton) rdbtnQTVeChuyenBay ).setSelected(true);
+		}
+		roleIdInt = roleIdInt/10;
+		if (roleIdInt % 10 == 1) {
+			((AbstractButton) rdbtnQTChuyenBay).setSelected(true);
+		}
+		roleIdInt = roleIdInt/10;
+		
+		//HIEN THI CAC NUT BAN GIAM DOC
+		roleIdInt = Integer.parseInt(BGD.getPermissionCode());
+		if (roleIdInt % 10 == 1) {
+			((AbstractButton) rdbtnBGDChatBox).setSelected(true);
+		}
+		roleIdInt = roleIdInt/10;
+		if (roleIdInt % 10 == 1) {
+			((AbstractButton) rdbtnBGDCaiDat).setSelected(true);
+		}
+		roleIdInt = roleIdInt/10;
+		if (roleIdInt % 10 == 1) {
+			((AbstractButton) rdbtnBGDTKvaPQ).setSelected(true);
+		}
+		roleIdInt = roleIdInt/10;
+		if (roleIdInt % 10 == 1) {
+			((AbstractButton) rdbtnBGDMayBay).setSelected(true);
+		}
+		roleIdInt = roleIdInt/10;
+		if (roleIdInt % 10 == 1) {
+			((AbstractButton) rdbtnBGDVeChuyenBay ).setSelected(true);
+		}
+		roleIdInt = roleIdInt/10;
+		if (roleIdInt % 10 == 1) {
+			((AbstractButton) rdbtnBGDChuyenBay).setSelected(true);
+		}
+		roleIdInt = roleIdInt/10;
+		//HIEN THI CAC NUT NHAN VIEN 
+		roleIdInt = Integer.parseInt(NV.getPermissionCode());
+		if (roleIdInt % 10 == 1) {
+			((AbstractButton) rdbtnNhanVien6).setSelected(true);
+		}
+		roleIdInt = roleIdInt/10;
+		if (roleIdInt % 10 == 1) {
+			((AbstractButton) rdbtnNhanVien5).setSelected(true);
+		}
+		roleIdInt = roleIdInt/10;
+		if (roleIdInt % 10 == 1) {
+			((AbstractButton) rdbtnNhanVien4).setSelected(true);
+		}
+		roleIdInt = roleIdInt/10;
+		if (roleIdInt % 10 == 1) {
+			((AbstractButton) rdbtnNhanVien3).setSelected(true);
+		}
+		roleIdInt = roleIdInt/10;
+		if (roleIdInt % 10 == 1) {
+			((AbstractButton) rdbtnNhanVien2 ).setSelected(true);
+		}
+		roleIdInt = roleIdInt/10;
+		if (roleIdInt % 10 == 1) {
+			((AbstractButton) rdbtnNhanVien1).setSelected(true);
+		}
+		roleIdInt = roleIdInt/10;
+		
+		
+	} 
 }
 

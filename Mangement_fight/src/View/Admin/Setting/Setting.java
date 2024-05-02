@@ -45,9 +45,6 @@ public class Setting extends JPanel {
 	private JTextField inputNameAirport;
 	private JTextField inputNameCity;
 	private JTextField inputNameCountry;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
 	private JTextField tfminimumFlightTime;
 	private JTextField tfmaxPreventiveAirports;
 	private JTextField tfminimumStopoverTime;
