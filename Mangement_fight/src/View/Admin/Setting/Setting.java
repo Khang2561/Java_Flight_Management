@@ -13,9 +13,11 @@ import javax.swing.table.DefaultTableModel;
 import DALs.AirportDAL;
 import DAO.AAADAO;
 import DAO.AirportDAO;
+import DAO.ParametersDAO;
 import DAO.TicketClassDAO;
 import Model.Account;
 import Model.Airport;
+import Model.Parameters;
 import Model.TicketClass;
 import libData.JDBCUtil;
 
@@ -34,6 +36,7 @@ import java.awt.Component;
 import javax.swing.JScrollBar;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import View.Admin.*;
 
 public class Setting extends JPanel {
 
@@ -45,24 +48,22 @@ public class Setting extends JPanel {
 	private JTextField textField_3;
 	private JTextField textField_4;
 	private JTextField textField_5;
-	private JTextField textField_6;
-	private JTextField textField_7;
-	private JTextField textField_8;
-	private JTextField textField_9;
-	private JTextField textField_10;
-	private JTextField textField_11;
+	private JTextField tfminimumFlightTime;
+	private JTextField tfmaxPreventiveAirports;
+	private JTextField tfminimumStopoverTime;
+	private JTextField tfmaximumStopoverTime;
+	private JTextField tfearliestBookingTime;
+	private JTextField tflatestBookingCancellationTime;
 	private JTextField inputNameClass;
 	private JTextField inputNamePercent;
 	private JTable table_1;
 	static JPanel contentPane;
 	DefaultTableModel model;
 	private DefaultTableModel modelTicketLevel;
+	private JLabel lbearliestBookingTime;
+	public Parameters settingValue = new Parameters();
 	
-	/**
-	 * Create the panel.
-	 * @param table_1 
-	 */
-	public Setting() {
+	public Setting() throws ClassNotFoundException, SQLException {
 		setBackground(new Color(240, 240, 240));
 		setBounds(0, 71, 1500, 650);
 		setLayout(null);
@@ -228,66 +229,70 @@ public class Setting extends JPanel {
 		panel_1_1.setBounds(10, 338, 590, 290);
 		add(panel_1_1);
 		
-		JLabel lblNewLabel_1_3 = new JLabel("Thời gian bay tối thiểu ");
-		lblNewLabel_1_3.setFont(new Font("Times New Roman", Font.BOLD, 15));
-		lblNewLabel_1_3.setBounds(10, 10, 174, 26);
-		panel_1_1.add(lblNewLabel_1_3);
+		JLabel lbminimunFlightTime = new JLabel("Thời gian bay tối thiểu ");
+		lbminimunFlightTime.setFont(new Font("Times New Roman", Font.BOLD, 15));
+		lbminimunFlightTime.setBounds(10, 10, 174, 26);
+		panel_1_1.add(lbminimunFlightTime);
 		
-		JLabel lblNewLabel_1_4 = new JLabel("Số sân bay trung gian tối đa");
-		lblNewLabel_1_4.setFont(new Font("Times New Roman", Font.BOLD, 15));
-		lblNewLabel_1_4.setBounds(10, 46, 198, 26);
-		panel_1_1.add(lblNewLabel_1_4);
+		JLabel lbmaxPreventiveAirports = new JLabel("Số sân bay trung gian tối đa");
+		lbmaxPreventiveAirports.setFont(new Font("Times New Roman", Font.BOLD, 15));
+		lbmaxPreventiveAirports.setBounds(10, 46, 198, 26);
+		panel_1_1.add(lbmaxPreventiveAirports);
 		
-		JLabel lblNewLabel_1_5 = new JLabel("Thời gian dừng tối thiểu");
-		lblNewLabel_1_5.setFont(new Font("Times New Roman", Font.BOLD, 15));
-		lblNewLabel_1_5.setBounds(10, 82, 187, 26);
-		panel_1_1.add(lblNewLabel_1_5);
+		JLabel lbminimunStopoverTime = new JLabel("Thời gian dừng tối thiểu");
+		lbminimunStopoverTime.setFont(new Font("Times New Roman", Font.BOLD, 15));
+		lbminimunStopoverTime.setBounds(10, 82, 187, 26);
+		panel_1_1.add(lbminimunStopoverTime);
 		
-		JLabel lblNewLabel_1_6 = new JLabel("Thời gian dừng tối đa ");
-		lblNewLabel_1_6.setFont(new Font("Times New Roman", Font.BOLD, 15));
-		lblNewLabel_1_6.setBounds(10, 118, 198, 26);
-		panel_1_1.add(lblNewLabel_1_6);
+		JLabel lbmaximumStopoverTime = new JLabel("Thời gian dừng tối đa ");
+		lbmaximumStopoverTime.setFont(new Font("Times New Roman", Font.BOLD, 15));
+		lbmaximumStopoverTime.setBounds(10, 118, 198, 26);
+		panel_1_1.add(lbmaximumStopoverTime);
 		
-		JLabel lblNewLabel_1_7 = new JLabel("Thời gian đặt vé chậm nhất ");
-		lblNewLabel_1_7.setFont(new Font("Times New Roman", Font.BOLD, 15));
-		lblNewLabel_1_7.setBounds(10, 154, 198, 26);
-		panel_1_1.add(lblNewLabel_1_7);
+		lbearliestBookingTime = new JLabel("Thời gian đặt vé chậm nhất ");
+		lbearliestBookingTime.setFont(new Font("Times New Roman", Font.BOLD, 15));
+		lbearliestBookingTime.setBounds(10, 154, 198, 26);
+		panel_1_1.add(lbearliestBookingTime);
 		
-		JLabel lblNewLabel_1_8 = new JLabel("Thời gian hủy đặt vé chậm nhất ");
-		lblNewLabel_1_8.setFont(new Font("Times New Roman", Font.BOLD, 15));
-		lblNewLabel_1_8.setBounds(10, 190, 210, 26);
-		panel_1_1.add(lblNewLabel_1_8);
+		JLabel lblatestBookingCancellationTime = new JLabel("Thời gian hủy đặt vé chậm nhất ");
+		lblatestBookingCancellationTime.setFont(new Font("Times New Roman", Font.BOLD, 15));
+		lblatestBookingCancellationTime.setBounds(10, 190, 210, 26);
+		panel_1_1.add(lblatestBookingCancellationTime);
 		
-		textField_6 = new JTextField();
-		textField_6.setBounds(255, 15, 81, 19);
-		panel_1_1.add(textField_6);
-		textField_6.setColumns(10);
 		
-		textField_7 = new JTextField();
-		textField_7.setColumns(10);
-		textField_7.setBounds(255, 51, 81, 19);
-		panel_1_1.add(textField_7);
+		tfminimumFlightTime = new JTextField();
+		tfminimumFlightTime.setBounds(255, 15, 81, 19);
+		panel_1_1.add(tfminimumFlightTime);
+		tfminimumFlightTime.setColumns(10);
+		tfmaxPreventiveAirports = new JTextField();
 		
-		textField_8 = new JTextField();
-		textField_8.setColumns(10);
-		textField_8.setBounds(255, 87, 81, 19);
-		panel_1_1.add(textField_8);
+		tfmaxPreventiveAirports.setColumns(10);
+		tfmaxPreventiveAirports.setBounds(255, 51, 81, 19);
+		panel_1_1.add(tfmaxPreventiveAirports);
 		
-		textField_9 = new JTextField();
-		textField_9.setColumns(10);
-		textField_9.setBounds(255, 123, 81, 19);
-		panel_1_1.add(textField_9);
+		tfminimumStopoverTime = new JTextField();
+		tfminimumStopoverTime.setColumns(10);
+		tfminimumStopoverTime.setBounds(255, 87, 81, 19);
+		panel_1_1.add(tfminimumStopoverTime);
 		
-		textField_10 = new JTextField();
-		textField_10.setColumns(10);
-		textField_10.setBounds(255, 159, 81, 19);
-		panel_1_1.add(textField_10);
+		tfmaximumStopoverTime = new JTextField();
+		tfmaximumStopoverTime.setColumns(10);
+		tfmaximumStopoverTime.setBounds(255, 123, 81, 19);
+		panel_1_1.add(tfmaximumStopoverTime);
 		
-		textField_11 = new JTextField();
-		textField_11.setColumns(10);
-		textField_11.setBounds(255, 195, 81, 19);
-		panel_1_1.add(textField_11);
+		tfearliestBookingTime = new JTextField();
+		tfearliestBookingTime.setColumns(10);
+		tfearliestBookingTime.setBounds(255, 159, 81, 19);
+		panel_1_1.add(tfearliestBookingTime);
 		
+		tflatestBookingCancellationTime = new JTextField();
+		tflatestBookingCancellationTime.setColumns(10);
+		tflatestBookingCancellationTime.setBounds(255, 195, 81, 19);
+		panel_1_1.add(tflatestBookingCancellationTime);
+		
+		//
+		reloadSetting();
+		//
 		JLabel lblNewLabel_1_3_1 = new JLabel("Phút");
 		lblNewLabel_1_3_1.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		lblNewLabel_1_3_1.setBounds(356, 10, 46, 26);
@@ -318,7 +323,53 @@ public class Setting extends JPanel {
 		lblNewLabel_1_3_1_2_1_2.setBounds(356, 46, 46, 26);
 		panel_1_1.add(lblNewLabel_1_3_1_2_1_2);
 		
+		//nut lưu setting cơ bản 
 		Button button_3 = new Button("Lưu");
+		button_3.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        try {
+		            int minimumFlightTime = Integer.parseInt(tfminimumFlightTime.getText());
+		            int tfmaxPreventiveAirports1 = Integer.parseInt(tfmaxPreventiveAirports.getText());
+		            int tfminimumStopoverTime1 = Integer.parseInt(tfminimumStopoverTime.getText());
+		            int tfmaximumStopoverTime1 = Integer.parseInt(tfmaximumStopoverTime.getText());
+		            int tfearliestBookingTime1 = Integer.parseInt(tfearliestBookingTime.getText());
+		            int tflatestBookingCancellationTime1 = Integer.parseInt(tflatestBookingCancellationTime.getText());
+		            
+		            // Kiểm tra điều kiện tfminimumStopoverTime1 < tfmaximumStopoverTime1
+		            if (tfminimumStopoverTime1 >= tfmaximumStopoverTime1) {
+		                JOptionPane.showMessageDialog(null, "Thời gian dừng tối thiểu phải nhỏ hơn thời gian dừng tối đa.");
+		                return; // Dừng phương thức nếu điều kiện không được thỏa mãn
+		            }
+		            
+		            // Tiếp tục nếu điều kiện được thỏa mãn
+		            
+		            settingValue.setMinimumFlightTime(minimumFlightTime);
+		            settingValue.setMaxPreventiveAirports(tfmaxPreventiveAirports1);
+		            settingValue.setMinimumStopoverTime(tfminimumStopoverTime1);
+		            settingValue.setMaximumStopoverTime(tfmaximumStopoverTime1);
+		            settingValue.setEarliestBookingTime(tfearliestBookingTime1);
+		            settingValue.setLatestBookingCancellationTime(tflatestBookingCancellationTime1);
+		            
+		            int rowsAffected = ParametersDAO.updateFightTime(settingValue);
+		            reloadSetting();
+		            if (rowsAffected > 0) {
+		                JOptionPane.showMessageDialog(null, "Dữ liệu đã được cập nhật thành công.");
+		            } else {
+		                JOptionPane.showMessageDialog(null, "Không có bản ghi nào được cập nhật.");
+		            }
+		        } catch (SQLException ex) {
+		            JOptionPane.showMessageDialog(null, "Lỗi SQL: " + ex.getMessage());
+		            ex.printStackTrace();
+		        } catch (ClassNotFoundException ex) {
+		            JOptionPane.showMessageDialog(null, "Không tìm thấy lớp: " + ex.getMessage());
+		            ex.printStackTrace();
+		        } catch (NumberFormatException ex) {
+		            JOptionPane.showMessageDialog(null, "Vui lòng nhập số nguyên hợp lệ cho các trường dữ liệu.");
+		            ex.printStackTrace();
+		        }
+		    }
+		});
+
 		button_3.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		button_3.setForeground(new Color(255, 255, 255));
 		button_3.setBackground(new Color(3, 4, 94));
@@ -460,6 +511,26 @@ public class Setting extends JPanel {
 					
 			});
 		}
+	}
+	//reload setting value
+	public void reloadSetting() {
+		try {
+			settingValue.setMinimumFlightTime(ParametersDAO.getMinimumFlightTime());
+			settingValue.setMaxPreventiveAirports(ParametersDAO.getMaxPreventiveAirport());
+			settingValue.setMinimumStopoverTime(ParametersDAO.getMiniMumStopoverTime());
+			settingValue.setMaximumStopoverTime(ParametersDAO.getMaximumStopoverTime());
+			settingValue.setEarliestBookingTime(ParametersDAO.getEarliestBookingTime());
+			settingValue.setLatestBookingCancellationTime(ParametersDAO.getLatestBookingCancellationTime());
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		tfminimumFlightTime.setText(Integer.toString(settingValue.getMinimumFlightTime()));
+		tfmaxPreventiveAirports.setText(Integer.toString(settingValue.getMaxPreventiveAirports()));
+		tfminimumStopoverTime.setText(Integer.toString(settingValue.getMinimumStopoverTime()));
+		tfmaximumStopoverTime.setText(Integer.toString(settingValue.getMaximumStopoverTime()));
+		tfearliestBookingTime.setText(Integer.toString(settingValue.getEarliestBookingTime()));
+		tflatestBookingCancellationTime.setText(Integer.toString(settingValue.getLatestBookingCancellationTime()));
 	}
 	
 	// Phương thức để load dữ liệu lên bảng hạng vé
