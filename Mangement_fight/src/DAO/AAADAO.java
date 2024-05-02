@@ -87,7 +87,7 @@ public class AAADAO implements DAOInterface<Account>{
 	
 	//xuat toan bo tai khoang
 	public static ResultSet selectAll() throws SQLException, ClassNotFoundException {
-	    //thu cua thay
+	    //ket noi sql nguyen mau
 		Connection connect = null;
 	    PreparedStatement stmt = null;
 	    ResultSet rs = null;

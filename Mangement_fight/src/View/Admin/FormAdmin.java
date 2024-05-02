@@ -1,11 +1,15 @@
 package View.Admin;
 
 import java.awt.EventQueue;
+import java.sql.ResultSet;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import DAO.ParametersDAO;
+import DAO.TicketClassDAO;
+import Model.Parameters;
 import View.Admin.AccountAndPermission.AccountAndPermission;
 import View.Admin.ChatBox.ChatBox;
 import View.Admin.Flight.FlightListUC;
@@ -20,10 +24,27 @@ public class FormAdmin extends JFrame {
 	/**
 	 * Launch the application.
 	 */
+	public static void ResetSetting() {
+		
+	}
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					//setting value default 
+					
+					/*
+					Parameters settingValue = new Parameters();
+					ResultSet rs = ParametersDAO.selectAll();
+					settingValue.setMinimumFlightTime(rs.getInt("MinimunFlightTime"));
+					settingValue.setMaxPreventiveAirports(rs.getInt("MaxPreventiveAirports"));
+					settingValue.setMinimumStopoverTime(rs.getInt("MinimumStopoverTim"));
+					settingValue.setMaximumStopoverTime(rs.getInt("MaximumStopoverTime"));
+					settingValue.setEarliestBookingTime(rs.getInt("EarliestBookingTime"));
+					settingValue.setLatestBookingCancellationTime(rs.getInt("LatestBookingCancellationTime"));
+					*/
+					//setting value default
+					
 					FormAdmin frame = new FormAdmin();
 					frame.setVisible(true);
 				} catch (Exception e) {
