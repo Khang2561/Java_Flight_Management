@@ -17,7 +17,7 @@ public class JDBCUtil {
             String password = "1";
 
             c = DriverManager.getConnection(url, userName, password);
-            
+            //HFAJSHDFKJHASKFHSKAJHFKJSAFJKAHSDJKH
            
         } catch (Exception e) {
             e.printStackTrace();
