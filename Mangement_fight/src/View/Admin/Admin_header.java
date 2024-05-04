@@ -17,6 +17,7 @@ import View.Login.FormLogin;
 import javax.swing.JMenuBar;
 import java.awt.Button;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import java.awt.FlowLayout;
 import java.awt.BorderLayout;
@@ -79,7 +80,12 @@ public class Admin_header extends JPanel {
 		        FormAdmin.contentPane.add(aap);
 		        FormAdmin.contentPane.revalidate();
 		        FormAdmin.contentPane.repaint();*/
-				clearAndShow(new AccountAndPermission());
+				try {
+					clearAndShow(new AccountAndPermission());
+				} catch (ClassNotFoundException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		button_1_1_1.setForeground(new Color(0, 0, 0));
@@ -96,7 +102,12 @@ public class Admin_header extends JPanel {
 		        FormAdmin.contentPane.add(setting);
 		        FormAdmin.contentPane.revalidate();
 		        FormAdmin.contentPane.repaint();*/
-				clearAndShow(new Setting());
+				try {
+					clearAndShow(new Setting());
+				} catch (ClassNotFoundException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		button_1_1_1_1_1.setFont(new Font("Times New Roman", Font.BOLD, 18));

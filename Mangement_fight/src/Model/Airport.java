@@ -11,7 +11,8 @@ public class Airport {
     }
 
     public Airport(String airportID, String airportName, String cityName, String countryName) {
-        this.airportID = airportID;
+        super();
+    	this.airportID = airportID;
         this.airportName = airportName;
         this.cityName = cityName;
         this.countryName = countryName;
@@ -47,6 +48,12 @@ public class Airport {
 
 	public void setCountryName(String countryName) {
 		this.countryName = countryName;
+	}
+
+	@Override
+	public String toString() {
+		return "Airport [airportID=" + airportID + ", airportName=" + airportName + ", cityName=" + cityName
+				+ ", countryName=" + countryName + "]";
 	}
     
 }

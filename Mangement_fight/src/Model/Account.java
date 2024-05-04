@@ -71,11 +71,12 @@ public class Account {
 	}
 
 	public Date getCreated() {
+		this.created = new Date(0);
 		return created;
 	}
 
-	public void setCreated(Date created) {
-		this.created = created;
+	public void setCreated() {
+		this.created = new Date(0);
 	}
 
 	public String getRoleID() {
@@ -101,6 +102,10 @@ public class Account {
 	public void setRoleName(String roleName) {
 		this.roleName = roleName;
 	}
+	 public void setCreated1() {
+		 this.created = new Date(0);
+	 }
+	
     
     
 }

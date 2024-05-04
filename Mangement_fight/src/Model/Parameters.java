@@ -1,17 +1,17 @@
 package Model;
 
 public class Parameters {
-	private static int minimumFlightTime;
-    private static int maxPreventiveAirports;
-    private static int minimumStopoverTime;
-    private static int maximumStopoverTime;
-    private static int earliestBookingTime;
-    private static int latestBookingCancellationTime;
+	public static int minimumFlightTime;
+	public static int maxPreventiveAirports;
+	public static int minimumStopoverTime;
+	public static int maximumStopoverTime;
+	public static int earliestBookingTime;
+	public static int latestBookingCancellationTime;
 
     private static Parameters instance;
 
     // Private constructor to prevent instantiation from outside
-    private Parameters() {}
+    public Parameters() {}
 
     // Getters and setters
     public static Parameters getInstance() {
