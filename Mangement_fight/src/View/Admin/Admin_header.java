@@ -73,13 +73,7 @@ public class Admin_header extends JPanel {
 		button_1_1_1.setFont(new Font("Times New Roman", Font.BOLD, 18));
 		button_1_1_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				/*JPanel aap = new AccountAndPermission();
-				aap.setSize(1500, 653);
-				aap.setLocation(0, 70);
-				FormAdmin.contentPane.removeAll();
-		        FormAdmin.contentPane.add(aap);
-		        FormAdmin.contentPane.revalidate();
-		        FormAdmin.contentPane.repaint();*/
+				
 				try {
 					clearAndShow(new AccountAndPermission());
 				} catch (ClassNotFoundException | SQLException e1) {
@@ -96,12 +90,7 @@ public class Admin_header extends JPanel {
 		Button button_1_1_1_1_1 = new Button("Cài đặt");
 		button_1_1_1_1_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				/*JPanel setting = new Setting();
-				setting.setSize(1500, 653);
-				setting.setLocation(0, 70);
-		        FormAdmin.contentPane.add(setting);
-		        FormAdmin.contentPane.revalidate();
-		        FormAdmin.contentPane.repaint();*/
+				
 				try {
 					clearAndShow(new Setting());
 				} catch (ClassNotFoundException | SQLException e1) {
@@ -119,12 +108,7 @@ public class Admin_header extends JPanel {
 		Button button_1_1_1_1 = new Button("Chat Box");
 		button_1_1_1_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				/*JPanel chatbox = new ChatBox();
-		        chatbox.setSize(1500, 653);
-		        chatbox.setLocation(0, 70);
-		        FormAdmin.contentPane.add(chatbox);
-		        FormAdmin.contentPane.revalidate();
-		        FormAdmin.contentPane.repaint();*/
+				
 				clearAndShow(new ChatBox());
 			}
 		});
