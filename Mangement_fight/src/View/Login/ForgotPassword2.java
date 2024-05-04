@@ -33,7 +33,7 @@ public class ForgotPassword2 extends JPanel {
         lbl2.setForeground(new Color(113, 113, 122));
         lbl2.setBackground(new Color(255, 255, 255));
         lbl2.setFont(new Font("Times New Roman", Font.PLAIN, 12));
-        lbl2.setBounds(100, 78, 91, 15);
+        lbl2.setBounds(98, 68, 91, 15);
         add(lbl2);
         
         txtOTP = new JTextField();
