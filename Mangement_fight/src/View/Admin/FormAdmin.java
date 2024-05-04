@@ -47,6 +47,7 @@ public class FormAdmin extends JFrame {
 					
 					FormAdmin frame = new FormAdmin();
 					frame.setVisible(true);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -67,6 +68,8 @@ public class FormAdmin extends JFrame {
 		//header
 		JPanel header1 = new Admin_header();
 		header1.setBounds(0, 0, 1500, 70);
+		HomeAdmin framehome = new HomeAdmin();
+		contentPane.add(framehome);
 		contentPane.add(header1);
 		
 		
