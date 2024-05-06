@@ -46,6 +46,42 @@ public class PermissionDAO implements DAOInterface<Parameters> {
 		return null;
 	}
 	
+	public static int setFlagPermit(String PermissiongCode, String RoleID)throws SQLException, ClassNotFoundException{
+		Connection con = null;
+	    PreparedStatement preparedStatement = null;
+	    int rowsAffected = 0;
+	    try {
+	    	//B1: KET NOI VOI DATABASE
+	        con = JDBCUtil.getConnection();
+	        //B2: THUC HIEN CAU LENH SQL 
+	        String sql = "UPDATE PERMISSION SET PermissionCode = ? WHERE RoleID = ?";
+	        //B3: TAO STATEMENT
+	        preparedStatement = con.prepareStatement(sql);
+	        
+	        // Set values for parameters
+	        preparedStatement.setString(1, PermissiongCode);
+	        preparedStatement.setString(2, RoleID);
+	        
+	        // Execute the statement
+	        rowsAffected = preparedStatement.executeUpdate();
+	        //B5: CLOSE CONNECTION 
+	        JDBCUtil.closeConnection(con);
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        // Close resources in the reverse order of their creation
+	        JDBCUtil.closeConnection(con);
+	        if (preparedStatement != null) {
+	            try {
+	                preparedStatement.close();
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
+	        }
+		}
+	    return rowsAffected;
+	}
+	
 	public Permission setPMS(String roleID) throws SQLException, ClassNotFoundException {
 		Permission tmp = new Permission();
 		
