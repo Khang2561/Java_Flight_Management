@@ -49,28 +49,28 @@ public class AccountAndPermission extends JPanel {
 	public JTextField tfMK;
 	static JPanel contentPane ;
 	public DefaultTableModel modelAccount;
-	private Component rdbtnSQTChatBox;
+	private JRadioButton rdbtnSQTChatBox;
 	private JRadioButton rdbtnSQTChuyenBay;
-	private JComponent rdbtnQTChuyenBay;
+	private JRadioButton rdbtnQTChuyenBay;
 	private JRadioButton rdbtnBGDChuyenBay;
 	private JRadioButton rdbtnNhanVien1;
-	private JComponent rdbtnSQTVeChuyenBay;
+	private JRadioButton rdbtnSQTVeChuyenBay;
 	private JRadioButton rdbtnQTVeChuyenBay;
-	private JComponent rdbtnBGDVeChuyenBay;
+	private JRadioButton rdbtnBGDVeChuyenBay;
 	private JRadioButton rdbtnNhanVien2;
-	private JComponent rdbtnSQTMayBay;
+	private JRadioButton rdbtnSQTMayBay;
 	private JRadioButton rdbtnQTMayBay;
-	private JComponent rdbtnBGDMayBay;
+	private JRadioButton rdbtnBGDMayBay;
 	private JRadioButton rdbtnNhanVien3;
 	private JRadioButton rdbtnSQLTKvaPP;
-	private JComponent rdbtnQTTKvaPQ;
+	private JRadioButton rdbtnQTTKvaPQ;
 	private JRadioButton rdbtnBGDTKvaPQ;
 	private JRadioButton rdbtnNhanVien4;
 	private JRadioButton rdbtnSQTCaiDat;
 	private JRadioButton rdbtnQTCaiDat;
 	private JRadioButton rdbtnBGDCaiDat;
 	private JRadioButton rdbtnNhanVien5;
-	private JComponent rdbtnQTChatBox;
+	private JRadioButton rdbtnQTChatBox;
 	private JRadioButton rdbtnBGDChatBox;
 	private JRadioButton rdbtnNhanVien6;
 	
@@ -451,7 +451,83 @@ public class AccountAndPermission extends JPanel {
 		buttonCreateAccount.setBounds(25, 249, 735, 40);
 		panel_1.add(buttonCreateAccount);
 		
+		//nut luu quyen 
+		
+		
 		Button buttonLuuAp = new Button("Lưu");
+		buttonLuuAp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String ACNV = "";
+				String ACSQT = "";
+				String ACQT = "";
+				String ACBGD ="";
+				
+				
+				JRadioButton[] nhanVienRadios = {rdbtnNhanVien1, rdbtnNhanVien2, rdbtnNhanVien3, rdbtnNhanVien4, rdbtnNhanVien5, rdbtnNhanVien6};
+				JRadioButton[] sieuQuanTriRadios = {rdbtnSQTChuyenBay, rdbtnSQTVeChuyenBay,rdbtnSQTMayBay, rdbtnSQLTKvaPP, rdbtnSQTCaiDat,rdbtnSQTChatBox};
+				JRadioButton[] quanTriRadios = {rdbtnQTChuyenBay, rdbtnQTVeChuyenBay, rdbtnQTMayBay, rdbtnQTTKvaPQ, rdbtnQTCaiDat, rdbtnQTChatBox};
+				JRadioButton[] bGDRadios = {rdbtnBGDChuyenBay, rdbtnBGDVeChuyenBay, rdbtnBGDMayBay, rdbtnBGDTKvaPQ, rdbtnBGDCaiDat, rdbtnBGDChatBox};
+				
+				//Sieu quan tri
+				boolean tkvaPPSelected = rdbtnSQLTKvaPP.isSelected();
+				if(tkvaPPSelected == false) {
+					
+					try {
+						JOptionPane.showMessageDialog(null, "Không được tắt quyền Tài Khoảng và Phân Quyền trên Siêu Quản Trị");
+						loadPermit();
+						
+					} catch (ClassNotFoundException | SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}else {
+					for (JRadioButton radioButton : sieuQuanTriRadios) {
+			            if (radioButton.isSelected()) {
+			                ACSQT
+			                += "1";
+			            } else {
+			                ACSQT += "0";
+			            }
+			        }
+					
+					//Quan tri
+					for (JRadioButton radioButton : quanTriRadios) {
+			            if (radioButton.isSelected()) {
+			                ACQT += "1";
+			            } else {
+			                ACQT += "0";
+			            }
+			        }
+					//BGD
+					for (JRadioButton radioButton : bGDRadios) {
+			            if (radioButton.isSelected()) {
+			                ACBGD += "1";
+			            } else {
+			                ACBGD += "0";
+			            }
+			        }
+					//nhan vien
+			        for (JRadioButton radioButton : nhanVienRadios) {
+			            if (radioButton.isSelected()) {
+			                ACNV += "1";
+			            } else {
+			                ACNV += "0";
+			            }
+			        }   
+			        try {
+						PermissionDAO.setFlagPermit(ACSQT,"RL0001");
+						PermissionDAO.setFlagPermit(ACQT,"RL0002");
+						PermissionDAO.setFlagPermit(ACBGD,"RL0003");
+						PermissionDAO.setFlagPermit(ACNV,"RL0004");
+						JOptionPane.showMessageDialog(null, "Lưu thành công!");
+						loadPermit();
+					} catch (ClassNotFoundException | SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+			}
+		});
 		buttonLuuAp.setForeground(Color.WHITE);
 		buttonLuuAp.setFont(new Font("Times New Roman", Font.BOLD, 16));
 		buttonLuuAp.setBackground(new Color(0, 0, 160));
