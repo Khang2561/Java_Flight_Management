@@ -39,88 +39,88 @@ import java.awt.event.ActionEvent;
 import View.Admin.*;
 
 public class Setting extends JPanel {
-
+	//-----------------------------------value--------------------------------------------------------
 	private static final long serialVersionUID = 1L;
+	//table airport
 	private static JTable table;
+	//text field for airport 
 	private JTextField inputNameAirport;
 	private JTextField inputNameCity;
 	private JTextField inputNameCountry;
+	//text field for setting 
 	private JTextField tfminimumFlightTime;
 	private JTextField tfmaxPreventiveAirports;
 	private JTextField tfminimumStopoverTime;
 	private JTextField tfmaximumStopoverTime;
 	private JTextField tfearliestBookingTime;
 	private JTextField tflatestBookingCancellationTime;
+	//text field for seat class
 	private JTextField inputNameClass;
 	private JTextField inputNamePercent;
+	//table ticket class
 	private JTable table_1;
+	//main pane
 	static JPanel contentPane;
+	//model
 	DefaultTableModel model;
 	private DefaultTableModel modelTicketLevel;
 	private JLabel lbearliestBookingTime;
 	public Parameters settingValue = new Parameters();
+
 	
+	//------------------------------------Setting main------------------------------------------------
 	public Setting() throws ClassNotFoundException, SQLException {
+		//----------------------setting main pane
 		setBackground(new Color(240, 240, 240));
 		setBounds(0, 71, 1500, 650);
 		setLayout(null);
-		
-		
-		//Pannel san bay 
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 0, 1520, 297);
 		add(panel);
 		panel.setLayout(null);
 		
-		
-		
+		//--------------------------------------airport table panel-----------------------------------------------------------
 		JLabel lblNewLabel = new JLabel("SÂN BAY");
 		lblNewLabel.setForeground(new Color(0, 0, 160));
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setBounds(741, 5, 88, 25);
 		panel.add(lblNewLabel);
-		// Tạo bảng cho dữ liệu sân bay
-		table = new JTable(); // Tạo một JTable mới
+		//create airport table
+		table = new JTable(); 
 		table.setSurrendersFocusOnKeystroke(true);
 		table.setColumnSelectionAllowed(true);
 		table.setCellSelectionEnabled(true);
-		table.setFont(new Font("Times New Roman", Font.BOLD, 15)); // Thiết lập font cho bảng
-		
+		table.setFont(new Font("Times New Roman", Font.BOLD, 15)); 
+		//create airport table model
         model = new DefaultTableModel();
         Object[] column = {"Tên sân bay", "Tên thành phố", "Tên đất nước"};
         model.setColumnIdentifiers(column);
         table.setModel(model);
-		
 		table.setRowHeight(30);
-		
-		//LẤY DANH SÁCH SÂN BAY TỪ AIRPORTDAL
+		//load airport data to table
         try {
         	ResultSet rs = AirportDAO.selectAll();
         	loadRsToTable(rs);      
         } catch (SQLException | ClassNotFoundException ex) {
             ex.printStackTrace();
         }
-        
-		
-        // Thêm bảng vào panel và panel vào frame
+        // add airport panel to main panel 
         panel.add(new JScrollPane(table));
         add(panel);
-
-		// Tạo thanh cuộn cho bảng
+		// create scroll pane
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(10, 40, 770, 257); // Thiết lập vị trí và kích thước của thanh cuộn
-
-		// Thêm thanh cuộn vào panel
+		scrollPane.setBounds(10, 40, 770, 257); 
 		panel.add(scrollPane);
 		
-		//pannal sửa sân bay
+		//----------------------------------edit airport-------------------------------------------------
+		//create panel
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_1.setBounds(790, 40, 706, 257);
 		panel.add(panel_1);
 		panel_1.setLayout(null);
-		
+		//create label
 		JLabel labelNameAirport = new JLabel("Tên sân bay :");
 		labelNameAirport.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		labelNameAirport.setBounds(35, 25, 99, 26);
@@ -136,6 +136,7 @@ public class Setting extends JPanel {
 		lbNameCountry.setBounds(35, 147, 99, 26);
 		panel_1.add(lbNameCountry);
 		
+		//create text field
 		inputNameAirport = new JTextField();
 		inputNameAirport.setBounds(161, 25, 334, 24);
 		panel_1.add(inputNameAirport);
@@ -151,7 +152,7 @@ public class Setting extends JPanel {
 		inputNameCountry.setBounds(161, 147, 334, 24);
 		panel_1.add(inputNameCountry);
 		
-		//btn insert Airport
+		//-------------------------------------button insert airport--------------------------------------
 		Button btInsertAirport = new Button("Thêm ");
 		btInsertAirport.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
@@ -200,32 +201,36 @@ public class Setting extends JPanel {
 		        }
 		    }
 		});
-		
-		
+		//setting view for button
 		btInsertAirport.setForeground(new Color(255, 255, 255));
 		btInsertAirport.setBackground(new Color(3, 4, 94));
 		btInsertAirport.setBounds(95, 210, 99, 37);
 		panel_1.add(btInsertAirport);
 		
+		//-------------------------------airport update button----------------------------------------------
 		Button btUpdate = new Button("Cập nhập");
 		btUpdate.setForeground(new Color(255, 255, 255));
 		btUpdate.setBackground(new Color(3, 4, 94));
 		btUpdate.setBounds(253, 210, 99, 37);
 		panel_1.add(btUpdate);
 		
+		
+		//-------------------------------airport delete button----------------------------------------------
 		Button btDelete = new Button("Xóa");
 		btDelete.setForeground(new Color(255, 255, 255));
 		btDelete.setBackground(new Color(192, 192, 192));
 		btDelete.setBounds(396, 210, 99, 37);
 		panel_1.add(btDelete);
 		
-		//cai dat co ban 
+		//--------------------------------setting basic value panel--------------------------------------------  
+		//create pane
 		JPanel panel_1_1 = new JPanel();
 		panel_1_1.setLayout(null);
 		panel_1_1.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_1_1.setBounds(10, 338, 590, 290);
 		add(panel_1_1);
 		
+		//create label
 		JLabel lbminimunFlightTime = new JLabel("Thời gian bay tối thiểu ");
 		lbminimunFlightTime.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		lbminimunFlightTime.setBounds(10, 10, 174, 26);
@@ -256,7 +261,7 @@ public class Setting extends JPanel {
 		lblatestBookingCancellationTime.setBounds(10, 190, 210, 26);
 		panel_1_1.add(lblatestBookingCancellationTime);
 		
-		
+		//create text field
 		tfminimumFlightTime = new JTextField();
 		tfminimumFlightTime.setBounds(255, 15, 81, 19);
 		panel_1_1.add(tfminimumFlightTime);
@@ -290,6 +295,7 @@ public class Setting extends JPanel {
 		//
 		reloadSetting();
 		//
+		// time label
 		JLabel lblNewLabel_1_3_1 = new JLabel("Phút");
 		lblNewLabel_1_3_1.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		lblNewLabel_1_3_1.setBounds(356, 10, 46, 26);
@@ -320,7 +326,7 @@ public class Setting extends JPanel {
 		lblNewLabel_1_3_1_2_1_2.setBounds(356, 46, 46, 26);
 		panel_1_1.add(lblNewLabel_1_3_1_2_1_2);
 		
-		//nut lưu setting cơ bản 
+		//save button
 		Button button_3 = new Button("Lưu");
 		button_3.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
@@ -366,7 +372,7 @@ public class Setting extends JPanel {
 		        }
 		    }
 		});
-
+		//setting button view
 		button_3.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		button_3.setForeground(new Color(255, 255, 255));
 		button_3.setBackground(new Color(3, 4, 94));
@@ -374,13 +380,14 @@ public class Setting extends JPanel {
 		panel_1_1.add(button_3);
 		
 		
-		//HANG VE
+		//-----------------------------------Ticket class-----------------------------------------------
+		//create panel
 		JPanel panel_1_2 = new JPanel();
 		panel_1_2.setLayout(null);
 		panel_1_2.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_1_2.setBounds(639, 338, 836, 290);
 		add(panel_1_2);
-		
+		//create label
 		JLabel lbNameClass = new JLabel("Tên hạng vé :");
 		lbNameClass.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		lbNameClass.setBounds(416, 59, 99, 26);
@@ -390,7 +397,7 @@ public class Setting extends JPanel {
 		lbNamePercent.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		lbNamePercent.setBounds(416, 121, 199, 26);
 		panel_1_2.add(lbNamePercent);
-		
+		//create text field
 		inputNameClass = new JTextField();
 		inputNameClass.setColumns(10);
 		inputNameClass.setBounds(558, 62, 221, 24);
@@ -400,7 +407,7 @@ public class Setting extends JPanel {
 		inputNamePercent.setColumns(10);
 		inputNamePercent.setBounds(558, 124, 221, 24);
 		panel_1_2.add(inputNamePercent);
-		
+		//button add
 		Button btnThemTicketClass = new Button("Thêm ");
 		btnThemTicketClass.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
