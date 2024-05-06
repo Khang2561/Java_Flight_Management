@@ -128,6 +128,25 @@ public class AAADAO implements DAOInterface<Account>{
         } 
 	}
 	
+	public static ResultSet findACbyEmail(String email) throws SQLException, ClassNotFoundException{
+		 //ket noi sql nguyen mau
+		Connection connect = null;
+	    PreparedStatement stmt = null;
+	    ResultSet rs = null;
+	    String query = "SELECT * FROM ACCOUNT WHERE Email = ?;";
+	    try {
+	    	connect = JDBCUtil.getConnection();
+	    	stmt = connect.prepareStatement(query);
+	    	stmt.setString(1, email);
+	    	rs = stmt.executeQuery();
+	    //
+	    } catch (SQLException ex) {
+	       Logger.getLogger(null);
+	       throw ex;
+	    } 
+		return rs;
+	}
+	
 	//ham check xem tai khoang da ton tai hay chua
 	public static boolean isAccountExists(String accountPhone, String accountEmail) throws SQLException, ClassNotFoundException {
 		Connection connect = null;
