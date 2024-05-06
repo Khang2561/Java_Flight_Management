@@ -7,6 +7,7 @@ import javax.swing.SwingConstants;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.HeadlessException;
 
 import javax.swing.border.BevelBorder;
 import javax.swing.table.DefaultTableModel;
@@ -399,7 +400,6 @@ public class AccountAndPermission extends JPanel {
 		panel_1.add(cbQuyen);
 		
 		
-		
 		//button tạo tài khoảng 
 		Button buttonCreateAccount = new Button("Tạo tài khoản");
 		buttonCreateAccount.addActionListener(new ActionListener() {
@@ -409,9 +409,9 @@ public class AccountAndPermission extends JPanel {
 		                JOptionPane.showMessageDialog(null, "Xin vui lòng nhập đầy đủ thông tin!", "Thông báo", JOptionPane.WARNING_MESSAGE);
 		            } else {
 		                // Tiếp tục xử lý tạo tài khoản khi thông tin được nhập đầy đủ
-		                boolean isAccountExists = AAADAO.isAccountExists(tfEmail.getText(), tfSDT.getText());
+		                boolean isAccountExists = AAADAO.isEmail(tfEmail.getText());
 		                if (isAccountExists) {
-		                    JOptionPane.showMessageDialog(null, "Tài khoản đã tồn tại!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+		                    JOptionPane.showMessageDialog(null, "Email đã tồn tại!", "Thông báo", JOptionPane.WARNING_MESSAGE);
 		                } else {
 		                    // Nếu tài khoản chưa tồn tại, tiến hành thêm mới
 		                    String inputAccountId = generateUniqueAccountId(); // Tạo mã tài khoản mới không trùng
@@ -464,14 +464,59 @@ public class AccountAndPermission extends JPanel {
 		buttonCreateAccount.setForeground(new Color(255, 255, 255));
 		buttonCreateAccount.setBackground(new Color(0, 0, 160));
 		buttonCreateAccount.setFont(new Font("Times New Roman", Font.BOLD, 16));
-		buttonCreateAccount.setBounds(25, 249, 751, 45);
+		buttonCreateAccount.setBounds(25, 249, 751, 44);
 		panel_1.add(buttonCreateAccount);
 		
+		//Button cap nhap 
 		buttonCapNhap = new Button("Cập nhập ");
 		buttonCapNhap.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
+		    public void actionPerformed(ActionEvent e) {
+		        // Retrieve existing email
+		        String existingEmail = tfEmail.getText();
+
+		        Account AC = new Account();
+		        AC.setName(tfHoVaTen.getText());
+		        AC.setEmail(existingEmail); // Set existing email
+		        AC.setPhone(tfSDT.getText());
+		        AC.setPassword(tfMK.getText());
+
+		        String selectedRole = (String) cbQuyen.getSelectedItem();
+		        if (selectedRole.equals("Siêu quản trị")) {
+		            AC.setRoleID("RL0001");
+		        } else if (selectedRole.equals("Quản trị")) {
+		            AC.setRoleID("RL0002");
+		        } else if (selectedRole.equals("Ban giám đốc")) {
+		            AC.setRoleID("RL0003");
+		        } else if (selectedRole.equals("Nhân viên")) {
+		            AC.setRoleID("RL0004");
+		        } else {
+		            AC.setRoleID("RL0004");
+		        }
+
+		        
+
+		        // Perform update if email is not being changed
+		        AAADAO.updateAC(AC);
+		        tfHoVaTen.setText("");
+		        tfEmail.setText("");
+		        tfSDT.setText("");
+		        tfMK.setText("");
+		        cbQuyen.setSelectedIndex(0);
+		        buttonCreateAccount.setVisible(true);
+		        tfEmail.setEditable(true);
+		        // Load lại dữ liệu lên JTable
+		        ResultSet updatedRs;
+		        try {
+		            updatedRs = AAADAO.selectAll();
+		            loadRsToTable(updatedRs);
+		        } catch (ClassNotFoundException | SQLException e1) {
+		            // Handle exception
+		            e1.printStackTrace();
+		        }
+		    }
 		});
+		
+		
 		buttonCapNhap.setForeground(Color.WHITE);
 		buttonCapNhap.setFont(new Font("Times New Roman", Font.BOLD, 16));
 		buttonCapNhap.setBackground(new Color(0, 0, 160));
@@ -481,6 +526,24 @@ public class AccountAndPermission extends JPanel {
 		buttonXoa = new Button("Xóa ");
 		buttonXoa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				AAADAO.deleteByEmail(tfEmail.getText());
+				tfHoVaTen.setText("");
+                tfEmail.setText("");
+                tfSDT.setText("");
+                tfMK.setText("");
+                cbQuyen.setSelectedIndex(0);
+                buttonCreateAccount.setVisible(true);
+                tfEmail.setEditable(true);
+                // Load lại dữ liệu lên JTable
+                ResultSet updatedRs;
+				try {
+					updatedRs = AAADAO.selectAll();
+					loadRsToTable(updatedRs);
+				} catch (ClassNotFoundException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+                
 			}
 		});
 		buttonXoa.setForeground(Color.WHITE);
@@ -499,6 +562,7 @@ public class AccountAndPermission extends JPanel {
                 tfMK.setText("");
                 cbQuyen.setSelectedIndex(0);
                 buttonCreateAccount.setVisible(true);
+                tfEmail.setEditable(true);
 			}
 		});
 		buttonHuy.setForeground(Color.WHITE);
@@ -507,9 +571,8 @@ public class AccountAndPermission extends JPanel {
 		buttonHuy.setBounds(552, 250, 202, 39);
 		panel_1.add(buttonHuy);
 		
+		
 		//nut luu quyen 
-		
-		
 		Button buttonLuuAp = new Button("Lưu");
 		buttonLuuAp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -617,6 +680,7 @@ public class AccountAndPermission extends JPanel {
 		                	    cbQuyen.setSelectedIndex(3);
 		                	}
 		                	buttonCreateAccount.setVisible(false);
+		                	tfEmail.setEditable(false);
 		                    // Hiển thị thông tin tài khoản hoặc thực hiện các thao tác khác ở đây
 		                } else {
 		                    // Không có tài khoản nào được tìm thấy

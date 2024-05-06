@@ -85,6 +85,47 @@ public class AAADAO implements DAOInterface<Account>{
 		return null;
 	}
 	
+	public static int updateAC(Account AC) {
+	    Connection con = null;
+	    PreparedStatement preparedStatement = null;
+	    int rowsAffected = 0;
+
+	    try {
+	        // Establish connection with the database
+	        con = JDBCUtil.getConnection();
+	        
+	        // Define the SQL statement
+	        String sql = "UPDATE ACCOUNT SET Name=?, Phone=?, Password=?, RoleID=? WHERE Email=?";
+	        
+	        // Create a prepared statement
+	        preparedStatement = con.prepareStatement(sql);
+	        
+	        // Set values for parameters
+	        preparedStatement.setString(1, AC.getName()); // Assuming tfHoVaTen is your text field for name
+	        preparedStatement.setString(2, AC.getPhone()); // Assuming tfSDT is your text field for phone
+	        preparedStatement.setString(3, AC.getPassword()); // Assuming tfMK is your text field for password
+	        preparedStatement.setString(4, AC.getRoleID()); // Assuming cbQuyen is your combo box for rol
+	        preparedStatement.setString(5, AC.getEmail());
+	        
+	        // Execute the statement
+	        rowsAffected = preparedStatement.executeUpdate();
+	        
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        // Close resources in the reverse order of their creation
+	        JDBCUtil.closeConnection(con);
+	        if (preparedStatement != null) {
+	            try {
+	                preparedStatement.close();
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    }
+	    return rowsAffected;
+	}
+	
 	//xuat toan bo tai khoang
 	public static ResultSet selectAll() throws SQLException, ClassNotFoundException {
 	    //ket noi sql nguyen mau
@@ -198,5 +239,70 @@ public class AAADAO implements DAOInterface<Account>{
 	        }
 	    }
 	}
+	
+	//xoa bang email
+	public static int deleteByEmail(String email) {
+	    Connection con = null;
+	    PreparedStatement preparedStatement = null;
+	    int rowsAffected = 0;
+
+	    try {
+	        // Establish connection with the database
+	        con = JDBCUtil.getConnection();
+	        
+	        // Define the SQL statement
+	        String sql = "DELETE FROM ACCOUNT WHERE Email = ?";
+	        
+	        // Create a prepared statement
+	        preparedStatement = con.prepareStatement(sql);
+	        
+	        // Set the value for the parameter
+	        preparedStatement.setString(1, email);
+	        
+	        // Execute the statement
+	        rowsAffected = preparedStatement.executeUpdate();
+	        
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        // Close resources in the reverse order of their creation
+	        JDBCUtil.closeConnection(con);
+	        if (preparedStatement != null) {
+	            try {
+	                preparedStatement.close();
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    }
+	    return rowsAffected;
+	}
+	
+	//ham check xem tai khoang da ton tai hay chua
+		public static boolean isEmail(String accountEmail) throws SQLException, ClassNotFoundException {
+			Connection connect = null;
+		    PreparedStatement stmt = null;
+		    ResultSet rs = null;
+		    String query = "SELECT * FROM ACCOUNT WHERE Email = ?";
+		    try {
+		    	connect = JDBCUtil.getConnection();
+		        stmt = connect.prepareStatement(query);
+		        
+		        stmt.setString(1, accountEmail);
+		        rs = stmt.executeQuery();
+		        return rs.next();
+		    }finally {
+		    	// Đóng tài nguyên
+		    	if (rs != null) {
+		    		rs.close();
+		    	}
+		    	if (stmt != null) {
+		    		stmt.close();
+		    	}
+		    	if (connect != null) {
+		    		connect.close();
+		    	}	
+		    }
+		}
 
 }
