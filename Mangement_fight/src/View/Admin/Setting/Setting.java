@@ -37,84 +37,107 @@ import javax.swing.JScrollBar;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import View.Admin.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Setting extends JPanel {
-
+	//------------------------------------value----------------------------------------------------
 	private static final long serialVersionUID = 1L;
+	//airport table
 	private static JTable table;
+	// text field to insert airport
 	private JTextField inputNameAirport;
 	private JTextField inputNameCity;
 	private JTextField inputNameCountry;
+	//text field to for setting value
 	private JTextField tfminimumFlightTime;
 	private JTextField tfmaxPreventiveAirports;
 	private JTextField tfminimumStopoverTime;
 	private JTextField tfmaximumStopoverTime;
 	private JTextField tfearliestBookingTime;
 	private JTextField tflatestBookingCancellationTime;
+	//text field for setting ticket class
 	private JTextField inputNameClass;
 	private JTextField inputNamePercent;
+	//create table for ticket class
 	private JTable table_1;
 	static JPanel contentPane;
 	DefaultTableModel model;
 	private DefaultTableModel modelTicketLevel;
 	private JLabel lbearliestBookingTime;
 	public Parameters settingValue = new Parameters();
+	private Button btInsertAirport;
 	
+	//------------------------------setting main------------------------------------------------------
 	public Setting() throws ClassNotFoundException, SQLException {
 		setBackground(new Color(240, 240, 240));
 		setBounds(0, 71, 1500, 650);
 		setLayout(null);
 		
-		
-		//Pannel san bay 
+		//-----------------------------airport table--------------------------------------------------
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 0, 1520, 297);
 		add(panel);
 		panel.setLayout(null);
-		
-		
-		
+		//create airport label
 		JLabel lblNewLabel = new JLabel("SÂN BAY");
 		lblNewLabel.setForeground(new Color(0, 0, 160));
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setBounds(741, 5, 88, 25);
 		panel.add(lblNewLabel);
-		// Tạo bảng cho dữ liệu sân bay
-		table = new JTable(); // Tạo một JTable mới
+		// create airport table
+		table = new JTable(); 
 		table.setSurrendersFocusOnKeystroke(true);
 		table.setColumnSelectionAllowed(true);
 		table.setCellSelectionEnabled(true);
 		table.setFont(new Font("Times New Roman", Font.BOLD, 15)); // Thiết lập font cho bảng
-		
+		//table model
         model = new DefaultTableModel();
         Object[] column = {"Tên sân bay", "Tên thành phố", "Tên đất nước"};
         model.setColumnIdentifiers(column);
         table.setModel(model);
-		
 		table.setRowHeight(30);
-		
-		//LẤY DANH SÁCH SÂN BAY TỪ AIRPORTDAL
+		//load airport data from database
         try {
         	ResultSet rs = AirportDAO.selectAll();
         	loadRsToTable(rs);      
         } catch (SQLException | ClassNotFoundException ex) {
             ex.printStackTrace();
-        }
-        
-		
-        // Thêm bảng vào panel và panel vào frame
+        }	
+        //add table to panel
         panel.add(new JScrollPane(table));
         add(panel);
-
-		// Tạo thanh cuộn cho bảng
+		//create scroll pane for table
 		JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setBounds(10, 40, 770, 257); // Thiết lập vị trí và kích thước của thanh cuộn
-
-		// Thêm thanh cuộn vào panel
 		panel.add(scrollPane);
+		//setting click table
+				table.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						int row = table.getSelectedRow();
+						if(row != -1) {
+							btInsertAirport.setVisible(false);
+							//String NameAirport = table.getValueAt(row, 0).toString();
+							/*
+							try (ResultSet rs = AirportDAO.findAPbyName(NameAirport)){
+								
+							}
+							*/
+							inputNameAirport.setText(table.getValueAt(row, 0).toString());
+							inputNameCity.setText(table.getValueAt(row, 1).toString());
+							inputNameCountry.setText(table.getValueAt(row, 2).toString());
+							/*
+							JTextField inputNameCity;
+							JTextField inputNameCountry;
+							*/
+						}
+						
+					}
+				});
 		
-		//pannal sửa sân bay
+		//--------------------------------airport input-----------------------------------------
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_1.setBounds(790, 40, 706, 257);
@@ -151,8 +174,9 @@ public class Setting extends JPanel {
 		inputNameCountry.setBounds(161, 147, 334, 24);
 		panel_1.add(inputNameCountry);
 		
-		//btn insert Airport
-		Button btInsertAirport = new Button("Thêm ");
+		//button to insert airport to table
+		btInsertAirport = new Button("Thêm ");
+		btInsertAirport.setFont(new Font("Arial", Font.BOLD, 14));
 		btInsertAirport.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        try {
@@ -200,24 +224,77 @@ public class Setting extends JPanel {
 		        }
 		    }
 		});
-		
-		
+		//setting design for button
 		btInsertAirport.setForeground(new Color(255, 255, 255));
 		btInsertAirport.setBackground(new Color(3, 4, 94));
-		btInsertAirport.setBounds(95, 210, 99, 37);
+		btInsertAirport.setBounds(33, 179, 576, 50);
 		panel_1.add(btInsertAirport);
 		
+		//button update airport
 		Button btUpdate = new Button("Cập nhập");
+		btUpdate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		btUpdate.setFont(new Font("Arial", Font.BOLD, 14));
 		btUpdate.setForeground(new Color(255, 255, 255));
 		btUpdate.setBackground(new Color(3, 4, 94));
-		btUpdate.setBounds(253, 210, 99, 37);
+		btUpdate.setBounds(46, 199, 168, 48);
 		panel_1.add(btUpdate);
 		
+		
+		//button delete airport
 		Button btDelete = new Button("Xóa");
+		btDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AirportDAO.deleteByName(inputNameAirport.getText());
+				inputNameAirport.setText("");
+                inputNameCity.setText("");
+                inputNameCountry.setText("");
+                // Load lại dữ liệu lên JTable
+
+                btInsertAirport.setVisible(true);
+                ResultSet rs;
+				try {
+					rs = AirportDAO.countAirport();
+					if (rs.next()) {
+						ResultSet updatedRs = AirportDAO.selectAll();
+		                loadRsToTable(updatedRs);
+					}
+					
+				} catch (ClassNotFoundException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		btDelete.setFont(new Font("Arial", Font.BOLD, 14));
 		btDelete.setForeground(new Color(255, 255, 255));
 		btDelete.setBackground(new Color(192, 192, 192));
-		btDelete.setBounds(396, 210, 99, 37);
+		btDelete.setBounds(267, 199, 159, 48);
 		panel_1.add(btDelete);
+		
+		
+		//button cancel airport
+		Button btCancel = new Button("Hủy");
+		btCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				inputNameAirport.setText("");
+				inputNameCity.setText("");
+				inputNameCountry.setText("");
+				btInsertAirport.setVisible(true);
+			}
+		});
+		btCancel.setFont(new Font("Arial", Font.BOLD, 14));
+		btCancel.setActionCommand("Hủy");
+		btCancel.setForeground(Color.WHITE);
+		btCancel.setBackground(new Color(128, 128, 128));
+		btCancel.setBounds(472, 199, 137, 48);
+		panel_1.add(btCancel);
+		
+		
+		
 		
 		//cai dat co ban 
 		JPanel panel_1_1 = new JPanel();
@@ -402,6 +479,7 @@ public class Setting extends JPanel {
 		panel_1_2.add(inputNamePercent);
 		
 		Button btnThemTicketClass = new Button("Thêm ");
+		btnThemTicketClass.setFont(new Font("Arial", Font.BOLD, 14));
 		btnThemTicketClass.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -448,20 +526,26 @@ public class Setting extends JPanel {
 		});
 		btnThemTicketClass.setForeground(Color.WHITE);
 		btnThemTicketClass.setBackground(new Color(3, 4, 94));
-		btnThemTicketClass.setBounds(426, 180, 99, 37);
+		btnThemTicketClass.setBounds(416, 180, 410, 37);
 		panel_1_2.add(btnThemTicketClass);
 		
 		Button btnUpdateTicketClass = new Button("Cập nhập");
+		btnUpdateTicketClass.setFont(new Font("Arial", Font.BOLD, 14));
 		btnUpdateTicketClass.setForeground(Color.WHITE);
 		btnUpdateTicketClass.setBackground(new Color(3, 4, 94));
-		btnUpdateTicketClass.setBounds(584, 180, 99, 37);
+		btnUpdateTicketClass.setBounds(416, 180, 131, 37);
 		panel_1_2.add(btnUpdateTicketClass);
 		
-		Button button_2_1 = new Button("Hủy");
-		button_2_1.setForeground(Color.WHITE);
-		button_2_1.setBackground(Color.LIGHT_GRAY);
-		button_2_1.setBounds(727, 180, 99, 37);
-		panel_1_2.add(button_2_1);
+		Button buttonDeleteTicketClass = new Button("Xóa");
+		buttonDeleteTicketClass.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		buttonDeleteTicketClass.setFont(new Font("Arial", Font.BOLD, 14));
+		buttonDeleteTicketClass.setForeground(Color.WHITE);
+		buttonDeleteTicketClass.setBackground(Color.LIGHT_GRAY);
+		buttonDeleteTicketClass.setBounds(573, 180, 123, 37);
+		panel_1_2.add(buttonDeleteTicketClass);
 		
 		JLabel lbHangVe = new JLabel("HẠNG VÉ");
 		lbHangVe.setHorizontalAlignment(SwingConstants.CENTER);
@@ -494,6 +578,13 @@ public class Setting extends JPanel {
 		}
 		scrollPane_1.setViewportView(table_1);
 		
+		Button buttonCancelTicketClass = new Button("Hủy ");
+		buttonCancelTicketClass.setForeground(Color.WHITE);
+		buttonCancelTicketClass.setFont(new Font("Arial", Font.BOLD, 14));
+		buttonCancelTicketClass.setBackground(new Color(128, 128, 128));
+		buttonCancelTicketClass.setBounds(714, 180, 112, 37);
+		panel_1_2.add(buttonCancelTicketClass);
+		
 	}
 	
 	//load data len teable tai bang setting 
@@ -502,8 +593,8 @@ public class Setting extends JPanel {
 		model.setRowCount(0);
 		while(rs.next()) {
 			model.addRow(new Object[] {
-					rs.getString("AirportID"),
 					rs.getString("AirportName"),
+					rs.getString("CityName"),
 					rs.getString("CountryName"),
 					
 			});
@@ -567,5 +658,4 @@ public class Setting extends JPanel {
 		}
 		return sb.toString();
 	}
-	
 }
