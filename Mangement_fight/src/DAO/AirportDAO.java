@@ -17,7 +17,7 @@ public class AirportDAO implements DAOInterface<Airport> {
 	public static AirportDAO getInstance() {
 		return new AirportDAO();
 	}
-	//ham insert san bay 
+	//----------------------------function insert airport------------------------------------
 	@Override
 	public int insert(Airport t) {
 	    Connection con = null;
@@ -59,7 +59,7 @@ public class AirportDAO implements DAOInterface<Airport> {
 	    return rowsAffected;
 	}
 
-	//ham update san bay
+	//----------------------------------------function update airport------------------------------
 	@Override
 	public int update(Airport t) {
 	    Connection con = null;
@@ -99,7 +99,7 @@ public class AirportDAO implements DAOInterface<Airport> {
 	    return rowsAffected;
 	}
 	
-	//ham xoa san bay
+	//-------------------------------function delete airport----------------------------------------
 	@Override
 	public int delete(Airport t) {
 	    Connection con = null;
@@ -136,9 +136,8 @@ public class AirportDAO implements DAOInterface<Airport> {
 	    return rowsAffected;
 	}
 	
+	//--------------------------function sellect all airport--------------------------------
 	public static ResultSet selectAll() throws SQLException, ClassNotFoundException {
-	    
-	    //thu cua thay
 		Connection connect = null;
 	    PreparedStatement stmt = null;
 	    ResultSet rs = null;
@@ -151,17 +150,11 @@ public class AirportDAO implements DAOInterface<Airport> {
 	    } catch (SQLException ex) {
 	       Logger.getLogger(null);
 	       throw ex;
-	    } /*finally {
-	        if (stmt !=null &&!stmt.isClosed()) {
-	        	stmt.close();
-	        }
-	        if(connect != null && !connect.isClosed()) {
-	        	connect.close();
-	        }
-	    }*/
+	    } 
 		return rs;
 	}
 	
+	//-----------------------function count airport to generate id airport--------------------------
 	public static ResultSet countAirport() throws SQLException, ClassNotFoundException {
         Connection connect = null;
         PreparedStatement stmt = null;
@@ -179,14 +172,14 @@ public class AirportDAO implements DAOInterface<Airport> {
     }
 
 	
-	//tim san bay theo dia chi ip
+	//---------------------------------function find airport by airport id---------------------------------
 	@Override
 	public Airport selectById(Airport t) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 	
-	//tim theo dieu kien 
+	//---------------------------------function find airport by airport name---------------------------------
 	@Override
 	public ArrayList<Airport> selectByCondition(String condition) {
 		// TODO Auto-generated method stub
