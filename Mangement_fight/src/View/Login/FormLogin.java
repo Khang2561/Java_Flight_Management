@@ -8,6 +8,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import View.Admin.FormAdmin;
+
 import java.awt.Cursor;
 
 
@@ -26,6 +28,7 @@ public class FormLogin extends JFrame {
 	JPanel panelLogin;
 	JPanel panelForgotPassword1;
 	JPanel panelRegister;
+	FormAdmin formAdmin = new FormAdmin();
 		
 	/**
 	 * Launch the application.
@@ -78,7 +81,7 @@ public class FormLogin extends JFrame {
 		
 		
 		//hien thi form dang nhap
-		panelLogin = new loggin_form();
+		panelLogin = new loggin_form(this, formAdmin);
 		panelForgotPassword1 = new ForgotPassword1();
 		panelRegister = new Register();
         panelLogin.setBounds(417, 44, 300, 406);

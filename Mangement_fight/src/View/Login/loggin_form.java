@@ -6,10 +6,19 @@ import javax.swing.JLayeredPane;
 
 import java.awt.Font;
 import javax.swing.JTextField;
+
+import DAO.AAADAO;
+import DAO.PermissionDAO;
+import Model.Account;
+import View.Admin.Admin_header;
+import View.Admin.FormAdmin;
+
 import javax.swing.JPasswordField;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Button;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -23,9 +32,15 @@ public class loggin_form extends JPanel {
     public JLabel lblForgotPassword;
     private JLabel lbl2;
     public JLabel lblSignUp;
+    private FormLogin formLogin;
+    private FormAdmin formAdmin;
 
 
-    public loggin_form() {
+    public loggin_form(FormLogin formLogin, FormAdmin formAdmin) {
+    	
+    	this.formAdmin = formAdmin;
+    	this.formLogin = formLogin;
+    	
 		setBackground(new Color(255, 255, 255));
 		setBounds(100, 100, 300, 406);
 		setLayout(null);
@@ -89,6 +104,30 @@ public class loggin_form extends JPanel {
 		layeredPane.add(lblSignUp, JLayeredPane.DEFAULT_LAYER);
 		
 		Button btnLogin = new Button("Đăng nhập");
+		btnLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					
+					String username = txtUsername.getText();
+					String password = txtPassword.getText();
+					
+					 // Create an instance of AAADAO
+		            AAADAO dao = AAADAO.getInstance();
+		            
+		            // Call the login method
+		            Account account = dao.login(username, password, formLogin, formAdmin);
+		            
+		            PermissionDAO permisson = new PermissionDAO();
+		            
+		            String permissonCode = permisson.getPMS(account.getRoleID());
+		            
+		            permisson.setPermsionAccess(permissonCode, Admin_header.buttons);
+					
+				}catch (Exception ex) {
+					System.out.println(ex.getMessage());
+				}
+			}
+		});
 		btnLogin.setForeground(new Color(255, 255, 255));
 		btnLogin.setFont(new Font("Arial", Font.PLAIN, 13));
 		btnLogin.setBackground(new Color(128, 152, 249));

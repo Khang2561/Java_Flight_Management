@@ -1,5 +1,6 @@
 package DAO;
 
+import java.awt.Button;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -200,9 +201,40 @@ public class PermissionDAO implements DAOInterface<Parameters> {
 	            }
 	        }
 			return tmp;
-		}
-		
-    	
+		}	
     }
+	
+	public String getPMS(String roleID) throws Exception {
+		 try {
+		        // Establish a connection to your database
+		        Connection conn = JDBCUtil.getConnection();
 
+		        // Prepare a SQL query
+		        String sql = "SELECT PermissionCode FROM Permission WHERE RoleID = ?";
+		        PreparedStatement stmt = conn.prepareStatement(sql);
+		        stmt.setString(1, roleID);
+		        ResultSet rs = stmt.executeQuery();
+
+		        if (rs.next()) {
+		            return rs.getString("PermissionCode");
+		        } else {
+		            throw new Exception("RoleID not found in Permission table");
+		        }
+
+		    } catch (SQLException ex) {
+		        ex.printStackTrace();
+		        return null;
+		    }
+	}
+	
+	public void setPermsionAccess(String permissionCode, Button[] buttons) {
+	    for (int i = 0; i < permissionCode.length(); i++) {
+	        char bit = permissionCode.charAt(i);
+	        if (bit == '1') {
+	            buttons[i].setVisible(true); // grant access
+	        } else if (bit == '0') {
+	            buttons[i].setVisible(false); // deny access
+	        }
+	    }
+	}
 }
