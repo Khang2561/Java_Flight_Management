@@ -40,27 +40,17 @@ import javax.swing.JRadioButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.Random;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 public class AccountAndPermission extends JPanel {
 
 	public static final long serialVersionUID = 1L;
-	//account
 	public JTable table;
 	public JTextField tfHoVaTen;
 	public JTextField tfEmail;
 	public JTextField tfSDT;
 	public JTextField tfMK;
-	private Button buttonCapNhap;
-	private Button buttonXoa;
-	private Button buttonHuy;
-	
-	//main pane
 	static JPanel contentPane ;
-	
-	//permission for account
 	public DefaultTableModel modelAccount;
 	private JRadioButton rdbtnSQTChatBox;
 	private JRadioButton rdbtnSQTChuyenBay;
@@ -86,22 +76,27 @@ public class AccountAndPermission extends JPanel {
 	private JRadioButton rdbtnQTChatBox;
 	private JRadioButton rdbtnBGDChatBox;
 	private JRadioButton rdbtnNhanVien6;
+	private Button buttonCapNhap;
+	private Button buttonXoa;
+	private Button buttonHuy;
 	
-	//main AccountAndPermission
+
+	
+
+	/**
+	 * Create the panel.
+	 */
 	public AccountAndPermission() throws ClassNotFoundException, SQLException{
-		
-		//-------------------------setting basic for pane----------------------------------
 		setBackground(new Color(240, 240, 240));
 		setBounds(0, 71, 1500, 642);
 		setLayout(null);
+		//PHAN QUYEN CHO CÁC TÀI KHOẢN
 		JPanel panel = new JPanel();
 		panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel.setBounds(0, 45, 1500, 262);
 		add(panel);
 		panel.setLayout(null);
 		
-		
-		//-----------------------------label---------------------------------------------------- 
 		JLabel lblNewLabel_1 = new JLabel("Nhóm quyền \r\n");
 		lblNewLabel_1.setBackground(new Color(114, 114, 114));
 		lblNewLabel_1.setFont(new Font("Times New Roman", Font.BOLD, 17));
@@ -179,22 +174,6 @@ public class AccountAndPermission extends JPanel {
 		lblNewLabel_1_1_2_1_2.setBounds(0, 204, 146, 49);
 		panel.add(lblNewLabel_1_1_2_1_2);
 		
-		JLabel lblNewLabel = new JLabel("QUYỀN HẠNG CỦA CÁC NHÓM TÀI KHOẢN");
-		lblNewLabel.setForeground(new Color(0, 0, 160));
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(0, 0, 480, 35);
-		add(lblNewLabel);
-		
-		JLabel lblQuynHngCa = new JLabel("QUYỀN HẠNG CỦA CÁC TÀI KHOẢN");
-		lblQuynHngCa.setHorizontalAlignment(SwingConstants.CENTER);
-		lblQuynHngCa.setForeground(new Color(0, 0, 160));
-		lblQuynHngCa.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblQuynHngCa.setBounds(10, 331, 376, 35);
-		add(lblQuynHngCa);
-		
-		
-		//-------------------radio button for permission-------------------------------------------
 		rdbtnSQTChuyenBay = new JRadioButton("");
 		rdbtnSQTChuyenBay.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnSQTChuyenBay.setBounds(223, 55, 21, 41);
@@ -315,42 +294,60 @@ public class AccountAndPermission extends JPanel {
 		rdbtnNhanVien6.setBounds(1377, 204, 21, 41);
 		panel.add(rdbtnNhanVien6);
 		
+		JLabel lblNewLabel = new JLabel("QUYỀN HẠNG CỦA CÁC NHÓM TÀI KHOẢN");
+		lblNewLabel.setForeground(new Color(0, 0, 160));
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setBounds(0, 0, 480, 35);
+		add(lblNewLabel);
 		
-		//--------------table for account ----------------------------------
-		//create account table
-		table = new JTable(); 
+		JLabel lblQuynHngCa = new JLabel("QUYỀN HẠNG CỦA CÁC TÀI KHOẢN");
+		lblQuynHngCa.setHorizontalAlignment(SwingConstants.CENTER);
+		lblQuynHngCa.setForeground(new Color(0, 0, 160));
+		lblQuynHngCa.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblQuynHngCa.setBounds(10, 331, 376, 35);
+		add(lblQuynHngCa);
+		
+		
+		
+		
+		
+		
+		//BANG CHUA QUYEN CUA CAC TAI KHOAN
+		table = new JTable(); // Tạo một JTable mới
 		table.setSurrendersFocusOnKeystroke(true);
 		table.setColumnSelectionAllowed(true);
 		table.setCellSelectionEnabled(true);
-		//setting basic for table
-		table.setFont(new Font("Times New Roman", Font.BOLD, 15)); 
+		table.setFont(new Font("Times New Roman", Font.BOLD, 15)); // Thiết lập font cho bảng
 		modelAccount = new DefaultTableModel();
 		Object [] column = {"Tên tài khoản","Email","Nhóm quyền"};
 		modelAccount.setColumnIdentifiers(column);
 		table.setModel(modelAccount);
 		table.setRowHeight(30);
-		//load data to table from database
+		//LAY DANH SACH TAI KHOANG TU DATA 
 		try {
 			ResultSet rs = AAADAO.selectAll();
 			loadRsToTable(rs);
 		}catch(SQLException | ClassNotFoundException ex){
 			ex.printStackTrace();
 		}
-		// Create scrollpane for account table
+
+		// Tạo thanh cuộn cho bảng
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(10, 368, 630, 264); 
+		
+		scrollPane.setBounds(10, 368, 630, 264); // Thiết lập vị trí và kích thước của thanh cuộn
+		// Thêm thanh cuộn vào panel
 		add(scrollPane);
 		scrollPane.setViewportView(table);
 		
 		
-		//-------------------create panel to add account---------------------------------
+		//pannel tạo tài khoảng
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_1.setBounds(693, 333, 786, 299);
 		add(panel_1);
 		panel_1.setLayout(null);
 		
-		//add jlabel for account panel
 		JLabel lbHoVaTen = new JLabel("Họ và tên ");
 		lbHoVaTen.setBounds(10, 10, 140, 30);
 		lbHoVaTen.setFont(new Font("Times New Roman", Font.BOLD, 21));
@@ -376,7 +373,6 @@ public class AccountAndPermission extends JPanel {
 		lbNhomQuyen.setBounds(10, 170, 173, 30);
 		panel_1.add(lbNhomQuyen);
 		
-		//jtextfile for account pannel
 		tfHoVaTen = new JTextField();
 		tfHoVaTen.setBounds(232, 10, 522, 28);
 		panel_1.add(tfHoVaTen);
@@ -396,7 +392,7 @@ public class AccountAndPermission extends JPanel {
 		tfMK.setColumns(10);
 		tfMK.setBounds(232, 130, 522, 28);
 		panel_1.add(tfMK);
-		//combo box for add permission
+		
 		JComboBox cbQuyen = new JComboBox();
 		cbQuyen.setFont(new Font("Times New Roman", Font.BOLD, 17));
 		cbQuyen.setModel(new DefaultComboBoxModel(new String[] {"Siêu quản trị", "Quản trị", "Ban giám đốc", "Nhân viên"}));
@@ -404,98 +400,80 @@ public class AccountAndPermission extends JPanel {
 		panel_1.add(cbQuyen);
 		
 		
-		//--------------------create button to add account--------------------------------
+		//button tạo tài khoảng 
 		Button buttonCreateAccount = new Button("Tạo tài khoản");
 		buttonCreateAccount.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) {
 		        try {
 		            if (tfHoVaTen.getText().isEmpty() || tfEmail.getText().isEmpty() || tfSDT.getText().isEmpty() || tfMK.getText().isEmpty()) {
 		                JOptionPane.showMessageDialog(null, "Xin vui lòng nhập đầy đủ thông tin!", "Thông báo", JOptionPane.WARNING_MESSAGE);
 		            } else {
-		                // Kiểm tra định dạng email
-		                String emailPattern = "^[a-zA-Z0-9_]+@[a-zA-Z0-9]+(\\.[a-zA-Z]{2,})+$"; // Biểu thức chính quy kiểm tra định dạng email
-		                Pattern emailPattern1 = Pattern.compile(emailPattern);
-		                Matcher emailMatcher = emailPattern1.matcher(tfEmail.getText());
-
-		                if (!emailMatcher.matches()) {
-		                    JOptionPane.showMessageDialog(null, "Địa chỉ email không hợp lệ!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+		                // Tiếp tục xử lý tạo tài khoản khi thông tin được nhập đầy đủ
+		                boolean isAccountExists = AAADAO.isEmail(tfEmail.getText());
+		                if (isAccountExists) {
+		                    JOptionPane.showMessageDialog(null, "Email đã tồn tại!", "Thông báo", JOptionPane.WARNING_MESSAGE);
 		                } else {
-		                    // Kiểm tra định dạng số điện thoại
-		                    String phonePattern = "^\\d{10}$"; // Biểu thức chính quy kiểm tra số điện thoại có 10 số
-		                    Pattern phonePattern1 = Pattern.compile(phonePattern);
-		                    Matcher phoneMatcher = phonePattern1.matcher(tfSDT.getText());
-
-		                    if (!phoneMatcher.matches()) {
-		                        JOptionPane.showMessageDialog(null, "Số điện thoại phải có 10 số!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+		                    // Nếu tài khoản chưa tồn tại, tiến hành thêm mới
+		                    String inputAccountId = generateUniqueAccountId(); // Tạo mã tài khoản mới không trùng
+		                    Account acc = new Account();
+		                    acc.setAccountID(inputAccountId);
+		                    acc.setName(tfHoVaTen.getText());
+		                    acc.setEmail(tfEmail.getText());
+		                    acc.setPhone(tfSDT.getText());
+		                    acc.setPassword(tfMK.getText());
+		                    acc.setCreated1();
+		                    String selectedRole = (String) cbQuyen.getSelectedItem();
+		                    if (selectedRole.equals("Siêu quản trị")) {
+		                        acc.setRoleID("RL0001");
+		                    } else if (selectedRole.equals("Quản trị")) {
+		                        acc.setRoleID("RL0002");
+		                    } else if (selectedRole.equals("Ban giám đốc")) {
+		                        acc.setRoleID("RL0003");
+		                    } else if (selectedRole.equals("Nhân viên")) {
+		                        acc.setRoleID("RL0004");
 		                    } else {
-		                        // must fill full info
-		                        boolean isAccountExists = AAADAO.isEmail(tfEmail.getText());
-		                        if (isAccountExists) {
-		                            JOptionPane.showMessageDialog(null, "Email đã tồn tại!", "Thông báo", JOptionPane.WARNING_MESSAGE);
-		                        } else {
-		                            // continue if have not account
-		                            String inputAccountId = generateUniqueAccountId(); // create id for new account not duplicate
-		                            Account acc = new Account();
-		                            acc.setAccountID(inputAccountId);
-		                            acc.setName(tfHoVaTen.getText());
-		                            acc.setEmail(tfEmail.getText());
-		                            acc.setPhone(tfSDT.getText());
-		                            acc.setPassword(tfMK.getText());
-		                            acc.setCreated1();
-		                            String selectedRole = (String) cbQuyen.getSelectedItem();
-		                            if (selectedRole.equals("Siêu quản trị")) {
-		                                acc.setRoleID("RL0001");
-		                            } else if (selectedRole.equals("Quản trị")) {
-		                                acc.setRoleID("RL0002");
-		                            } else if (selectedRole.equals("Ban giám đốc")) {
-		                                acc.setRoleID("RL0003");
-		                            } else if (selectedRole.equals("Nhân viên")) {
-		                                acc.setRoleID("RL0004");
-		                            } else {
-		                                acc.setRoleID("RL0004");
-		                            }
-
-		                            AAADAO.getInstance().insert(acc);
-
-		                            // success info
-		                            JOptionPane.showMessageDialog(null, "Đã thêm tài khoản thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-
-		                            // delete form 
-		                            tfHoVaTen.setText("");
-		                            tfEmail.setText("");
-		                            tfSDT.setText("");
-		                            tfMK.setText("");
-
-		                            // reload data to table
-		                            ResultSet updatedRs = AAADAO.selectAll();
-		                            loadRsToTable(updatedRs);
-		                        }
+		                        acc.setRoleID("RL0004");
 		                    }
+
+		                    AAADAO.getInstance().insert(acc);
+
+		                    // Thông báo thêm thành công
+		                    JOptionPane.showMessageDialog(null, "Đã thêm tài khoản thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+
+		                    // Xóa nội dung trong các trường nhập liệu
+		                    tfHoVaTen.setText("");
+		                    tfEmail.setText("");
+		                    tfSDT.setText("");
+		                    tfMK.setText("");
+
+		                    // Load lại dữ liệu lên JTable
+		                    ResultSet updatedRs = AAADAO.selectAll();
+		                    loadRsToTable(updatedRs);
 		                }
 		            }
 		        } catch (SQLException ex) {
 		            ex.printStackTrace();
-		            // process if error in database
+		            // Xử lý ngoại lệ khi có lỗi xảy ra khi truy vấn cơ sở dữ liệu
 		        } catch (ClassNotFoundException ex) {
 		            ex.printStackTrace();
-		            // ClassNotFoundException
+		            // Xử lý ngoại lệ ClassNotFoundException
 		            JOptionPane.showMessageDialog(null, "Không tìm thấy lớp cơ sở dữ liệu: " + ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
 		        }
 		    }
 		});
-		//setting view for button
 		buttonCreateAccount.setForeground(new Color(255, 255, 255));
 		buttonCreateAccount.setBackground(new Color(0, 0, 160));
 		buttonCreateAccount.setFont(new Font("Times New Roman", Font.BOLD, 16));
 		buttonCreateAccount.setBounds(25, 249, 751, 44);
 		panel_1.add(buttonCreateAccount);
 		
-		//update button
+		//Button cap nhap 
 		buttonCapNhap = new Button("Cập nhập ");
 		buttonCapNhap.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        // Retrieve existing email
 		        String existingEmail = tfEmail.getText();
+
 		        Account AC = new Account();
 		        AC.setName(tfHoVaTen.getText());
 		        AC.setEmail(existingEmail); // Set existing email
@@ -514,7 +492,10 @@ public class AccountAndPermission extends JPanel {
 		        } else {
 		            AC.setRoleID("RL0004");
 		        }
-		        // return table after update 
+
+		        
+
+		        // Perform update if email is not being changed
 		        AAADAO.updateAC(AC);
 		        tfHoVaTen.setText("");
 		        tfEmail.setText("");
@@ -534,14 +515,14 @@ public class AccountAndPermission extends JPanel {
 		        }
 		    }
 		});
-		//setting view for update button
+		
+		
 		buttonCapNhap.setForeground(Color.WHITE);
 		buttonCapNhap.setFont(new Font("Times New Roman", Font.BOLD, 16));
 		buttonCapNhap.setBackground(new Color(0, 0, 160));
 		buttonCapNhap.setBounds(25, 250, 249, 39);
 		panel_1.add(buttonCapNhap);
 		
-		//create delete button
 		buttonXoa = new Button("Xóa ");
 		buttonXoa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -553,7 +534,7 @@ public class AccountAndPermission extends JPanel {
                 cbQuyen.setSelectedIndex(0);
                 buttonCreateAccount.setVisible(true);
                 tfEmail.setEditable(true);
-                // reload data to table
+                // Load lại dữ liệu lên JTable
                 ResultSet updatedRs;
 				try {
 					updatedRs = AAADAO.selectAll();
@@ -565,18 +546,16 @@ public class AccountAndPermission extends JPanel {
                 
 			}
 		});
-		//setting view for delete view
 		buttonXoa.setForeground(Color.WHITE);
 		buttonXoa.setFont(new Font("Times New Roman", Font.BOLD, 16));
 		buttonXoa.setBackground(new Color(192, 192, 192));
 		buttonXoa.setBounds(311, 250, 212, 39);
 		panel_1.add(buttonXoa);
 		
-		//create cancel button
 		buttonHuy = new Button("Hủy");
 		buttonHuy.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// clear form
+				// Xóa nội dung trong các trường nhập liệu
                 tfHoVaTen.setText("");
                 tfEmail.setText("");
                 tfSDT.setText("");
@@ -586,7 +565,6 @@ public class AccountAndPermission extends JPanel {
                 tfEmail.setEditable(true);
 			}
 		});
-		//setting view for cancel button
 		buttonHuy.setForeground(Color.WHITE);
 		buttonHuy.setFont(new Font("Times New Roman", Font.BOLD, 16));
 		buttonHuy.setBackground(new Color(128, 128, 128));
@@ -594,22 +572,22 @@ public class AccountAndPermission extends JPanel {
 		panel_1.add(buttonHuy);
 		
 		
-		//-----------Create and process for save permission group -----------------------------------
+		//nut luu quyen 
 		Button buttonLuuAp = new Button("Lưu");
 		buttonLuuAp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//string to save permission flag
 				String ACNV = "";
 				String ACSQT = "";
 				String ACQT = "";
 				String ACBGD ="";
-				//list radio button
+				
+				
 				JRadioButton[] nhanVienRadios = {rdbtnNhanVien1, rdbtnNhanVien2, rdbtnNhanVien3, rdbtnNhanVien4, rdbtnNhanVien5, rdbtnNhanVien6};
 				JRadioButton[] sieuQuanTriRadios = {rdbtnSQTChuyenBay, rdbtnSQTVeChuyenBay,rdbtnSQTMayBay, rdbtnSQLTKvaPP, rdbtnSQTCaiDat,rdbtnSQTChatBox};
 				JRadioButton[] quanTriRadios = {rdbtnQTChuyenBay, rdbtnQTVeChuyenBay, rdbtnQTMayBay, rdbtnQTTKvaPQ, rdbtnQTCaiDat, rdbtnQTChatBox};
 				JRadioButton[] bGDRadios = {rdbtnBGDChuyenBay, rdbtnBGDVeChuyenBay, rdbtnBGDMayBay, rdbtnBGDTKvaPQ, rdbtnBGDCaiDat, rdbtnBGDChatBox};
 				
-				//super admin
+				//Sieu quan tri
 				boolean tkvaPPSelected = rdbtnSQLTKvaPP.isSelected();
 				if(tkvaPPSelected == false) {
 					
@@ -630,7 +608,7 @@ public class AccountAndPermission extends JPanel {
 			            }
 			        }
 					
-					//Admin
+					//Quan tri
 					for (JRadioButton radioButton : quanTriRadios) {
 			            if (radioButton.isSelected()) {
 			                ACQT += "1";
@@ -638,7 +616,7 @@ public class AccountAndPermission extends JPanel {
 			                ACQT += "0";
 			            }
 			        }
-					//CEO
+					//BGD
 					for (JRadioButton radioButton : bGDRadios) {
 			            if (radioButton.isSelected()) {
 			                ACBGD += "1";
@@ -646,7 +624,7 @@ public class AccountAndPermission extends JPanel {
 			                ACBGD += "0";
 			            }
 			        }
-					//Staff
+					//nhan vien
 			        for (JRadioButton radioButton : nhanVienRadios) {
 			            if (radioButton.isSelected()) {
 			                ACNV += "1";
@@ -668,14 +646,13 @@ public class AccountAndPermission extends JPanel {
 				}
 			}
 		});
-		//setting view for save
 		buttonLuuAp.setForeground(Color.WHITE);
 		buttonLuuAp.setFont(new Font("Times New Roman", Font.BOLD, 16));
 		buttonLuuAp.setBackground(new Color(0, 0, 160));
 		buttonLuuAp.setBounds(1328, 0, 151, 39);
 		add(buttonLuuAp);
 		
-		//click row in account table event
+		//su kien chong trong ban account
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -718,9 +695,6 @@ public class AccountAndPermission extends JPanel {
 		
 		loadPermit();
 	}
-	
-	//--------------------------function-------------------------------------------
-	//function generate account function
 	private String generateUniqueAccountId() {
 		String accountIdPrefix = "AC"; // Tiền tố của mã tài khoản
 		int accountIdDigits = 3; // Số chữ số sau tiền tố
