@@ -31,8 +31,8 @@ public class FormAdmin extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					//setting value default 
-					
+					//setting value default .
+					//dsadadas
 					/*
 					Parameters settingValue = new Parameters();
 					ResultSet rs = ParametersDAO.selectAll();
