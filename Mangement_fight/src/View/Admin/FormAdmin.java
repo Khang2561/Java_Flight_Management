@@ -22,7 +22,7 @@ public class FormAdmin extends JFrame {
 	private static final long serialVersionUID = 1L;
 	static JPanel contentPane;
 	/**
-	 * Launch the application.
+	 * Launch the application..
 	 */
 	public static void ResetSetting() {
 		
