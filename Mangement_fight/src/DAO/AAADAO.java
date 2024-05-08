@@ -11,10 +11,8 @@ import javax.swing.JOptionPane;
 
 import View.Admin.FormAdmin;
 import View.Login.FormLogin;
-import View.Login.loggin_form;
 
 import Model.Account;
-import Model.Airport;
 import libData.JDBCUtil;
 
 public class AAADAO implements DAOInterface<Account>{
@@ -310,7 +308,8 @@ public class AAADAO implements DAOInterface<Account>{
 		    }	
 		}
 	}
-		
+	
+	// Hàm login
 	public Account login(String username, String password, FormLogin formLogin, FormAdmin formAdmin) {
 	    try {
 	        // Establish a connection to your database
@@ -354,5 +353,5 @@ public class AAADAO implements DAOInterface<Account>{
 	        return null;
 	    }
 	}
-
+	
 }
