@@ -1,23 +1,36 @@
 package View.Login;
 
 import java.awt.EventQueue;
+import java.awt.HeadlessException;
 
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import DAO.AAADAO;
+import Model.Account;
 import View.Admin.FormAdmin;
 
 import java.awt.Cursor;
-
-
-
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Properties;
+import java.util.Random;
 import java.awt.Color;
 
 public class FormLogin extends JFrame {
@@ -25,10 +38,84 @@ public class FormLogin extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private int mouseX, mouseY;
+	private static int otp;
 	JPanel panelLogin;
 	JPanel panelForgotPassword1;
 	JPanel panelRegister;
+	JPanel panelForgotPassword2;
+	JPanel panelForgotPassword3;
 	FormAdmin formAdmin = new FormAdmin();
+	
+	
+	public void switchPanel(JPanel prePanel, JPanel nxtPanel) {
+        
+        contentPane.remove(prePanel);
+        
+        nxtPanel.setBounds(417, 44, 300, 406);
+        contentPane.add(nxtPanel);
+        
+        contentPane.revalidate();
+        contentPane.repaint();
+	}
+	
+	//Hàm gửi mã OTP
+	public static void sendOTP(String to) {
+		// Sender Email
+		final String username = "testjavaemailotp@gmail.com";
+		final String password = "leky jzgd akvd eylc";
+			
+		Properties prop = new Properties();
+	    prop.put("mail.smtp.host", "smtp.gmail.com");
+	    prop.put("mail.smtp.port", "587");
+	    prop.put("mail.smtp.auth", "true");
+	    prop.put("mail.smtp.starttls.enable", "true"); //TLS
+	        
+	        
+	    // Create authenticator
+	    Authenticator auth = new Authenticator() {
+	        	
+	    	@Override
+	    	protected PasswordAuthentication getPasswordAuthentication() {
+	        		
+	    		return new PasswordAuthentication(username, password);
+	    
+	    	}
+	    };
+	        
+	    //Create session
+	    Session session = Session.getInstance(prop, auth);
+	        
+	    // send Email
+	    // create message
+	    MimeMessage msg = new MimeMessage(session);
+	        
+	    try {
+	        	
+	    	msg.addHeader("Content-type", "text/HTML; charset=UTF-8");
+				
+			// Sender
+			msg.setFrom(username);
+				
+			//Recipient
+			msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to, false));
+				
+			// Subject
+			msg.setSubject("Gửi mã xác nhận OTP");
+				
+			// Create random otp 
+			Random random = new Random();
+			otp = random.nextInt(900000) + 100000;
+			msg.setText("Mã OTP: " + otp, "UTF-8");
+				
+			// Send the email
+			Transport.send(msg);
+			
+	    } catch (Exception e) {
+	    	// TODO Auto-generated catch block
+	    	e.printStackTrace();
+	    }
+	}
+	
 		
 	/**
 	 * Launch the application.
@@ -83,23 +170,19 @@ public class FormLogin extends JFrame {
 		//hien thi form dang nhap
 		panelLogin = new loggin_form(this, formAdmin);
 		panelForgotPassword1 = new ForgotPassword1();
-		panelRegister = new Register();
+		panelRegister = new Register();	
+		panelForgotPassword2 = new ForgotPassword2(ForgotPassword1.getEmailText());
+		panelForgotPassword3 = new ForgotPassword3();
         panelLogin.setBounds(417, 44, 300, 406);
         contentPane.add(panelLogin);
-        
         
         //chuyen sang form quen mat khau
         ((loggin_form) panelLogin).lblForgotPassword.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {            
-                
-                contentPane.remove(panelLogin);
-                
-                panelForgotPassword1.setBounds(417, 44, 300, 406);
-                contentPane.add(panelForgotPassword1);
-                
-                contentPane.revalidate();
-                contentPane.repaint();
+            	
+            	switchPanel(panelLogin, panelForgotPassword1);
+            	
             }
         });
         
@@ -108,13 +191,8 @@ public class FormLogin extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {  
                 
-                contentPane.remove(panelForgotPassword1);
-                
-                panelLogin.setBounds(417, 44, 300, 406);
-                contentPane.add(panelLogin);
-                
-                contentPane.revalidate();
-                contentPane.repaint();
+               switchPanel(panelForgotPassword1, panelLogin);
+            	
             }
         });
         
@@ -123,13 +201,8 @@ public class FormLogin extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {            
                 
-                contentPane.remove(panelLogin);
+            	switchPanel(panelLogin, panelRegister);
                 
-                panelRegister.setBounds(417, 44, 300, 406);
-                contentPane.add(panelRegister);
-                
-                contentPane.revalidate();
-                contentPane.repaint();
             }
         });
         
@@ -137,17 +210,122 @@ public class FormLogin extends JFrame {
         ((Register) panelRegister).lblLogin.addMouseListener(new MouseAdapter() {	
             public void mouseClicked(MouseEvent e) {  
                 
-                contentPane.remove(panelRegister);
+            	switchPanel(panelRegister, panelLogin);
                 
-                panelLogin.setBounds(417, 44, 300, 406);
-                contentPane.add(panelLogin);
-                
-                contentPane.revalidate();
-                contentPane.repaint();
             }
         		
         });
-        	    
+        
+        // Gửi mã OTP và chuyển sang panel ForgotPassword2
+        ((ForgotPassword1) panelForgotPassword1).btnGetOTP.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String to = ForgotPassword1.getEmailText();
+				if (to.trim().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Dữ liệu email không được để trống", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+				} else {	
+					try {
+						if(!AAADAO.isEmail(to)) {
+						JOptionPane.showMessageDialog(null, "Email không tồn tại", "Thông báo", JOptionPane.ERROR_MESSAGE);
+						
+						} else {	
+							sendOTP(to);
+							switchPanel(panelForgotPassword1, panelForgotPassword2);
+						}
+					} catch (HeadlessException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (ClassNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}	
+			}
+		});
+        
+        // Quay về panel ForgotPassword1
+        ((ForgotPassword2) panelForgotPassword2).lblReturn.addMouseListener(new MouseAdapter() {	
+            public void mouseClicked(MouseEvent e) {  
+                
+            	switchPanel(panelForgotPassword2, panelForgotPassword1);
+                
+            }	
+        });
+        
+        // Xác nhận OTP và chuyển sang panel ForgotPassword3
+        ((ForgotPassword2) panelForgotPassword2).btnAccept.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			
+				String inputOTP = ForgotPassword2.getOTPText();
+				if (inputOTP.trim().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Dữ liệu OTP không được để trống", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+				} else {
+					if (Integer.parseInt(inputOTP) == otp) {
+						switchPanel(panelForgotPassword2, panelForgotPassword3);
+					} else {
+						JOptionPane.showMessageDialog(null, "Mã OTP không chính xác", "Thông báo", JOptionPane.ERROR_MESSAGE);
+					}
+				}	
+			}
+		});
+        
+        // Quay về panel ForgotPassword2
+        ((ForgotPassword3) panelForgotPassword3).lblReturn.addMouseListener(new MouseAdapter() {	
+            public void mouseClicked(MouseEvent e) {  
+                
+            	switchPanel(panelForgotPassword3, panelForgotPassword2);
+                
+            }	
+        });
+        
+        // Xác nhận thay đổi mật khẩu và quay về panel Login
+        ((ForgotPassword3) panelForgotPassword3).btnAccept.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				String email = ForgotPassword1.getEmailText();
+				String newPassword = ForgotPassword3.getNewPasswordText();
+				String cfmPassword = ForgotPassword3.getConfirmPasswordText();
+				
+				if (newPassword.trim().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Mật khẩu không được để trống", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+				} 
+				else if (cfmPassword.trim().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Mật khẩu nhập lại không được để trống", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+				}
+				else if (!newPassword.equals(cfmPassword)) {
+					JOptionPane.showMessageDialog(null, "Mật khẩu nhập lại không khớp", "Thông báo", JOptionPane.ERROR_MESSAGE);
+				}
+				else {
+				      try {
+			                
+			                ResultSet rs = AAADAO.findACbyEmail(email);
+
+			                // Check if the account exists
+			                if (rs.next()) {
+			                    // Create a new Account object with the new password
+			                    Account account = new Account();
+			    		        account.setAccountID(rs.getString("AccountID"));
+			    		        account.setName(rs.getString("Name"));
+			    		        account.setEmail(rs.getString("Email"));
+			    		        account.setPhone(rs.getString("Phone"));
+			    		        account.setPassword(newPassword);
+			    		        account.getCreated().getTime();
+			    		        account.setRoleID(rs.getString("RoleID"));
+
+			                    // Update the account in the database
+			                    AAADAO.updateAC(account);
+			                    JOptionPane.showMessageDialog(null, "Thay đổi mật khẩu thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+			                    switchPanel(panelForgotPassword3, panelLogin);
+			                }
+			            } catch (SQLException | ClassNotFoundException ex) {
+			                ex.printStackTrace();
+			            }
+				}
+			}	
+		});
+			    	    
         //add anh login
         JLabel lblBackgroundImg = new JLabel("");
         lblBackgroundImg.setBounds(0, 0, 375, 488);

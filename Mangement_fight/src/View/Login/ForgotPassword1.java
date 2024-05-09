@@ -9,6 +9,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -17,8 +18,14 @@ public class ForgotPassword1 extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
-	private JTextField txtEmail;
+	private static JTextField txtEmail;
 	public JLabel lblReturn;
+	Button btnGetOTP;
+		
+	public static String getEmailText() {
+	    return txtEmail.getText();
+	}
+
 
 	/**
 	 * Create the panel.
@@ -44,7 +51,8 @@ public class ForgotPassword1 extends JPanel {
 		lblNewLabel.setBounds(38, 81, 282, 15);
 		add(lblNewLabel);
 		
-		Button btnGetOTP = new Button("Lấy mã OTP");
+		btnGetOTP = new Button("Lấy mã OTP");
+		
 		btnGetOTP.setBackground(new Color(128, 152, 249));
 		btnGetOTP.setForeground(new Color(255, 255, 255));
 		btnGetOTP.setBounds(38, 162, 225, 32);

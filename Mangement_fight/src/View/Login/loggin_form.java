@@ -32,16 +32,10 @@ public class loggin_form extends JPanel {
     public JLabel lblForgotPassword;
     private JLabel lbl2;
     public JLabel lblSignUp;
-    private FormLogin formLogin;
-    private FormAdmin formAdmin;
-
-
+    
     public loggin_form(FormLogin formLogin, FormAdmin formAdmin) {
     	
-    	this.formAdmin = formAdmin;
-    	this.formLogin = formLogin;
-    	
-		setBackground(new Color(255, 255, 255));
+    	setBackground(new Color(255, 255, 255));
 		setBounds(100, 100, 300, 406);
 		setLayout(null);
 		
@@ -149,4 +143,9 @@ public class loggin_form extends JPanel {
         lblMtKhu.setBounds(38, 149, 137, 14);
         layeredPane.add(lblMtKhu);
     }
+
+
+	public loggin_form() {
+		// TODO Auto-generated constructor stub
+	}
 }

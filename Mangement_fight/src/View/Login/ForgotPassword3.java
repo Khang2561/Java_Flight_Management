@@ -1,6 +1,7 @@
 package View.Login;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 
 import javax.swing.JLabel;
@@ -9,13 +10,25 @@ import javax.swing.JPanel;
 import javax.swing.ImageIcon;
 import java.awt.Button;
 import javax.swing.JPasswordField;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ForgotPassword3 extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JPasswordField txtNewPassword;
-	private JPasswordField txtConfirmPassword;
-
+	private static JPasswordField txtNewPassword;
+	private static JPasswordField txtConfirmPassword;
+	static String email;
+	Button btnAccept;
+	JLabel lblReturn;
+	
+	public static String getNewPasswordText() {
+		return txtNewPassword.getText();
+	}
+	
+	public static String getConfirmPasswordText() {
+		return txtConfirmPassword.getText();
+	}
 	/**
 	 * Create the panel.
 	 */
@@ -35,7 +48,7 @@ public class ForgotPassword3 extends JPanel {
         lbl1.setBounds(53, 41, 237, 29);
         add(lbl1);
         
-        Button btnAccept = new Button("Xác nhận");
+        btnAccept = new Button("Xác nhận");
         btnAccept.setBackground(new Color(128, 152, 249));
         btnAccept.setForeground(new Color(255, 255, 255));
         btnAccept.setFont(new Font("Times New Roman", Font.PLAIN, 12));
@@ -52,7 +65,18 @@ public class ForgotPassword3 extends JPanel {
         txtConfirmPassword.setBounds(38, 176, 225, 30);
         layeredPane.add(txtConfirmPassword, JLayeredPane.DEFAULT_LAYER);
         
-		JLabel lblReturn = new JLabel("");
+		lblReturn = new JLabel("");
+		lblReturn.addMouseListener(new MouseAdapter() {
+        	@Override
+        	public void mouseEntered(MouseEvent e) {
+        		lblReturn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        	}
+        	
+        	@Override
+        	public void mouseExited(MouseEvent e) {
+        		lblReturn.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+        	}
+		});
 		lblReturn.setIcon(new ImageIcon(FormLogin.class.getResource("/Resource/return.png")));
 		lblReturn.setBounds(10, 10, 38, 22);
 		layeredPane.add(lblReturn, JLayeredPane.DEFAULT_LAYER);
