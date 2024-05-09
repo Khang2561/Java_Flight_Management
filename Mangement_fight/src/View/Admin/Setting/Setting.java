@@ -178,64 +178,116 @@ public class Setting extends JPanel {
 		btInsertAirport = new Button("Thêm ");
 		btInsertAirport.setFont(new Font("Arial", Font.BOLD, 14));
 		btInsertAirport.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-		        try {
-		            // Kiểm tra xem sân bay có trùng không
-		            boolean isAirportExists = AirportDAO.isAirportExists(inputNameAirport.getText(), inputNameCity.getText(), inputNameCountry.getText());
-		            
-		            if (isAirportExists) {
-		                JOptionPane.showMessageDialog(null, "Sân bay đã tồn tại!", "Thông báo", JOptionPane.WARNING_MESSAGE);
-		            } else {
-		                // Nếu sân bay chưa tồn tại, tiến hành thêm mới
-		                ResultSet rs = AirportDAO.countAirport();
-		                if (rs.next()) {
-		                    int airportCount = rs.getInt(1);
-		                    String inputAirportId = "AP0" + (airportCount + 1);
+			public void actionPerformed(ActionEvent e) {
+			    try {
+			        // Lấy dữ liệu nhập vào từ các trường
+			        String airportName = inputNameAirport.getText();
+			        String cityName = inputNameCity.getText();
+			        String countryName = inputNameCountry.getText();
+			        
+			        // Kiểm tra xem các trường dữ liệu có bị bỏ trống không
+			        if (airportName.isEmpty() || cityName.isEmpty() || countryName.isEmpty()) {
+			            // Nếu có trường dữ liệu nào bị bỏ trống, hiển thị thông báo
+			            JOptionPane.showMessageDialog(null, "Vui lòng điền đầy đủ thông tin!", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+			        } else {
+			            // Kiểm tra xem sân bay có trùng không
+			            boolean isAirportExists = AirportDAO.isAirportExists(airportName, cityName, countryName);
+			            
+			            if (isAirportExists) {
+			                JOptionPane.showMessageDialog(null, "Sân bay đã tồn tại!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+			            } else {
+			                // Nếu sân bay chưa tồn tại và các trường dữ liệu không bị bỏ trống, tiến hành thêm mới
+			                ResultSet rs = AirportDAO.countAirport();
+			                if (rs.next()) {
+			                    int airportCount = rs.getInt(1);
+			                    String inputAirportId = "AP0" + (airportCount + 1);
 
-		                    Airport air = new Airport();
-		                    air.setAirportID(inputAirportId);
-		                    air.setAirportName(inputNameAirport.getText());
-		                    air.setCityName(inputNameCity.getText());
-		                    air.setCountryName(inputNameCountry.getText());
-		                    AirportDAO.getInstance().insert(air);
-		                    
-		                    // Thông báo nhập thành công
-		                    JOptionPane.showMessageDialog(null, "Đã thêm sân bay thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-		                    
-		                    // Xóa nội dung trong các trường nhập liệu
-		                    inputNameAirport.setText("");
-		                    inputNameCity.setText("");
-		                    inputNameCountry.setText("");
-		                    // Load lại dữ liệu lên JTable
-		                    ResultSet updatedRs = AirportDAO.selectAll();
-		                    loadRsToTable(updatedRs);
-		                } else {
-		                    // Xử lý trường hợp không có kết quả từ phương thức countAirport()
-		                }
-		            }
-		        } catch (SQLException ex) {
-		            ex.printStackTrace();
-		            // Xử lý ngoại lệ khi có lỗi xảy ra khi truy vấn cơ sở dữ liệu
-		        } catch (ClassNotFoundException ex) {
-		            // Xử lý ngoại lệ ClassNotFoundException
-		            ex.printStackTrace();
-		            // Hoặc thông báo lỗi cho người dùng
-		            JOptionPane.showMessageDialog(null, "Không tìm thấy lớp cơ sở dữ liệu: " + ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
-		        }
-		    }
+			                    Airport air = new Airport();
+			                    air.setAirportID(inputAirportId);
+			                    air.setAirportName(airportName);
+			                    air.setCityName(cityName);
+			                    air.setCountryName(countryName);
+			                    AirportDAO.getInstance().insert(air);
+			                    
+			                    // Thông báo nhập thành công
+			                    JOptionPane.showMessageDialog(null, "Đã thêm sân bay thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+			                    
+			                    // Xóa nội dung trong các trường nhập liệu
+			                    inputNameAirport.setText("");
+			                    inputNameCity.setText("");
+			                    inputNameCountry.setText("");
+			                    // Load lại dữ liệu lên JTable
+			                    ResultSet updatedRs = AirportDAO.selectAll();
+			                    loadRsToTable(updatedRs);
+			                } else {
+			                    // Xử lý trường hợp không có kết quả từ phương thức countAirport()
+			                }
+			            }
+			        }
+			    } catch (SQLException ex) {
+			        ex.printStackTrace();
+			        // Xử lý ngoại lệ khi có lỗi xảy ra khi truy vấn cơ sở dữ liệu
+			    } catch (ClassNotFoundException ex) {
+			        // Xử lý ngoại lệ ClassNotFoundException
+			        ex.printStackTrace();
+			        // Hoặc thông báo lỗi cho người dùng
+			        JOptionPane.showMessageDialog(null, "Không tìm thấy lớp cơ sở dữ liệu: " + ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+			    }
+			}
+
 		});
 		//setting design for button
 		btInsertAirport.setForeground(new Color(255, 255, 255));
 		btInsertAirport.setBackground(new Color(3, 4, 94));
-		btInsertAirport.setBounds(33, 179, 576, 50);
+		btInsertAirport.setBounds(33, 199, 576, 50);
 		panel_1.add(btInsertAirport);
 		
 		//button update airport
 		Button btUpdate = new Button("Cập nhập");
 		btUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-			}
+				try {
+				    int selectedRowIndex = table.getSelectedRow();
+				    if (selectedRowIndex != -1) {
+				        String airportNameRow = table.getValueAt(selectedRowIndex, 0).toString();
+				        ResultSet rs = AirportDAO.findAPbyName(airportNameRow);
+				        
+				        // Check if ResultSet has any rows
+				        if (rs.next()) {
+				            // If ResultSet has rows, retrieve data
+				            Airport ap = new Airport();
+				            ap.setAirportID(rs.getString("AirportID"));
+				            ap.setAirportName(inputNameAirport.getText());
+				            ap.setCityName(inputNameCity.getText());
+				            ap.setCountryName(inputNameCountry.getText());
+				            
+				            int isUpdated = AirportDAO.updateAirport(ap);
+				            
+				            if (isUpdated > 0) {
+				                ResultSet updatedRs = AirportDAO.selectAll();
+				                loadRsToTable(updatedRs);
+				                inputNameAirport.setText("");
+				                inputNameCity.setText("");
+				                inputNameCountry.setText("");
+				                btInsertAirport.setVisible(true);
+				                JOptionPane.showMessageDialog(null, "Cập nhật sân bay thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+				            } else {
+				                JOptionPane.showMessageDialog(null, "Cập nhật sân bay thất bại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+				            }
+				        } else {
+				            // ResultSet is empty, show a message
+				            JOptionPane.showMessageDialog(null, "Không tìm thấy sân bay có tên này!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+				        }
+				    } else {
+				        JOptionPane.showMessageDialog(null, "Vui lòng chọn một sân bay để cập nhật!", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+				    }
+				} catch (SQLException ex) {
+				    ex.printStackTrace();
+				} catch (ClassNotFoundException ex) {
+				    ex.printStackTrace();
+				}
+
+		    }
 		});
 		btUpdate.setFont(new Font("Arial", Font.BOLD, 14));
 		btUpdate.setForeground(new Color(255, 255, 255));
