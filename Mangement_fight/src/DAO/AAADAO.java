@@ -6,9 +6,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.swing.JOptionPane;
+
+import View.Admin.FormAdmin;
+import View.Login.FormLogin;
 
 import Model.Account;
-import Model.Airport;
 import libData.JDBCUtil;
 
 public class AAADAO implements DAOInterface<Account>{
@@ -279,30 +285,90 @@ public class AAADAO implements DAOInterface<Account>{
 	}
 	
 	//ham check xem tai khoang da ton tai hay chua
-		public static boolean isEmail(String accountEmail) throws SQLException, ClassNotFoundException {
-			Connection connect = null;
-		    PreparedStatement stmt = null;
-		    ResultSet rs = null;
-		    String query = "SELECT * FROM ACCOUNT WHERE Email = ?";
-		    try {
-		    	connect = JDBCUtil.getConnection();
-		        stmt = connect.prepareStatement(query);
+	public static boolean isEmail(String accountEmail) throws SQLException, ClassNotFoundException {
+		Connection connect = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String query = "SELECT * FROM ACCOUNT WHERE Email = ?";
+		try {
+			connect = JDBCUtil.getConnection();
+		    stmt = connect.prepareStatement(query);
 		        
-		        stmt.setString(1, accountEmail);
-		        rs = stmt.executeQuery();
-		        return rs.next();
-		    }finally {
-		    	// Đóng tài nguyên
-		    	if (rs != null) {
-		    		rs.close();
-		    	}
-		    	if (stmt != null) {
-		    		stmt.close();
-		    	}
-		    	if (connect != null) {
-		    		connect.close();
-		    	}	
+		    stmt.setString(1, accountEmail);
+		    rs = stmt.executeQuery();
+		    return rs.next();
+		}finally {
+			// Đóng tài nguyên
+		    if (rs != null) {
+		    	rs.close();
 		    }
+		    if (stmt != null) {
+		    	stmt.close();
+		    }
+		    if (connect != null) {
+		    	connect.close();
+		    }	
 		}
+	}
+	
+	// Hàm login
+	public Account login(String username, String password, FormLogin formLogin, FormAdmin formAdmin) {
+	    try {
+	        // Establish a connection to your database
+	        Connection conn = JDBCUtil.getConnection(); 
+	        
+	        Account account = new Account();
+
+	        // Prepare a SQL query
+	        String sql = "SELECT *FROM ACCOUNT WHERE (Email = ? OR Phone = ?) AND Password = ?";
+	        PreparedStatement stmt = conn.prepareStatement(sql);
+	        stmt.setString(1, username);
+	        stmt.setString(2, username);
+	        stmt.setString(3, password);  
+	        ResultSet rs = stmt.executeQuery();
+	        
+	        if (rs.next()) {
+	        	
+				formLogin.dispose();
+	        	formAdmin = new FormAdmin();
+	        	formAdmin.show();  	
+	        	
+	        	// Create a new Account from the result
+		       
+		        account.setAccountID(rs.getString("AccountID"));
+		        account.setName(rs.getString("Name"));
+		        account.setEmail(rs.getString("Email"));
+		        account.setPhone(rs.getString("Phone"));
+		        account.setPassword(rs.getString("Password"));
+		        account.getCreated().getTime();
+		        account.setRoleID(rs.getString("RoleID"));
+		        
+	        }  else {
+	        	JOptionPane.showMessageDialog(formLogin, "Tài khoản hoặc mật khẩu không đúng");
+	        }
+
+	       
+			return account;
+
+	    } catch (SQLException ex) {
+	        ex.printStackTrace();
+	        return null;
+	    }
+	}
+	
+	// Kiểm tra định dạng email
+	public static boolean isValEmail(String email) {
+		
+		String emailRegex = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$";
+		Pattern emailPat = Pattern.compile(emailRegex, Pattern.CASE_INSENSITIVE);
+		Matcher matcher = emailPat.matcher(email);
+		
+		return matcher.find();
+	}
+	
+	// Kiểm tra SĐT phải có 10 chữ số
+	public static boolean isValPhoneNumber(String phone) {
+
+		return phone.length() == 10;	}
 
 }

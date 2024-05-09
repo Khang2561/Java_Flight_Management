@@ -721,7 +721,7 @@ public class AccountAndPermission extends JPanel {
 	
 	//--------------------------function-------------------------------------------
 	//function generate account function
-	private String generateUniqueAccountId() {
+	public static String generateUniqueAccountId() {
 		String accountIdPrefix = "AC"; // Tiền tố của mã tài khoản
 		int accountIdDigits = 3; // Số chữ số sau tiền tố
 		String accountId = "";
@@ -740,7 +740,7 @@ public class AccountAndPermission extends JPanel {
 			    return accountId;
 			}
 			// Phương thức để tạo chuỗi số ngẫu nhiên với độ dài cho trước
-		private String generateRandomDigits(int length) {
+		private static String generateRandomDigits(int length) {
 			StringBuilder sb = new StringBuilder();
 			Random random = new Random();
 			for (int i = 0; i < length; i++) {
