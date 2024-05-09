@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.JOptionPane;
 
@@ -354,4 +356,19 @@ public class AAADAO implements DAOInterface<Account>{
 	    }
 	}
 	
+	// Kiểm tra định dạng email
+	public static boolean isValEmail(String email) {
+		
+		String emailRegex = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$";
+		Pattern emailPat = Pattern.compile(emailRegex, Pattern.CASE_INSENSITIVE);
+		Matcher matcher = emailPat.matcher(email);
+		
+		return matcher.find();
+	}
+	
+	// Kiểm tra SĐT phải có 10 chữ số
+	public static boolean isValPhoneNumber(String phone) {
+
+		return phone.length() == 10;	}
+
 }
