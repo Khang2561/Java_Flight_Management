@@ -265,4 +265,88 @@ public class AirportDAO implements DAOInterface<Airport> {
 	    }
 	    return rowsAffected;
 	}
+	//--------------------------------function isAirportExists------------------
+	public static boolean isAirportExists(String nameAirport) throws SQLException, ClassNotFoundException{
+		Connection connect = null;
+	    PreparedStatement stmt = null;
+	    ResultSet rs = null;
+	    String query = "SELECT * FROM AIRPORT WHERE AirportName = ?";
+	    try {
+	    	connect = JDBCUtil.getConnection();
+	        stmt = connect.prepareStatement(query);
+	        stmt.setString(1, nameAirport);
+	        rs = stmt.executeQuery();
+	        return rs.next();
+	    }finally {
+	    	// Đóng tài nguyên
+	    	if (rs != null) {
+	    		rs.close();
+	    	}
+	    	if (stmt != null) {
+	    		stmt.close();
+	    	}
+	    	if (connect != null) {
+	    		connect.close();
+	    	}	
+	    }
+	}
+	//---------------------------------function find airport id by name --------------------
+	/*
+	public static String findIDbyName(String NameAirport) throws SQLException, ClassNotFoundException{
+		//ket noi sql nguyen mau
+				Connection connect = null;
+			    PreparedStatement stmt = null;
+			    ResultSet rs = null;
+			    String query = "SELECT * FROM AIRPORT WHERE AirportName = ?;";
+			    try {
+			    	connect = JDBCUtil.getConnection();
+			    	stmt = connect.prepareStatement(query);
+			    	stmt.setString(1, name);
+			    	rs = stmt.executeQuery();
+			    //
+			    } catch (SQLException ex) {
+			       Logger.getLogger(null);
+			       throw ex;
+			    } 
+				return rs;
+	}*/
+	//----------------------------function update airport------------------------------
+	public static int updateAirport(Airport updatedAirport) {
+	    Connection con = null;
+	    PreparedStatement preparedStatement = null;
+	    int rowsAffected = 0;
+
+	    try {
+	        // Connect to the database
+	        con = JDBCUtil.getConnection();
+	        // Define the SQL statement for update
+	        String sql = "UPDATE AIRPORT SET AirportName = ?, CityName = ?, CountryName = ? WHERE AirportID = ?";
+	        // Create a prepared statement
+	        preparedStatement = con.prepareStatement(sql);
+
+	        // Set values for parameters
+	        preparedStatement.setString(1, updatedAirport.getAirportName());
+	        preparedStatement.setString(2, updatedAirport.getCityName());
+	        preparedStatement.setString(3, updatedAirport.getCountryName());
+	        preparedStatement.setString(4, updatedAirport.getAirportID());
+
+	        // Execute the update statement
+	        rowsAffected = preparedStatement.executeUpdate();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        // Close resources in the reverse order of their creation
+	        JDBCUtil.closeConnection(con);
+	        if (preparedStatement != null) {
+	            try {
+	                preparedStatement.close();
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    }
+
+	    return rowsAffected;
+	}
+
 }
