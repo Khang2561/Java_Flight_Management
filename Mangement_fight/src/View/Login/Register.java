@@ -16,17 +16,38 @@ import java.awt.event.MouseEvent;
 public class Register extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-    private JTextField txtUsername;
-    private JPasswordField txtPassword;
-    private JPasswordField txtConfirmPassword;
-    private JTextField txtEmail;
-    private JTextField txtPhoneNumber;
+    private static JTextField txtUsername;
+    private static JPasswordField txtPassword;
+    private static JPasswordField txtConfirmPassword;
+    private static JTextField txtEmail;
+    private static JTextField txtPhoneNumber;
     public JLabel lblLogin;
     private JLabel lblNewLabel;
     private JLabel lblEmail;
     private JLabel lblS;
     private JLabel lblMtKhu;
     private JLabel lblNhpLiMt;
+    Button btnSignUp;
+    
+    public static String getUsernameText() {
+    	return txtUsername.getText();
+    }
+    
+    public static String getPhoneNumberText() {
+    	return txtPhoneNumber.getText();
+    }
+    
+    public static String getEmailText() {
+    	return txtEmail.getText();
+    }
+    
+    public static String getPasswordText() {
+    	return txtPassword.getText();
+    }
+    
+    public static String getConfirmPasswordText() {
+    	return txtConfirmPassword.getText();
+    }
 
 	/**
 	 * Create the panel.
@@ -72,7 +93,7 @@ public class Register extends JPanel {
 		txtPhoneNumber.setBounds(38, 163, 225, 28);
 		layeredPane.add(txtPhoneNumber, JLayeredPane.DEFAULT_LAYER);
 		
-		Button btnSignUp = new Button("Đăng ký");
+		btnSignUp = new Button("Đăng ký");
 		btnSignUp.setForeground(new Color(255, 255, 255));
 		btnSignUp.setFont(new Font("Arial", Font.PLAIN, 13));
 		btnSignUp.setBackground(new Color(128, 152, 249));

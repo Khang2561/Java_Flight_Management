@@ -102,10 +102,10 @@ public class Account {
 	public void setRoleName(String roleName) {
 		this.roleName = roleName;
 	}
-	 public void setCreated1() {
-		 this.created = new Date(0);
-	 }
-	
-    
-    
+	public void setCreated1() {
+		this.created = new Date(0);
+	}
+	public void setCreated(Date created) {
+		this.created = created;
+	}
 }
