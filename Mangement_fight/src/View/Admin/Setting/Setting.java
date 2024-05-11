@@ -286,7 +286,6 @@ public class Setting extends JPanel {
 				} catch (ClassNotFoundException ex) {
 				    ex.printStackTrace();
 				}
-
 		    }
 		});
 		btUpdate.setFont(new Font("Arial", Font.BOLD, 14));
@@ -578,10 +577,55 @@ public class Setting extends JPanel {
 		});
 		btnThemTicketClass.setForeground(Color.WHITE);
 		btnThemTicketClass.setBackground(new Color(3, 4, 94));
-		btnThemTicketClass.setBounds(416, 180, 410, 37);
+		btnThemTicketClass.setBounds(416, 243, 410, 37);
 		panel_1_2.add(btnThemTicketClass);
 		
 		Button btnUpdateTicketClass = new Button("Cập nhập");
+		btnUpdateTicketClass.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//----------------------------------
+				try {
+				    int selectedRowIndex = table_1.getSelectedRow();
+				    if (selectedRowIndex != -1) {
+				        String airportNameRow = table.getValueAt(selectedRowIndex, 0).toString();
+				        ResultSet rs = TicketClassDAO.findTCbynName(airportNameRow);
+				        
+				        // Check if ResultSet has any rows
+				        if (rs.next()) {
+				            // If ResultSet has rows, retrieve data
+				            TicketClass ap = new TicketClass();
+				            ap.setTicketClassID(rs.getString("TicketClassID"));
+				            ap.setTicketClassName(inputNameClass.getText());
+				            ap.setPricePercentage(inputNamePercent.getText());
+				            
+				            
+				            int isUpdated = TicketClassDAO.updateTicketClass(ap);
+				            
+				            if (isUpdated > 0) {
+				                ResultSet updatedRs = AirportDAO.selectAll();
+				                loadRsToTable(updatedRs);
+				                inputNameAirport.setText("");
+				                inputNameCity.setText("");
+				                inputNameCountry.setText("");
+				                btInsertAirport.setVisible(true);
+				                JOptionPane.showMessageDialog(null, "Cập nhật sân bay thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+				            } else {
+				                JOptionPane.showMessageDialog(null, "Cập nhật sân bay thất bại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+				            }
+				        } else {
+				            // ResultSet is empty, show a message
+				            JOptionPane.showMessageDialog(null, "Không tìm thấy sân bay có tên này!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+				        }
+				    } else {
+				        JOptionPane.showMessageDialog(null, "Vui lòng chọn một sân bay để cập nhật!", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+				    }
+				} catch (SQLException ex) {
+				    ex.printStackTrace();
+				} catch (ClassNotFoundException ex) {
+				    ex.printStackTrace();
+				}
+			}
+		});
 		btnUpdateTicketClass.setFont(new Font("Arial", Font.BOLD, 14));
 		btnUpdateTicketClass.setForeground(Color.WHITE);
 		btnUpdateTicketClass.setBackground(new Color(3, 4, 94));
@@ -591,6 +635,20 @@ public class Setting extends JPanel {
 		Button buttonDeleteTicketClass = new Button("Xóa");
 		buttonDeleteTicketClass.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				TicketClassDAO.deleteByName(inputNameClass.getText());
+				inputNameClass.setText("");
+				inputNamePercent.setText("");
+				btnThemTicketClass.setVisible(true);
+				// Load lại dữ liệu lên JTable
+                ResultSet updatedRs;
+				try {
+					updatedRs = TicketClassDAO.selectAll();
+					loadRsToTableTicketLevel(updatedRs);
+				} catch (ClassNotFoundException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+                
 			}
 		});
 		buttonDeleteTicketClass.setFont(new Font("Arial", Font.BOLD, 14));
@@ -607,6 +665,7 @@ public class Setting extends JPanel {
 		panel_1_2.add(lbHangVe);
 		
 		JScrollPane scrollPane_1 = new JScrollPane((Component) null);
+		
 		scrollPane_1.setBounds(10, 45, 382, 235);
 		panel_1_2.add(scrollPane_1);
 		
@@ -631,13 +690,48 @@ public class Setting extends JPanel {
 		scrollPane_1.setViewportView(table_1);
 		
 		Button buttonCancelTicketClass = new Button("Hủy ");
+		buttonCancelTicketClass.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				inputNameClass.setText("");
+            	inputNamePercent.setText("");
+            	btnThemTicketClass.setVisible(true);
+			}
+		});
 		buttonCancelTicketClass.setForeground(Color.WHITE);
 		buttonCancelTicketClass.setFont(new Font("Arial", Font.BOLD, 14));
 		buttonCancelTicketClass.setBackground(new Color(128, 128, 128));
 		buttonCancelTicketClass.setBounds(714, 180, 112, 37);
 		panel_1_2.add(buttonCancelTicketClass);
 		
+		table_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int row = table_1.getSelectedRow(); // Lấy dòng được chọn
+				if (row != -1) {
+					String nameTicketClass = table_1.getValueAt(row, 0).toString();
+					try (ResultSet rs = TicketClassDAO.findTCbynName(nameTicketClass)) {
+		                // Xử lý ResultSet để trích xuất dữ liệu
+		                if (rs.next()) {
+		                	inputNameClass.setText(rs.getString("TicketClassName"));
+		                	inputNamePercent.setText(rs.getString("PricePercentage"));
+		                	btnThemTicketClass.setVisible(false);
+		        
+		                    // Hiển thị thông tin tài khoản hoặc thực hiện các thao tác khác ở đây
+		                } else {
+		                    // Không có tài khoản nào được tìm thấy
+		                }
+		            } catch (SQLException | ClassNotFoundException ex) {
+		                ex.printStackTrace();
+		                // Xử lý ngoại lệ
+		            }
+					
+				}
+			}
+		});
+		
 	}
+	
+	
 	
 	//load data len teable tai bang setting 
 	public void loadRsToTable(ResultSet rs) throws SQLException {
