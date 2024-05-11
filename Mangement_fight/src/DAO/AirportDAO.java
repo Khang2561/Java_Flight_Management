@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import Model.Airport;
+import Model.TicketClass;
 import View.Admin.Setting.Setting;
 import libData.JDBCUtil;
 
@@ -311,42 +312,7 @@ public class AirportDAO implements DAOInterface<Airport> {
 				return rs;
 	}*/
 	//----------------------------function update airport------------------------------
-	public static int updateAirport(Airport updatedAirport) {
-	    Connection con = null;
-	    PreparedStatement preparedStatement = null;
-	    int rowsAffected = 0;
-
-	    try {
-	        // Connect to the database
-	        con = JDBCUtil.getConnection();
-	        // Define the SQL statement for update
-	        String sql = "UPDATE AIRPORT SET AirportName = ?, CityName = ?, CountryName = ? WHERE AirportID = ?";
-	        // Create a prepared statement
-	        preparedStatement = con.prepareStatement(sql);
-
-	        // Set values for parameters
-	        preparedStatement.setString(1, updatedAirport.getAirportName());
-	        preparedStatement.setString(2, updatedAirport.getCityName());
-	        preparedStatement.setString(3, updatedAirport.getCountryName());
-	        preparedStatement.setString(4, updatedAirport.getAirportID());
-
-	        // Execute the update statement
-	        rowsAffected = preparedStatement.executeUpdate();
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    } finally {
-	        // Close resources in the reverse order of their creation
-	        JDBCUtil.closeConnection(con);
-	        if (preparedStatement != null) {
-	            try {
-	                preparedStatement.close();
-	            } catch (SQLException e) {
-	                e.printStackTrace();
-	            }
-	        }
-	    }
-
-	    return rowsAffected;
-	}
+	
+	
 
 }
