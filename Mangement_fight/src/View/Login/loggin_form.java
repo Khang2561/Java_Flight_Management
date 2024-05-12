@@ -2,14 +2,26 @@ package View.Login;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+
 import java.awt.Font;
 import javax.swing.JTextField;
+
+import DAO.AAADAO;
+import DAO.PermissionDAO;
+import Model.Account;
+import View.Admin.Admin_header;
+import View.Admin.FormAdmin;
+
 import javax.swing.JPasswordField;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Button;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 
 
 public class loggin_form extends JPanel {
@@ -20,22 +32,33 @@ public class loggin_form extends JPanel {
     public JLabel lblForgotPassword;
     private JLabel lbl2;
     public JLabel lblSignUp;
+    private FormLogin formLogin;
+    private FormAdmin formAdmin;
 
 
-    public loggin_form() {
+    public loggin_form(FormLogin formLogin, FormAdmin formAdmin) {
+    	
+    	this.formAdmin = formAdmin;
+    	this.formLogin = formLogin;
+    	
 		setBackground(new Color(255, 255, 255));
 		setBounds(100, 100, 300, 406);
 		setLayout(null);
 		
-		txtUsername = new JTextField();
-		txtUsername.setFont(new Font("Arial", Font.PLAIN, 12));
-		txtUsername.setBounds(38, 110, 225, 28);
-		add(txtUsername);
-		txtUsername.setColumns(10);
+        // Create a JLayeredPane
+        JLayeredPane layeredPane = new JLayeredPane();
+        layeredPane.setBounds(0, 0, 300, 406);
+        add(layeredPane);
 		
-		txtPassword = new JPasswordField();
-		txtPassword.setBounds(38, 162, 225, 28);
-		add(txtPassword);
+        txtUsername = new JTextField();
+        txtUsername.setFont(new Font("Arial", Font.PLAIN, 12));
+        txtUsername.setBounds(38, 110, 225, 28);
+        layeredPane.add(txtUsername, JLayeredPane.DEFAULT_LAYER);  // Add to default layer
+        txtUsername.setColumns(10);
+		
+        txtPassword = new JPasswordField();
+        txtPassword.setBounds(38, 162, 225, 28);
+        layeredPane.add(txtPassword, JLayeredPane.DEFAULT_LAYER);  // Add to default layer
 		
 		JLabel lbl1 = new JLabel("Đăng nhập");
 		lbl1.setFont(new Font("Times New Roman", Font.BOLD, 24));
@@ -56,7 +79,7 @@ public class loggin_form extends JPanel {
 		lblForgotPassword.setForeground(new Color(128, 152, 249));
 		lblForgotPassword.setFont(new Font("Arial", Font.PLAIN, 14));
 		lblForgotPassword.setBounds(163, 203, 105, 17);
-		add(lblForgotPassword);
+		layeredPane.add(lblForgotPassword, JLayeredPane.DEFAULT_LAYER);
 		
 		lbl2 = new JLabel("Chưa có tài khoản?");
 		lbl2.setForeground(new Color(113, 113, 122));
@@ -78,13 +101,52 @@ public class loggin_form extends JPanel {
 		lblSignUp.setForeground(new Color(128, 152, 249));
 		lblSignUp.setFont(new Font("Arial", Font.BOLD, 12));
 		lblSignUp.setBounds(179, 295, 58, 15);
-		add(lblSignUp);
+		layeredPane.add(lblSignUp, JLayeredPane.DEFAULT_LAYER);
 		
 		Button btnLogin = new Button("Đăng nhập");
+		btnLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					
+					String username = txtUsername.getText();
+					String password = txtPassword.getText();
+					
+					 // Create an instance of AAADAO
+		            AAADAO dao = AAADAO.getInstance();
+		            
+		            // Call the login method
+		            Account account = dao.login(username, password, formLogin, formAdmin);
+		            
+		            PermissionDAO permisson = new PermissionDAO();
+		            
+		            String permissonCode = permisson.getPMS(account.getRoleID());
+		            
+		            permisson.setPermsionAccess(permissonCode, Admin_header.buttons);
+					
+				}catch (Exception ex) {
+					System.out.println(ex.getMessage());
+				}
+			}
+		});
 		btnLogin.setForeground(new Color(255, 255, 255));
 		btnLogin.setFont(new Font("Arial", Font.PLAIN, 13));
 		btnLogin.setBackground(new Color(128, 152, 249));
 		btnLogin.setBounds(38, 245, 225, 32);
-		add(btnLogin);
+		layeredPane.add(btnLogin, JLayeredPane.DEFAULT_LAYER);
+		
+        // Create the show/hide password label
+        JLabel lblShowAndHidePassword =  Utils.lblShowAndHidePassword(txtPassword, 20, 20);
+        lblShowAndHidePassword.setBounds(240, 165, 20, 20);  // Adjust the position as needed
+        layeredPane.add(lblShowAndHidePassword, JLayeredPane.POPUP_LAYER);  // Add to popup layer (higher than default)
+        
+        JLabel lblNewLabel = new JLabel("Email hoặc số điện thoại");
+        lblNewLabel.setForeground(new Color(128, 128, 128));
+        lblNewLabel.setBounds(38, 95, 137, 14);
+        layeredPane.add(lblNewLabel);
+        
+        JLabel lblMtKhu = new JLabel("Mật khẩu");
+        lblMtKhu.setForeground(Color.GRAY);
+        lblMtKhu.setBounds(38, 149, 137, 14);
+        layeredPane.add(lblMtKhu);
     }
 }

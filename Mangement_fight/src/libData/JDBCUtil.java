@@ -12,12 +12,13 @@ public class JDBCUtil {
     	Connection c = null;
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            String url= "jdbc:sqlserver://localhost:1433;databaseName=FlightTicketManagement;trustServerCertificate=true";
+            String url= "jdbc:sqlserver://localhost:1433;databaseName=FlightTicketManagement;"
+            		+ "trustServerCertificate=true";
             String userName = "admin";
             String password = "1";
 
             c = DriverManager.getConnection(url, userName, password);
-            
+          
            
         } catch (Exception e) {
             e.printStackTrace();

@@ -22,7 +22,7 @@ public class FormAdmin extends JFrame {
 	private static final long serialVersionUID = 1L;
 	static JPanel contentPane;
 	/**
-	 * Launch the application.
+	 * Launch the application..
 	 */
 	public static void ResetSetting() {
 		
@@ -31,8 +31,8 @@ public class FormAdmin extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					//setting value default 
-					
+					//setting value default .
+					//dsadadas
 					/*
 					Parameters settingValue = new Parameters();
 					ResultSet rs = ParametersDAO.selectAll();
@@ -47,6 +47,7 @@ public class FormAdmin extends JFrame {
 					
 					FormAdmin frame = new FormAdmin();
 					frame.setVisible(true);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -67,6 +68,8 @@ public class FormAdmin extends JFrame {
 		//header
 		JPanel header1 = new Admin_header();
 		header1.setBounds(0, 0, 1500, 70);
+		HomeAdmin framehome = new HomeAdmin();
+		contentPane.add(framehome);
 		contentPane.add(header1);
 		
 		

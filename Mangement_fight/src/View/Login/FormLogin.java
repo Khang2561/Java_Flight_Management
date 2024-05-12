@@ -8,8 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-
-import java.awt.Image;
+import View.Admin.FormAdmin;
 
 import java.awt.Cursor;
 
@@ -29,7 +28,8 @@ public class FormLogin extends JFrame {
 	JPanel panelLogin;
 	JPanel panelForgotPassword1;
 	JPanel panelRegister;
-
+	FormAdmin formAdmin = new FormAdmin();
+		
 	/**
 	 * Launch the application.
 	 */
@@ -81,7 +81,7 @@ public class FormLogin extends JFrame {
 		
 		
 		//hien thi form dang nhap
-		panelLogin = new loggin_form();
+		panelLogin = new loggin_form(this, formAdmin);
 		panelForgotPassword1 = new ForgotPassword1();
 		panelRegister = new Register();
         panelLogin.setBounds(417, 44, 300, 406);
@@ -147,16 +147,11 @@ public class FormLogin extends JFrame {
             }
         		
         });
-       
-        	
         	    
         //add anh login
         JLabel lblBackgroundImg = new JLabel("");
         lblBackgroundImg.setBounds(0, 0, 375, 488);
-        ImageIcon iconBackground = new ImageIcon(FormLogin.class.getResource("/Resource/flight.jpg"));
-        Image imgBackground = iconBackground.getImage(); 
-        Image imgBackgroundScale = imgBackground.getScaledInstance(lblBackgroundImg.getWidth(), lblBackgroundImg.getHeight(), Image.SCALE_SMOOTH);
-        ImageIcon scaledBackgroundImg = new ImageIcon(imgBackgroundScale); 
+        ImageIcon scaledBackgroundImg = Utils.scaledImage(FormLogin.class.getResource("/Resource/flight.jpg").getPath(), lblBackgroundImg.getWidth(), lblBackgroundImg.getHeight());
         lblBackgroundImg.setIcon(scaledBackgroundImg);
         contentPane.add(lblBackgroundImg);
         
@@ -177,11 +172,9 @@ public class FormLogin extends JFrame {
         	}
         });
         lblExit.setBounds(720, 12, 18, 20); 
-        ImageIcon iconExit = new ImageIcon(FormLogin.class.getResource("/Resource/CloseIcon2.png"));
-        Image imgExit = iconExit.getImage(); 
-        Image imgExitScale = imgExit.getScaledInstance(lblExit.getWidth(), lblExit.getHeight(), Image.SCALE_SMOOTH);
-        ImageIcon scaledExitIcon = new ImageIcon(imgExitScale);
+        ImageIcon scaledExitIcon = Utils.scaledImage(FormLogin.class.getResource("/Resource/CloseIcon2.png").getPath(), lblExit.getWidth(), lblExit.getHeight());
         lblExit.setIcon(scaledExitIcon);
         contentPane.add(lblExit);
 	}
+	
 }

@@ -7,6 +7,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
+import javax.swing.JOptionPane;
+
+import View.Admin.FormAdmin;
+import View.Login.FormLogin;
+import View.Login.loggin_form;
+
 import Model.Account;
 import Model.Airport;
 import libData.JDBCUtil;
@@ -85,6 +91,47 @@ public class AAADAO implements DAOInterface<Account>{
 		return null;
 	}
 	
+	public static int updateAC(Account AC) {
+	    Connection con = null;
+	    PreparedStatement preparedStatement = null;
+	    int rowsAffected = 0;
+
+	    try {
+	        // Establish connection with the database
+	        con = JDBCUtil.getConnection();
+	        
+	        // Define the SQL statement
+	        String sql = "UPDATE ACCOUNT SET Name=?, Phone=?, Password=?, RoleID=? WHERE Email=?";
+	        
+	        // Create a prepared statement
+	        preparedStatement = con.prepareStatement(sql);
+	        
+	        // Set values for parameters
+	        preparedStatement.setString(1, AC.getName()); // Assuming tfHoVaTen is your text field for name
+	        preparedStatement.setString(2, AC.getPhone()); // Assuming tfSDT is your text field for phone
+	        preparedStatement.setString(3, AC.getPassword()); // Assuming tfMK is your text field for password
+	        preparedStatement.setString(4, AC.getRoleID()); // Assuming cbQuyen is your combo box for rol
+	        preparedStatement.setString(5, AC.getEmail());
+	        
+	        // Execute the statement
+	        rowsAffected = preparedStatement.executeUpdate();
+	        
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        // Close resources in the reverse order of their creation
+	        JDBCUtil.closeConnection(con);
+	        if (preparedStatement != null) {
+	            try {
+	                preparedStatement.close();
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    }
+	    return rowsAffected;
+	}
+	
 	//xuat toan bo tai khoang
 	public static ResultSet selectAll() throws SQLException, ClassNotFoundException {
 	    //ket noi sql nguyen mau
@@ -126,6 +173,25 @@ public class AAADAO implements DAOInterface<Account>{
             Logger.getLogger(null);
             throw ex;
         } 
+	}
+	
+	public static ResultSet findACbyEmail(String email) throws SQLException, ClassNotFoundException{
+		 //ket noi sql nguyen mau
+		Connection connect = null;
+	    PreparedStatement stmt = null;
+	    ResultSet rs = null;
+	    String query = "SELECT * FROM ACCOUNT WHERE Email = ?;";
+	    try {
+	    	connect = JDBCUtil.getConnection();
+	    	stmt = connect.prepareStatement(query);
+	    	stmt.setString(1, email);
+	    	rs = stmt.executeQuery();
+	    //
+	    } catch (SQLException ex) {
+	       Logger.getLogger(null);
+	       throw ex;
+	    } 
+		return rs;
 	}
 	
 	//ham check xem tai khoang da ton tai hay chua
@@ -177,6 +243,115 @@ public class AAADAO implements DAOInterface<Account>{
 	        if (connect != null) {
 	            connect.close();
 	        }
+	    }
+	}
+	
+	//xoa bang email
+	public static int deleteByEmail(String email) {
+	    Connection con = null;
+	    PreparedStatement preparedStatement = null;
+	    int rowsAffected = 0;
+
+	    try {
+	        // Establish connection with the database
+	        con = JDBCUtil.getConnection();
+	        
+	        // Define the SQL statement
+	        String sql = "DELETE FROM ACCOUNT WHERE Email = ?";
+	        
+	        // Create a prepared statement
+	        preparedStatement = con.prepareStatement(sql);
+	        
+	        // Set the value for the parameter
+	        preparedStatement.setString(1, email);
+	        
+	        // Execute the statement
+	        rowsAffected = preparedStatement.executeUpdate();
+	        
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        // Close resources in the reverse order of their creation
+	        JDBCUtil.closeConnection(con);
+	        if (preparedStatement != null) {
+	            try {
+	                preparedStatement.close();
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    }
+	    return rowsAffected;
+	}
+	
+	//ham check xem tai khoang da ton tai hay chua
+	public static boolean isEmail(String accountEmail) throws SQLException, ClassNotFoundException {
+		Connection connect = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String query = "SELECT * FROM ACCOUNT WHERE Email = ?";
+		try {
+			connect = JDBCUtil.getConnection();
+		    stmt = connect.prepareStatement(query);
+		        
+		    stmt.setString(1, accountEmail);
+		    rs = stmt.executeQuery();
+		    return rs.next();
+		}finally {
+			// Đóng tài nguyên
+		    if (rs != null) {
+		    	rs.close();
+		    }
+		    if (stmt != null) {
+		    	stmt.close();
+		    }
+		    if (connect != null) {
+		    	connect.close();
+		    }	
+		}
+	}
+		
+	public Account login(String username, String password, FormLogin formLogin, FormAdmin formAdmin) {
+	    try {
+	        // Establish a connection to your database
+	        Connection conn = JDBCUtil.getConnection(); 
+	        
+	        Account account = new Account();
+
+	        // Prepare a SQL query
+	        String sql = "SELECT *FROM ACCOUNT WHERE (Email = ? OR Phone = ?) AND Password = ?";
+	        PreparedStatement stmt = conn.prepareStatement(sql);
+	        stmt.setString(1, username);
+	        stmt.setString(2, username);
+	        stmt.setString(3, password);  
+	        ResultSet rs = stmt.executeQuery();
+	        
+	        if (rs.next()) {
+	        	
+				formLogin.dispose();
+	        	formAdmin = new FormAdmin();
+	        	formAdmin.show();  	
+	        	
+	        	// Create a new Account from the result
+		       
+		        account.setAccountID(rs.getString("AccountID"));
+		        account.setName(rs.getString("Name"));
+		        account.setEmail(rs.getString("Email"));
+		        account.setPhone(rs.getString("Phone"));
+		        account.setPassword(rs.getString("Password"));
+		        account.getCreated().getTime();
+		        account.setRoleID(rs.getString("RoleID"));
+		        
+	        }  else {
+	        	JOptionPane.showMessageDialog(formLogin, "Tài khoản hoặc mật khẩu không đúng");
+	        }
+
+	       
+			return account;
+
+	    } catch (SQLException ex) {
+	        ex.printStackTrace();
+	        return null;
 	    }
 	}
 

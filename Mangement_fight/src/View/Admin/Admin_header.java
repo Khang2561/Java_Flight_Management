@@ -1,32 +1,26 @@
-package View.Admin;
+ package View.Admin;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 
-import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.GroupLayout.Alignment;
 
 import View.Admin.AccountAndPermission.AccountAndPermission;
 import View.Admin.ChatBox.ChatBox;
 import View.Admin.Setting.Setting;
-import View.Login.FormLogin;
-import javax.swing.JMenuBar;
 import java.awt.Button;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
-import java.awt.FlowLayout;
-import java.awt.BorderLayout;
+
 import javax.swing.BoxLayout;
 import java.awt.Font;
 
 public class Admin_header extends JPanel {
 
 	public static final long serialVersionUID = 1L;
+	public static Button[] buttons = new Button[6];
 
 	/**
 	 * Create the panel.
@@ -44,34 +38,34 @@ public class Admin_header extends JPanel {
 		lblNewLabel.setIcon(new ImageIcon(Admin_header.class.getResource("/Resource/LogoMAT_180x40.png")));
 		add(lblNewLabel);
 		//button chuyen bay 
-		Button button = new Button("Chuyến bay ");
-		button.addActionListener(new ActionListener() {
+		buttons[0] = new Button("Chuyến bay ");
+		buttons[0].addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 			}
 		});
-		button.setFont(new Font("Times New Roman", Font.BOLD, 18));
-		button.setBackground(new Color(245, 245, 248));
-		button.setForeground(new Color(0, 0, 0));
-		add(button);
+//		button.setFont(new Font("Times New Roman", Font.BOLD, 18));
+//		button.setBackground(new Color(245, 245, 248));
+//		button.setForeground(new Color(0, 0, 0));
+//		add(button);
 		//button ve may bay
-		Button button_1 = new Button("Vé máy bay");
-		button_1.setFont(new Font("Times New Roman", Font.BOLD, 18));
-		button_1.setForeground(new Color(0, 0, 0));
-		button_1.setBackground(new Color(245, 245, 248));
-		add(button_1);
+		buttons[1] = new Button("Vé máy bay");
+//		button_1.setFont(new Font("Times New Roman", Font.BOLD, 18));
+//		button_1.setForeground(new Color(0, 0, 0));
+//		button_1.setBackground(new Color(245, 245, 248));
+//		add(button_1);
 		
 		//button may bay
-		Button button_1_1 = new Button("Máy bay");
-		button_1_1.setFont(new Font("Times New Roman", Font.BOLD, 18));
-		button_1_1.setForeground(new Color(0, 0, 0));
-		button_1_1.setBackground(new Color(245, 245, 248));
-		add(button_1_1);
+		buttons[2] = new Button("Máy bay");
+//		button_1_1.setFont(new Font("Times New Roman", Font.BOLD, 18));
+//		button_1_1.setForeground(new Color(0, 0, 0));
+//		button_1_1.setBackground(new Color(245, 245, 248));
+//		add(button_1_1);
 		
 		//button tai khoan va phan quyen
-		Button button_1_1_1 = new Button("Tài khoảng và quyền ");
-		button_1_1_1.setFont(new Font("Times New Roman", Font.BOLD, 18));
-		button_1_1_1.addActionListener(new ActionListener() {
+		buttons[3] = new Button("Tài khoảng và quyền ");
+//		button_1_1_1.setFont(new Font("Times New Roman", Font.BOLD, 18));
+		buttons[3].addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				/*JPanel aap = new AccountAndPermission();
 				aap.setSize(1500, 653);
@@ -88,13 +82,13 @@ public class Admin_header extends JPanel {
 				}
 			}
 		});
-		button_1_1_1.setForeground(new Color(0, 0, 0));
-		button_1_1_1.setBackground(new Color(245, 245, 248));
-		add(button_1_1_1);
+//		button_1_1_1.setForeground(new Color(0, 0, 0));
+//		button_1_1_1.setBackground(new Color(245, 245, 248));
+//		add(button_1_1_1);
 		
 		//buttion cai dat
-		Button button_1_1_1_1_1 = new Button("Cài đặt");
-		button_1_1_1_1_1.addActionListener(new ActionListener() {
+		buttons[4] = new Button("Cài đặt");
+		buttons[4].addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				/*JPanel setting = new Setting();
 				setting.setSize(1500, 653);
@@ -110,14 +104,14 @@ public class Admin_header extends JPanel {
 				}
 			}
 		});
-		button_1_1_1_1_1.setFont(new Font("Times New Roman", Font.BOLD, 18));
-		button_1_1_1_1_1.setForeground(new Color(0, 0, 0));
-		button_1_1_1_1_1.setBackground(new Color(245, 245, 248));
-		add(button_1_1_1_1_1);
+//		button_1_1_1_1_1.setFont(new Font("Times New Roman", Font.BOLD, 18));
+//		button_1_1_1_1_1.setForeground(new Color(0, 0, 0));
+//		button_1_1_1_1_1.setBackground(new Color(245, 245, 248));
+//		add(button_1_1_1_1_1);
 		
 		//button box chat 
-		Button button_1_1_1_1 = new Button("Chat Box");
-		button_1_1_1_1.addActionListener(new ActionListener() {
+		buttons[5] = new Button("Chat Box");
+		buttons[5].addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				/*JPanel chatbox = new ChatBox();
 		        chatbox.setSize(1500, 653);
@@ -128,13 +122,19 @@ public class Admin_header extends JPanel {
 				clearAndShow(new ChatBox());
 			}
 		});
-		button_1_1_1_1.setFont(new Font("Times New Roman", Font.BOLD, 18));
-		button_1_1_1_1.setForeground(new Color(0, 0, 0));
-		button_1_1_1_1.setBackground(new Color(245, 245, 248));
-		add(button_1_1_1_1);
+//		button_1_1_1_1.setFont(new Font("Times New Roman", Font.BOLD, 18));
+//		button_1_1_1_1.setForeground(new Color(0, 0, 0));
+//		button_1_1_1_1.setBackground(new Color(245, 245, 248));
+//		add(button_1_1_1_1);
 		
 		//test
 		
+		for (Button button : buttons) {
+		    button.setFont(new Font("Times New Roman", Font.BOLD, 18));
+		    button.setBackground(new Color(245, 245, 248));
+		    button.setForeground(new Color(0, 0, 0));
+		    add(button);
+		}
 		
 	}
 	//ham xoa va tao form moi
