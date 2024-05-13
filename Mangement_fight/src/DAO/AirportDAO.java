@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import Model.Airport;
+import Model.TicketClass;
 import View.Admin.Setting.Setting;
 import libData.JDBCUtil;
 
@@ -17,7 +18,7 @@ public class AirportDAO implements DAOInterface<Airport> {
 	public static AirportDAO getInstance() {
 		return new AirportDAO();
 	}
-	//ham insert san bay 
+	//----------------------------function insert airport------------------------------------
 	@Override
 	public int insert(Airport t) {
 	    Connection con = null;
@@ -59,7 +60,7 @@ public class AirportDAO implements DAOInterface<Airport> {
 	    return rowsAffected;
 	}
 
-	//ham update san bay
+	//----------------------------------------function update airport------------------------------
 	@Override
 	public int update(Airport t) {
 	    Connection con = null;
@@ -99,7 +100,7 @@ public class AirportDAO implements DAOInterface<Airport> {
 	    return rowsAffected;
 	}
 	
-	//ham xoa san bay
+	//-------------------------------function delete airport----------------------------------------
 	@Override
 	public int delete(Airport t) {
 	    Connection con = null;
@@ -136,13 +137,12 @@ public class AirportDAO implements DAOInterface<Airport> {
 	    return rowsAffected;
 	}
 	
+	//--------------------------function sellect all airport--------------------------------
 	public static ResultSet selectAll() throws SQLException, ClassNotFoundException {
-	    
-	    //thu cua thay
 		Connection connect = null;
 	    PreparedStatement stmt = null;
 	    ResultSet rs = null;
-	    String query = "SELECT * FROM AIRPORT";
+	    String query = "SELECT *  FROM AIRPORT";
 	    try {
 	    	connect = JDBCUtil.getConnection();
 	    	stmt = connect.prepareStatement(query);
@@ -151,17 +151,11 @@ public class AirportDAO implements DAOInterface<Airport> {
 	    } catch (SQLException ex) {
 	       Logger.getLogger(null);
 	       throw ex;
-	    } /*finally {
-	        if (stmt !=null &&!stmt.isClosed()) {
-	        	stmt.close();
-	        }
-	        if(connect != null && !connect.isClosed()) {
-	        	connect.close();
-	        }
-	    }*/
+	    } 
 		return rs;
 	}
 	
+	//-----------------------function count airport to generate id airport--------------------------
 	public static ResultSet countAirport() throws SQLException, ClassNotFoundException {
         Connection connect = null;
         PreparedStatement stmt = null;
@@ -179,14 +173,14 @@ public class AirportDAO implements DAOInterface<Airport> {
     }
 
 	
-	//tim san bay theo dia chi ip
+	//---------------------------------function find airport by airport id---------------------------------
 	@Override
 	public Airport selectById(Airport t) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 	
-	//tim theo dieu kien 
+	//---------------------------------function find airport by airport name---------------------------------
 	@Override
 	public ArrayList<Airport> selectByCondition(String condition) {
 		// TODO Auto-generated method stub
@@ -216,5 +210,109 @@ public class AirportDAO implements DAOInterface<Airport> {
 	        }
 	    }
 	}
+	//---------------------------------function find airport by airport name and return table---------------------------------
+	public static ResultSet findAPbyName(String name) throws SQLException, ClassNotFoundException{
+		 //ket noi sql nguyen mau
+		Connection connect = null;
+	    PreparedStatement stmt = null;
+	    ResultSet rs = null;
+	    String query = "SELECT * FROM AIRPORT WHERE AirportName = ?;";
+	    try {
+	    	connect = JDBCUtil.getConnection();
+	    	stmt = connect.prepareStatement(query);
+	    	stmt.setString(1, name);
+	    	rs = stmt.executeQuery();
+	    //
+	    } catch (SQLException ex) {
+	       Logger.getLogger(null);
+	       throw ex;
+	    } 
+		return rs;
+	}
+	//----------------------------------function delete by airport name---------------
+	public static int deleteByName(String name) {
+	    Connection con = null;
+	    PreparedStatement preparedStatement = null;
+	    int rowsAffected = 0;
+
+	    try {
+	        // Establish connection with the database
+	        con = JDBCUtil.getConnection();
+	        
+	        // Define the SQL statement
+	        String sql = "DELETE FROM AIRPORT WHERE AirportName = ?";
+	        
+	        // Create a prepared statement
+	        preparedStatement = con.prepareStatement(sql);
+	        
+	        // Set the value for the parameter
+	        preparedStatement.setString(1, name);
+	        
+	        // Execute the statement
+	        rowsAffected = preparedStatement.executeUpdate();
+	        
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        // Close resources in the reverse order of their creation
+	        JDBCUtil.closeConnection(con);
+	        if (preparedStatement != null) {
+	            try {
+	                preparedStatement.close();
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    }
+	    return rowsAffected;
+	}
+	//--------------------------------function isAirportExists------------------
+	public static boolean isAirportExists(String nameAirport) throws SQLException, ClassNotFoundException{
+		Connection connect = null;
+	    PreparedStatement stmt = null;
+	    ResultSet rs = null;
+	    String query = "SELECT * FROM AIRPORT WHERE AirportName = ?";
+	    try {
+	    	connect = JDBCUtil.getConnection();
+	        stmt = connect.prepareStatement(query);
+	        stmt.setString(1, nameAirport);
+	        rs = stmt.executeQuery();
+	        return rs.next();
+	    }finally {
+	    	// Đóng tài nguyên
+	    	if (rs != null) {
+	    		rs.close();
+	    	}
+	    	if (stmt != null) {
+	    		stmt.close();
+	    	}
+	    	if (connect != null) {
+	    		connect.close();
+	    	}	
+	    }
+	}
+	//---------------------------------function find airport id by name --------------------
+	/*
+	public static String findIDbyName(String NameAirport) throws SQLException, ClassNotFoundException{
+		//ket noi sql nguyen mau
+				Connection connect = null;
+			    PreparedStatement stmt = null;
+			    ResultSet rs = null;
+			    String query = "SELECT * FROM AIRPORT WHERE AirportName = ?;";
+			    try {
+			    	connect = JDBCUtil.getConnection();
+			    	stmt = connect.prepareStatement(query);
+			    	stmt.setString(1, name);
+			    	rs = stmt.executeQuery();
+			    //
+			    } catch (SQLException ex) {
+			       Logger.getLogger(null);
+			       throw ex;
+			    } 
+				return rs;
+	}*/
+	//----------------------------function update airport------------------------------
+	
+	
 
 }
