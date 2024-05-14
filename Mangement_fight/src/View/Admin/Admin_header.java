@@ -8,6 +8,9 @@ import javax.swing.JPanel;
 
 import View.Admin.AccountAndPermission.AccountAndPermission;
 import View.Admin.ChatBox.ChatBox;
+import View.Admin.Plane.OperationPlaneUC;
+import View.Admin.Plane.PlaneListUC;
+import View.Admin.Plane.PlaneUC;
 import View.Admin.Setting.Setting;
 import java.awt.Button;
 import java.awt.event.ActionListener;
@@ -57,6 +60,14 @@ public class Admin_header extends JPanel {
 		
 		//button may bay
 		buttons[2] = new Button("Máy bay");
+		buttons[2].addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				clearAndShow(new PlaneUC());
+				
+			}
+		});
 //		button_1_1.setFont(new Font("Times New Roman", Font.BOLD, 18));
 //		button_1_1.setForeground(new Color(0, 0, 0));
 //		button_1_1.setBackground(new Color(245, 245, 248));

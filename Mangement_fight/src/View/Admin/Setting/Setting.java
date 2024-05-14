@@ -244,50 +244,51 @@ public class Setting extends JPanel {
 		
 		//button update airport
 		Button btUpdate = new Button("Cập nhập");
-		btUpdate.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-				    int selectedRowIndex = table.getSelectedRow();
-				    if (selectedRowIndex != -1) {
-				        String airportNameRow = table.getValueAt(selectedRowIndex, 0).toString();
-				        ResultSet rs = AirportDAO.findAPbyName(airportNameRow);
-				        
-				        // Check if ResultSet has any rows
-				        if (rs.next()) {
-				            // If ResultSet has rows, retrieve data
-				            Airport ap = new Airport();
-				            ap.setAirportID(rs.getString("AirportID"));
-				            ap.setAirportName(inputNameAirport.getText());
-				            ap.setCityName(inputNameCity.getText());
-				            ap.setCountryName(inputNameCountry.getText());
-				            
-				            int isUpdated = AirportDAO.updateAirport(ap);
-				            
-				            if (isUpdated > 0) {
-				                ResultSet updatedRs = AirportDAO.selectAll();
-				                loadRsToTable(updatedRs);
-				                inputNameAirport.setText("");
-				                inputNameCity.setText("");
-				                inputNameCountry.setText("");
-				                btInsertAirport.setVisible(true);
-				                JOptionPane.showMessageDialog(null, "Cập nhật sân bay thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-				            } else {
-				                JOptionPane.showMessageDialog(null, "Cập nhật sân bay thất bại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-				            }
-				        } else {
-				            // ResultSet is empty, show a message
-				            JOptionPane.showMessageDialog(null, "Không tìm thấy sân bay có tên này!", "Thông báo", JOptionPane.WARNING_MESSAGE);
-				        }
-				    } else {
-				        JOptionPane.showMessageDialog(null, "Vui lòng chọn một sân bay để cập nhật!", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
-				    }
-				} catch (SQLException ex) {
-				    ex.printStackTrace();
-				} catch (ClassNotFoundException ex) {
-				    ex.printStackTrace();
-				}
-		    }
-		});
+		Button button = new Button();
+//		button.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				try {
+//				    int selectedRowIndex = table.getSelectedRow();
+//				    if (selectedRowIndex != -1) {
+//				        String airportNameRow = table.getValueAt(selectedRowIndex, 0).toString();
+//				        ResultSet rs = AirportDAO.findAPbyName(airportNameRow);
+//				        
+//				        // Check if ResultSet has any rows
+//				        if (rs.next()) {
+//				            // If ResultSet has rows, retrieve data
+//				            Airport ap = new Airport();
+//				            ap.setAirportID(rs.getString("AirportID"));
+//				            ap.setAirportName(inputNameAirport.getText());
+//				            ap.setCityName(inputNameCity.getText());
+//				            ap.setCountryName(inputNameCountry.getText());
+//				            
+//				            int isUpdated = AirportDAO.update(ap);
+//				            
+//				            if (isUpdated > 0) {
+//				                ResultSet updatedRs = AirportDAO.selectAll();
+//				                loadRsToTable(updatedRs);
+//				                inputNameAirport.setText("");
+//				                inputNameCity.setText("");
+//				                inputNameCountry.setText("");
+//				                btInsertAirport.setVisible(true);
+//				                JOptionPane.showMessageDialog(null, "Cập nhật sân bay thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+//				            } else {
+//				                JOptionPane.showMessageDialog(null, "Cập nhật sân bay thất bại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+//				            }
+//				        } else {
+//				            // ResultSet is empty, show a message
+//				            JOptionPane.showMessageDialog(null, "Không tìm thấy sân bay có tên này!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+//				        }
+//				    } else {
+//				        JOptionPane.showMessageDialog(null, "Vui lòng chọn một sân bay để cập nhật!", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+//				    }
+//				} catch (SQLException ex) {
+//				    ex.printStackTrace();
+//				} catch (ClassNotFoundException ex) {
+//				    ex.printStackTrace();
+//				}
+//		    }
+//		});
 		btUpdate.setFont(new Font("Arial", Font.BOLD, 14));
 		btUpdate.setForeground(new Color(255, 255, 255));
 		btUpdate.setBackground(new Color(3, 4, 94));

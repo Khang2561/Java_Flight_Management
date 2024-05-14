@@ -61,7 +61,6 @@ public class AirportDAO implements DAOInterface<Airport> {
 	}
 
 	//----------------------------------------function update airport------------------------------
-	@Override
 	public int update(Airport t) {
 	    Connection con = null;
 	    PreparedStatement preparedStatement = null;

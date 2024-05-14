@@ -1,9 +1,13 @@
 package View.Admin.Plane;
 
 import javax.swing.JPanel;
+
+import View.Admin.FormAdmin;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Button;
 import java.awt.Font;
 
 public class PlaneUC extends JPanel {
@@ -15,7 +19,7 @@ public class PlaneUC extends JPanel {
 	 */
 	public PlaneUC() {
 		setLayout(null);
-		
+		setBounds(0,70,1500,653);
 		JPanel panel = new JPanel();
 		panel.setBounds(62, 10, 1365, 53);
 		add(panel);
@@ -32,17 +36,31 @@ public class PlaneUC extends JPanel {
 		
 		JButton btnNewPlane = new JButton("Tạo mới máy bay");
 		btnNewPlane.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnNewPlane.setBounds(229, 2, 175, 53);
+		btnNewPlane.setBounds(229, 0, 175, 53);
 		panel.add(btnNewPlane);
 		
 		JButton btnPlaneOperation = new JButton("Chi tiết máy bay");
 		btnPlaneOperation.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnPlaneOperation.setBounds(1190, 0, 175, 53);
 		panel.add(btnPlaneOperation);
+		JPanel contentpanel = new JPanel();
+		contentpanel.setBounds(62, 73, 1365, 520);
+		add(contentpanel);
+		contentpanel.setLayout(null);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(62, 73, 1365, 520);
-		add(panel_1);
+		btnPlaneOperation.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JPanel newPanel = new OperationPlaneUC();
+				contentpanel.add(newPanel);
+				
+			}
+		});
+		
+		
+		
 
 	}
+
 }

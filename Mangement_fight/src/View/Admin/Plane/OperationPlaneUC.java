@@ -6,6 +6,8 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
 
 public class OperationPlaneUC extends JPanel {
 
@@ -17,8 +19,8 @@ public class OperationPlaneUC extends JPanel {
 	 * Create the panel.
 	 */
 	public OperationPlaneUC() {
-		setBounds(0, 0, 1365, 520);
 		setLayout(null);
+		setBounds(62, 73, 1365, 520);
 		
 		JPanel panelLeft = new JPanel();
 		panelLeft.setBounds(10, 10, 554, 500);
@@ -56,7 +58,7 @@ public class OperationPlaneUC extends JPanel {
 		panel.add(lblNewLabel_2_1);
 		
 		JButton btnNewButton = new JButton("Tải lại danh sách ghế");
-		btnNewButton.setBounds(97, 166, 130, 21);
+		btnNewButton.setBounds(72, 166, 155, 21);
 		panel.add(btnNewButton);
 		
 		JLabel lblNewLabel_2_1_1 = new JLabel("Chi tiết hạng vé");
@@ -65,11 +67,12 @@ public class OperationPlaneUC extends JPanel {
 		panel.add(lblNewLabel_2_1_1);
 		
 		JPanel panelChitietve = new JPanel();
-		panelChitietve.setBounds(30, 226, 197, 215);
+		panelChitietve.setBorder(new LineBorder(Color.BLACK));
+		panelChitietve.setBounds(30, 226, 197, 213);
 		panel.add(panelChitietve);
 		
 		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(30, 451, 197, 39);
+		panel_2.setBounds(30, 449, 197, 41);
 		panel.add(panel_2);
 		panel_2.setLayout(new GridLayout(0, 2, 40, 0));
 		
@@ -92,15 +95,17 @@ public class OperationPlaneUC extends JPanel {
 		panel_1.add(lblNewLabel_1);
 		
 		JPanel panelHangve = new JPanel();
-		panelHangve.setBounds(30, 56, 197, 385);
+		panelHangve.setBorder(new LineBorder(Color.BLACK));
+		panelHangve.setBounds(30, 56, 197, 383);
 		panel_1.add(panelHangve);
 		
 		JButton btnNewButton_1 = new JButton("Chưa có hạng vé");
 		btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btnNewButton_1.setBounds(30, 451, 197, 39);
+		btnNewButton_1.setBounds(30, 449, 197, 41);
 		panel_1.add(btnNewButton_1);
 		
 		JPanel panelRight = new JPanel();
+		panelRight.setBorder(new LineBorder(Color.BLACK));
 		panelRight.setBounds(608, 65, 747, 445);
 		add(panelRight);
 		
