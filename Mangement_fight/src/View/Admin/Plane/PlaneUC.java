@@ -57,6 +57,8 @@ public class PlaneUC extends JPanel {
 				contentPanel.removeAll();
                 OperationPlaneUC ap = new OperationPlaneUC();
                 contentPanel.add(ap);
+                ap.setLocation(0, 0);
+                ap.setSize(1365, 520);
                 contentPanel.revalidate();
                 contentPanel.repaint();
 				
@@ -64,6 +66,34 @@ public class PlaneUC extends JPanel {
 		});
 		
 		
+		btnPlaneList.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				contentPanel.removeAll();
+                PlaneListUC ap = new PlaneListUC();
+                contentPanel.add(ap);
+                ap.setLocation(0, 0);
+                ap.setSize(1365, 520);
+                contentPanel.revalidate();
+                contentPanel.repaint();
+				
+			}
+		});
+		btnNewPlane.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				contentPanel.removeAll();
+                CreatePlane ap = new CreatePlane();
+                contentPanel.add(ap);
+                ap.setLocation(0, 0);
+                ap.setSize(1365, 520);
+                contentPanel.revalidate();
+                contentPanel.repaint();
+				
+			}
+		});
 		
 
 	}
