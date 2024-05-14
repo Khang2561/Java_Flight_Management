@@ -17,6 +17,7 @@ public class PlaneListUC extends JPanel {
 	private JTextField textField;
 	public PlaneListUC() {
 		setLayout(null);
+		setBounds(0, 0, 1365, 520);
 		table = new JTable();
 
 		table.setModel(new DefaultTableModel(
@@ -30,18 +31,18 @@ public class PlaneListUC extends JPanel {
 		
 
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(0, 80, 1365, 520);
+		scrollPane.setBounds(0, 80, 1365, 430);
 		add(scrollPane);
 		
 		textField = new JTextField();
 		textField.setToolTipText("Mã máy bay hoặc tên máy bay");
-		textField.setBounds(10, 45, 249, 25);
+		textField.setBounds(0, 45, 249, 25);
 		add(textField);
 		textField.setColumns(10);
 		
 		JLabel lblNewLabel = new JLabel("Nhập mã máy bay hoặc tên máy bay");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel.setBounds(10, 10, 260, 25);
+		lblNewLabel.setBounds(0, 10, 260, 25);
 		add(lblNewLabel);
 		
 
