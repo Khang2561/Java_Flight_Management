@@ -312,6 +312,45 @@ public class AirportDAO implements DAOInterface<Airport> {
 				return rs;
 	}*/
 	//----------------------------function update airport------------------------------
+	public static int updateAirport(Airport ap) {
+		Connection con = null;
+	    PreparedStatement preparedStatement = null;
+	    int rowsAffected = 0;
+
+	    try {
+	        // Establish connection with the database
+	        con = JDBCUtil.getConnection();
+	        
+	        // Define the SQL statement
+	        String sql = "UPDATE AIRPORT SET AirportName=?, CityName=?, CountryName=? WHERE AirportID=?";
+	        
+	        // Create a prepared statement
+	        preparedStatement = con.prepareStatement(sql);
+	        
+	        // Set values for parameters
+	        preparedStatement.setString(1, ap.getAirportName()); // Assuming tfHoVaTen is your text field for name
+	        preparedStatement.setString(2, ap.getCityName()); // Assuming tfSDT is your text field for phone
+	        preparedStatement.setString(3, ap.getCountryName()); // Assuming tfMK is your text field for password
+	        preparedStatement.setString(4, ap.getAirportID()); // Assuming cbQuyen is your combo box for role
+	        
+	        // Execute the statement
+	        rowsAffected = preparedStatement.executeUpdate();
+	        
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        // Close resources in the reverse order of their creation
+	        JDBCUtil.closeConnection(con);
+	        if (preparedStatement != null) {
+	            try {
+	                preparedStatement.close();
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    }
+	    return rowsAffected;
+	}
 	
 	
 
