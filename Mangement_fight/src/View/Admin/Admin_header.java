@@ -8,6 +8,9 @@ import javax.swing.JPanel;
 
 import View.Admin.AccountAndPermission.AccountAndPermission;
 import View.Admin.ChatBox.ChatBox;
+import View.Admin.Flight.FlightListUC;
+import View.Admin.Flight.FlightUC;
+import View.Admin.Flight.OperationFlightUC;
 import View.Admin.Setting.Setting;
 import java.awt.Button;
 import java.awt.event.ActionListener;
@@ -41,7 +44,15 @@ public class Admin_header extends JPanel {
 		buttons[0] = new Button("Chuyến bay ");
 		buttons[0].addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				try {
+					clearAndShow(new FlightUC());
+//					clearAndShow(new OperationFlightUC());
+//					clearAndShow(new FlightListUC());
+					
+				} catch (ClassNotFoundException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 //		button.setFont(new Font("Times New Roman", Font.BOLD, 18));
