@@ -64,7 +64,9 @@ public class Admin_header extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				//clearAndShow(new PlaneUC());
 				clearAndShow(new PlaneUC());
+				
 				
 			}
 		});

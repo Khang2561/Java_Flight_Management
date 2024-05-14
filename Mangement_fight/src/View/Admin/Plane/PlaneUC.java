@@ -13,6 +13,7 @@ import java.awt.Font;
 public class PlaneUC extends JPanel {
 
 	private static final long serialVersionUID = 1L;
+	private JPanel contentPanel;
 
 	/**
 	 * Create the panel.
@@ -43,17 +44,21 @@ public class PlaneUC extends JPanel {
 		btnPlaneOperation.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnPlaneOperation.setBounds(1190, 0, 175, 53);
 		panel.add(btnPlaneOperation);
-		JPanel contentpanel = new JPanel();
-		contentpanel.setBounds(62, 73, 1365, 520);
-		add(contentpanel);
-		contentpanel.setLayout(null);
+		
+		contentPanel = new JPanel();
+        contentPanel.setBounds(62, 73, 1365, 520);
+        add(contentPanel);
+        contentPanel.setLayout(null);
 		
 		btnPlaneOperation.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JPanel newPanel = new OperationPlaneUC();
-				contentpanel.add(newPanel);
+				contentPanel.removeAll();
+                OperationPlaneUC ap = new OperationPlaneUC();
+                contentPanel.add(ap);
+                contentPanel.revalidate();
+                contentPanel.repaint();
 				
 			}
 		});
@@ -62,5 +67,4 @@ public class PlaneUC extends JPanel {
 		
 
 	}
-
 }
