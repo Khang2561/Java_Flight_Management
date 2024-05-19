@@ -22,9 +22,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import java.awt.Panel;
 import java.awt.TextField;
-import javax.swing.JSeparator;
 
-public class OperationFlightUC extends JPanel {
+public class DetailFlightUC extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField txtFlightID;
@@ -38,7 +37,7 @@ public class OperationFlightUC extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public OperationFlightUC() throws ClassNotFoundException, SQLException {
+	public DetailFlightUC() throws ClassNotFoundException, SQLException {
 		setBackground(new Color(240, 240, 240));
 		setBounds(0, 71, 1500, 610);
 		setLayout(null);
@@ -106,7 +105,7 @@ public class OperationFlightUC extends JPanel {
 		panel_1.add(txtFlightCost);
 		txtFlightCost.setColumns(10);
 		
-		JButton btnSave = new JButton("Lưu");
+		JButton btnSave = new JButton("SAVE");
 		btnSave.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -158,37 +157,6 @@ public class OperationFlightUC extends JPanel {
 		JPanel panel_2 = new JPanel();
 		panel_2.setBounds(446, 16, 204, 480);
 		panel.add(panel_2);
-		panel_2.setLayout(null);
-		
-		JLabel lblNewLabel_2 = new JLabel("Thương gia");
-		lblNewLabel_2.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-		lblNewLabel_2.setBounds(16, 5, 104, 32);
-		panel_2.add(lblNewLabel_2);
-		
-		JLabel lblNewLabel_2_1 = new JLabel("Phổ thông");
-		lblNewLabel_2_1.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-		lblNewLabel_2_1.setBounds(16, 56, 104, 32);
-		panel_2.add(lblNewLabel_2_1);
-		
-		JSeparator separator = new JSeparator();
-		separator.setForeground(Color.DARK_GRAY);
-		separator.setBounds(0, 40, 204, 12);
-		panel_2.add(separator);
-		
-		JSeparator separator_1 = new JSeparator();
-		separator_1.setForeground(Color.DARK_GRAY);
-		separator_1.setBounds(0, 90, 204, 12);
-		panel_2.add(separator_1);
-		
-		JLabel lblTicketClass2 = new JLabel("30");
-		lblTicketClass2.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTicketClass2.setBounds(122, 57, 63, 32);
-		panel_2.add(lblTicketClass2);
-		
-		JLabel lblTicketClass1 = new JLabel("30");
-		lblTicketClass1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTicketClass1.setBounds(122, 6, 63, 32);
-		panel_2.add(lblTicketClass1);
 		
 		JButton btnAddIntermediateFlight = new JButton("+");
 		btnAddIntermediateFlight.setFont(new Font("Lucida Grande", Font.PLAIN, 17));

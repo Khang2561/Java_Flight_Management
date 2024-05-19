@@ -1,5 +1,6 @@
 package View.Admin.Flight;
 
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.sql.SQLException;
 
@@ -10,6 +11,7 @@ import javax.swing.JMenuBar;
 import javax.swing.border.LineBorder;
 
 import View.Admin.FormAdmin;
+import View.Admin.Setting.Setting;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -24,7 +26,7 @@ public class FlightUC extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField textField;
-
+	private JPanel panelMainContent;
 	/**
 	 * Create the panel.
 	 */
@@ -35,7 +37,7 @@ public class FlightUC extends JPanel {
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(null);
-		panel.setBounds(0, 0, 1500, 69);
+		panel.setBounds(0, 0, 1500, 70);
 		add(panel);
 		
 		JButton btnListFlight = new JButton("Danh Sách Chuyến Bay");
@@ -44,7 +46,7 @@ public class FlightUC extends JPanel {
 		btnListFlight.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
 		btnListFlight.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				switchPanel("FlightList");
 			}
 		});
 		
@@ -54,7 +56,7 @@ public class FlightUC extends JPanel {
 		btnNewFlight.setBackground(null);
 		btnNewFlight.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				switchPanel("OperationFlight");
 			}
 		});
 		
@@ -65,14 +67,27 @@ public class FlightUC extends JPanel {
 		btnDetailFlight.setBackground(null);
 		btnDetailFlight.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				switchPanel("DetailFlight");
 			}
 		});
+        panelMainContent = new JPanel(new CardLayout());
+        panelMainContent.setBounds(0, 70, 1500, 610);
+        add(panelMainContent);
+        
+        // Add different panels to the card layout
+        panelMainContent.add(new FlightListUC(), "FlightList");
+        panelMainContent.add(new OperationFlightUC(), "OperationFlight");
+        // Assuming DetailFlightUC exists
+        panelMainContent.add(new DetailFlightUC(), "DetailFlight");
+		
 		panel.setLayout(null);
 		panel.add(btnListFlight);
 		panel.add(btnNewFlight);
-		panel.add(btnDetailFlight);
-		
+		panel.add(btnDetailFlight);		
 		
 	}
-
+    private void switchPanel(String panelName) {
+        CardLayout cl = (CardLayout)(panelMainContent.getLayout());
+        cl.show(panelMainContent, panelName);
+    }
 }

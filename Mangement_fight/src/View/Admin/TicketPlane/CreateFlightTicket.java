@@ -1,5 +1,7 @@
 package View.Admin.TicketPlane;
 
+import java.sql.SQLException;
+
 import javax.swing.JPanel;
 
 public class CreateFlightTicket extends JPanel {
@@ -9,7 +11,7 @@ public class CreateFlightTicket extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public CreateFlightTicket() {
+	public CreateFlightTicket() throws ClassNotFoundException, SQLException {
 
 	}
 
