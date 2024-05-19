@@ -36,7 +36,7 @@ public class FormAdmin extends JFrame {
 					
 				} catch (Exception e) {
 					e.printStackTrace();
-				}
+				} 
 			}
 		});
 	}
@@ -63,5 +63,9 @@ public class FormAdmin extends JFrame {
 		setContentPane(contentPane);
 		this.setVisible(true);
 	}
+
+	public JPanel getContentPanePanel() {
+        return contentPane;
+    }
 
 }

@@ -12,6 +12,8 @@ import View.Admin.Plane.OperationPlaneUC;
 import View.Admin.Plane.PlaneListUC;
 import View.Admin.Plane.PlaneUC;
 import View.Admin.Setting.Setting;
+import View.Admin.TicketPlane.FlightTicket;
+
 import java.awt.Button;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
@@ -53,6 +55,15 @@ public class Admin_header extends JPanel {
 //		add(button);
 		//button ve may bay
 		buttons[1] = new Button("Vé máy bay");
+		buttons[1].addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				clearAndShow(new FlightTicket());
+				
+				
+			}
+		});
 //		button_1.setFont(new Font("Times New Roman", Font.BOLD, 18));
 //		button_1.setForeground(new Color(0, 0, 0));
 //		button_1.setBackground(new Color(245, 245, 248));
