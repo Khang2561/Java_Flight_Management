@@ -30,21 +30,7 @@ public class FormAdmin extends JFrame {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {
-					//setting value default .
-					//dsadadas
-					/*
-					Parameters settingValue = new Parameters();
-					ResultSet rs = ParametersDAO.selectAll();
-					settingValue.setMinimumFlightTime(rs.getInt("MinimunFlightTime"));
-					settingValue.setMaxPreventiveAirports(rs.getInt("MaxPreventiveAirports"));
-					settingValue.setMinimumStopoverTime(rs.getInt("MinimumStopoverTim"));
-					settingValue.setMaximumStopoverTime(rs.getInt("MaximumStopoverTime"));
-					settingValue.setEarliestBookingTime(rs.getInt("EarliestBookingTime"));
-					settingValue.setLatestBookingCancellationTime(rs.getInt("LatestBookingCancellationTime"));
-					*/
-					//setting value default
-					
+				try {					
 					FormAdmin frame = new FormAdmin();
 					frame.setVisible(true);
 					
@@ -75,6 +61,7 @@ public class FormAdmin extends JFrame {
 		
 		
 		setContentPane(contentPane);
+		this.setVisible(true);
 	}
 
 }

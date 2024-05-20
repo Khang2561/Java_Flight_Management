@@ -61,8 +61,45 @@ public class AirportDAO implements DAOInterface<Airport> {
 	}
 
 	//----------------------------------------function update airport------------------------------
-	@Override
-	public int update(Airport t) {
+	public  int update(Airport t) {
+	    Connection con = null;
+	    PreparedStatement preparedStatement = null;
+	    int rowsAffected = 0;
+
+	    try {
+	        // B1: CONNECT TO DATABASE
+	        con = JDBCUtil.getConnection();
+	        // B2: EXECUTE SQL STATEMENT 
+	        String sql = "UPDATE AIRPORT SET AirportName = ?, CityName = ?, CountryName = ? WHERE AirportID = ?";
+	        // B3: CREATE PREPAREDSTATEMENT
+	        preparedStatement = con.prepareStatement(sql);
+	        
+	        // Set values for parameters
+	        preparedStatement.setString(1, t.getAirportName());
+	        preparedStatement.setString(2, t.getCityName());
+	        preparedStatement.setString(3, t.getCountryName());
+	        preparedStatement.setString(4, t.getAirportID());
+	        
+	        // Execute the statement
+	        rowsAffected = preparedStatement.executeUpdate();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        // Close resources in the reverse order of their creation
+	        JDBCUtil.closeConnection(con);
+	        if (preparedStatement != null) {
+	            try {
+	                preparedStatement.close();
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    }
+	    
+	    return rowsAffected;
+	}
+	//---------------------------------------------
+	public static int  updatebyID(Airport t) {
 	    Connection con = null;
 	    PreparedStatement preparedStatement = null;
 	    int rowsAffected = 0;

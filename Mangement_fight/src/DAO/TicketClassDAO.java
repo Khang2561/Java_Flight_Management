@@ -279,7 +279,6 @@ public class TicketClassDAO implements DAOInterface<TicketClass>{
 	            }
 	        }
 	    }
-
 	    return rowsAffected;
 	}
 }

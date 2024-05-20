@@ -19,9 +19,7 @@ public class ForgotPassword2 extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private static JTextField txtOTP;
 	JLabel lblReturn;
-	JLabel lblResend;
 	Button btnAccept;
-
 	
 	public static String getOTPText() {
 		return txtOTP.getText();
@@ -30,8 +28,7 @@ public class ForgotPassword2 extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public ForgotPassword2() {
-		
+	public ForgotPassword2(String email) {
 		
 		setBackground(new Color(255, 255, 255));
 		setBounds(100, 100, 300, 406);
@@ -62,8 +59,13 @@ public class ForgotPassword2 extends JPanel {
         btnAccept.setBounds(38, 179, 225, 30);
         add(btnAccept);
         
-        lblResend = new JLabel("Gửi lại OTP");
+        JLabel lblResend = new JLabel("Gửi lại OTP");
         lblResend.addMouseListener(new MouseAdapter() {
+        	@Override
+        	public void mouseClicked(MouseEvent e) {
+        		FormLogin.sendOTP(email);
+        	}
+        	
         	@Override
         	public void mouseEntered(MouseEvent e) {
         		lblResend.setCursor(new Cursor(Cursor.HAND_CURSOR));
