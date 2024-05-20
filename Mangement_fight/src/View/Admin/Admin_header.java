@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 
 import View.Admin.AccountAndPermission.AccountAndPermission;
 import View.Admin.ChatBox.ChatBox;
+import View.Admin.Flight.FlightUC;
 import View.Admin.Plane.OperationPlaneUC;
 import View.Admin.Plane.PlaneListUC;
 import View.Admin.Plane.PlaneUC;
@@ -44,6 +45,15 @@ public class Admin_header extends JPanel {
 		buttons[0] = new Button("Chuyến bay ");
 		buttons[0].addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				try {
+					clearAndShow(new FlightUC());
+//					clearAndShow(new OperationFlightUC());
+//					clearAndShow(new FlightListUC());
+
+				} catch (ClassNotFoundException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
 			}
 		});

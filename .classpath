@@ -26,5 +26,6 @@
 	<classpathentry kind="lib" path="Mangement_fight/src/libData/mssql-jdbc-12.6.1.jre8.jar"/>
 	<classpathentry kind="lib" path="Mangement_fight/src/libData/mssql-jdbc-12.6.1.jre8-javadoc.jar"/>
 	<classpathentry kind="lib" path="Mangement_fight/src/libData/mssql-jdbc-12.6.1.jre8-sources.jar"/>
+	<classpathentry kind="lib" path="Mangement_fight/src/libData/jcalendar-1.4.jar"/>
 	<classpathentry kind="output" path="Mangement_fight/bin"/>
 </classpath>
