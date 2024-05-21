@@ -239,7 +239,7 @@ public class Setting extends JPanel {
 		//setting design for button
 		btInsertAirport.setForeground(new Color(255, 255, 255));
 		btInsertAirport.setBackground(new Color(3, 4, 94));
-		btInsertAirport.setBounds(35, 197, 576, 50);
+		btInsertAirport.setBounds(33, 199, 576, 48);
 		panel_1.add(btInsertAirport);
 		
 		//button update airport

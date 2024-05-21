@@ -1,18 +1,10 @@
 package View.Admin.ChatBox;
 
 import java.awt.Color;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.Font;
 import java.awt.Button;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.JScrollPane;
-import javax.swing.SwingConstants;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -20,6 +12,12 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
 
 public class ChatBox extends JPanel {
 
@@ -46,8 +44,15 @@ public class ChatBox extends JPanel {
         // TEXT AREA CHAT
         textArea = new JTextArea();
         textArea.setFont(new Font("Monospaced", Font.PLAIN, 20));
-        textArea.setBounds(274, 67, 936, 400);
-        add(textArea);
+        textArea.setLineWrap(true); // Enable line wrap
+        textArea.setWrapStyleWord(true); // Wrap words at word boundaries
+        textArea.setEditable(false); // Make the text area non-editable
+
+        // Add the text area to a scroll pane
+        JScrollPane scrollPaneTextArea = new JScrollPane(textArea);
+        scrollPaneTextArea.setBounds(274, 67, 936, 400);
+        scrollPaneTextArea.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        add(scrollPaneTextArea);
 
         // BUTTON GUI
         Button button_3 = new Button("GỬI");
@@ -62,17 +67,15 @@ public class ChatBox extends JPanel {
         });
         add(button_3);
    
-
         // NHAP TIN NHAN
         txtNhp = new JTextField();
         txtNhp.setFont(new Font("Times New Roman", Font.PLAIN, 20));
         JScrollPane scrollPane = new JScrollPane(txtNhp);
         scrollPane.setBounds(274, 500, 698, 87);
-        add(scrollPane);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        add(scrollPane);
 
         // Connect to the server
-        
         try {
             socket = new Socket("localhost", 4999);
             out = new PrintWriter(socket.getOutputStream(), true);
@@ -109,8 +112,6 @@ public class ChatBox extends JPanel {
             txtNhp.setText(""); // Clear the text field after sending the message
         }
     }
-    
-  
 
     // Method to append a message to the JTextArea
     private void appendMessageToTextArea(String sender, String message) {
@@ -118,9 +119,7 @@ public class ChatBox extends JPanel {
         String formattedMessage = "[" + timeStamp + "] " + sender + ": " + message + "\n";
         textArea.append(formattedMessage);
     }
-    
-    
-    
+
     // Override the JPanel's finalize method to close the socket when the ChatBox is destroyed
     @Override
     protected void finalize() throws Throwable {
