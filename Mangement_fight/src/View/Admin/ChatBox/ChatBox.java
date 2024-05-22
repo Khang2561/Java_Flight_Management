@@ -1,18 +1,10 @@
 package View.Admin.ChatBox;
 
-import java.awt.Color;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.Font;
 import java.awt.Button;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.JScrollPane;
-import javax.swing.SwingConstants;
-import java.awt.event.ActionListener;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -20,6 +12,14 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingConstants;
 
 public class ChatBox extends JPanel {
 
@@ -56,12 +56,13 @@ public class ChatBox extends JPanel {
         button_3.setBackground(new Color(3, 4, 94));
         button_3.setBounds(988, 500, 222, 87);
         button_3.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+            @Override
+			public void actionPerformed(ActionEvent e) {
                 sendMessage();
             }
         });
         add(button_3);
-   
+
 
         // NHAP TIN NHAN
         txtNhp = new JTextField();
@@ -69,10 +70,10 @@ public class ChatBox extends JPanel {
         JScrollPane scrollPane = new JScrollPane(txtNhp);
         scrollPane.setBounds(274, 500, 698, 87);
         add(scrollPane);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
         // Connect to the server
-        
+
         try {
             socket = new Socket("localhost", 4999);
             out = new PrintWriter(socket.getOutputStream(), true);
@@ -109,8 +110,8 @@ public class ChatBox extends JPanel {
             txtNhp.setText(""); // Clear the text field after sending the message
         }
     }
-    
-  
+
+
 
     // Method to append a message to the JTextArea
     private void appendMessageToTextArea(String sender, String message) {
@@ -118,9 +119,9 @@ public class ChatBox extends JPanel {
         String formattedMessage = "[" + timeStamp + "] " + sender + ": " + message + "\n";
         textArea.append(formattedMessage);
     }
-    
-    
-    
+
+
+
     // Override the JPanel's finalize method to close the socket when the ChatBox is destroyed
     @Override
     protected void finalize() throws Throwable {

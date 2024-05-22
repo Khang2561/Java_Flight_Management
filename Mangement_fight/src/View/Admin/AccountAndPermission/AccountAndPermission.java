@@ -1,49 +1,36 @@
 package View.Admin.AccountAndPermission;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-
+import java.awt.Button;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
-import java.awt.HeadlessException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import javax.swing.AbstractButton;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.table.DefaultTableModel;
 
 import DAO.AAADAO;
-import DAO.AirportDAO;
-import DAO.ParametersDAO;
 import DAO.PermissionDAO;
 import Model.Account;
-import Model.Airport;
 import Model.Permission;
-
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.AbstractButton;
-import javax.swing.DefaultComboBoxModel;
-import java.awt.Button;
-import java.awt.Scrollbar;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.awt.Panel;
-import javax.swing.JRadioButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.util.Random;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 public class AccountAndPermission extends JPanel {
 
 	public static final long serialVersionUID = 1L;
@@ -56,10 +43,10 @@ public class AccountAndPermission extends JPanel {
 	private Button buttonCapNhap;
 	private Button buttonXoa;
 	private Button buttonHuy;
-	
+
 	//main pane
 	static JPanel contentPane ;
-	
+
 	//permission for account
 	public DefaultTableModel modelAccount;
 	private JRadioButton rdbtnSQTChatBox;
@@ -86,10 +73,10 @@ public class AccountAndPermission extends JPanel {
 	private JRadioButton rdbtnQTChatBox;
 	private JRadioButton rdbtnBGDChatBox;
 	private JRadioButton rdbtnNhanVien6;
-	
+
 	//main AccountAndPermission
 	public AccountAndPermission() throws ClassNotFoundException, SQLException{
-		
+
 		//-------------------------setting basic for pane----------------------------------
 		setBackground(new Color(240, 240, 240));
 		setBounds(0, 71, 1500, 642);
@@ -99,231 +86,231 @@ public class AccountAndPermission extends JPanel {
 		panel.setBounds(0, 45, 1500, 262);
 		add(panel);
 		panel.setLayout(null);
-		
-		
-		//-----------------------------label---------------------------------------------------- 
+
+
+		//-----------------------------label----------------------------------------------------
 		JLabel lblNewLabel_1 = new JLabel("Nhóm quyền \r\n");
 		lblNewLabel_1.setBackground(new Color(114, 114, 114));
 		lblNewLabel_1.setFont(new Font("Times New Roman", Font.BOLD, 17));
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1.setBounds(10, 0, 124, 49);
 		panel.add(lblNewLabel_1);
-		
+
 		JLabel lblNewLabel_1_1 = new JLabel("Chuyến Bay");
 		lblNewLabel_1_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1_1.setFont(new Font("Times New Roman", Font.PLAIN, 17));
 		lblNewLabel_1_1.setBackground(new Color(114, 114, 114));
 		lblNewLabel_1_1.setBounds(165, 0, 146, 49);
 		panel.add(lblNewLabel_1_1);
-		
+
 		JLabel lblNewLabel_1_1_1 = new JLabel("Vé Chuyến Bay");
 		lblNewLabel_1_1_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1_1_1.setFont(new Font("Times New Roman", Font.PLAIN, 17));
 		lblNewLabel_1_1_1.setBackground(new Color(114, 114, 114));
 		lblNewLabel_1_1_1.setBounds(336, 0, 174, 49);
 		panel.add(lblNewLabel_1_1_1);
-		
+
 		JLabel lblNewLabel_1_1_1_1 = new JLabel("Máy Bay");
 		lblNewLabel_1_1_1_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1_1_1_1.setFont(new Font("Times New Roman", Font.PLAIN, 17));
 		lblNewLabel_1_1_1_1.setBackground(new Color(114, 114, 114));
 		lblNewLabel_1_1_1_1.setBounds(520, 0, 169, 49);
 		panel.add(lblNewLabel_1_1_1_1);
-		
+
 		JLabel lblNewLabel_1_1_1_1_1 = new JLabel("Tài Khoản Và Phân Quyền ");
 		lblNewLabel_1_1_1_1_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1_1_1_1_1.setFont(new Font("Times New Roman", Font.PLAIN, 17));
 		lblNewLabel_1_1_1_1_1.setBackground(new Color(114, 114, 114));
 		lblNewLabel_1_1_1_1_1.setBounds(699, 0, 310, 49);
 		panel.add(lblNewLabel_1_1_1_1_1);
-		
+
 		JLabel lblNewLabel_1_1_1_1_1_1 = new JLabel("Cài Đặt ");
 		lblNewLabel_1_1_1_1_1_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1_1_1_1_1_1.setFont(new Font("Times New Roman", Font.PLAIN, 17));
 		lblNewLabel_1_1_1_1_1_1.setBackground(new Color(114, 114, 114));
 		lblNewLabel_1_1_1_1_1_1.setBounds(1019, 0, 243, 49);
 		panel.add(lblNewLabel_1_1_1_1_1_1);
-		
+
 		JLabel lblNewLabel_1_1_1_1_1_1_1 = new JLabel("Chat Box");
 		lblNewLabel_1_1_1_1_1_1_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1_1_1_1_1_1_1.setFont(new Font("Times New Roman", Font.PLAIN, 17));
 		lblNewLabel_1_1_1_1_1_1_1.setBackground(new Color(114, 114, 114));
 		lblNewLabel_1_1_1_1_1_1_1.setBounds(1279, 0, 221, 49);
 		panel.add(lblNewLabel_1_1_1_1_1_1_1);
-		
+
 		JLabel lblNewLabel_1_1_2 = new JLabel("Siêu quản trị ");
 		lblNewLabel_1_1_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1_1_2.setFont(new Font("Times New Roman", Font.PLAIN, 17));
 		lblNewLabel_1_1_2.setBackground(new Color(114, 114, 114));
 		lblNewLabel_1_1_2.setBounds(0, 59, 146, 49);
 		panel.add(lblNewLabel_1_1_2);
-		
+
 		JLabel lblNewLabel_1_1_2_1 = new JLabel("Quản trị ");
 		lblNewLabel_1_1_2_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1_1_2_1.setFont(new Font("Times New Roman", Font.PLAIN, 17));
 		lblNewLabel_1_1_2_1.setBackground(new Color(114, 114, 114));
 		lblNewLabel_1_1_2_1.setBounds(0, 108, 146, 49);
 		panel.add(lblNewLabel_1_1_2_1);
-		
+
 		JLabel lblNewLabel_1_1_2_1_1 = new JLabel("Ban Giám Đốc ");
 		lblNewLabel_1_1_2_1_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1_1_2_1_1.setFont(new Font("Times New Roman", Font.PLAIN, 17));
 		lblNewLabel_1_1_2_1_1.setBackground(new Color(114, 114, 114));
 		lblNewLabel_1_1_2_1_1.setBounds(0, 156, 146, 49);
 		panel.add(lblNewLabel_1_1_2_1_1);
-		
+
 		JLabel lblNewLabel_1_1_2_1_2 = new JLabel("Nhân Viên ");
 		lblNewLabel_1_1_2_1_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1_1_2_1_2.setFont(new Font("Times New Roman", Font.PLAIN, 17));
 		lblNewLabel_1_1_2_1_2.setBackground(new Color(114, 114, 114));
 		lblNewLabel_1_1_2_1_2.setBounds(0, 204, 146, 49);
 		panel.add(lblNewLabel_1_1_2_1_2);
-		
+
 		JLabel lblNewLabel = new JLabel("QUYỀN HẠNG CỦA CÁC NHÓM TÀI KHOẢN");
 		lblNewLabel.setForeground(new Color(0, 0, 160));
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setBounds(0, 0, 480, 35);
 		add(lblNewLabel);
-		
+
 		JLabel lblQuynHngCa = new JLabel("QUYỀN HẠNG CỦA CÁC TÀI KHOẢN");
 		lblQuynHngCa.setHorizontalAlignment(SwingConstants.CENTER);
 		lblQuynHngCa.setForeground(new Color(0, 0, 160));
 		lblQuynHngCa.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblQuynHngCa.setBounds(10, 331, 376, 35);
 		add(lblQuynHngCa);
-		
-		
+
+
 		//-------------------radio button for permission-------------------------------------------
 		rdbtnSQTChuyenBay = new JRadioButton("");
 		rdbtnSQTChuyenBay.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnSQTChuyenBay.setBounds(223, 55, 21, 41);
 		panel.add(rdbtnSQTChuyenBay);
-		
+
 		rdbtnQTChuyenBay = new JRadioButton("");
 		rdbtnQTChuyenBay.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnQTChuyenBay.setBounds(223, 108, 21, 41);
 		panel.add(rdbtnQTChuyenBay);
-		
+
 		rdbtnBGDChuyenBay = new JRadioButton("");
 		rdbtnBGDChuyenBay.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnBGDChuyenBay.setBounds(223, 156, 21, 41);
 		panel.add(rdbtnBGDChuyenBay);
-		
+
 		rdbtnNhanVien1 = new JRadioButton("");
 		rdbtnNhanVien1.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnNhanVien1.setBounds(223, 204, 21, 41);
 		panel.add(rdbtnNhanVien1);
-		
+
 		rdbtnSQTVeChuyenBay = new JRadioButton("");
 		rdbtnSQTVeChuyenBay.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnSQTVeChuyenBay.setBounds(414, 55, 21, 41);
 		panel.add(rdbtnSQTVeChuyenBay);
-		
+
 		rdbtnQTVeChuyenBay = new JRadioButton("");
 		rdbtnQTVeChuyenBay.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnQTVeChuyenBay.setBounds(414, 108, 21, 41);
 		panel.add(rdbtnQTVeChuyenBay);
-		
+
 		rdbtnBGDVeChuyenBay = new JRadioButton("");
 		rdbtnBGDVeChuyenBay.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnBGDVeChuyenBay.setBounds(414, 156, 21, 41);
 		panel.add(rdbtnBGDVeChuyenBay);
-		
+
 		rdbtnNhanVien2 = new JRadioButton("");
 		rdbtnNhanVien2.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnNhanVien2.setBounds(414, 204, 21, 41);
 		panel.add(rdbtnNhanVien2);
-		
+
 		rdbtnSQTMayBay = new JRadioButton("");
 		rdbtnSQTMayBay.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnSQTMayBay.setBounds(595, 55, 21, 41);
 		panel.add(rdbtnSQTMayBay);
-		
+
 		rdbtnQTMayBay = new JRadioButton("");
 		rdbtnQTMayBay.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnQTMayBay.setBounds(595, 108, 21, 41);
 		panel.add(rdbtnQTMayBay);
-		
+
 		rdbtnBGDMayBay = new JRadioButton("");
 		rdbtnBGDMayBay.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnBGDMayBay.setBounds(595, 156, 21, 41);
 		panel.add(rdbtnBGDMayBay);
-		
+
 		rdbtnNhanVien3 = new JRadioButton("");
 		rdbtnNhanVien3.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnNhanVien3.setBounds(595, 204, 21, 41);
 		panel.add(rdbtnNhanVien3);
-		
+
 		rdbtnSQLTKvaPP = new JRadioButton("");
 		rdbtnSQLTKvaPP.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnSQLTKvaPP.setBounds(842, 55, 21, 41);
 		panel.add(rdbtnSQLTKvaPP);
-		
+
 		rdbtnQTTKvaPQ = new JRadioButton("");
 		rdbtnQTTKvaPQ.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnQTTKvaPQ.setBounds(842, 108, 21, 41);
 		panel.add(rdbtnQTTKvaPQ);
-		
+
 		rdbtnBGDTKvaPQ = new JRadioButton("");
 		rdbtnBGDTKvaPQ.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnBGDTKvaPQ.setBounds(842, 156, 21, 41);
 		panel.add(rdbtnBGDTKvaPQ);
-		
+
 		rdbtnNhanVien4 = new JRadioButton("");
 		rdbtnNhanVien4.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnNhanVien4.setBounds(842, 204, 21, 41);
 		panel.add(rdbtnNhanVien4);
-		
+
 		rdbtnSQTCaiDat = new JRadioButton("");
 		rdbtnSQTCaiDat.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnSQTCaiDat.setBounds(1129, 55, 21, 41);
 		panel.add(rdbtnSQTCaiDat);
-		
+
 		rdbtnQTCaiDat = new JRadioButton("");
 		rdbtnQTCaiDat.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnQTCaiDat.setBounds(1129, 116, 21, 41);
 		panel.add(rdbtnQTCaiDat);
-		
+
 		rdbtnBGDCaiDat = new JRadioButton("");
 		rdbtnBGDCaiDat.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnBGDCaiDat.setBounds(1129, 164, 21, 41);
 		panel.add(rdbtnBGDCaiDat);
-		
+
 		rdbtnNhanVien5 = new JRadioButton("");
 		rdbtnNhanVien5.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnNhanVien5.setBounds(1129, 204, 21, 41);
 		panel.add(rdbtnNhanVien5);
-		
+
 		rdbtnSQTChatBox = new JRadioButton("");
 		rdbtnSQTChatBox.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnSQTChatBox.setBounds(1377, 55, 21, 41);
 		panel.add(rdbtnSQTChatBox);
-		
+
 		rdbtnQTChatBox = new JRadioButton("");
 		rdbtnQTChatBox.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnQTChatBox.setBounds(1377, 108, 21, 41);
 		panel.add(rdbtnQTChatBox);
-		
+
 		rdbtnBGDChatBox = new JRadioButton("");
 		rdbtnBGDChatBox.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnBGDChatBox.setBounds(1377, 156, 21, 41);
 		panel.add(rdbtnBGDChatBox);
-		
+
 		rdbtnNhanVien6 = new JRadioButton("");
 		rdbtnNhanVien6.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnNhanVien6.setBounds(1377, 204, 21, 41);
 		panel.add(rdbtnNhanVien6);
-		
-		
+
+
 		//--------------table for account ----------------------------------
 		//create account table
-		table = new JTable(); 
+		table = new JTable();
 		table.setSurrendersFocusOnKeystroke(true);
 		table.setColumnSelectionAllowed(true);
 		table.setCellSelectionEnabled(true);
 		//setting basic for table
-		table.setFont(new Font("Times New Roman", Font.BOLD, 15)); 
+		table.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		modelAccount = new DefaultTableModel();
 		Object [] column = {"Tên tài khoản","Email","Nhóm quyền"};
 		modelAccount.setColumnIdentifiers(column);
@@ -338,60 +325,60 @@ public class AccountAndPermission extends JPanel {
 		}
 		// Create scrollpane for account table
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(10, 368, 630, 264); 
+		scrollPane.setBounds(10, 368, 630, 264);
 		add(scrollPane);
 		scrollPane.setViewportView(table);
-		
-		
+
+
 		//-------------------create panel to add account---------------------------------
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_1.setBounds(693, 333, 786, 299);
 		add(panel_1);
 		panel_1.setLayout(null);
-		
+
 		//add jlabel for account panel
 		JLabel lbHoVaTen = new JLabel("Họ và tên ");
 		lbHoVaTen.setBounds(10, 10, 140, 30);
 		lbHoVaTen.setFont(new Font("Times New Roman", Font.BOLD, 21));
 		panel_1.add(lbHoVaTen);
-		
+
 		JLabel lbEmail = new JLabel("Email");
 		lbEmail.setFont(new Font("Times New Roman", Font.BOLD, 21));
 		lbEmail.setBounds(10, 50, 140, 30);
 		panel_1.add(lbEmail);
-		
+
 		JLabel lbSDT = new JLabel("Số điện thoại");
 		lbSDT.setFont(new Font("Times New Roman", Font.BOLD, 21));
 		lbSDT.setBounds(10, 90, 140, 30);
 		panel_1.add(lbSDT);
-		
+
 		JLabel lbMK = new JLabel("Mật khẩu");
 		lbMK.setFont(new Font("Times New Roman", Font.BOLD, 21));
 		lbMK.setBounds(10, 130, 140, 30);
 		panel_1.add(lbMK);
-		
+
 		JLabel lbNhomQuyen = new JLabel("Nhóm phân quyền ");
 		lbNhomQuyen.setFont(new Font("Times New Roman", Font.BOLD, 21));
 		lbNhomQuyen.setBounds(10, 170, 173, 30);
 		panel_1.add(lbNhomQuyen);
-		
+
 		//jtextfile for account pannel
 		tfHoVaTen = new JTextField();
 		tfHoVaTen.setBounds(232, 10, 522, 28);
 		panel_1.add(tfHoVaTen);
 		tfHoVaTen.setColumns(10);
-		
+
 		tfEmail = new JTextField();
 		tfEmail.setColumns(10);
 		tfEmail.setBounds(232, 50, 522, 28);
 		panel_1.add(tfEmail);
-		
+
 		tfSDT = new JTextField();
 		tfSDT.setColumns(10);
 		tfSDT.setBounds(232, 90, 522, 28);
 		panel_1.add(tfSDT);
-		
+
 		tfMK = new JTextField();
 		tfMK.setColumns(10);
 		tfMK.setBounds(232, 130, 522, 28);
@@ -402,12 +389,13 @@ public class AccountAndPermission extends JPanel {
 		cbQuyen.setModel(new DefaultComboBoxModel(new String[] {"Siêu quản trị", "Quản trị", "Ban giám đốc", "Nhân viên"}));
 		cbQuyen.setBounds(232, 171, 522, 30);
 		panel_1.add(cbQuyen);
-		
-		
+
+
 		//--------------------create button to add account--------------------------------
 		Button buttonCreateAccount = new Button("Tạo tài khoản");
 		buttonCreateAccount.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
+		    @Override
+			public void actionPerformed(ActionEvent e) {
 		        try {
 		            if (tfHoVaTen.getText().isEmpty() || tfEmail.getText().isEmpty() || tfSDT.getText().isEmpty() || tfMK.getText().isEmpty()) {
 		                JOptionPane.showMessageDialog(null, "Xin vui lòng nhập đầy đủ thông tin!", "Thông báo", JOptionPane.WARNING_MESSAGE);
@@ -460,7 +448,7 @@ public class AccountAndPermission extends JPanel {
 		                            // success info
 		                            JOptionPane.showMessageDialog(null, "Đã thêm tài khoản thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
 
-		                            // delete form 
+		                            // delete form
 		                            tfHoVaTen.setText("");
 		                            tfEmail.setText("");
 		                            tfSDT.setText("");
@@ -489,11 +477,12 @@ public class AccountAndPermission extends JPanel {
 		buttonCreateAccount.setFont(new Font("Times New Roman", Font.BOLD, 16));
 		buttonCreateAccount.setBounds(25, 249, 751, 44);
 		panel_1.add(buttonCreateAccount);
-		
+
 		//update button
 		buttonCapNhap = new Button("Cập nhập ");
 		buttonCapNhap.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
+		    @Override
+			public void actionPerformed(ActionEvent e) {
 		        // Retrieve existing email
 		        String existingEmail = tfEmail.getText();
 		        Account AC = new Account();
@@ -514,7 +503,7 @@ public class AccountAndPermission extends JPanel {
 		        } else {
 		            AC.setRoleID("RL0004");
 		        }
-		        // return table after update 
+		        // return table after update
 		        AAADAO.updateAC(AC);
 		        tfHoVaTen.setText("");
 		        tfEmail.setText("");
@@ -540,10 +529,11 @@ public class AccountAndPermission extends JPanel {
 		buttonCapNhap.setBackground(new Color(0, 0, 160));
 		buttonCapNhap.setBounds(25, 250, 249, 39);
 		panel_1.add(buttonCapNhap);
-		
+
 		//create delete button
 		buttonXoa = new Button("Xóa ");
 		buttonXoa.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				AAADAO.deleteByEmail(tfEmail.getText());
 				tfHoVaTen.setText("");
@@ -562,7 +552,7 @@ public class AccountAndPermission extends JPanel {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-                
+
 			}
 		});
 		//setting view for delete view
@@ -571,10 +561,11 @@ public class AccountAndPermission extends JPanel {
 		buttonXoa.setBackground(new Color(192, 192, 192));
 		buttonXoa.setBounds(311, 250, 212, 39);
 		panel_1.add(buttonXoa);
-		
+
 		//create cancel button
 		buttonHuy = new Button("Hủy");
 		buttonHuy.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				// clear form
                 tfHoVaTen.setText("");
@@ -592,11 +583,12 @@ public class AccountAndPermission extends JPanel {
 		buttonHuy.setBackground(new Color(128, 128, 128));
 		buttonHuy.setBounds(552, 250, 202, 39);
 		panel_1.add(buttonHuy);
-		
-		
+
+
 		//-----------Create and process for save permission group -----------------------------------
 		Button buttonLuuAp = new Button("Lưu");
 		buttonLuuAp.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				//string to save permission flag
 				String ACNV = "";
@@ -608,15 +600,15 @@ public class AccountAndPermission extends JPanel {
 				JRadioButton[] sieuQuanTriRadios = {rdbtnSQTChuyenBay, rdbtnSQTVeChuyenBay,rdbtnSQTMayBay, rdbtnSQLTKvaPP, rdbtnSQTCaiDat,rdbtnSQTChatBox};
 				JRadioButton[] quanTriRadios = {rdbtnQTChuyenBay, rdbtnQTVeChuyenBay, rdbtnQTMayBay, rdbtnQTTKvaPQ, rdbtnQTCaiDat, rdbtnQTChatBox};
 				JRadioButton[] bGDRadios = {rdbtnBGDChuyenBay, rdbtnBGDVeChuyenBay, rdbtnBGDMayBay, rdbtnBGDTKvaPQ, rdbtnBGDCaiDat, rdbtnBGDChatBox};
-				
+
 				//super admin
 				boolean tkvaPPSelected = rdbtnSQLTKvaPP.isSelected();
-				if(tkvaPPSelected == false) {
-					
+				if(!tkvaPPSelected) {
+
 					try {
 						JOptionPane.showMessageDialog(null, "Không được tắt quyền Tài Khoảng và Phân Quyền trên Siêu Quản Trị");
 						loadPermit();
-						
+
 					} catch (ClassNotFoundException | SQLException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -629,7 +621,7 @@ public class AccountAndPermission extends JPanel {
 			                ACSQT += "0";
 			            }
 			        }
-					
+
 					//Admin
 					for (JRadioButton radioButton : quanTriRadios) {
 			            if (radioButton.isSelected()) {
@@ -653,7 +645,7 @@ public class AccountAndPermission extends JPanel {
 			            } else {
 			                ACNV += "0";
 			            }
-			        }   
+			        }
 			        try {
 						PermissionDAO.setFlagPermit(ACSQT,"RL0001");
 						PermissionDAO.setFlagPermit(ACQT,"RL0002");
@@ -674,7 +666,7 @@ public class AccountAndPermission extends JPanel {
 		buttonLuuAp.setBackground(new Color(0, 0, 160));
 		buttonLuuAp.setBounds(1328, 0, 151, 39);
 		add(buttonLuuAp);
-		
+
 		//click row in account table event
 		table.addMouseListener(new MouseAdapter() {
 			@Override
@@ -715,10 +707,10 @@ public class AccountAndPermission extends JPanel {
 		        }
 			}
 		});
-		
+
 		loadPermit();
 	}
-	
+
 	//--------------------------function-------------------------------------------
 	//function generate account function
 	public static String generateUniqueAccountId() {
@@ -726,7 +718,7 @@ public class AccountAndPermission extends JPanel {
 		int accountIdDigits = 3; // Số chữ số sau tiền tố
 		String accountId = "";
 		boolean isUnique = false;
-			    
+
 		while (!isUnique) {
 			accountId = accountIdPrefix + generateRandomDigits(accountIdDigits); // Tạo mã tài khoản mới
 			// Kiểm tra xem mã tài khoản mới đã tồn tại hay chưa
@@ -736,7 +728,7 @@ public class AccountAndPermission extends JPanel {
 			            e.printStackTrace();
 			        }
 			    }
-			    
+
 			    return accountId;
 			}
 			// Phương thức để tạo chuỗi số ngẫu nhiên với độ dài cho trước
@@ -748,8 +740,8 @@ public class AccountAndPermission extends JPanel {
 			}
 			return sb.toString();
 		}
-		
-	//LOAD DATA TO ACCOUNT TABLE 
+
+	//LOAD DATA TO ACCOUNT TABLE
 	public void loadRsToTable(ResultSet rs) throws SQLException {
 		DefaultTableModel modelAccount = (DefaultTableModel) table.getModel();
 		modelAccount.setRowCount(0);
@@ -758,25 +750,25 @@ public class AccountAndPermission extends JPanel {
 					rs.getString("Name"),
 					rs.getString("Email"),
 					rs.getString("RoleName"),
-					
+
 			});
 		}
 	}
-	
-	
-	//LOAD QUYEN 
+
+
+	//LOAD QUYEN
 	public void loadPermit() throws ClassNotFoundException, SQLException {
 		Permission SQT = new Permission();
 		Permission QT = new Permission();
 		Permission BGD = new Permission();
 		Permission NV = new Permission();
-		
+
 		SQT = PermissionDAO.getInstance().setPMS("RL0001");
 		QT	= PermissionDAO.getInstance().setPMS("RL0002");
 		BGD = PermissionDAO.getInstance().setPMS("RL0003");
 		NV = PermissionDAO.getInstance().setPMS("RL0004");
-		
-		//HIEN THI CAC NUT SIEU QUANT TRI 
+
+		//HIEN THI CAC NUT SIEU QUANT TRI
 		int roleIdInt = Integer.parseInt(SQT.getPermissionCode());
 		if (roleIdInt % 10 == 1) {
 			((AbstractButton) rdbtnSQTChatBox).setSelected(true);
@@ -802,8 +794,8 @@ public class AccountAndPermission extends JPanel {
 			((AbstractButton) rdbtnSQTChuyenBay).setSelected(true);
 		}
 		roleIdInt = roleIdInt/10;
-		
-		//HIEN THI CAC NUT QUANT TRI 
+
+		//HIEN THI CAC NUT QUANT TRI
 		roleIdInt = Integer.parseInt(QT.getPermissionCode());
 		if (roleIdInt % 10 == 1) {
 			((AbstractButton) rdbtnQTChatBox).setSelected(true);
@@ -829,7 +821,7 @@ public class AccountAndPermission extends JPanel {
 			((AbstractButton) rdbtnQTChuyenBay).setSelected(true);
 		}
 		roleIdInt = roleIdInt/10;
-		
+
 		//HIEN THI CAC NUT BAN GIAM DOC
 		roleIdInt = Integer.parseInt(BGD.getPermissionCode());
 		if (roleIdInt % 10 == 1) {
@@ -856,7 +848,7 @@ public class AccountAndPermission extends JPanel {
 			((AbstractButton) rdbtnBGDChuyenBay).setSelected(true);
 		}
 		roleIdInt = roleIdInt/10;
-		//HIEN THI CAC NUT NHAN VIEN 
+		//HIEN THI CAC NUT NHAN VIEN
 		roleIdInt = Integer.parseInt(NV.getPermissionCode());
 		if (roleIdInt % 10 == 1) {
 			((AbstractButton) rdbtnNhanVien6).setSelected(true);
@@ -882,8 +874,8 @@ public class AccountAndPermission extends JPanel {
 			((AbstractButton) rdbtnNhanVien1).setSelected(true);
 		}
 		roleIdInt = roleIdInt/10;
-		
-		
-	} 
+
+
+	}
 }
 

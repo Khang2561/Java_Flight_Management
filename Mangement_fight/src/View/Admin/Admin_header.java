@@ -1,24 +1,23 @@
  package View.Admin;
 
-import java.awt.Color; 
+import java.awt.Button;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import View.Admin.AccountAndPermission.AccountAndPermission;
 import View.Admin.ChatBox.ChatBox;
-import View.Admin.Plane.PlaneUC;
-import View.Admin.Flight.FlightListUC;
 import View.Admin.Flight.FlightUC;
+import View.Admin.Plane.PlaneUC;
 import View.Admin.Setting.Setting;
-import java.awt.Button;
-import java.awt.event.ActionListener;
-import java.sql.SQLException;
-import java.awt.event.ActionEvent;
-
-import javax.swing.BoxLayout;
-import java.awt.Font;
+import View.Admin.TicketPlane.CreateFlightTicket;
 
 public class Admin_header extends JPanel {
 
@@ -28,9 +27,9 @@ public class Admin_header extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	
-	
-	
+
+
+
 	public Admin_header() {
 		setBackground(new Color(245, 245, 248));
 		setBounds(0, 0, 1500, 80);
@@ -40,9 +39,10 @@ public class Admin_header extends JPanel {
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon(Admin_header.class.getResource("/Resource/LogoMAT_180x40.png")));
 		add(lblNewLabel);
-		//button chuyen bay 
+		//button chuyen bay
 		buttons[0] = new Button("Chuyến bay ");
 		buttons[0].addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
 					clearAndShow(new FlightUC());
@@ -59,6 +59,7 @@ public class Admin_header extends JPanel {
 		//button ve may bay
 		buttons[1] = new Button("Vé máy bay");
 		buttons[1].addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
 					clearAndShow(new CreateFlightTicket());
@@ -72,28 +73,29 @@ public class Admin_header extends JPanel {
 //		button_1.setForeground(new Color(0, 0, 0));
 //		button_1.setBackground(new Color(245, 245, 248));
 //		add(button_1);
-		
+
 		//button may bay
 		buttons[2] = new Button("Máy bay");
 		buttons[2].addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//clearAndShow(new PlaneUC());
 				clearAndShow(new PlaneUC());
-				
-				
+
+
 			}
 		});
 //		button_1_1.setFont(new Font("Times New Roman", Font.BOLD, 18));
 //		button_1_1.setForeground(new Color(0, 0, 0));
 //		button_1_1.setBackground(new Color(245, 245, 248));
 //		add(button_1_1);
-		
+
 		//button tai khoan va phan quyen
 		buttons[3] = new Button("Tài khoảng và quyền ");
 //		button_1_1_1.setFont(new Font("Times New Roman", Font.BOLD, 18));
 		buttons[3].addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				/*JPanel aap = new AccountAndPermission();
 				aap.setSize(1500, 653);
@@ -113,10 +115,11 @@ public class Admin_header extends JPanel {
 //		button_1_1_1.setForeground(new Color(0, 0, 0));
 //		button_1_1_1.setBackground(new Color(245, 245, 248));
 //		add(button_1_1_1);
-		
+
 		//buttion cai dat
 		buttons[4] = new Button("Cài đặt");
 		buttons[4].addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				/*JPanel setting = new Setting();
 				setting.setSize(1500, 653);
@@ -136,10 +139,11 @@ public class Admin_header extends JPanel {
 //		button_1_1_1_1_1.setForeground(new Color(0, 0, 0));
 //		button_1_1_1_1_1.setBackground(new Color(245, 245, 248));
 //		add(button_1_1_1_1_1);
-		
-		//button box chat 
+
+		//button box chat
 		buttons[5] = new Button("Chat Box");
 		buttons[5].addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				/*JPanel chatbox = new ChatBox();
 		        chatbox.setSize(1500, 653);
@@ -154,16 +158,16 @@ public class Admin_header extends JPanel {
 //		button_1_1_1_1.setForeground(new Color(0, 0, 0));
 //		button_1_1_1_1.setBackground(new Color(245, 245, 248));
 //		add(button_1_1_1_1);
-		
+
 		//test
-		
+
 		for (Button button : buttons) {
 		    button.setFont(new Font("Times New Roman", Font.BOLD, 18));
 		    button.setBackground(new Color(245, 245, 248));
 		    button.setForeground(new Color(0, 0, 0));
 		    add(button);
 		}
-		
+
 	}
 	//ham xoa va tao form moi
 	public static void clearAndShow(JPanel newPanel) {
@@ -175,5 +179,5 @@ public class Admin_header extends JPanel {
         FormAdmin.contentPane.revalidate(); // Cập nhật giao diện
         FormAdmin.contentPane.repaint(); // Vẽ lại giao diện
     }
-	
+
 }

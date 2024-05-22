@@ -1,8 +1,6 @@
 package View.Admin.Flight;
 
 import java.awt.Color;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
@@ -127,8 +125,9 @@ public class OperationFlightUC extends JPanel {
 		JButton btnSave = new JButton("Lưu");
 		btnSave.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
 		btnSave.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 			}
 		});
 		btnSave.setBounds(50, 516, 106, 45);
@@ -214,6 +213,7 @@ public class OperationFlightUC extends JPanel {
 		btnAddIntermediateFlight.setBounds(691, 16, 106, 45);
 		panel.add(btnAddIntermediateFlight);
 		btnAddIntermediateFlight.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				int rowCount = tableModel.getRowCount();
 				Object[] rowData = new Object[] { rowCount + 1, "", "", "" };
@@ -223,10 +223,11 @@ public class OperationFlightUC extends JPanel {
 
 		JButton btnRemoveIntermediateFlight = new JButton("-");
 		btnRemoveIntermediateFlight.setFont(new Font("Lucida Grande", Font.PLAIN, 17));
-		
+
 		btnRemoveIntermediateFlight.setBounds(827, 16, 106, 45);
 		panel.add(btnRemoveIntermediateFlight);
 		btnRemoveIntermediateFlight.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				int selectedRow = tableIntermediateFlight.getSelectedRow();
 				if (selectedRow == -1) {
@@ -245,7 +246,7 @@ public class OperationFlightUC extends JPanel {
 		lblSnBayTrung.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		lblSnBayTrung.setBounds(978, 38, 220, 25);
 		panel.add(lblSnBayTrung);
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(690, 73, 767, 486);
 		panel.add(scrollPane);
@@ -257,18 +258,19 @@ public class OperationFlightUC extends JPanel {
 		tableIntermediateFlight.setRowHeight(30);
 		setJTableColumnsWidth(tableIntermediateFlight,767,10,40,25,25);
 		scrollPane.setViewportView(tableIntermediateFlight);
-		
+
 		tableModel = new DefaultTableModel(new Object[][] {},
 				new String[] { "STT", "Tên Sân Bay", "Thời Gian Dừng", "Ghi chú" }) {
 			private static final long serialVersionUID = 1L;
 			boolean[] columnEditables = new boolean[] { false, true, true, true };
 
+			@Override
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
 			}
 		};
 		tableIntermediateFlight.setModel(tableModel);
-		
+
 		TableColumn airportColumn = tableIntermediateFlight.getColumnModel().getColumn(1);
 		JComboBox<String> airportComboBox = new JComboBox<>();
 		airportComboBox.setModel(new DefaultComboBoxModel<>(new String[] { "Sân bay Cam Ranh (Khánh Hoà)",
@@ -278,7 +280,7 @@ public class OperationFlightUC extends JPanel {
 		airportColumn.setCellEditor(new DefaultCellEditor(airportComboBox));
 
 
-		
+
 
 	}
 

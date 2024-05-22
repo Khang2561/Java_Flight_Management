@@ -15,7 +15,7 @@ public class Flight {
 	    private BigDecimal ticketPrice;
 	    private Date departureDateTime;
 	    private int flightDuration;
-	    
+
 	 // Constructor
 	    public Flight() {
 	    }

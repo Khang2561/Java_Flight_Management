@@ -1,44 +1,34 @@
 package View.Admin.Setting;
 
+import java.awt.Button;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Random;
 
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.BevelBorder;
 import javax.swing.table.DefaultTableModel;
 
-import DALs.AirportDAL;
 import DAO.AAADAO;
 import DAO.AirportDAO;
 import DAO.ParametersDAO;
 import DAO.TicketClassDAO;
-import Model.Account;
 import Model.Airport;
 import Model.Parameters;
 import Model.TicketClass;
-import libData.JDBCUtil;
-
-import java.awt.Font;
-import javax.swing.JTable;
-import javax.swing.border.BevelBorder;
-import javax.swing.JTextField;
-import java.awt.Button;
-import java.awt.Panel;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.util.Random;
-import java.awt.Component;
-import javax.swing.JScrollBar;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import View.Admin.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class Setting extends JPanel {
 	//------------------------------------value----------------------------------------------------
@@ -67,13 +57,13 @@ public class Setting extends JPanel {
 	private JLabel lbearliestBookingTime;
 	public Parameters settingValue = new Parameters();
 	private Button btInsertAirport;
-	
+
 	//------------------------------setting main------------------------------------------------------
 	public Setting() throws ClassNotFoundException, SQLException {
 		setBackground(new Color(240, 240, 240));
 		setBounds(0, 71, 1500, 650);
 		setLayout(null);
-		
+
 		//-----------------------------airport table--------------------------------------------------
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 0, 1520, 297);
@@ -87,7 +77,7 @@ public class Setting extends JPanel {
 		lblNewLabel.setBounds(741, 5, 88, 25);
 		panel.add(lblNewLabel);
 		// create airport table
-		table = new JTable(); 
+		table = new JTable();
 		table.setSurrendersFocusOnKeystroke(true);
 		table.setColumnSelectionAllowed(true);
 		table.setCellSelectionEnabled(true);
@@ -101,10 +91,10 @@ public class Setting extends JPanel {
 		//load airport data from database
         try {
         	ResultSet rs = AirportDAO.selectAll();
-        	loadRsToTable(rs);      
+        	loadRsToTable(rs);
         } catch (SQLException | ClassNotFoundException ex) {
             ex.printStackTrace();
-        }	
+        }
         //add table to panel
         panel.add(new JScrollPane(table));
         add(panel);
@@ -122,7 +112,7 @@ public class Setting extends JPanel {
 							//String NameAirport = table.getValueAt(row, 0).toString();
 							/*
 							try (ResultSet rs = AirportDAO.findAPbyName(NameAirport)){
-								
+
 							}
 							*/
 							inputNameAirport.setText(table.getValueAt(row, 0).toString());
@@ -133,58 +123,59 @@ public class Setting extends JPanel {
 							JTextField inputNameCountry;
 							*/
 						}
-						
+
 					}
 				});
-		
+
 		//--------------------------------airport input-----------------------------------------
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_1.setBounds(790, 40, 706, 257);
 		panel.add(panel_1);
 		panel_1.setLayout(null);
-		
+
 		JLabel labelNameAirport = new JLabel("Tên sân bay :");
 		labelNameAirport.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		labelNameAirport.setBounds(35, 25, 99, 26);
 		panel_1.add(labelNameAirport);
-		
+
 		JLabel lbNameCity = new JLabel("Tên thành phố :");
 		lbNameCity.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		lbNameCity.setBounds(35, 87, 199, 26);
 		panel_1.add(lbNameCity);
-		
+
 		JLabel lbNameCountry = new JLabel("Tên đất nước :");
 		lbNameCountry.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		lbNameCountry.setBounds(35, 147, 99, 26);
 		panel_1.add(lbNameCountry);
-		
+
 		inputNameAirport = new JTextField();
 		inputNameAirport.setBounds(161, 25, 334, 24);
 		panel_1.add(inputNameAirport);
 		inputNameAirport.setColumns(10);
-		
+
 		inputNameCity = new JTextField();
 		inputNameCity.setColumns(10);
 		inputNameCity.setBounds(161, 87, 334, 24);
 		panel_1.add(inputNameCity);
-		
+
 		inputNameCountry = new JTextField();
 		inputNameCountry.setColumns(10);
 		inputNameCountry.setBounds(161, 147, 334, 24);
 		panel_1.add(inputNameCountry);
-		
+
 		//button to insert airport to table
 		btInsertAirport = new Button("Thêm ");
 		btInsertAirport.setFont(new Font("Arial", Font.BOLD, 14));
 		btInsertAirport.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 			    try {
 			        // Lấy dữ liệu nhập vào từ các trường
 			        String airportName = inputNameAirport.getText();
 			        String cityName = inputNameCity.getText();
 			        String countryName = inputNameCountry.getText();
-			        
+
 			        // Kiểm tra xem các trường dữ liệu có bị bỏ trống không
 			        if (airportName.isEmpty() || cityName.isEmpty() || countryName.isEmpty()) {
 			            // Nếu có trường dữ liệu nào bị bỏ trống, hiển thị thông báo
@@ -192,7 +183,7 @@ public class Setting extends JPanel {
 			        } else {
 			            // Kiểm tra xem sân bay có trùng không
 			            boolean isAirportExists = AirportDAO.isAirportExists(airportName, cityName, countryName);
-			            
+
 			            if (isAirportExists) {
 			                JOptionPane.showMessageDialog(null, "Sân bay đã tồn tại!", "Thông báo", JOptionPane.WARNING_MESSAGE);
 			            } else {
@@ -208,10 +199,10 @@ public class Setting extends JPanel {
 			                    air.setCityName(cityName);
 			                    air.setCountryName(countryName);
 			                    AirportDAO.getInstance().insert(air);
-			                    
+
 			                    // Thông báo nhập thành công
 			                    JOptionPane.showMessageDialog(null, "Đã thêm sân bay thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-			                    
+
 			                    // Xóa nội dung trong các trường nhập liệu
 			                    inputNameAirport.setText("");
 			                    inputNameCity.setText("");
@@ -241,17 +232,18 @@ public class Setting extends JPanel {
 		btInsertAirport.setBackground(new Color(3, 4, 94));
 		btInsertAirport.setBounds(35, 197, 576, 50);
 		panel_1.add(btInsertAirport);
-		
+
 		//button update airport
 		Button btUpdate = new Button("Cập nhật");
 		btUpdate.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
+		    @Override
+			public void actionPerformed(ActionEvent e) {
 		        try {
 		            int selectedRowIndex = table.getSelectedRow();
 		            if (selectedRowIndex != -1) {
 		                String airportNameRow = table.getValueAt(selectedRowIndex, 0).toString();
 		                ResultSet rs = AirportDAO.findAPbyName(airportNameRow);
-		                
+
 		                if (rs.next()) {
 		                    // If ResultSet has rows, retrieve data
 		                    Airport ap = new Airport();
@@ -259,9 +251,9 @@ public class Setting extends JPanel {
 		                    ap.setAirportName(inputNameAirport.getText());
 		                    ap.setCityName(inputNameCity.getText());
 		                    ap.setCountryName(inputNameCountry.getText());
-		                    
+
 		                    int isUpdated = AirportDAO.updatebyID(ap);
-		                    
+
 		                    if (isUpdated > 0) {
 		                        ResultSet updatedRs = AirportDAO.selectAll();
 		                        loadRsToTable(updatedRs);
@@ -292,11 +284,12 @@ public class Setting extends JPanel {
 		btUpdate.setBackground(new Color(3, 4, 94));
 		btUpdate.setBounds(46, 199, 168, 48);
 		panel_1.add(btUpdate);
-		
-		
+
+
 		//button delete airport
 		Button btDelete = new Button("Xóa");
 		btDelete.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				AirportDAO.deleteByName(inputNameAirport.getText());
 				inputNameAirport.setText("");
@@ -312,7 +305,7 @@ public class Setting extends JPanel {
 						ResultSet updatedRs = AirportDAO.selectAll();
 		                loadRsToTable(updatedRs);
 					}
-					
+
 				} catch (ClassNotFoundException | SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -324,11 +317,12 @@ public class Setting extends JPanel {
 		btDelete.setBackground(new Color(192, 192, 192));
 		btDelete.setBounds(267, 199, 159, 48);
 		panel_1.add(btDelete);
-		
-		
+
+
 		//button cancel airport
 		Button btCancel = new Button("Hủy");
 		btCancel.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				inputNameAirport.setText("");
 				inputNameCity.setText("");
@@ -342,78 +336,78 @@ public class Setting extends JPanel {
 		btCancel.setBackground(new Color(128, 128, 128));
 		btCancel.setBounds(472, 199, 137, 48);
 		panel_1.add(btCancel);
-		
-		
-		
-		
-		//cai dat co ban 
+
+
+
+
+		//cai dat co ban
 		JPanel panel_1_1 = new JPanel();
 		panel_1_1.setLayout(null);
 		panel_1_1.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_1_1.setBounds(10, 338, 590, 290);
 		add(panel_1_1);
-		
+
 		JLabel lbminimunFlightTime = new JLabel("Thời gian bay tối thiểu ");
 		lbminimunFlightTime.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		lbminimunFlightTime.setBounds(10, 10, 174, 26);
 		panel_1_1.add(lbminimunFlightTime);
-		
+
 		JLabel lbmaxPreventiveAirports = new JLabel("Số sân bay trung gian tối đa");
 		lbmaxPreventiveAirports.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		lbmaxPreventiveAirports.setBounds(10, 46, 198, 26);
 		panel_1_1.add(lbmaxPreventiveAirports);
-		
+
 		JLabel lbminimunStopoverTime = new JLabel("Thời gian dừng tối thiểu");
 		lbminimunStopoverTime.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		lbminimunStopoverTime.setBounds(10, 82, 187, 26);
 		panel_1_1.add(lbminimunStopoverTime);
-		
+
 		JLabel lbmaximumStopoverTime = new JLabel("Thời gian dừng tối đa ");
 		lbmaximumStopoverTime.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		lbmaximumStopoverTime.setBounds(10, 118, 198, 26);
 		panel_1_1.add(lbmaximumStopoverTime);
-		
+
 		lbearliestBookingTime = new JLabel("Thời gian đặt vé chậm nhất ");
 		lbearliestBookingTime.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		lbearliestBookingTime.setBounds(10, 154, 198, 26);
 		panel_1_1.add(lbearliestBookingTime);
-		
+
 		JLabel lblatestBookingCancellationTime = new JLabel("Thời gian hủy đặt vé chậm nhất ");
 		lblatestBookingCancellationTime.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		lblatestBookingCancellationTime.setBounds(10, 190, 210, 26);
 		panel_1_1.add(lblatestBookingCancellationTime);
-		
-		
+
+
 		tfminimumFlightTime = new JTextField();
 		tfminimumFlightTime.setBounds(255, 15, 81, 19);
 		panel_1_1.add(tfminimumFlightTime);
 		tfminimumFlightTime.setColumns(10);
 		tfmaxPreventiveAirports = new JTextField();
-		
+
 		tfmaxPreventiveAirports.setColumns(10);
 		tfmaxPreventiveAirports.setBounds(255, 51, 81, 19);
 		panel_1_1.add(tfmaxPreventiveAirports);
-		
+
 		tfminimumStopoverTime = new JTextField();
 		tfminimumStopoverTime.setColumns(10);
 		tfminimumStopoverTime.setBounds(255, 87, 81, 19);
 		panel_1_1.add(tfminimumStopoverTime);
-		
+
 		tfmaximumStopoverTime = new JTextField();
 		tfmaximumStopoverTime.setColumns(10);
 		tfmaximumStopoverTime.setBounds(255, 123, 81, 19);
 		panel_1_1.add(tfmaximumStopoverTime);
-		
+
 		tfearliestBookingTime = new JTextField();
 		tfearliestBookingTime.setColumns(10);
 		tfearliestBookingTime.setBounds(255, 159, 81, 19);
 		panel_1_1.add(tfearliestBookingTime);
-		
+
 		tflatestBookingCancellationTime = new JTextField();
 		tflatestBookingCancellationTime.setColumns(10);
 		tflatestBookingCancellationTime.setBounds(255, 195, 81, 19);
 		panel_1_1.add(tflatestBookingCancellationTime);
-		
+
 		//
 		reloadSetting();
 		//
@@ -421,36 +415,37 @@ public class Setting extends JPanel {
 		lblNewLabel_1_3_1.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		lblNewLabel_1_3_1.setBounds(356, 10, 46, 26);
 		panel_1_1.add(lblNewLabel_1_3_1);
-		
+
 		JLabel lblNewLabel_1_3_1_1 = new JLabel("Phút");
 		lblNewLabel_1_3_1_1.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		lblNewLabel_1_3_1_1.setBounds(356, 82, 46, 26);
 		panel_1_1.add(lblNewLabel_1_3_1_1);
-		
+
 		JLabel lblNewLabel_1_3_1_2 = new JLabel("Phút");
 		lblNewLabel_1_3_1_2.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		lblNewLabel_1_3_1_2.setBounds(356, 118, 46, 26);
 		panel_1_1.add(lblNewLabel_1_3_1_2);
-		
+
 		JLabel lblNewLabel_1_3_1_2_1 = new JLabel("Ngày");
 		lblNewLabel_1_3_1_2_1.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		lblNewLabel_1_3_1_2_1.setBounds(356, 154, 46, 26);
 		panel_1_1.add(lblNewLabel_1_3_1_2_1);
-		
+
 		JLabel lblNewLabel_1_3_1_2_1_1 = new JLabel("Ngày");
 		lblNewLabel_1_3_1_2_1_1.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		lblNewLabel_1_3_1_2_1_1.setBounds(356, 190, 46, 26);
 		panel_1_1.add(lblNewLabel_1_3_1_2_1_1);
-		
+
 		JLabel lblNewLabel_1_3_1_2_1_2 = new JLabel("Sân");
 		lblNewLabel_1_3_1_2_1_2.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		lblNewLabel_1_3_1_2_1_2.setBounds(356, 46, 46, 26);
 		panel_1_1.add(lblNewLabel_1_3_1_2_1_2);
-		
-		//nut lưu setting cơ bản 
+
+		//nut lưu setting cơ bản
 		Button button_3 = new Button("Lưu");
 		button_3.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
+		    @Override
+			public void actionPerformed(ActionEvent e) {
 		        try {
 		            int minimumFlightTime = Integer.parseInt(tfminimumFlightTime.getText());
 		            int tfmaxPreventiveAirports1 = Integer.parseInt(tfmaxPreventiveAirports.getText());
@@ -458,22 +453,22 @@ public class Setting extends JPanel {
 		            int tfmaximumStopoverTime1 = Integer.parseInt(tfmaximumStopoverTime.getText());
 		            int tfearliestBookingTime1 = Integer.parseInt(tfearliestBookingTime.getText());
 		            int tflatestBookingCancellationTime1 = Integer.parseInt(tflatestBookingCancellationTime.getText());
-		            
+
 		            // Kiểm tra điều kiện tfminimumStopoverTime1 < tfmaximumStopoverTime1
 		            if (tfminimumStopoverTime1 >= tfmaximumStopoverTime1) {
 		                JOptionPane.showMessageDialog(null, "Thời gian dừng tối thiểu phải nhỏ hơn thời gian dừng tối đa.");
 		                return; // Dừng phương thức nếu điều kiện không được thỏa mãn
 		            }
-		            
+
 		            // Tiếp tục nếu điều kiện được thỏa mãn
-		            
+
 		            settingValue.setMinimumFlightTime(minimumFlightTime);
 		            settingValue.setMaxPreventiveAirports(tfmaxPreventiveAirports1);
 		            settingValue.setMinimumStopoverTime(tfminimumStopoverTime1);
 		            settingValue.setMaximumStopoverTime(tfmaximumStopoverTime1);
 		            settingValue.setEarliestBookingTime(tfearliestBookingTime1);
 		            settingValue.setLatestBookingCancellationTime(tflatestBookingCancellationTime1);
-		            
+
 		            int rowsAffected = ParametersDAO.updateFightTime(settingValue);
 		            reloadSetting();
 		            if (rowsAffected > 0) {
@@ -499,38 +494,39 @@ public class Setting extends JPanel {
 		button_3.setBackground(new Color(3, 4, 94));
 		button_3.setBounds(10, 243, 570, 37);
 		panel_1_1.add(button_3);
-		
-		
+
+
 		//HANG VE
 		JPanel panel_1_2 = new JPanel();
 		panel_1_2.setLayout(null);
 		panel_1_2.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_1_2.setBounds(639, 338, 836, 290);
 		add(panel_1_2);
-		
+
 		JLabel lbNameClass = new JLabel("Tên hạng vé :");
 		lbNameClass.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		lbNameClass.setBounds(416, 59, 99, 26);
 		panel_1_2.add(lbNameClass);
-		
+
 		JLabel lbNamePercent = new JLabel("Phần trăm đơn giá :");
 		lbNamePercent.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		lbNamePercent.setBounds(416, 121, 199, 26);
 		panel_1_2.add(lbNamePercent);
-		
+
 		inputNameClass = new JTextField();
 		inputNameClass.setColumns(10);
 		inputNameClass.setBounds(558, 62, 221, 24);
 		panel_1_2.add(inputNameClass);
-		
+
 		inputNamePercent = new JTextField();
 		inputNamePercent.setColumns(10);
 		inputNamePercent.setBounds(558, 124, 221, 24);
 		panel_1_2.add(inputNamePercent);
-		
+
 		Button btnThemTicketClass = new Button("Thêm ");
 		btnThemTicketClass.setFont(new Font("Arial", Font.BOLD, 14));
 		btnThemTicketClass.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
 			        // Kiểm tra xem tài khoản có tồn tại không
@@ -541,7 +537,7 @@ public class Setting extends JPanel {
 			        	// Nếu sân bay chưa tồn tại, tiến hành thêm mới
 		                ResultSet rs = TicketClassDAO.countTicketClass();
 		                if (rs.next()) {
-		                   
+
 		                    String inputAirportId = generateUniqueTicketClassId();
 
 		                    TicketClass ticketClass = new TicketClass();
@@ -549,14 +545,14 @@ public class Setting extends JPanel {
 		                    ticketClass.setTicketClassName(inputNameClass.getText());
 		                    ticketClass.setPricePercentage(inputNamePercent.getText());
 		                    TicketClassDAO.getInstance().insert(ticketClass);
-		                    
+
 		                    // Thông báo nhập thành công
 		                    JOptionPane.showMessageDialog(null, "Đã thêm sân bay thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-		                    
+
 		                    // Xóa nội dung trong các trường nhập liệu
 		                    inputNameClass.setText("");
 		                    inputNamePercent.setText("");
-		               
+
 		                    // Load lại dữ liệu lên JTable
 		                    ResultSet updatedRs = TicketClassDAO.selectAll();
 		                    loadRsToTableTicketLevel(updatedRs);
@@ -578,17 +574,18 @@ public class Setting extends JPanel {
 		btnThemTicketClass.setBackground(new Color(3, 4, 94));
 		btnThemTicketClass.setBounds(416, 180, 410, 37);
 		panel_1_2.add(btnThemTicketClass);
-		
+
 		Button btnUpdateTicketClass = new Button("Cập nhập");
 		btnUpdateTicketClass.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
+		    @Override
+			public void actionPerformed(ActionEvent e) {
 		        //----------------------------------
 		        try {
 		            int selectedRowIndex = table_1.getSelectedRow();  // Make sure table_1 is used for selecting row
 		            if (selectedRowIndex != -1) {
 		                String ticketClassNameRow = table_1.getValueAt(selectedRowIndex, 0).toString(); // Assuming first column holds the ticket class name
 		                ResultSet rs = TicketClassDAO.findTCbynName(ticketClassNameRow);
-		                
+
 		                // Check if ResultSet has any rows
 		                if (rs.next()) {
 		                    // If ResultSet has rows, retrieve data
@@ -596,9 +593,9 @@ public class Setting extends JPanel {
 		                    tc.setTicketClassID(rs.getString("TicketClassID"));
 		                    tc.setTicketClassName(inputNameClass.getText());
 		                    tc.setPricePercentage(inputNamePercent.getText());
-		                    
+
 		                    int isUpdated = TicketClassDAO.updateTicketClass(tc);
-		                    
+
 		                    if (isUpdated > 0) {
 		                        ResultSet updatedRs = TicketClassDAO.selectAll();
 		                        loadRsToTableTicketLevel(updatedRs);
@@ -629,9 +626,10 @@ public class Setting extends JPanel {
 		btnUpdateTicketClass.setBackground(new Color(3, 4, 94));
 		btnUpdateTicketClass.setBounds(416, 180, 131, 37);
 		panel_1_2.add(btnUpdateTicketClass);
-		
+
 		Button buttonDeleteTicketClass = new Button("Xóa");
 		buttonDeleteTicketClass.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				TicketClassDAO.deleteByName(inputNameClass.getText());
 				inputNameClass.setText("");
@@ -646,7 +644,7 @@ public class Setting extends JPanel {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-                
+
 			}
 		});
 		buttonDeleteTicketClass.setFont(new Font("Arial", Font.BOLD, 14));
@@ -654,26 +652,26 @@ public class Setting extends JPanel {
 		buttonDeleteTicketClass.setBackground(Color.LIGHT_GRAY);
 		buttonDeleteTicketClass.setBounds(573, 180, 123, 37);
 		panel_1_2.add(buttonDeleteTicketClass);
-		
+
 		JLabel lbHangVe = new JLabel("HẠNG VÉ");
 		lbHangVe.setHorizontalAlignment(SwingConstants.CENTER);
 		lbHangVe.setForeground(new Color(0, 0, 160));
 		lbHangVe.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lbHangVe.setBounds(0, 10, 696, 25);
 		panel_1_2.add(lbHangVe);
-		
+
 		JScrollPane scrollPane_1 = new JScrollPane((Component) null);
-		
+
 		scrollPane_1.setBounds(10, 45, 382, 235);
 		panel_1_2.add(scrollPane_1);
-		
+
 		//table ticket class
 		table_1 = new JTable();
 		table_1.setSurrendersFocusOnKeystroke(true);
 		table_1.setColumnSelectionAllowed(true);
 		table_1.setCellSelectionEnabled(true);
 		table_1.setFont(new Font("Times New Roman", Font.BOLD, 15)); // Thiết lập font cho bảng
-		
+
 		Object [] column1 = {"Tên hạng vé","Phần trăm"};
 		modelTicketLevel = new DefaultTableModel();
 		modelTicketLevel.setColumnIdentifiers(column1);
@@ -686,9 +684,10 @@ public class Setting extends JPanel {
 			ex.printStackTrace();
 		}
 		scrollPane_1.setViewportView(table_1);
-		
+
 		Button buttonCancelTicketClass = new Button("Hủy ");
 		buttonCancelTicketClass.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				inputNameClass.setText("");
             	inputNamePercent.setText("");
@@ -700,7 +699,7 @@ public class Setting extends JPanel {
 		buttonCancelTicketClass.setBackground(new Color(128, 128, 128));
 		buttonCancelTicketClass.setBounds(714, 180, 112, 37);
 		panel_1_2.add(buttonCancelTicketClass);
-		
+
 		table_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -713,7 +712,7 @@ public class Setting extends JPanel {
 		                	inputNameClass.setText(rs.getString("TicketClassName"));
 		                	inputNamePercent.setText(rs.getString("PricePercentage"));
 		                	btnThemTicketClass.setVisible(false);
-		        
+
 		                    // Hiển thị thông tin tài khoản hoặc thực hiện các thao tác khác ở đây
 		                } else {
 		                    // Không có tài khoản nào được tìm thấy
@@ -722,16 +721,16 @@ public class Setting extends JPanel {
 		                ex.printStackTrace();
 		                // Xử lý ngoại lệ
 		            }
-					
+
 				}
 			}
 		});
-		
+
 	}
-	
-	
-	
-	//load data len teable tai bang setting 
+
+
+
+	//load data len teable tai bang setting
 	public void loadRsToTable(ResultSet rs) throws SQLException {
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		model.setRowCount(0);
@@ -740,7 +739,7 @@ public class Setting extends JPanel {
 					rs.getString("AirportName"),
 					rs.getString("CityName"),
 					rs.getString("CountryName"),
-					
+
 			});
 		}
 	}
@@ -764,7 +763,7 @@ public class Setting extends JPanel {
 		tfearliestBookingTime.setText(Integer.toString(settingValue.getEarliestBookingTime()));
 		tflatestBookingCancellationTime.setText(Integer.toString(settingValue.getLatestBookingCancellationTime()));
 	}
-	
+
 	// Phương thức để load dữ liệu lên bảng hạng vé
 	public void loadRsToTableTicketLevel(ResultSet rs) throws SQLException {
 	    DefaultTableModel modelTicketLevel = (DefaultTableModel) table_1.getModel();
@@ -781,7 +780,7 @@ public class Setting extends JPanel {
 		int accountIdDigits = 3; // Số chữ số sau tiền tố
 		String accountId = "";
 		boolean isUnique = false;
-			    
+
 		while (!isUnique) {
 			accountId = accountIdPrefix + generateRandomDigits(accountIdDigits); // Tạo mã tài khoản mới
 			// Kiểm tra xem mã tài khoản mới đã tồn tại hay chưa
@@ -791,7 +790,7 @@ public class Setting extends JPanel {
 			            e.printStackTrace();
 			        }
 			    }
-			    
+
 			    return accountId;
 	}
 	private String generateRandomDigits(int length) {

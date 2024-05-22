@@ -12,7 +12,7 @@ public class Account {
     private String roleID;
     private String permissionCode;
     private String roleName;
-    
+
  // Constructor
     public Account(String accountID, String name, String password, String phone, String email, Date created, String roleID, String permissionCode, String roleName) {
         this.accountID = accountID;
@@ -25,9 +25,9 @@ public class Account {
         this.permissionCode = permissionCode;
         this.roleName = roleName;
     }
-    
+
     public Account() {
-    	
+
     }
 
 	public String getAccountID() {

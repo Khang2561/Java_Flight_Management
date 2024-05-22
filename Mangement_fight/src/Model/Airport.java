@@ -55,5 +55,5 @@ public class Airport {
 		return "Airport [airportID=" + airportID + ", airportName=" + airportName + ", cityName=" + cityName
 				+ ", countryName=" + countryName + "]";
 	}
-    
+
 }

@@ -12,12 +12,12 @@ import javax.swing.JPasswordField;
 public class Utils {
 	public static JLabel lblShowAndHidePassword(JPasswordField passwordField, int width, int height) {
         JLabel lblShowAndHidePassword = new JLabel();
-        
+
         ImageIcon scaledShowPassword = scaledImage(Utils.class.getResource("/Resource/view.png").getPath(), width, height);
 		ImageIcon scaledHidePassword = scaledImage(Utils.class.getResource("/Resource/hide.png").getPath(), width, height);
-		
+
 		 lblShowAndHidePassword.setIcon(scaledShowPassword);
-		    
+
 		 lblShowAndHidePassword.addMouseListener(new MouseAdapter() {
 			    boolean isShowing = false;
 
@@ -27,7 +27,7 @@ public class Utils {
 			        passwordField.setEchoChar(isShowing ? (char) 0 : '\u2022');
 			        lblShowAndHidePassword.setIcon(isShowing ? scaledHidePassword : scaledShowPassword);
 			    }
-			    
+
 			    @Override
 			    public void mouseEntered(MouseEvent e) {
 			        lblShowAndHidePassword.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -37,10 +37,10 @@ public class Utils {
 			        lblShowAndHidePassword.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 			    }
 			});
-		
+
         return lblShowAndHidePassword;
     }
-	
+
 	public static ImageIcon scaledImage(String imageDirectory, int width, int height) {
 	    ImageIcon icon = new ImageIcon(imageDirectory);
 	    Image image = icon.getImage();

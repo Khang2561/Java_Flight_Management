@@ -46,7 +46,7 @@ public class PermissionDAO implements DAOInterface<Parameters> {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	public static int setFlagPermit(String PermissiongCode, String RoleID)throws SQLException, ClassNotFoundException{
 		Connection con = null;
 	    PreparedStatement preparedStatement = null;
@@ -54,18 +54,18 @@ public class PermissionDAO implements DAOInterface<Parameters> {
 	    try {
 	    	//B1: KET NOI VOI DATABASE
 	        con = JDBCUtil.getConnection();
-	        //B2: THUC HIEN CAU LENH SQL 
+	        //B2: THUC HIEN CAU LENH SQL
 	        String sql = "UPDATE PERMISSION SET PermissionCode = ? WHERE RoleID = ?";
 	        //B3: TAO STATEMENT
 	        preparedStatement = con.prepareStatement(sql);
-	        
+
 	        // Set values for parameters
 	        preparedStatement.setString(1, PermissiongCode);
 	        preparedStatement.setString(2, RoleID);
-	        
+
 	        // Execute the statement
 	        rowsAffected = preparedStatement.executeUpdate();
-	        //B5: CLOSE CONNECTION 
+	        //B5: CLOSE CONNECTION
 	        JDBCUtil.closeConnection(con);
 	    } catch (SQLException e) {
 	        e.printStackTrace();
@@ -82,14 +82,14 @@ public class PermissionDAO implements DAOInterface<Parameters> {
 		}
 	    return rowsAffected;
 	}
-	
+
 	public Permission setPMS(String roleID) throws SQLException, ClassNotFoundException {
 		Permission tmp = new Permission();
-		
+
 		Connection connect = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        
+
 		if(roleID == "RL0001") {
 			tmp.setRoleID("RL0001");
 			tmp.setRoleName("Siêu quản trị");
@@ -98,7 +98,7 @@ public class PermissionDAO implements DAOInterface<Parameters> {
 	            connect = JDBCUtil.getConnection();
 	            stmt = connect.prepareStatement(query);
 	            rs = stmt.executeQuery();
-	            
+
 	            if (rs.next()) {
 	                tmp.setPermissionCode(rs.getString("PermissionCode"));
 	            }
@@ -126,7 +126,7 @@ public class PermissionDAO implements DAOInterface<Parameters> {
 	            connect = JDBCUtil.getConnection();
 	            stmt = connect.prepareStatement(query);
 	            rs = stmt.executeQuery();
-	            
+
 	            if (rs.next()) {
 	                tmp.setPermissionCode(rs.getString("PermissionCode"));
 	            }
@@ -154,7 +154,7 @@ public class PermissionDAO implements DAOInterface<Parameters> {
 	            connect = JDBCUtil.getConnection();
 	            stmt = connect.prepareStatement(query);
 	            rs = stmt.executeQuery();
-	            
+
 	            if (rs.next()) {
 	                tmp.setPermissionCode(rs.getString("PermissionCode"));
 	            }
@@ -182,7 +182,7 @@ public class PermissionDAO implements DAOInterface<Parameters> {
 	            connect = JDBCUtil.getConnection();
 	            stmt = connect.prepareStatement(query);
 	            rs = stmt.executeQuery();
-	            
+
 	            if (rs.next()) {
 	                tmp.setPermissionCode(rs.getString("PermissionCode"));
 	            }
@@ -201,9 +201,9 @@ public class PermissionDAO implements DAOInterface<Parameters> {
 	            }
 	        }
 			return tmp;
-		}	
+		}
     }
-	
+
 	public String getPMS(String roleID) throws Exception {
 		 try {
 		        // Establish a connection to your database
@@ -226,7 +226,7 @@ public class PermissionDAO implements DAOInterface<Parameters> {
 		        return null;
 		    }
 	}
-	
+
 	public void setPermsionAccess(String permissionCode, Button[] buttons) {
 	    for (int i = 0; i < permissionCode.length(); i++) {
 	        char bit = permissionCode.charAt(i);

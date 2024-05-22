@@ -7,18 +7,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-import javax.swing.JTextField;
-
-import Model.Account;
 import Model.TicketClass;
 import libData.JDBCUtil;
 
 public class TicketClassDAO implements DAOInterface<TicketClass>{
-	
+
 	public static TicketClassDAO getInstance() {
 		return new TicketClassDAO();
 	}
-	
+
 	@Override
 	public int insert(TicketClass t) {
 		Connection con = null;
@@ -28,19 +25,19 @@ public class TicketClassDAO implements DAOInterface<TicketClass>{
 	    try {
 	    	//B1: KET NOI VOI DATABASE
 	        con = JDBCUtil.getConnection();
-	        //B2: THUC HIEN CAU LENH SQL 
+	        //B2: THUC HIEN CAU LENH SQL
 	        String sql = "INSERT INTO TICKET_CLASS (TicketClassID, TicketClassName, PricePercentage) VALUES (?, ?, ?)";
 	        //B3: TAO STATEMENT
 	        preparedStatement = con.prepareStatement(sql);
-	        
+
 	        // Set values for parameters
 	        preparedStatement.setString(1, t.getTicketClassID());
 	        preparedStatement.setString(2, t.getTicketClassName());
 	        preparedStatement.setString(3, t.getPricePercentage());
-	        
+
 	        // Execute the statement
 	        rowsAffected = preparedStatement.executeUpdate();
-	        //B5: CLOSE CONNECTION 
+	        //B5: CLOSE CONNECTION
 	        JDBCUtil.closeConnection(con);
 	    } catch (SQLException e) {
 	        e.printStackTrace();
@@ -55,7 +52,7 @@ public class TicketClassDAO implements DAOInterface<TicketClass>{
 	            }
 	        }
 	    }
-	    
+
 	    return rowsAffected;
 	}
 
@@ -82,7 +79,7 @@ public class TicketClassDAO implements DAOInterface<TicketClass>{
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	public static ResultSet selectAll() throws SQLException, ClassNotFoundException {
 	    //thu cua thay
 		Connection connect = null;
@@ -107,8 +104,8 @@ public class TicketClassDAO implements DAOInterface<TicketClass>{
 	    }*/
 		return rs;
 	}
-	
-	//DEM SAN BAY 
+
+	//DEM SAN BAY
 	public static ResultSet countTicketClass() throws SQLException, ClassNotFoundException {
         Connection connect = null;
         PreparedStatement stmt = null;
@@ -122,7 +119,7 @@ public class TicketClassDAO implements DAOInterface<TicketClass>{
         } catch (SQLException ex) {
             Logger.getLogger(null);
             throw ex;
-        } 
+        }
     }
 
 	public static boolean isTicketClassExists(String ticketClassName) throws SQLException, ClassNotFoundException {
@@ -148,9 +145,9 @@ public class TicketClassDAO implements DAOInterface<TicketClass>{
 	            connect.close();
 	        }
 	    }
-		
+
 	}
-	
+
 	public static ResultSet findTCbynName(String name) throws SQLException, ClassNotFoundException{
 		 //ket noi sql nguyen mau
 		Connection connect = null;
@@ -166,10 +163,10 @@ public class TicketClassDAO implements DAOInterface<TicketClass>{
 	    } catch (SQLException ex) {
 	       Logger.getLogger(null);
 	       throw ex;
-	    } 
+	    }
 		return rs;
 	}
-	
+
 	public static int deleteByName(String name) {
 	    Connection con = null;
 	    PreparedStatement preparedStatement = null;
@@ -178,19 +175,19 @@ public class TicketClassDAO implements DAOInterface<TicketClass>{
 	    try {
 	        // Establish connection with the database
 	        con = JDBCUtil.getConnection();
-	        
+
 	        // Define the SQL statement
 	        String sql = "DELETE FROM TICKET_CLASS WHERE TicketClassName = ?";
-	        
+
 	        // Create a prepared statement
 	        preparedStatement = con.prepareStatement(sql);
-	        
+
 	        // Set the value for the parameter
 	        preparedStatement.setString(1, name);
-	        
+
 	        // Execute the statement
 	        rowsAffected = preparedStatement.executeUpdate();
-	        
+
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    } finally {
@@ -215,21 +212,21 @@ public class TicketClassDAO implements DAOInterface<TicketClass>{
 	    try {
 	        // Kết nối đến cơ sở dữ liệu
 	        con = JDBCUtil.getConnection();
-	        
+
 	        // Chuẩn bị câu lệnh SQL cập nhật
 	        String sql = "UPDATE TICKET_CLASS SET TicketClassName = ?, PricePercentage = ? WHERE TicketClassID = ?";
-	        
+
 	        // Tạo một PreparedStatement
 	        preparedStatement = con.prepareStatement(sql);
-	        
+
 	        // Thiết lập các tham số cho câu lệnh SQL
 	        preparedStatement.setString(1, t.getTicketClassName());
 	        preparedStatement.setString(2, t.getPricePercentage());
 	        preparedStatement.setString(3, t.getTicketClassID());
-	        
+
 	        // Thực thi câu lệnh SQL để cập nhật dữ liệu
 	        rowsAffected = preparedStatement.executeUpdate();
-	        
+
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    } finally {
@@ -245,7 +242,7 @@ public class TicketClassDAO implements DAOInterface<TicketClass>{
 	    }
 	    return rowsAffected;
 	}
-	
+
 	public static int updateAirport(TicketClass updatedAirport) {
 	    Connection con = null;
 	    PreparedStatement preparedStatement = null;
@@ -263,7 +260,7 @@ public class TicketClassDAO implements DAOInterface<TicketClass>{
 	        preparedStatement.setString(1, updatedAirport.getTicketClassName());
 	        preparedStatement.setString(2, updatedAirport.getPricePercentage());
 	        preparedStatement.setString(3, updatedAirport.getTicketClassID());
-	        
+
 	        // Execute the update statement
 	        rowsAffected = preparedStatement.executeUpdate();
 	    } catch (SQLException e) {

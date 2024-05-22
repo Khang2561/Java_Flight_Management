@@ -11,32 +11,31 @@ import java.util.regex.Pattern;
 
 import javax.swing.JOptionPane;
 
+import Model.Account;
 import View.Admin.FormAdmin;
 import View.Login.FormLogin;
-
-import Model.Account;
 import libData.JDBCUtil;
 
 public class AAADAO implements DAOInterface<Account>{
-	
+
 	public static AAADAO getInstance() {
 		return new AAADAO();
 	}
-	
+
 	@Override
 	public int insert(Account t) {
 		Connection con = null;
 	    PreparedStatement preparedStatement = null;
 	    int rowsAffected = 0;
-	    
+
 	    try {
 	    	//B1: KET NOI VOI DATABASE
 	        con = JDBCUtil.getConnection();
-	        //B2: THUC HIEN CAU LENH SQL 
+	        //B2: THUC HIEN CAU LENH SQL
 	        String sql = "INSERT INTO ACCOUNT (AccountID, Name, Phone,Email ,Password,Created,RoleID) VALUES (?,?, ?, ?, ?,?,?)";
 	        //B3: TAO STATEMENT
 	        preparedStatement = con.prepareStatement(sql);
-	        
+
 	        // Set values for parameters
 	        preparedStatement.setString(1, t.getAccountID());
 	        preparedStatement.setString(2, t.getName());
@@ -45,10 +44,10 @@ public class AAADAO implements DAOInterface<Account>{
 	        preparedStatement.setString(5, t.getPassword());
 	        preparedStatement.setDate(6, new java.sql.Date(t.getCreated().getTime()));
 	        preparedStatement.setString(7, t.getRoleID());
-	        
+
 	        // Execute the statement
 	        rowsAffected = preparedStatement.executeUpdate();
-	        //B5: CLOSE CONNECTION 
+	        //B5: CLOSE CONNECTION
 	        JDBCUtil.closeConnection(con);
 	    } catch (SQLException e) {
 	        e.printStackTrace();
@@ -63,7 +62,7 @@ public class AAADAO implements DAOInterface<Account>{
 	            }
 	        }
 	    }
-	    
+
 	    return rowsAffected;
 	}
 
@@ -90,7 +89,7 @@ public class AAADAO implements DAOInterface<Account>{
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	public static int updateAC(Account AC) {
 	    Connection con = null;
 	    PreparedStatement preparedStatement = null;
@@ -99,23 +98,23 @@ public class AAADAO implements DAOInterface<Account>{
 	    try {
 	        // Establish connection with the database
 	        con = JDBCUtil.getConnection();
-	        
+
 	        // Define the SQL statement
 	        String sql = "UPDATE ACCOUNT SET Name=?, Phone=?, Password=?, RoleID=? WHERE Email=?";
-	        
+
 	        // Create a prepared statement
 	        preparedStatement = con.prepareStatement(sql);
-	        
+
 	        // Set values for parameters
 	        preparedStatement.setString(1, AC.getName()); // Assuming tfHoVaTen is your text field for name
 	        preparedStatement.setString(2, AC.getPhone()); // Assuming tfSDT is your text field for phone
 	        preparedStatement.setString(3, AC.getPassword()); // Assuming tfMK is your text field for password
 	        preparedStatement.setString(4, AC.getRoleID()); // Assuming cbQuyen is your combo box for rol
 	        preparedStatement.setString(5, AC.getEmail());
-	        
+
 	        // Execute the statement
 	        rowsAffected = preparedStatement.executeUpdate();
-	        
+
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    } finally {
@@ -131,7 +130,7 @@ public class AAADAO implements DAOInterface<Account>{
 	    }
 	    return rowsAffected;
 	}
-	
+
 	//xuat toan bo tai khoang
 	public static ResultSet selectAll() throws SQLException, ClassNotFoundException {
 	    //ket noi sql nguyen mau
@@ -157,8 +156,8 @@ public class AAADAO implements DAOInterface<Account>{
 	    }*/
 		return rs;
 	}
-	
-	//dem tai khoang 
+
+	//dem tai khoang
 	public static ResultSet countAccount() throws SQLException, ClassNotFoundException{
 		Connection connect = null;
         PreparedStatement stmt = null;
@@ -172,9 +171,9 @@ public class AAADAO implements DAOInterface<Account>{
         } catch (SQLException ex) {
             Logger.getLogger(null);
             throw ex;
-        } 
+        }
 	}
-	
+
 	public static ResultSet findACbyEmail(String email) throws SQLException, ClassNotFoundException{
 		 //ket noi sql nguyen mau
 		Connection connect = null;
@@ -190,10 +189,10 @@ public class AAADAO implements DAOInterface<Account>{
 	    } catch (SQLException ex) {
 	       Logger.getLogger(null);
 	       throw ex;
-	    } 
+	    }
 		return rs;
 	}
-	
+
 	//ham check xem tai khoang da ton tai hay chua
 	public static boolean isAccountExists(String accountPhone, String accountEmail) throws SQLException, ClassNotFoundException {
 		Connection connect = null;
@@ -217,10 +216,10 @@ public class AAADAO implements DAOInterface<Account>{
 	    	}
 	    	if (connect != null) {
 	    		connect.close();
-	    	}	
+	    	}
 	    }
 	}
-	
+
 	public static boolean isAccountIdExists(String accountId) throws SQLException, ClassNotFoundException {
 	    Connection connect = null;
 	    PreparedStatement stmt = null;
@@ -245,7 +244,7 @@ public class AAADAO implements DAOInterface<Account>{
 	        }
 	    }
 	}
-	
+
 	//xoa bang email
 	public static int deleteByEmail(String email) {
 	    Connection con = null;
@@ -255,19 +254,19 @@ public class AAADAO implements DAOInterface<Account>{
 	    try {
 	        // Establish connection with the database
 	        con = JDBCUtil.getConnection();
-	        
+
 	        // Define the SQL statement
 	        String sql = "DELETE FROM ACCOUNT WHERE Email = ?";
-	        
+
 	        // Create a prepared statement
 	        preparedStatement = con.prepareStatement(sql);
-	        
+
 	        // Set the value for the parameter
 	        preparedStatement.setString(1, email);
-	        
+
 	        // Execute the statement
 	        rowsAffected = preparedStatement.executeUpdate();
-	        
+
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    } finally {
@@ -283,7 +282,7 @@ public class AAADAO implements DAOInterface<Account>{
 	    }
 	    return rowsAffected;
 	}
-	
+
 	//ham check xem tai khoang da ton tai hay chua
 	public static boolean isEmail(String accountEmail) throws SQLException, ClassNotFoundException {
 		Connection connect = null;
@@ -293,7 +292,7 @@ public class AAADAO implements DAOInterface<Account>{
 		try {
 			connect = JDBCUtil.getConnection();
 		    stmt = connect.prepareStatement(query);
-		        
+
 		    stmt.setString(1, accountEmail);
 		    rs = stmt.executeQuery();
 		    return rs.next();
@@ -307,16 +306,16 @@ public class AAADAO implements DAOInterface<Account>{
 		    }
 		    if (connect != null) {
 		    	connect.close();
-		    }	
+		    }
 		}
 	}
-	
+
 	// Hàm login
 	public Account login(String username, String password, FormLogin formLogin, FormAdmin formAdmin) {
 	    try {
 	        // Establish a connection to your database
-	        Connection conn = JDBCUtil.getConnection(); 
-	        
+	        Connection conn = JDBCUtil.getConnection();
+
 	        Account account = new Account();
 
 	        // Prepare a SQL query
@@ -324,17 +323,17 @@ public class AAADAO implements DAOInterface<Account>{
 	        PreparedStatement stmt = conn.prepareStatement(sql);
 	        stmt.setString(1, username);
 	        stmt.setString(2, username);
-	        stmt.setString(3, password);  
+	        stmt.setString(3, password);
 	        ResultSet rs = stmt.executeQuery();
-	        
+
 	        if (rs.next()) {
-	        	
+
 				formLogin.dispose();
 	        	formAdmin = new FormAdmin();
-	        	formAdmin.show();  	
-	        	
+	        	formAdmin.show();
+
 	        	// Create a new Account from the result
-		       
+
 		        account.setAccountID(rs.getString("AccountID"));
 		        account.setName(rs.getString("Name"));
 		        account.setEmail(rs.getString("Email"));
@@ -342,12 +341,12 @@ public class AAADAO implements DAOInterface<Account>{
 		        account.setPassword(rs.getString("Password"));
 		        account.getCreated().getTime();
 		        account.setRoleID(rs.getString("RoleID"));
-		        
+
 	        }  else {
 	        	JOptionPane.showMessageDialog(formLogin, "Tài khoản hoặc mật khẩu không đúng");
 	        }
 
-	       
+
 			return account;
 
 	    } catch (SQLException ex) {
@@ -355,17 +354,17 @@ public class AAADAO implements DAOInterface<Account>{
 	        return null;
 	    }
 	}
-	
+
 	// Kiểm tra định dạng email
 	public static boolean isValEmail(String email) {
-		
+
 		String emailRegex = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$";
 		Pattern emailPat = Pattern.compile(emailRegex, Pattern.CASE_INSENSITIVE);
 		Matcher matcher = emailPat.matcher(email);
-		
+
 		return matcher.find();
 	}
-	
+
 	// Kiểm tra SĐT phải có 10 chữ số
 	public static boolean isValPhoneNumber(String phone) {
 

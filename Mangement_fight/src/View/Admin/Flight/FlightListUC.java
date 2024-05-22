@@ -2,7 +2,12 @@ package View.Admin.Flight;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,29 +16,24 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.swing.JPanel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
-import javax.swing.JScrollPane;
 import javax.swing.JComboBox;
-import com.toedter.calendar.JDateChooser;
-
-import View.Admin.TicketPlane.CreateFlightTicket;
-import libData.JDBCUtil;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
+import javax.swing.JTable;
 import javax.swing.UIManager;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.ActionEvent;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+
+import com.toedter.calendar.JDateChooser;
 
 import View.Admin.Admin_header;
-import View.Admin.FormAdmin;
-import java.awt.event.MouseAdapter;
+import View.Admin.TicketPlane.CreateFlightTicket;
+import libData.JDBCUtil;
 
 public class FlightListUC extends JPanel {
 
@@ -106,8 +106,9 @@ public class FlightListUC extends JPanel {
 
         JButton btnBook = new JButton("Đặt vé");
         btnBook.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		
+        	@Override
+			public void actionPerformed(ActionEvent e) {
+
         	}
         });
         btnBook.setBackground(new Color(51, 51, 255));
@@ -115,7 +116,8 @@ public class FlightListUC extends JPanel {
         btnBook.setBounds(1354, 186, 106, 35);
         panel.add(btnBook);
         btnBook.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+            @Override
+			public void actionPerformed(ActionEvent e) {
                 try {
                     CreateFlightTicket newPanel = new CreateFlightTicket();
                     // Call method in FormAdmin to switch panel
@@ -151,22 +153,22 @@ public class FlightListUC extends JPanel {
                     try {
                         // Lấy ID của chuyến bay từ hàng được chọn trong bảng
                         String flightID = table.getValueAt(selectedRow, 0).toString();
-                        
+
                         // Tạo kết nối và PreparedStatement
                         Connection conn = JDBCUtil.getConnection();
                         String sql = "DELETE FROM FLIGHT WHERE FlightID = ?";
                         PreparedStatement pstmt = conn.prepareStatement(sql);
-                        
+
                         // Đặt tham số cho câu lệnh SQL
                         pstmt.setString(1, flightID);
-                        
+
                         // Thực hiện câu lệnh SQL để xóa dữ liệu từ cơ sở dữ liệu
                         pstmt.executeUpdate();
-                        
+
                         // Đóng kết nối và PreparedStatement
                         pstmt.close();
                         conn.close();
-                        
+
                         // Nạp lại dữ liệu bảng sau khi xóa
                         try {
                             loadFlightData(null, null, null);
@@ -179,8 +181,8 @@ public class FlightListUC extends JPanel {
                 }
             }
         });
-        
-        
+
+
         JSeparator separator = new JSeparator();
         separator.setForeground(UIManager.getColor("InternalFrame.inactiveTitleForeground"));
         separator.setBackground(UIManager.getColor("InternalFrame.inactiveTitleForeground"));

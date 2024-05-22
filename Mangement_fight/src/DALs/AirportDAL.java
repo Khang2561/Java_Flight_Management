@@ -1,7 +1,6 @@
 package DALs;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -12,19 +11,20 @@ import libData.JDBCUtil;
 
 public class AirportDAL {
 public static AirportDAL _ins;
-    
+
     public static AirportDAL getIns() {
-        if (_ins == null)
-            _ins = new AirportDAL();
+        if (_ins == null) {
+			_ins = new AirportDAL();
+		}
         return _ins;
     }
-    
+
  // Lấy danh sách sân bay
     public static String[] getListAirport() {
     	Connection connection = null;
         Statement statement = null;
         ResultSet resultSet = null;
-        
+
         try {
             connection = JDBCUtil.getConnection();
             statement = connection.createStatement();
@@ -38,7 +38,7 @@ public static AirportDAL _ins;
                 // Add airport information to the list
                 airportList.add(airportID + " - " + airportName);
             }
-            
+
             if (!airportList.isEmpty()) {
                 // Convert list to array
                 String[] result = new String[airportList.size()];
@@ -53,14 +53,18 @@ public static AirportDAL _ins;
         } finally {
             JDBCUtil.closeConnection(connection);
             try {
-                if (resultSet != null) resultSet.close();
-                if (statement != null) statement.close();
+                if (resultSet != null) {
+					resultSet.close();
+				}
+                if (statement != null) {
+					statement.close();
+				}
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
     }
 }
-    
-    
+
+
 

@@ -1,21 +1,11 @@
 package View.Admin;
 
 import java.awt.EventQueue;
-import java.sql.ResultSet;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
-
-import DAO.ParametersDAO;
-import DAO.TicketClassDAO;
-import Model.Parameters;
-import View.Admin.AccountAndPermission.AccountAndPermission;
-import View.Admin.ChatBox.ChatBox;
-import View.Admin.Flight.FlightListUC;
-import View.Admin.Flight.FlightUC;
-import View.Admin.Setting.Setting;
-import View.Login.ForgotPassword3;
 
 public class FormAdmin extends JFrame {
 
@@ -25,15 +15,16 @@ public class FormAdmin extends JFrame {
 	 * Launch the application..
 	 */
 	public static void ResetSetting() {
-		
+
 	}
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
-				try {					
+				try {
 					FormAdmin frame = new FormAdmin();
 					frame.setVisible(true);
-					
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -45,8 +36,8 @@ public class FormAdmin extends JFrame {
 	 * Create the frame.
 	 */
 	public FormAdmin() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
 		setBounds(10, 10, 1500, 750);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -57,9 +48,7 @@ public class FormAdmin extends JFrame {
 		HomeAdmin framehome = new HomeAdmin();
 		contentPane.add(framehome);
 		contentPane.add(header1);
-		
-		
-		
+
 		setContentPane(contentPane);
 		this.setVisible(true);
 	}

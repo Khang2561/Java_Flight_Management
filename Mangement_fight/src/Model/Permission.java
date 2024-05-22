@@ -37,5 +37,5 @@ public class Permission {
 	    public void setPermissionCode(String permissionCode) {
 	        this.permissionCode = permissionCode;
 	    }
-	    
+
 }

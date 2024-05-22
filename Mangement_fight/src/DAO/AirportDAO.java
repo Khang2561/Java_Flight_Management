@@ -4,13 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import Model.Airport;
-import Model.TicketClass;
-import View.Admin.Setting.Setting;
 import libData.JDBCUtil;
 
 public class AirportDAO implements DAOInterface<Airport> {
@@ -28,20 +25,20 @@ public class AirportDAO implements DAOInterface<Airport> {
 	    try {
 	    	//B1: KET NOI VOI DATABASE
 	        con = JDBCUtil.getConnection();
-	        //B2: THUC HIEN CAU LENH SQL 
+	        //B2: THUC HIEN CAU LENH SQL
 	        String sql = "INSERT INTO AIRPORT (AirportID, AirportName, CityName, CountryName) VALUES (?, ?, ?, ?)";
 	        //B3: TAO STATEMENT
 	        preparedStatement = con.prepareStatement(sql);
-	        
+
 	        // Set values for parameters
 	        preparedStatement.setString(1, t.getAirportID());
 	        preparedStatement.setString(2, t.getAirportName());
 	        preparedStatement.setString(3, t.getCityName());
 	        preparedStatement.setString(4, t.getCountryName());
-	        
+
 	        // Execute the statement
 	        rowsAffected = preparedStatement.executeUpdate();
-	        //B5: CLOSE CONNECTION 
+	        //B5: CLOSE CONNECTION
 	        JDBCUtil.closeConnection(con);
 	    } catch (SQLException e) {
 	        e.printStackTrace();
@@ -56,11 +53,12 @@ public class AirportDAO implements DAOInterface<Airport> {
 	            }
 	        }
 	    }
-	    
+
 	    return rowsAffected;
 	}
 
 	//----------------------------------------function update airport------------------------------
+	@Override
 	public  int update(Airport t) {
 	    Connection con = null;
 	    PreparedStatement preparedStatement = null;
@@ -69,17 +67,17 @@ public class AirportDAO implements DAOInterface<Airport> {
 	    try {
 	        // B1: CONNECT TO DATABASE
 	        con = JDBCUtil.getConnection();
-	        // B2: EXECUTE SQL STATEMENT 
+	        // B2: EXECUTE SQL STATEMENT
 	        String sql = "UPDATE AIRPORT SET AirportName = ?, CityName = ?, CountryName = ? WHERE AirportID = ?";
 	        // B3: CREATE PREPAREDSTATEMENT
 	        preparedStatement = con.prepareStatement(sql);
-	        
+
 	        // Set values for parameters
 	        preparedStatement.setString(1, t.getAirportName());
 	        preparedStatement.setString(2, t.getCityName());
 	        preparedStatement.setString(3, t.getCountryName());
 	        preparedStatement.setString(4, t.getAirportID());
-	        
+
 	        // Execute the statement
 	        rowsAffected = preparedStatement.executeUpdate();
 	    } catch (SQLException e) {
@@ -95,7 +93,7 @@ public class AirportDAO implements DAOInterface<Airport> {
 	            }
 	        }
 	    }
-	    
+
 	    return rowsAffected;
 	}
 	//---------------------------------------------
@@ -107,17 +105,17 @@ public class AirportDAO implements DAOInterface<Airport> {
 	    try {
 	        // B1: CONNECT TO DATABASE
 	        con = JDBCUtil.getConnection();
-	        // B2: EXECUTE SQL STATEMENT 
+	        // B2: EXECUTE SQL STATEMENT
 	        String sql = "UPDATE AIRPORT SET AirportName = ?, CityName = ?, CountryName = ? WHERE AirportID = ?";
 	        // B3: CREATE PREPAREDSTATEMENT
 	        preparedStatement = con.prepareStatement(sql);
-	        
+
 	        // Set values for parameters
 	        preparedStatement.setString(1, t.getAirportName());
 	        preparedStatement.setString(2, t.getCityName());
 	        preparedStatement.setString(3, t.getCountryName());
 	        preparedStatement.setString(4, t.getAirportID());
-	        
+
 	        // Execute the statement
 	        rowsAffected = preparedStatement.executeUpdate();
 	    } catch (SQLException e) {
@@ -133,10 +131,10 @@ public class AirportDAO implements DAOInterface<Airport> {
 	            }
 	        }
 	    }
-	    
+
 	    return rowsAffected;
 	}
-	
+
 	//-------------------------------function delete airport----------------------------------------
 	@Override
 	public int delete(Airport t) {
@@ -147,14 +145,14 @@ public class AirportDAO implements DAOInterface<Airport> {
 	    try {
 	        // B1: CONNECT TO DATABASE
 	        con = JDBCUtil.getConnection();
-	        // B2: EXECUTE SQL STATEMENT 
+	        // B2: EXECUTE SQL STATEMENT
 	        String sql = "DELETE FROM AIRPORT WHERE AirportID = ?";
 	        // B3: CREATE PREPAREDSTATEMENT
 	        preparedStatement = con.prepareStatement(sql);
-	        
+
 	        // Set the value for the parameter
 	        preparedStatement.setString(1, t.getAirportID());
-	        
+
 	        // Execute the statement
 	        rowsAffected = preparedStatement.executeUpdate();
 	    } catch (SQLException e) {
@@ -170,10 +168,10 @@ public class AirportDAO implements DAOInterface<Airport> {
 	            }
 	        }
 	    }
-	    
+
 	    return rowsAffected;
 	}
-	
+
 	//--------------------------function sellect all airport--------------------------------
 	public static ResultSet selectAll() throws SQLException, ClassNotFoundException {
 		Connection connect = null;
@@ -188,10 +186,10 @@ public class AirportDAO implements DAOInterface<Airport> {
 	    } catch (SQLException ex) {
 	       Logger.getLogger(null);
 	       throw ex;
-	    } 
+	    }
 		return rs;
 	}
-	
+
 	//-----------------------function count airport to generate id airport--------------------------
 	public static ResultSet countAirport() throws SQLException, ClassNotFoundException {
         Connection connect = null;
@@ -206,17 +204,17 @@ public class AirportDAO implements DAOInterface<Airport> {
         } catch (SQLException ex) {
             Logger.getLogger(null);
             throw ex;
-        } 
+        }
     }
 
-	
+
 	//---------------------------------function find airport by airport id---------------------------------
 	@Override
 	public Airport selectById(Airport t) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	//---------------------------------function find airport by airport name---------------------------------
 	@Override
 	public ArrayList<Airport> selectByCondition(String condition) {
@@ -263,7 +261,7 @@ public class AirportDAO implements DAOInterface<Airport> {
 	    } catch (SQLException ex) {
 	       Logger.getLogger(null);
 	       throw ex;
-	    } 
+	    }
 		return rs;
 	}
 	//----------------------------------function delete by airport name---------------
@@ -275,19 +273,19 @@ public class AirportDAO implements DAOInterface<Airport> {
 	    try {
 	        // Establish connection with the database
 	        con = JDBCUtil.getConnection();
-	        
+
 	        // Define the SQL statement
 	        String sql = "DELETE FROM AIRPORT WHERE AirportName = ?";
-	        
+
 	        // Create a prepared statement
 	        preparedStatement = con.prepareStatement(sql);
-	        
+
 	        // Set the value for the parameter
 	        preparedStatement.setString(1, name);
-	        
+
 	        // Execute the statement
 	        rowsAffected = preparedStatement.executeUpdate();
-	        
+
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    } finally {
@@ -325,7 +323,7 @@ public class AirportDAO implements DAOInterface<Airport> {
 	    	}
 	    	if (connect != null) {
 	    		connect.close();
-	    	}	
+	    	}
 	    }
 	}
 	//---------------------------------function find airport id by name --------------------
@@ -345,11 +343,11 @@ public class AirportDAO implements DAOInterface<Airport> {
 			    } catch (SQLException ex) {
 			       Logger.getLogger(null);
 			       throw ex;
-			    } 
+			    }
 				return rs;
 	}*/
 	//----------------------------function update airport------------------------------
-	
-	
+
+
 
 }

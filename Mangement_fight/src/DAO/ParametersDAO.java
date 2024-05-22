@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-import Model.Account;
 import Model.Parameters;
 import libData.JDBCUtil;
 
@@ -16,7 +15,7 @@ public class ParametersDAO implements DAOInterface<Parameters> {
 	public static ParametersDAO getInstance() {
 		return new ParametersDAO();
 	}
-	
+
 	@Override
 	public int insert(Parameters t) {
 		// TODO Auto-generated method stub
@@ -26,7 +25,7 @@ public class ParametersDAO implements DAOInterface<Parameters> {
 	public static int updateFightTime(Parameters t) throws SQLException, ClassNotFoundException {
 	    Connection connect = null;
 	    PreparedStatement stmt = null;
-	   
+
 	    String query = "UPDATE Parameters"
 	    		+ " SET MinimumFlightTime = ?, "
 	            + "MaxPreventiveAirports = ?, "
@@ -34,11 +33,11 @@ public class ParametersDAO implements DAOInterface<Parameters> {
 	            + "MaximumStopoverTime = ?, "
 	            + "EarliestBookingTime = ?, "
 	            + "LatestBookingCancellationTime = ?;";
-	    
+
 	    try {
 	        connect = JDBCUtil.getConnection();
 	        stmt = connect.prepareStatement(query);
-	        
+
 	        // Set parameters for the PreparedStatement
 	        int tmp1 = Parameters.minimumFlightTime;
 	        int tmp2 = Parameters.maxPreventiveAirports;
@@ -46,18 +45,18 @@ public class ParametersDAO implements DAOInterface<Parameters> {
 	        int tmp4 = Parameters.maximumStopoverTime;
 	        int tmp5 = Parameters.earliestBookingTime;
 	        int tmp6 = Parameters.latestBookingCancellationTime;
-	        
+
 	        stmt.setInt(1,tmp1);
 	        stmt.setInt(2,tmp2);
 	        stmt.setInt(3,tmp3);
 	        stmt.setInt(4,tmp4);
 	        stmt.setInt(5,tmp5);
 	        stmt.setInt(6,tmp6);
-	     
-	        
+
+
 	        // Execute the update operation
 	        int rowsAffected = stmt.executeUpdate();
-	        
+
 	        return rowsAffected;
 	    } catch (SQLException ex) {
 	        Logger.getLogger(null);
@@ -88,7 +87,7 @@ public class ParametersDAO implements DAOInterface<Parameters> {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	public static ResultSet selectAll() throws SQLException, ClassNotFoundException {
 	    //thu cua thay
 		Connection connect = null;
@@ -113,21 +112,21 @@ public class ParametersDAO implements DAOInterface<Parameters> {
 	    }*/
 		return rs;
 	}
-	
-	//get minimum flight time 
+
+	//get minimum flight time
 	public static int getMinimumFlightTime() throws SQLException, ClassNotFoundException {
         Connection connect = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
         int minimumFlightTime = 0;
-        
+
         String query = "SELECT TOP 1 MinimumFlightTime FROM Parameters;";
-        
+
         try {
             connect = JDBCUtil.getConnection();
             stmt = connect.prepareStatement(query);
             rs = stmt.executeQuery();
-            
+
             if (rs.next()) {
                 minimumFlightTime = rs.getInt("MinimumFlightTime");
             }
@@ -147,22 +146,22 @@ public class ParametersDAO implements DAOInterface<Parameters> {
         }
         return minimumFlightTime;
     }
-	
+
 	//get max preventive airport
 		public static int getMaxPreventiveAirport() throws SQLException, ClassNotFoundException {
 	        Connection connect = null;
 	        PreparedStatement stmt = null;
 	        ResultSet rs = null;
 	        int MaxPreventiveAirport = 0;
-	        
+
 	        String query = "SELECT TOP 1 MaxPreventiveAirports FROM Parameters;";
 
-	        
+
 	        try {
 	            connect = JDBCUtil.getConnection();
 	            stmt = connect.prepareStatement(query);
 	            rs = stmt.executeQuery();
-	            
+
 	            if (rs.next()) {
 	            	MaxPreventiveAirport = rs.getInt("MaxPreventiveAirports");
 	            }
@@ -182,21 +181,21 @@ public class ParametersDAO implements DAOInterface<Parameters> {
 	        }
 	        return MaxPreventiveAirport;
 	    }
-		
+
 		//get minimum stopver time
 				public static int getMiniMumStopoverTime() throws SQLException, ClassNotFoundException {
 			        Connection connect = null;
 			        PreparedStatement stmt = null;
 			        ResultSet rs = null;
 			        int minimumFlightTime = 0;
-			        
+
 			        String query = "SELECT TOP 1 MinimumStopoverTime FROM Parameters;";
-			        
+
 			        try {
 			            connect = JDBCUtil.getConnection();
 			            stmt = connect.prepareStatement(query);
 			            rs = stmt.executeQuery();
-			            
+
 			            if (rs.next()) {
 			                minimumFlightTime = rs.getInt("MinimumStopoverTime");
 			            }
@@ -216,21 +215,21 @@ public class ParametersDAO implements DAOInterface<Parameters> {
 			        }
 			        return minimumFlightTime;
 			    }
-				
+
 				//get maximum stopver time
 				public static int getMaximumStopoverTime() throws SQLException, ClassNotFoundException {
 			        Connection connect = null;
 			        PreparedStatement stmt = null;
 			        ResultSet rs = null;
 			        int minimumFlightTime = 0;
-			        
+
 			        String query = "SELECT TOP 1 MaximumStopoverTime FROM Parameters;";
-			        
+
 			        try {
 			            connect = JDBCUtil.getConnection();
 			            stmt = connect.prepareStatement(query);
 			            rs = stmt.executeQuery();
-			            
+
 			            if (rs.next()) {
 			                minimumFlightTime = rs.getInt("MaximumStopoverTime");
 			            }
@@ -256,14 +255,14 @@ public class ParametersDAO implements DAOInterface<Parameters> {
 			        PreparedStatement stmt = null;
 			        ResultSet rs = null;
 			        int minimumFlightTime = 0;
-			        
+
 			        String query = "SELECT TOP 1 EarliestBookingTime FROM Parameters;";
-			        
+
 			        try {
 			            connect = JDBCUtil.getConnection();
 			            stmt = connect.prepareStatement(query);
 			            rs = stmt.executeQuery();
-			            
+
 			            if (rs.next()) {
 			                minimumFlightTime = rs.getInt("EarliestBookingTime");
 			            }
@@ -283,21 +282,21 @@ public class ParametersDAO implements DAOInterface<Parameters> {
 			        }
 			        return minimumFlightTime;
 			    }
-				
+
 				//get maximum stopver time
 				public static int getLatestBookingCancellationTime() throws SQLException, ClassNotFoundException {
 			        Connection connect = null;
 			        PreparedStatement stmt = null;
 			        ResultSet rs = null;
 			        int minimumFlightTime = 0;
-			        
+
 			        String query = "SELECT TOP 1 LatestBookingCancellationTime FROM Parameters;";
-			        
+
 			        try {
 			            connect = JDBCUtil.getConnection();
 			            stmt = connect.prepareStatement(query);
 			            rs = stmt.executeQuery();
-			            
+
 			            if (rs.next()) {
 			                minimumFlightTime = rs.getInt("LatestBookingCancellationTime");
 			            }
