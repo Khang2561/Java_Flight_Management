@@ -1,13 +1,20 @@
 package View.Admin.Plane;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+
 import java.awt.GridLayout;
+import java.awt.SystemColor;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
+
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -17,6 +24,7 @@ public class OperationPlaneUC extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JComboBox comboBoxPlaneName;
 	private JTextField textFieldChairCount;
+	private static JTable table;
 
 	/**
 	 * Create the panel.
@@ -111,41 +119,89 @@ public class OperationPlaneUC extends JPanel {
 		btnNewButton_1.setBounds(30, 479, 197, 41);
 		panel_1.add(btnNewButton_1);
 		
-		JPanel panelRight = new JPanel();
-		panelRight.setBorder(new LineBorder(Color.BLACK));
-		panelRight.setBounds(608, 65, 756, 455);
-		add(panelRight);
+		table = new JTable();
+		table.setRowSelectionAllowed(false);
+		table.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		table.setBackground(SystemColor.WHITE);
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Số ghế/Hàng ghế", "A", "B", "C", "D", "E", "F"
+			}
+		) {
+
+			private static final long serialVersionUID = 1L;
+			boolean[] columnEditables = new boolean[] {
+				false, false, false, false, false, false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		table.getColumnModel().getColumn(0).setPreferredWidth(150);
+		table.getColumnModel().getColumn(0).setResizable(false);
+		table.getColumnModel().getColumn(1).setResizable(false);
+		table.getColumnModel().getColumn(2).setResizable(false);
+		table.getColumnModel().getColumn(3).setResizable(false);
+		table.getColumnModel().getColumn(4).setResizable(false);
+		table.getColumnModel().getColumn(5).setResizable(false);
+		table.getColumnModel().getColumn(6).setResizable(false);
 		
-		JPanel panel_3 = new JPanel();
-		panel_3.setBounds(608, 39, 757, 26);
-		add(panel_3);
-		panel_3.setLayout(new GridLayout(0, 2, 80, 0));
 		
-		JPanel panel_4 = new JPanel();
-		panel_3.add(panel_4);
-		panel_4.setLayout(new GridLayout(0, 3, 20, 0));
 		
-		JButton btnNewButton_2 = new JButton("1");
-		panel_4.add(btnNewButton_2);
+		table.getTableHeader().setFont(new Font("Tahoma", Font.BOLD, 15));
+		table.getTableHeader().setReorderingAllowed(false);
+		table.setRowHeight(50);
+		table.setFont(new Font("Arial", Font.PLAIN, 20));
 		
-		JButton btnNewButton_3 = new JButton("2");
-		panel_4.add(btnNewButton_3);
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		for(int i=0;i<10;i++) {
+			model.addRow(new Object[] { i, " ", " ", " ", " ", " ", " " });
+		}
 		
-		JButton btnNewButton_4 = new JButton("3");
-		panel_4.add(btnNewButton_4);
 		
-		JPanel panel_5 = new JPanel();
-		panel_3.add(panel_5);
-		panel_5.setLayout(new GridLayout(0, 3, 20, 0));
 		
-		JButton btnNewButton_7 = new JButton("4");
-		panel_5.add(btnNewButton_7);
+		JPanel panelSeats = new JPanel();
+		panelSeats.setBorder(new LineBorder(Color.BLACK));
+		panelSeats.setBounds(608, 65, 756, 455);
+		add(panelSeats);
+		panelSeats.setLayout(null);
 		
-		JButton btnNewButton_6 = new JButton("5");
-		panel_5.add(btnNewButton_6);
+		JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane.setBounds(0, 0, 756, 455);
+		panelSeats.add(scrollPane);
 		
-		JButton btnNewButton_5 = new JButton("6");
-		panel_5.add(btnNewButton_5);
+//		JPanel panel_3 = new JPanel();
+//		panel_3.setBounds(608, 39, 757, 26);
+//		add(panel_3);
+//		panel_3.setLayout(new GridLayout(0, 2, 80, 0));
+//		
+//		JPanel panel_4 = new JPanel();
+//		panel_3.add(panel_4);
+//		panel_4.setLayout(new GridLayout(0, 3, 20, 0));
+//		
+//		JButton btnNewButton_2 = new JButton("1");
+//		panel_4.add(btnNewButton_2);
+//		
+//		JButton btnNewButton_3 = new JButton("2");
+//		panel_4.add(btnNewButton_3);
+//		
+//		JButton btnNewButton_4 = new JButton("3");
+//		panel_4.add(btnNewButton_4);
+//		
+//		JPanel panel_5 = new JPanel();
+//		panel_3.add(panel_5);
+//		panel_5.setLayout(new GridLayout(0, 3, 20, 0));
+//		
+//		JButton btnNewButton_7 = new JButton("4");
+//		panel_5.add(btnNewButton_7);
+//		
+//		JButton btnNewButton_6 = new JButton("5");
+//		panel_5.add(btnNewButton_6);
+//		
+//		JButton btnNewButton_5 = new JButton("6");
+//		panel_5.add(btnNewButton_5);
 
 	}
 
