@@ -9,6 +9,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.GridLayout;
+import javax.swing.JButton;
 
 public class PlaneListUC extends JPanel {
 
@@ -24,7 +26,7 @@ public class PlaneListUC extends JPanel {
 			new Object[][] {
 			},
 			new String[] {
-				"Mã máy bay", "Tên máy bay", "Số lượng ghế", "Thao tác"
+				"Mã máy bay", "Tên máy bay", "Số lượng ghế"
 			}
 		));
 		table.getColumnModel().getColumn(1).setPreferredWidth(83);
@@ -44,6 +46,19 @@ public class PlaneListUC extends JPanel {
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblNewLabel.setBounds(0, 10, 260, 25);
 		add(lblNewLabel);
+		
+		JPanel panel = new JPanel();
+		panel.setBounds(1116, 45, 249, 25);
+		add(panel);
+		panel.setLayout(new GridLayout(0, 2, 30, 0));
+		
+		JButton btnThongTin = new JButton("Điều chỉnh");
+		btnThongTin.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		panel.add(btnThongTin);
+		
+		JButton btnXoa = new JButton("Xóa");
+		btnXoa.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		panel.add(btnXoa);
 		
 
 
