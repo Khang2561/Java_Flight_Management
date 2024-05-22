@@ -32,6 +32,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.ActionEvent;
+
+import View.Admin.Admin_header;
 import View.Admin.FormAdmin;
 import java.awt.event.MouseAdapter;
 
@@ -105,19 +107,26 @@ public class FlightListUC extends JPanel {
         populateComboBoxWithCities(comboBoxTo);
 
         JButton btnBook = new JButton("Đặt vé");
+        btnBook.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		
+        	}
+        });
         btnBook.setBackground(new Color(51, 51, 255));
         btnBook.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
         btnBook.setBounds(1354, 186, 106, 35);
         panel.add(btnBook);
-//        btnBook.addActionListener(new ActionListener() {
-//        	public void actionPerformed(ActionEvent e) {
-//        		try {
-//					clearAndShow(new CreateFlightTicket());
-//				} catch (ClassNotFoundException | SQLException e1) {
-//					e1.printStackTrace();
-//				}
-//        	}
-//        });
+        btnBook.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    CreateFlightTicket newPanel = new CreateFlightTicket();
+                    // Call method in FormAdmin to switch panel
+                    Admin_header.clearAndShow(newPanel);
+                } catch (ClassNotFoundException | SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
 
         JLabel lblEdit = new JLabel("");
         lblEdit.setFont(new Font("Lucida Grande", Font.PLAIN, 9));
@@ -287,14 +296,5 @@ public class FlightListUC extends JPanel {
             column.setPreferredWidth((int) (tablePreferredWidth * (percentages[i] / total)));
         }
     }
-//    private void clearAndShow(JPanel newPanel) {
-//        FormAdmin.getContentPane().removeAll(); // Xóa tất cả các thành phần trên contentPane
-//        FormAdmin.getContentPane().add(this); // Thêm lại Admin_header vào contentPane
-//        FormAdmin.getContentPane().add(newPanel); // Thêm form mới vào contentPane
-//        newPanel.setSize(1500, 653);
-//        newPanel.setLocation(0, 70);
-//        FormAdmin.getContentPane().revalidate(); // Cập nhật giao diện
-//        FormAdmin.getContentPane().repaint(); // Vẽ lại giao diện
-//    }
 }
 

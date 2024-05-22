@@ -11,6 +11,8 @@ import View.Admin.ChatBox.ChatBox;
 import View.Admin.Flight.FlightUC;
 import View.Admin.Plane.PlaneUC;
 import View.Admin.Setting.Setting;
+import View.Admin.TicketPlane.CreateFlightTicket;
+
 import java.awt.Button;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
@@ -57,6 +59,16 @@ public class Admin_header extends JPanel {
 //		add(button);
 		//button ve may bay
 		buttons[1] = new Button("Vé máy bay");
+		buttons[1].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					clearAndShow(new CreateFlightTicket());
+				} catch (ClassNotFoundException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 //		button_1.setFont(new Font("Times New Roman", Font.BOLD, 18));
 //		button_1.setForeground(new Color(0, 0, 0));
 //		button_1.setBackground(new Color(245, 245, 248));
@@ -155,13 +167,14 @@ public class Admin_header extends JPanel {
 		
 	}
 	//ham xoa va tao form moi
-	private void clearAndShow(JPanel newPanel) {
+	public static void clearAndShow(JPanel newPanel) {
         FormAdmin.contentPane.removeAll(); // Xóa tất cả các thành phần trên contentPane
-        FormAdmin.contentPane.add(this); // Thêm lại Admin_header vào contentPane
+        FormAdmin.contentPane.add(new Admin_header()); // Thêm lại Admin_header vào contentPane
         FormAdmin.contentPane.add(newPanel); // Thêm form mới vào contentPane
         newPanel.setSize(1500, 653);
         newPanel.setLocation(0, 70);
         FormAdmin.contentPane.revalidate(); // Cập nhật giao diện
         FormAdmin.contentPane.repaint(); // Vẽ lại giao diện
     }
+	
 }
