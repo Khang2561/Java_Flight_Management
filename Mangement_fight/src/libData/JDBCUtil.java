@@ -19,7 +19,6 @@ public class JDBCUtil {
             		+ "trustServerCertificate=true";
             String userName = "sa";
             String password = "Password.1";
-
             c = DriverManager.getConnection(url, userName, password);
           
            

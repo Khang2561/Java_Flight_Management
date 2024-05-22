@@ -178,64 +178,114 @@ public class Setting extends JPanel {
 		btInsertAirport = new Button("Thêm ");
 		btInsertAirport.setFont(new Font("Arial", Font.BOLD, 14));
 		btInsertAirport.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-		        try {
-		            // Kiểm tra xem sân bay có trùng không
-		            boolean isAirportExists = AirportDAO.isAirportExists(inputNameAirport.getText(), inputNameCity.getText(), inputNameCountry.getText());
-		            
-		            if (isAirportExists) {
-		                JOptionPane.showMessageDialog(null, "Sân bay đã tồn tại!", "Thông báo", JOptionPane.WARNING_MESSAGE);
-		            } else {
-		                // Nếu sân bay chưa tồn tại, tiến hành thêm mới
-		                ResultSet rs = AirportDAO.countAirport();
-		                if (rs.next()) {
-		                    int airportCount = rs.getInt(1);
-		                    String inputAirportId = "AP0" + (airportCount + 1);
+			public void actionPerformed(ActionEvent e) {
+			    try {
+			        // Lấy dữ liệu nhập vào từ các trường
+			        String airportName = inputNameAirport.getText();
+			        String cityName = inputNameCity.getText();
+			        String countryName = inputNameCountry.getText();
+			        
+			        // Kiểm tra xem các trường dữ liệu có bị bỏ trống không
+			        if (airportName.isEmpty() || cityName.isEmpty() || countryName.isEmpty()) {
+			            // Nếu có trường dữ liệu nào bị bỏ trống, hiển thị thông báo
+			            JOptionPane.showMessageDialog(null, "Vui lòng điền đầy đủ thông tin!", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+			        } else {
+			            // Kiểm tra xem sân bay có trùng không
+			            boolean isAirportExists = AirportDAO.isAirportExists(airportName, cityName, countryName);
+			            
+			            if (isAirportExists) {
+			                JOptionPane.showMessageDialog(null, "Sân bay đã tồn tại!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+			            } else {
+			                // Nếu sân bay chưa tồn tại và các trường dữ liệu không bị bỏ trống, tiến hành thêm mới
+			                ResultSet rs = AirportDAO.countAirport();
+			                if (rs.next()) {
+			                    int airportCount = rs.getInt(1);
+			                    String inputAirportId = "AP0" + (airportCount + 1);
 
-		                    Airport air = new Airport();
-		                    air.setAirportID(inputAirportId);
-		                    air.setAirportName(inputNameAirport.getText());
-		                    air.setCityName(inputNameCity.getText());
-		                    air.setCountryName(inputNameCountry.getText());
-		                    AirportDAO.getInstance().insert(air);
-		                    
-		                    // Thông báo nhập thành công
-		                    JOptionPane.showMessageDialog(null, "Đã thêm sân bay thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-		                    
-		                    // Xóa nội dung trong các trường nhập liệu
-		                    inputNameAirport.setText("");
-		                    inputNameCity.setText("");
-		                    inputNameCountry.setText("");
-		                    // Load lại dữ liệu lên JTable
-		                    ResultSet updatedRs = AirportDAO.selectAll();
-		                    loadRsToTable(updatedRs);
-		                } else {
-		                    // Xử lý trường hợp không có kết quả từ phương thức countAirport()
-		                }
-		            }
-		        } catch (SQLException ex) {
-		            ex.printStackTrace();
-		            // Xử lý ngoại lệ khi có lỗi xảy ra khi truy vấn cơ sở dữ liệu
-		        } catch (ClassNotFoundException ex) {
-		            // Xử lý ngoại lệ ClassNotFoundException
-		            ex.printStackTrace();
-		            // Hoặc thông báo lỗi cho người dùng
-		            JOptionPane.showMessageDialog(null, "Không tìm thấy lớp cơ sở dữ liệu: " + ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
-		        }
-		    }
+			                    Airport air = new Airport();
+			                    air.setAirportID(inputAirportId);
+			                    air.setAirportName(airportName);
+			                    air.setCityName(cityName);
+			                    air.setCountryName(countryName);
+			                    AirportDAO.getInstance().insert(air);
+			                    
+			                    // Thông báo nhập thành công
+			                    JOptionPane.showMessageDialog(null, "Đã thêm sân bay thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+			                    
+			                    // Xóa nội dung trong các trường nhập liệu
+			                    inputNameAirport.setText("");
+			                    inputNameCity.setText("");
+			                    inputNameCountry.setText("");
+			                    // Load lại dữ liệu lên JTable
+			                    ResultSet updatedRs = AirportDAO.selectAll();
+			                    loadRsToTable(updatedRs);
+			                } else {
+			                    // Xử lý trường hợp không có kết quả từ phương thức countAirport()
+			                }
+			            }
+			        }
+			    } catch (SQLException ex) {
+			        ex.printStackTrace();
+			        // Xử lý ngoại lệ khi có lỗi xảy ra khi truy vấn cơ sở dữ liệu
+			    } catch (ClassNotFoundException ex) {
+			        // Xử lý ngoại lệ ClassNotFoundException
+			        ex.printStackTrace();
+			        // Hoặc thông báo lỗi cho người dùng
+			        JOptionPane.showMessageDialog(null, "Không tìm thấy lớp cơ sở dữ liệu: " + ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+			    }
+			}
+
 		});
 		//setting design for button
 		btInsertAirport.setForeground(new Color(255, 255, 255));
 		btInsertAirport.setBackground(new Color(3, 4, 94));
-		btInsertAirport.setBounds(33, 179, 576, 50);
+		btInsertAirport.setBounds(35, 197, 576, 50);
 		panel_1.add(btInsertAirport);
 		
 		//button update airport
-		Button btUpdate = new Button("Cập nhập");
+		Button btUpdate = new Button("Cập nhật");
 		btUpdate.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
+		    public void actionPerformed(ActionEvent e) {
+		        try {
+		            int selectedRowIndex = table.getSelectedRow();
+		            if (selectedRowIndex != -1) {
+		                String airportNameRow = table.getValueAt(selectedRowIndex, 0).toString();
+		                ResultSet rs = AirportDAO.findAPbyName(airportNameRow);
+		                
+		                if (rs.next()) {
+		                    // If ResultSet has rows, retrieve data
+		                    Airport ap = new Airport();
+		                    ap.setAirportID(rs.getString("AirportID"));
+		                    ap.setAirportName(inputNameAirport.getText());
+		                    ap.setCityName(inputNameCity.getText());
+		                    ap.setCountryName(inputNameCountry.getText());
+		                    
+		                    int isUpdated = AirportDAO.updatebyID(ap);
+		                    
+		                    if (isUpdated > 0) {
+		                        ResultSet updatedRs = AirportDAO.selectAll();
+		                        loadRsToTable(updatedRs);
+		                        inputNameAirport.setText("");
+		                        inputNameCity.setText("");
+		                        inputNameCountry.setText("");
+		                        btInsertAirport.setVisible(true);
+		                        JOptionPane.showMessageDialog(null, "Cập nhật sân bay thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+		                    } else {
+		                        JOptionPane.showMessageDialog(null, "Cập nhật sân bay thất bại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+		                    }
+		                } else {
+		                    // ResultSet is empty, show a message
+		                    JOptionPane.showMessageDialog(null, "Không tìm thấy sân bay có tên này!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+		                }
+		            } else {
+		                JOptionPane.showMessageDialog(null, "Vui lòng chọn một sân bay để cập nhật!", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+		            }
+		        } catch (SQLException ex) {
+		            ex.printStackTrace();
+		        } catch (ClassNotFoundException ex) {
+		            ex.printStackTrace();
+		        }
+		    }
 		});
 		btUpdate.setFont(new Font("Arial", Font.BOLD, 14));
 		btUpdate.setForeground(new Color(255, 255, 255));
@@ -530,6 +580,50 @@ public class Setting extends JPanel {
 		panel_1_2.add(btnThemTicketClass);
 		
 		Button btnUpdateTicketClass = new Button("Cập nhập");
+		btnUpdateTicketClass.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        //----------------------------------
+		        try {
+		            int selectedRowIndex = table_1.getSelectedRow();  // Make sure table_1 is used for selecting row
+		            if (selectedRowIndex != -1) {
+		                String ticketClassNameRow = table_1.getValueAt(selectedRowIndex, 0).toString(); // Assuming first column holds the ticket class name
+		                ResultSet rs = TicketClassDAO.findTCbynName(ticketClassNameRow);
+		                
+		                // Check if ResultSet has any rows
+		                if (rs.next()) {
+		                    // If ResultSet has rows, retrieve data
+		                    TicketClass tc = new TicketClass();
+		                    tc.setTicketClassID(rs.getString("TicketClassID"));
+		                    tc.setTicketClassName(inputNameClass.getText());
+		                    tc.setPricePercentage(inputNamePercent.getText());
+		                    
+		                    int isUpdated = TicketClassDAO.updateTicketClass(tc);
+		                    
+		                    if (isUpdated > 0) {
+		                        ResultSet updatedRs = TicketClassDAO.selectAll();
+		                        loadRsToTableTicketLevel(updatedRs);
+		                        inputNameClass.setText("");  // Clear the inputs
+		                        inputNamePercent.setText("");
+		                        btnThemTicketClass.setVisible(true);  // Assuming there's a button for inserting ticket class
+		                        JOptionPane.showMessageDialog(null, "Cập nhật hạng vé thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+		                    } else {
+		                        JOptionPane.showMessageDialog(null, "Cập nhật hạng vé thất bại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+		                    }
+		                } else {
+		                    // ResultSet is empty, show a message
+		                    JOptionPane.showMessageDialog(null, "Không tìm thấy hạng vé có tên này!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+		                }
+		            } else {
+		                JOptionPane.showMessageDialog(null, "Vui lòng chọn một hạng vé để cập nhật!", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+		            }
+		        } catch (SQLException ex) {
+		            ex.printStackTrace();
+		        } catch (ClassNotFoundException ex) {
+		            ex.printStackTrace();
+		        }
+		    }
+		});
+
 		btnUpdateTicketClass.setFont(new Font("Arial", Font.BOLD, 14));
 		btnUpdateTicketClass.setForeground(Color.WHITE);
 		btnUpdateTicketClass.setBackground(new Color(3, 4, 94));
@@ -539,6 +633,20 @@ public class Setting extends JPanel {
 		Button buttonDeleteTicketClass = new Button("Xóa");
 		buttonDeleteTicketClass.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				TicketClassDAO.deleteByName(inputNameClass.getText());
+				inputNameClass.setText("");
+				inputNamePercent.setText("");
+				btnThemTicketClass.setVisible(true);
+				// Load lại dữ liệu lên JTable
+                ResultSet updatedRs;
+				try {
+					updatedRs = TicketClassDAO.selectAll();
+					loadRsToTableTicketLevel(updatedRs);
+				} catch (ClassNotFoundException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+                
 			}
 		});
 		buttonDeleteTicketClass.setFont(new Font("Arial", Font.BOLD, 14));
@@ -555,6 +663,7 @@ public class Setting extends JPanel {
 		panel_1_2.add(lbHangVe);
 		
 		JScrollPane scrollPane_1 = new JScrollPane((Component) null);
+		
 		scrollPane_1.setBounds(10, 45, 382, 235);
 		panel_1_2.add(scrollPane_1);
 		
@@ -579,13 +688,48 @@ public class Setting extends JPanel {
 		scrollPane_1.setViewportView(table_1);
 		
 		Button buttonCancelTicketClass = new Button("Hủy ");
+		buttonCancelTicketClass.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				inputNameClass.setText("");
+            	inputNamePercent.setText("");
+            	btnThemTicketClass.setVisible(true);
+			}
+		});
 		buttonCancelTicketClass.setForeground(Color.WHITE);
 		buttonCancelTicketClass.setFont(new Font("Arial", Font.BOLD, 14));
 		buttonCancelTicketClass.setBackground(new Color(128, 128, 128));
 		buttonCancelTicketClass.setBounds(714, 180, 112, 37);
 		panel_1_2.add(buttonCancelTicketClass);
 		
+		table_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int row = table_1.getSelectedRow(); // Lấy dòng được chọn
+				if (row != -1) {
+					String nameTicketClass = table_1.getValueAt(row, 0).toString();
+					try (ResultSet rs = TicketClassDAO.findTCbynName(nameTicketClass)) {
+		                // Xử lý ResultSet để trích xuất dữ liệu
+		                if (rs.next()) {
+		                	inputNameClass.setText(rs.getString("TicketClassName"));
+		                	inputNamePercent.setText(rs.getString("PricePercentage"));
+		                	btnThemTicketClass.setVisible(false);
+		        
+		                    // Hiển thị thông tin tài khoản hoặc thực hiện các thao tác khác ở đây
+		                } else {
+		                    // Không có tài khoản nào được tìm thấy
+		                }
+		            } catch (SQLException | ClassNotFoundException ex) {
+		                ex.printStackTrace();
+		                // Xử lý ngoại lệ
+		            }
+					
+				}
+			}
+		});
+		
 	}
+	
+	
 	
 	//load data len teable tai bang setting 
 	public void loadRsToTable(ResultSet rs) throws SQLException {

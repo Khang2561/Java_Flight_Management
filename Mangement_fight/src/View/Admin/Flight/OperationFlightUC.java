@@ -1,6 +1,8 @@
 package View.Admin.Flight;
 
 import java.awt.Color;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;

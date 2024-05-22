@@ -11,7 +11,10 @@ import javax.swing.JMenuBar;
 import javax.swing.border.LineBorder;
 
 import View.Admin.FormAdmin;
+<<<<<<< HEAD
 import View.Admin.Setting.Setting;
+=======
+>>>>>>> refs/heads/minh/flight
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -26,7 +29,11 @@ public class FlightUC extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField textField;
+<<<<<<< HEAD
 	private JPanel panelMainContent;
+=======
+
+>>>>>>> refs/heads/minh/flight
 	/**
 	 * Create the panel.
 	 */
@@ -37,6 +44,7 @@ public class FlightUC extends JPanel {
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(null);
+<<<<<<< HEAD
 		panel.setBounds(0, 0, 1500, 70);
 		add(panel);
 		
@@ -84,6 +92,45 @@ public class FlightUC extends JPanel {
 		panel.add(btnListFlight);
 		panel.add(btnNewFlight);
 		panel.add(btnDetailFlight);		
+=======
+		panel.setBounds(0, 0, 1500, 69);
+		add(panel);
+		
+		JButton btnListFlight = new JButton("Danh Sách Chuyến Bay");
+		btnListFlight.setBounds(41, 21, 232, 50);
+		btnListFlight.setBackground(null);
+		btnListFlight.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
+		btnListFlight.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		
+		JButton btnNewFlight = new JButton("Tạo Chuyến Bay Mới");
+		btnNewFlight.setBounds(321, 21, 211, 50);
+		btnNewFlight.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
+		btnNewFlight.setBackground(null);
+		btnNewFlight.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		
+		
+		JButton btnDetailFlight = new JButton("Chi Tiết Chuyến Bay");
+		btnDetailFlight.setBounds(1241, 21, 209, 50);
+		btnDetailFlight.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
+		btnDetailFlight.setBackground(null);
+		btnDetailFlight.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		panel.setLayout(null);
+		panel.add(btnListFlight);
+		panel.add(btnNewFlight);
+		panel.add(btnDetailFlight);
+		
+>>>>>>> refs/heads/minh/flight
 		
 	}
     private void switchPanel(String panelName) {

@@ -2,6 +2,10 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-21">
 		<attributes>
+<<<<<<< HEAD
+=======
+			<attribute name="module" value="true"/>
+>>>>>>> refs/heads/minh/flight
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
@@ -18,7 +22,10 @@
 	<classpathentry exported="true" kind="lib" path="Mangement_fight/src/libData/mssql-jdbc-12.6.1.jre8-javadoc.jar"/>
 	<classpathentry exported="true" kind="lib" path="Mangement_fight/src/libData/mssql-jdbc-12.6.1.jre8-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="Mangement_fight/src/libData/jcalendar-1.4.jar"/>
+<<<<<<< HEAD
 	<classpathentry exported="true" kind="lib" path="Mangement_fight/src/libData/javax.mail.jar"/>
+=======
+>>>>>>> refs/heads/minh/flight
 	<classpathentry kind="src" output="target/test-classes" path="src/test/java">
 		<attributes>
 			<attribute name="test" value="true"/>
@@ -33,9 +40,32 @@
 			<attribute name="optional" value="true"/>
 		</attributes>
 	</classpathentry>
+<<<<<<< HEAD
 	<classpathentry exported="true" kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
+=======
+	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" path="target/generated-sources/annotations">
+		<attributes>
+			<attribute name="ignore_optional_problems" value="true"/>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="m2e-apt" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" output="target/test-classes" path="target/generated-test-sources/test-annotations">
+		<attributes>
+			<attribute name="ignore_optional_problems" value="true"/>
+			<attribute name="test" value="true"/>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="m2e-apt" value="true"/>
+>>>>>>> refs/heads/minh/flight
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>

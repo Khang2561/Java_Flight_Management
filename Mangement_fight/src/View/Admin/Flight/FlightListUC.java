@@ -2,8 +2,6 @@ package View.Admin.Flight;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Image;
-import javax.swing.ImageIcon;
 import java.awt.SystemColor;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
