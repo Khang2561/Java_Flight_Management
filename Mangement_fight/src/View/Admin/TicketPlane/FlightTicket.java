@@ -22,7 +22,7 @@ public class FlightTicket extends JPanel {
                 try {
                     JFrame frame = new JFrame();
                     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    frame.setBounds(100, 100, 800, 600);
+                    frame.setBounds(100, 100, 1500, 600);
                     FlightTicket flightTicketPanel = new FlightTicket();
                     frame.setContentPane(flightTicketPanel);
                     frame.setVisible(true);
@@ -37,13 +37,13 @@ public class FlightTicket extends JPanel {
      * Create the panel.
      */
     public FlightTicket() {
-        setBounds(100, 100, 1365, 520);
+        setBounds(100, 100, 1500, 600);
         setBorder(new EmptyBorder(5, 5, 5, 5));
         setLayout(null);
 
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
-        mainPanel.setBounds(0, 0, 1500, 520);
+        mainPanel.setBounds(0, 0, 1500, 600);
         add(mainPanel);
 
         JPanel flightTicketPanel = new JPanel();
@@ -59,8 +59,8 @@ public class FlightTicket extends JPanel {
         flightTicketPanel.add(searchButton);
 
         mainPanel.add(flightTicketPanel, "FlightTicket");
-        mainPanel.add(new CreateFlightTicket(), "CreateFlightTicket");
-        mainPanel.add(new SearchFlightTicket(), "SearchFlightTicket");
+        mainPanel.add(new CreateFlightTicket(cardLayout, mainPanel), "CreateFlightTicket");
+        mainPanel.add(new SearchFlightTicket(cardLayout, mainPanel), "SearchFlightTicket");
 
         creaButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
