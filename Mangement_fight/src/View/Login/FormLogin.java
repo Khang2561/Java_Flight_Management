@@ -172,7 +172,7 @@ public class FormLogin extends JFrame {
 		panelLogin = new loggin_form(this, formAdmin);
 		panelForgotPassword1 = new ForgotPassword1();
 		panelRegister = new Register();	
-		panelForgotPassword2 = new ForgotPassword2(ForgotPassword1.getEmailText());
+		panelForgotPassword2 = new ForgotPassword2();
 		panelForgotPassword3 = new ForgotPassword3();
         panelLogin.setBounds(417, 44, 300, 406);
         contentPane.add(panelLogin);
@@ -253,6 +253,12 @@ public class FormLogin extends JFrame {
             	switchPanel(panelForgotPassword2, panelForgotPassword1);
                 
             }	
+        });
+        
+        ((ForgotPassword2) panelForgotPassword2).lblResend.addMouseListener(new MouseAdapter( ) {
+        	public void mouseClicked(MouseEvent e) {
+        		sendOTP(ForgotPassword1.getEmailText());
+        	}
         });
         
         // Xác nhận OTP và chuyển sang panel ForgotPassword3
