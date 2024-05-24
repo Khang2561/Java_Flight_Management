@@ -6,10 +6,17 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import libData.JDBCUtil;
+
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.sql.Statement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import javax.swing.JButton;
 
 public class PlaneListUC extends JPanel {
@@ -17,6 +24,7 @@ public class PlaneListUC extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JTable table;
 	private JTextField textField;
+	static Connection c = JDBCUtil.getConnection();
 	public PlaneListUC() {
 		setLayout(null);
 		setBounds(0, 0, 1365, 520);
@@ -29,7 +37,26 @@ public class PlaneListUC extends JPanel {
 				"Mã máy bay", "Tên máy bay", "Số lượng ghế"
 			}
 		));
-		table.getColumnModel().getColumn(1).setPreferredWidth(83);
+		table.getTableHeader().setFont(new Font("Tahoma", Font.BOLD, 15));
+		table.getTableHeader().setReorderingAllowed(false);
+		table.setRowHeight(50);
+		table.setFont(new Font("Arial", Font.PLAIN, 20));
+		
+		//load db
+		
+		try {
+			Statement st = c.createStatement();
+			String sql = "SELECT * from PLANE";
+			ResultSet rs = st.executeQuery(sql);
+			DefaultTableModel model = (DefaultTableModel) table.getModel();
+			
+			while(rs.next()) {
+				model.addRow(new Object[] { rs.getString("PlaneID"), rs.getString("PlaneName"), rs.getString("SeatCount")});
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 
 		JScrollPane scrollPane = new JScrollPane(table);
