@@ -1,6 +1,7 @@
 package View.Admin.Plane;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -9,15 +10,23 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
+import java.awt.FlowLayout;
+import java.awt.SystemColor;
+import javax.swing.SwingConstants;
 
 public class CreatePlane extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JComboBox comboBoxPlaneName;
-	private JTextField textFieldChairCount;
+	private JTextField textfieldPlaneName;
+	private static JTextField textFieldChairCount;
+	private JPanel seatPanel;
+	private JPanel panelSeatNumer;
+	private static JPanel panelSeatMap;
 
 	/**
 	 * Create the panel.
@@ -41,9 +50,9 @@ public class CreatePlane extends JPanel {
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 17));
 		panel.add(lblNewLabel);
 		
-		comboBoxPlaneName = new JComboBox();
-		comboBoxPlaneName.setBounds(0, 67, 197, 30);
-		panel.add(comboBoxPlaneName);
+		textfieldPlaneName = new JTextField();
+		textfieldPlaneName.setBounds(0, 67, 197, 30);
+		panel.add(textfieldPlaneName);
 		
 		JLabel lblNewLabel_2 = new JLabel("Tên máy bay");
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -51,7 +60,7 @@ public class CreatePlane extends JPanel {
 		panel.add(lblNewLabel_2);
 		
 		textFieldChairCount = new JTextField();
-		textFieldChairCount.setEditable(false);
+		textFieldChairCount.setToolTipText("Là một số chia hết cho 6 ( Tối đa 60 )");
 		textFieldChairCount.setColumns(10);
 		textFieldChairCount.setBounds(0, 126, 197, 30);
 		panel.add(textFieldChairCount);
@@ -61,13 +70,13 @@ public class CreatePlane extends JPanel {
 		lblNewLabel_2_1.setBounds(0, 107, 90, 19);
 		panel.add(lblNewLabel_2_1);
 		
-		JButton btnNewButton = new JButton("Tải lại danh sách ghế");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnLoadSeat = new JButton("Tải danh sách ghế");
+		btnLoadSeat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnNewButton.setBounds(36, 166, 161, 21);
-		panel.add(btnNewButton);
+		btnLoadSeat.setBounds(36, 166, 161, 21);
+		panel.add(btnLoadSeat);
 		
 		JLabel lblNewLabel_2_1_1 = new JLabel("Chi tiết hạng vé");
 		lblNewLabel_2_1_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -112,42 +121,123 @@ public class CreatePlane extends JPanel {
 		btnNewButton_1.setBounds(30, 479, 197, 41);
 		panel_1.add(btnNewButton_1);
 		
-		JPanel panelRight = new JPanel();
-		panelRight.setBorder(new LineBorder(Color.BLACK));
-		panelRight.setBounds(608, 65, 756, 455);
-		add(panelRight);
+		seatPanel = new JPanel();
+		seatPanel.setBorder(new LineBorder(Color.BLACK));
+		seatPanel.setBounds(608, 51, 756, 469);
+		seatPanel.setLayout(null);
+		add(seatPanel);
+		
+		
+		
+		panelSeatNumer = new JPanel();
+		FlowLayout flowLayout = (FlowLayout) panelSeatNumer.getLayout();
+		flowLayout.setVgap(6);
+		flowLayout.setHgap(0);
+		panelSeatNumer.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+		panelSeatNumer.setBounds(0, 0, 110, 469);
+		seatPanel.add(panelSeatNumer);
+		
+		panelSeatMap = new JPanel();
+		FlowLayout flowLayout_1 = (FlowLayout) panelSeatMap.getLayout();
+		flowLayout_1.setVgap(6);
+		flowLayout_1.setHgap(16);
+		flowLayout_1.setAlignment(FlowLayout.CENTER);
+		panelSeatMap.setBorder(new LineBorder(SystemColor.desktop));
+		panelSeatMap.setPreferredSize(new Dimension(647, 454));
+		panelSeatMap.setBounds(109, 0, 647, 469);
+		seatPanel.add(panelSeatMap);
+		
+//		JScrollPane scrollPane = new JScrollPane(panelSeatMap);
+//		scrollPane.setBounds(109, 0, 647, 454);
+//		seatPanel.add(scrollPane);
+
 		
 		JPanel panel_3 = new JPanel();
-		panel_3.setBounds(608, 39, 757, 26);
+		panel_3.setBounds(717, 26, 647, 26);
 		add(panel_3);
-		panel_3.setLayout(new GridLayout(0, 2, 80, 0));
+		panel_3.setLayout(new FlowLayout(FlowLayout.CENTER, 16, 0));
 		
-		JPanel panel_4 = new JPanel();
-		panel_3.add(panel_4);
-		panel_4.setLayout(new GridLayout(0, 3, 20, 0));
+		JLabel lblNewLabel_9 = new JLabel("A", SwingConstants.CENTER);
+		lblNewLabel_9.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNewLabel_9.setBorder(new LineBorder(Color.BLACK));
+		lblNewLabel_9.setPreferredSize(new Dimension(90, 26));
+		panel_3.add(lblNewLabel_9);
 		
-		JButton btnNewButton_2 = new JButton("1");
-		panel_4.add(btnNewButton_2);
+		JLabel lblNewLabel_8 = new JLabel("B", SwingConstants.CENTER);
+		lblNewLabel_8.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNewLabel_8.setBorder(new LineBorder(Color.BLACK));
+		lblNewLabel_8.setPreferredSize(new Dimension(90, 26));
+		panel_3.add(lblNewLabel_8);
 		
-		JButton btnNewButton_3 = new JButton("2");
-		panel_4.add(btnNewButton_3);
+		JLabel lblNewLabel_7 = new JLabel("C", SwingConstants.CENTER);
+		lblNewLabel_7.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNewLabel_7.setBorder(new LineBorder(Color.BLACK));
+		lblNewLabel_7.setPreferredSize(new Dimension(90, 26));
+		panel_3.add(lblNewLabel_7);
 		
-		JButton btnNewButton_4 = new JButton("3");
-		panel_4.add(btnNewButton_4);
+		JLabel lblNewLabel_6 = new JLabel("D", SwingConstants.CENTER);
+		lblNewLabel_6.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNewLabel_6.setBorder(new LineBorder(Color.BLACK));
+		lblNewLabel_6.setPreferredSize(new Dimension(90, 26));
+		panel_3.add(lblNewLabel_6);
 		
-		JPanel panel_5 = new JPanel();
-		panel_3.add(panel_5);
-		panel_5.setLayout(new GridLayout(0, 3, 20, 0));
+		JLabel lblNewLabel_4 = new JLabel("E", SwingConstants.CENTER);
+		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNewLabel_4.setBorder(new LineBorder(Color.BLACK));
+		lblNewLabel_4.setPreferredSize(new Dimension(90, 26));
+		panel_3.add(lblNewLabel_4);
 		
-		JButton btnNewButton_7 = new JButton("4");
-		panel_5.add(btnNewButton_7);
+		JLabel lblNewLabel_3 = new JLabel("F", SwingConstants.CENTER);
+		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNewLabel_3.setBorder(new LineBorder(Color.BLACK));
+		lblNewLabel_3.setPreferredSize(new Dimension(90, 26));
+		panel_3.add(lblNewLabel_3);
 		
-		JButton btnNewButton_6 = new JButton("5");
-		panel_5.add(btnNewButton_6);
-		
-		JButton btnNewButton_5 = new JButton("6");
-		panel_5.add(btnNewButton_5);
+		btnLoadSeat.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int numButtons = Integer.parseInt(textFieldChairCount.getText());
+				if(numButtons%6 !=0 || numButtons>60 ) {
+					JOptionPane.showMessageDialog(null, "Vui lòng nhập một số chia hết cho 6 và không lớn hơn 60!", "Thông báo", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				CreateSeat();
+				// create seat number column
+				JButton[] buttonArray = new JButton[numButtons/6];
+				for (int i = 0;i< (numButtons/6);i++) {
+					 buttonArray[i]= new JButton(""+(i+1));
+					 buttonArray[i].setPreferredSize(new Dimension(90, 40)); // Kích thước cố định
+		             try {
+		            	 panelSeatNumer.add(buttonArray[i]);
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+		             panelSeatNumer.revalidate();
+		             panelSeatNumer.repaint();
+		             
+				}
+				
+			}
+		});
 
 	}
-
+	private static void CreateSeat() {
+		int numButtons = Integer.parseInt(textFieldChairCount.getText());
+		JButton[] buttonArray = new JButton[numButtons];
+		for (int i = 0; i < numButtons; i++) {
+			 buttonArray[i]= new JButton();
+			 buttonArray[i].setPreferredSize(new Dimension(90, 40)); // Kích thước cố định
+             try {
+				panelSeatMap.add(buttonArray[i]);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+             panelSeatMap.revalidate();
+             panelSeatMap.repaint();
+             
+         }
+	}
 }
