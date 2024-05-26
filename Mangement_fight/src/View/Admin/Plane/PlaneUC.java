@@ -41,6 +41,7 @@ public class PlaneUC extends JPanel {
 		panel.add(btnNewPlane);
 		
 		JButton btnPlaneOperation = new JButton("Chi tiết máy bay");
+		btnPlaneOperation.setEnabled(false);
 		btnPlaneOperation.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnPlaneOperation.setBounds(1190, 0, 175, 53);
 		panel.add(btnPlaneOperation);
