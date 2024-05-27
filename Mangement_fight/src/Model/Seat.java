@@ -3,7 +3,7 @@ package Model;
 public class Seat {
 	private String seatID;
     private String planeID;
-    private TicketClass ticketClass;
+    private String ticketClass;
     private boolean isHave;
 
     // Constructor
@@ -27,11 +27,11 @@ public class Seat {
         this.planeID = planeID;
     }
 
-    public TicketClass getTicketClass() {
+    public String getTicketClass() {
         return ticketClass;
     }
 
-    public void setTicketClass(TicketClass ticketClass) {
+    public void setTicketClass(String ticketClass) {
         this.ticketClass = ticketClass;
     }
 
