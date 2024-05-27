@@ -121,13 +121,9 @@ public class FlightListUC extends JPanel {
         btnBook.addActionListener(new ActionListener() {
             @Override
 			public void actionPerformed(ActionEvent e) {
-                try {
-                    CreateFlightTicket newPanel = new CreateFlightTicket();
-                    // Call method in FormAdmin to switch panel
-                    Admin_header.clearAndShow(newPanel);
-                } catch (ClassNotFoundException | SQLException ex) {
-                    ex.printStackTrace();
-                }
+                CreateFlightTicket newPanel = new CreateFlightTicket();
+				// Call method in FormAdmin to switch panel
+				clearAndShow(newPanel);
             }
         });
 
