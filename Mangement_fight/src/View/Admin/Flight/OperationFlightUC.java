@@ -1,6 +1,7 @@
 package View.Admin.Flight;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
@@ -21,14 +22,21 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
+import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 import com.toedter.calendar.JDateChooser;
 
+import DAO.AirportDAO;
+import DAO.FlightDAO;
+import DAO.PlaneDAO;
+import DAO.TicketClassDAO;
+import View.Admin.Admin_header;
 import libData.JDBCUtil;
 
 public class OperationFlightUC extends JPanel {
@@ -41,8 +49,9 @@ public class OperationFlightUC extends JPanel {
 	private JTextField txtFlightCost;
 	private JTable tableIntermediateFlight;
 	private DefaultTableModel tableModel;
-	private JLabel lblTicketClass1;
-	private JLabel lblTicketClass2;
+	private JTable table_1;
+	private DefaultTableModel modelTicketLevel;
+	private JComboBox<String> comboBoxFlight;
 
 	public OperationFlightUC() throws ClassNotFoundException, SQLException {
 		setBackground(new Color(240, 240, 240));
@@ -64,78 +73,148 @@ public class OperationFlightUC extends JPanel {
 		lblNewLabel.setBounds(64, 16, 252, 36);
 		panel_1.add(lblNewLabel);
 		lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		
+		//-----------------------------------------------------------------
+		try {
+		    ResultSet rs = AirportDAO.selectAll();
 
-		JComboBox<String> comboBoxFlightFrom = new JComboBox<>();
-		comboBoxFlightFrom.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-		comboBoxFlightFrom.setModel(new DefaultComboBoxModel(new String[] {"", "Sân bay Cam Ranh (Khánh Hoà)", "Sân bay Cần Thơ (Cần Thơ)", "Sân bay Cát Bi (Hải Phòng)", "Sân bay Điện Biên (Điện Biên Phủ)", "Sân bay Phú Quốc (Phú Quốc)", "Sân bay Quốc tế Đà Năng (Đà Nẵng)", "Sân bay Quốc tế Nội Bài (Hà Nội)", "Sân bay Quốc tế Tân Sơn Nhất (Hồ Chí Minh)"}));
-		comboBoxFlightFrom.setBounds(121, 100, 252, 40);
-		panel_1.add(comboBoxFlightFrom);
+		    DefaultComboBoxModel<String> airportModelFrom = new DefaultComboBoxModel<>();
+		    DefaultComboBoxModel<String> airportModelTo = new DefaultComboBoxModel<>();
+		    
+		    while (rs.next()) {
+		        String airportName = rs.getString("AirportName");
+		        airportModelFrom.addElement(airportName);
+		        airportModelTo.addElement(airportName);
+		    }
 
-		JComboBox<String> comboBoxFlightTo = new JComboBox<>();
-		comboBoxFlightTo.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-		comboBoxFlightTo.setModel(new DefaultComboBoxModel(new String[] {"", "Sân bay Cam Ranh (Khánh Hoà)", "Sân bay Cần Thơ (Cần Thơ)", "Sân bay Cát Bi (Hải Phòng)", "Sân bay Điện Biên (Điện Biên Phủ)", "Sân bay Phú Quốc (Phú Quốc)", "Sân bay Quốc tế Đà Năng (Đà Nẵng)", "Sân bay Quốc tế Nội Bài (Hà Nội)", "Sân bay Quốc tế Tân Sơn Nhất (Hồ Chí Minh)"}));
-		comboBoxFlightTo.setBounds(121, 155, 252, 40);
-		panel_1.add(comboBoxFlightTo);
+		    JComboBox<String> comboBoxFlightFrom = new JComboBox<>(airportModelFrom);
+		    JComboBox<String> comboBoxFlightTo = new JComboBox<>(airportModelTo);
 
-		txtPlaneID = new JTextField();
-		txtPlaneID.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-		txtPlaneID.setBounds(121, 212, 252, 36);
-		panel_1.add(txtPlaneID);
-		txtPlaneID.setColumns(10);
-		txtPlaneID.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyReleased(KeyEvent e) {
-				try {
-					updateTicketClassCounts();
-				} catch (ClassNotFoundException | SQLException ex) {
-					ex.printStackTrace();
-				}
-			}
-		});
+		    JScrollPane scrollPaneFlightFrom = new JScrollPane(comboBoxFlightFrom);
+		    JScrollPane scrollPaneFlightTo = new JScrollPane(comboBoxFlightTo);
+		    
+		    // Đặt vị trí và kích thước cho JScrollPane
+		    scrollPaneFlightFrom.setBounds(121, 100, 252, 40);
+		    scrollPaneFlightTo.setBounds(121, 155, 252, 40);
+		    
+		    // Thêm JScrollPane vào panel
+		    panel_1.add(scrollPaneFlightFrom);
+		    panel_1.add(scrollPaneFlightTo);
 
+		} catch (ClassNotFoundException | SQLException ex) {
+		    ex.printStackTrace();
+		}
+
+	    
+		//---------------------------------------------------------------------------------
+		
+
+		try {
+		    ResultSet rs = PlaneDAO.selectAll();
+		    DefaultComboBoxModel<String> flightModel = new DefaultComboBoxModel<>();
+		    while (rs.next()) {
+		        String flightID = rs.getString("PlaneID");
+		        flightModel.addElement(flightID);
+		    }
+		    // Khởi tạo comboBoxFlight và đặt vào model đã tạo
+		    comboBoxFlight = new JComboBox<>(flightModel);
+		    JScrollPane scrollPaneFlight = new JScrollPane(comboBoxFlight);
+		    // Đặt vị trí và kích thước cho JScrollPane
+		    scrollPaneFlight.setBounds(121, 212, 252, 36);
+		    // Thêm JScrollPane vào panel
+		    panel_1.add(scrollPaneFlight);
+
+		    // Thêm bộ lắng nghe sự kiện cho comboBoxFlight
+		    comboBoxFlight.addActionListener(new ActionListener() {
+		        @Override
+		        public void actionPerformed(ActionEvent e) {
+		            // Lấy giá trị mới của combobox khi thay đổi
+		            String selectedFlight = (String) comboBoxFlight.getSelectedItem();
+		            ResultSet rs;
+					try {
+						rs = PlaneDAO.numberTicketClass(selectedFlight);
+						loadRsToTableTicketLevel(rs);
+					} catch (ClassNotFoundException | SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+		            // Thực hiện xử lý dữ liệu ở đây...
+		        }
+		    });
+
+		} catch (ClassNotFoundException | SQLException ex) {
+		    ex.printStackTrace();
+		}
+		//----------------------------------------------------------------------------------
 		JDateChooser dateFlightDate = new JDateChooser();
 		dateFlightDate.setDateFormatString("yyyy-MM-dd");
-		dateFlightDate.setBounds(127, 272, 246, 30);
+		dateFlightDate.setBounds(121, 266, 252, 36);
 		panel_1.add(dateFlightDate);
-
+		
+		/*
 		txtFlightMinus = new JTextField();
 		txtFlightMinus.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-		txtFlightMinus.setBounds(257, 327, 116, 36);
+		txtFlightMinus.setBounds(238, 327, 63, 36);
 		panel_1.add(txtFlightMinus);
 		txtFlightMinus.setColumns(10);
 
 		txtFlightHour = new JTextField();
 		txtFlightHour.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
 		txtFlightHour.setColumns(10);
-		txtFlightHour.setBounds(121, 327, 116, 36);
+		txtFlightHour.setBounds(121, 327, 63, 36);
 		panel_1.add(txtFlightHour);
-
+		*/
+		
+		JSpinner spinnerHour = new JSpinner(new SpinnerNumberModel(0, 0, 23, 1));
+        spinnerHour.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
+        spinnerHour.setBounds(121, 327, 63, 36);
+        panel_1.add(spinnerHour);
+		
+        JSpinner spinnerMinute = new JSpinner(new SpinnerNumberModel(0, 0, 59, 1));
+        spinnerMinute.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
+        spinnerMinute.setBounds(238, 327, 63, 36);
+        panel_1.add(spinnerMinute);
+		//-----------------------------------------------------------------------------------
 		txtFlightTime = new JTextField();
 		txtFlightTime.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-		txtFlightTime.setBounds(121, 392, 252, 36);
+		txtFlightTime.setBounds(121, 392, 200, 36);
 		panel_1.add(txtFlightTime);
 		txtFlightTime.setColumns(10);
 
 		txtFlightCost = new JTextField();
 		txtFlightCost.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-		txtFlightCost.setBounds(121, 455, 252, 36);
+		txtFlightCost.setBounds(121, 455, 200, 36);
 		panel_1.add(txtFlightCost);
 		txtFlightCost.setColumns(10);
 
 		JButton btnSave = new JButton("Lưu");
-		btnSave.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
+		btnSave.setForeground(new Color(255, 255, 255));
+		btnSave.setBackground(new Color(0, 0, 160));
+		btnSave.setFont(new Font("Arial", Font.BOLD, 20));
 		btnSave.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
 			}
 		});
-		btnSave.setBounds(50, 516, 106, 45);
+		btnSave.setBounds(6, 516, 162, 45);
 		panel_1.add(btnSave);
 
 		JButton btnCancel = new JButton("Huỷ");
-		btnCancel.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-		btnCancel.setBounds(225, 516, 106, 45);
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+                    Admin_header.clearAndShow(new FlightUC());
+                } catch (ClassNotFoundException | SQLException e1) {
+                    e1.printStackTrace();
+                }
+			}
+		});
+		btnCancel.setForeground(new Color(255, 255, 255));
+		btnCancel.setBackground(new Color(192, 192, 192));
+		btnCancel.setFont(new Font("Arial", Font.BOLD, 20));
+		btnCancel.setBounds(206, 516, 162, 45);
 		panel_1.add(btnCancel);
 
 		JLabel lblNewLabel_1 = new JLabel("Sân bay đi:");
@@ -172,42 +251,60 @@ public class OperationFlightUC extends JPanel {
 		lblNewLabel_1_1_1_1_1_1_1.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
 		lblNewLabel_1_1_1_1_1_1_1.setBounds(6, 461, 120, 26);
 		panel_1.add(lblNewLabel_1_1_1_1_1_1_1);
-
+		
+		JLabel lblNewLabel_1_1_1_1_1_2 = new JLabel("Giờ ");
+		lblNewLabel_1_1_1_1_1_2.setFont(new Font("Dialog", Font.PLAIN, 15));
+		lblNewLabel_1_1_1_1_1_2.setBounds(194, 332, 34, 26);
+		panel_1.add(lblNewLabel_1_1_1_1_1_2);
+		
+		JLabel lblNewLabel_1_1_1_1_1_2_1 = new JLabel("Phút");
+		lblNewLabel_1_1_1_1_1_2_1.setFont(new Font("Dialog", Font.PLAIN, 15));
+		lblNewLabel_1_1_1_1_1_2_1.setBounds(311, 332, 34, 26);
+		panel_1.add(lblNewLabel_1_1_1_1_1_2_1);
+		
+		JLabel lblNewLabel_1_1_1_1_1_2_1_1 = new JLabel("Phút");
+		lblNewLabel_1_1_1_1_1_2_1_1.setFont(new Font("Dialog", Font.PLAIN, 15));
+		lblNewLabel_1_1_1_1_1_2_1_1.setBounds(331, 396, 34, 26);
+		panel_1.add(lblNewLabel_1_1_1_1_1_2_1_1);
+		
+		JLabel lblNewLabel_1_1_1_1_1_2_1_1_1 = new JLabel("VND");
+		lblNewLabel_1_1_1_1_1_2_1_1_1.setFont(new Font("Dialog", Font.PLAIN, 15));
+		lblNewLabel_1_1_1_1_1_2_1_1_1.setBounds(331, 460, 34, 26);
+		panel_1.add(lblNewLabel_1_1_1_1_1_2_1_1_1);
+		
+		//--------------------------------------------------------------------
 		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(446, 16, 204, 480);
+		panel_2.setBounds(446, 16, 204, 76);
 		panel.add(panel_2);
 		panel_2.setLayout(null);
-
-		JLabel lblNewLabel_2 = new JLabel("Thương gia");
-		lblNewLabel_2.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-		lblNewLabel_2.setBounds(16, 5, 104, 32);
-		panel_2.add(lblNewLabel_2);
-
-		JLabel lblNewLabel_2_1 = new JLabel("Phổ thông");
-		lblNewLabel_2_1.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-		lblNewLabel_2_1.setBounds(16, 56, 104, 32);
-		panel_2.add(lblNewLabel_2_1);
-
-		JSeparator separator = new JSeparator();
-		separator.setForeground(Color.DARK_GRAY);
-		separator.setBounds(0, 40, 204, 12);
-		panel_2.add(separator);
-
-		JSeparator separator_1 = new JSeparator();
-		separator_1.setForeground(Color.DARK_GRAY);
-		separator_1.setBounds(0, 90, 204, 12);
-		panel_2.add(separator_1);
-
-		lblTicketClass1 = new JLabel("30");
-		lblTicketClass1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTicketClass1.setBounds(121, 57, 63, 32);
-		panel_2.add(lblTicketClass1);
-
-		lblTicketClass2 = new JLabel("30");
-		lblTicketClass2.setBounds(121, 6, 63, 32);
-		panel_2.add(lblTicketClass2);
-		lblTicketClass2.setHorizontalAlignment(SwingConstants.CENTER);
-
+		
+		JScrollPane scrollPane_1 = new JScrollPane((Component) null);
+		scrollPane_1.setBounds(0, 0, 204, 76);
+		panel_2.add(scrollPane_1);
+		
+		//table ticket class
+		table_1 = new JTable();
+		table_1.setSurrendersFocusOnKeystroke(true);
+		table_1.setColumnSelectionAllowed(true);
+		table_1.setCellSelectionEnabled(true);
+		table_1.setFont(new Font("Times New Roman", Font.BOLD, 15)); // Thiết lập font cho bảng
+		
+		Object [] column1 = {"Tên hạng vé","Số lượng"};
+		modelTicketLevel = new DefaultTableModel();
+		modelTicketLevel.setColumnIdentifiers(column1);
+		table_1.setModel(modelTicketLevel);
+		//upload data
+		try {
+			ResultSet rs = PlaneDAO.numberTicketClass("PE0001");
+			loadRsToTableTicketLevel(rs);
+		}catch(SQLException | ClassNotFoundException ex){
+			ex.printStackTrace();
+		}
+		scrollPane_1.setViewportView(table_1);
+		
+		
+		
+		//---------------------------------------------------------------------
 		JButton btnAddIntermediateFlight = new JButton("+");
 		btnAddIntermediateFlight.setFont(new Font("Lucida Grande", Font.PLAIN, 17));
 		btnAddIntermediateFlight.setBounds(691, 16, 106, 45);
@@ -301,7 +398,7 @@ public class OperationFlightUC extends JPanel {
 			tableModel.setValueAt(i + 1, i, 0);
 		}
 	}
-
+	/*
 	private void updateTicketClassCounts() throws ClassNotFoundException, SQLException {
 		String planeID = txtPlaneID.getText();
 		if (!planeID.isEmpty()) {
@@ -334,5 +431,16 @@ public class OperationFlightUC extends JPanel {
 				JDBCUtil.close(rs, stmt, conn);
 			}
 		}
-	}
+	}*/
+	// Phương thức để load dữ liệu lên bảng hạng vé
+		public void loadRsToTableTicketLevel(ResultSet rs) throws SQLException {
+		    DefaultTableModel modelTicketLevel = (DefaultTableModel) table_1.getModel();
+		    modelTicketLevel.setRowCount(0);
+		    while (rs.next()) {
+		        modelTicketLevel.addRow(new Object[] {
+		            rs.getString("TicketClassName"), // Use getString instead of getInt
+		            rs.getString("TicketCount"), // Assuming PricePercentage is also a string
+		        });
+		    }
+		}
 }

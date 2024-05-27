@@ -22,7 +22,7 @@ public class Admin_header extends JPanel {
 
     public static final long serialVersionUID = 1L;
     public static Button[] buttons = new Button[6];
-    private Button selectedButton = null;  // Track the currently selected button
+    private static Button selectedButton = null;  // Track the currently selected button
 
     /**
      * Create the panel.
@@ -108,9 +108,11 @@ public class Admin_header extends JPanel {
     }
 
     // Method to clear and show new panel
-    private void clearAndShow(JPanel newPanel) {
+    public static  void clearAndShow(JPanel newPanel) {
         FormAdmin.contentPane.removeAll(); // Xóa tất cả các thành phần trên contentPane
-        FormAdmin.contentPane.add(this); // Thêm lại Admin_header vào contentPane
+        Admin_header tmp = new Admin_header();
+        FormAdmin.contentPane.add(tmp); // Thêm lại Admin_header vào contentPane
+        highlightButton(buttons[0]);
         FormAdmin.contentPane.add(newPanel); // Thêm form mới vào contentPane
         newPanel.setSize(1500, 653);
         newPanel.setLocation(0, 70);
@@ -119,7 +121,7 @@ public class Admin_header extends JPanel {
     }
 
     // Method to highlight the selected button
-    private void highlightButton(Button button) {
+    public static void highlightButton(Button button) {
         if (selectedButton != null) {
             selectedButton.setBackground(new Color(245, 245, 248)); // Reset background color of previously selected button
             selectedButton.setForeground(new Color(0, 0, 0)); // Reset text color of previously selected button
@@ -128,4 +130,6 @@ public class Admin_header extends JPanel {
         button.setForeground(new Color(255, 255, 255)); // Set text color to white
         selectedButton = button; // Update the currently selected button
     }
+    
+    
 }
