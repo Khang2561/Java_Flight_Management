@@ -10,11 +10,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import javax.swing.JPanel;
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
@@ -23,10 +21,10 @@ public class ChatBox extends JPanel {
 
     private static final long serialVersionUID = 1L;
     private JTextField txtNhp;
-    private JTextArea textArea;
     private Socket socket;
     private PrintWriter out;
     private BufferedReader in;
+    private JPanel chatShow;
 
     public ChatBox() {
         setBackground(new Color(240, 240, 240));
@@ -41,39 +39,44 @@ public class ChatBox extends JPanel {
         lblChatBoxChm.setBounds(0, 10, 1500, 59);
         add(lblChatBoxChm);
 
-        // TEXT AREA CHAT
-        textArea = new JTextArea();
-        textArea.setFont(new Font("Monospaced", Font.PLAIN, 20));
-        textArea.setLineWrap(true); // Enable line wrap
-        textArea.setWrapStyleWord(true); // Wrap words at word boundaries
-        textArea.setEditable(false); // Make the text area non-editable
-
-        // Add the text area to a scroll pane
-        JScrollPane scrollPaneTextArea = new JScrollPane(textArea);
-        scrollPaneTextArea.setBounds(274, 67, 936, 400);
-        scrollPaneTextArea.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        add(scrollPaneTextArea);
-
         // BUTTON GUI
         Button button_3 = new Button("GỬI");
+        button_3.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String text = txtNhp.getText();
+                if (!text.trim().isEmpty()) {
+                    Item_right item = new Item_right(text);
+                    chatShow.add(item);
+                    chatShow.revalidate(); // Cập nhật giao diện
+                    chatShow.repaint();    // Vẽ lại giao diện
+                    sendMessage(text); // Gửi tin nhắn tới server
+                    txtNhp.setText(""); // Xóa nội dung sau khi gửi
+                }
+            }
+        });
         button_3.setForeground(Color.WHITE);
         button_3.setFont(new Font("Times New Roman", Font.BOLD, 15));
         button_3.setBackground(new Color(3, 4, 94));
         button_3.setBounds(988, 500, 222, 87);
-        button_3.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                sendMessage();
-            }
-        });
         add(button_3);
-   
+
         // NHAP TIN NHAN
         txtNhp = new JTextField();
         txtNhp.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-        JScrollPane scrollPane = new JScrollPane(txtNhp);
-        scrollPane.setBounds(274, 500, 698, 87);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        add(scrollPane);
+        txtNhp.setBounds(274, 500, 698, 87);
+        add(txtNhp);
+
+        // PANEL CHỨA TIN NHẮN
+        chatShow = new JPanel();
+        chatShow.setLayout(new BoxLayout(chatShow, BoxLayout.Y_AXIS));
+        chatShow.setBackground(Color.WHITE);
+
+        // SCROLL PANE CHỨA PANEL TIN NHẮN
+        JScrollPane scrollChatShow = new JScrollPane(chatShow);
+        scrollChatShow.setBounds(274, 79, 936, 411);
+        scrollChatShow.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollChatShow.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        add(scrollChatShow);
 
         // Connect to the server
         try {
@@ -101,23 +104,17 @@ public class ChatBox extends JPanel {
         }
     }
 
-    private void sendMessage() {
-        String message = txtNhp.getText();
-        if (!message.isEmpty()) {
-            String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-            String sender = "You"; // Or get the sender's name from wherever it's stored
-            String formattedMessage = "[" + timeStamp + "] " + sender + ": " + message + "\n";
-            textArea.append(formattedMessage);
+    private void sendMessage(String message) {
+        if (out != null && !message.trim().isEmpty()) {
             out.println(message);
-            txtNhp.setText(""); // Clear the text field after sending the message
         }
     }
 
-    // Method to append a message to the JTextArea
     private void appendMessageToTextArea(String sender, String message) {
-        String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-        String formattedMessage = "[" + timeStamp + "] " + sender + ": " + message + "\n";
-        textArea.append(formattedMessage);
+        Item_left item = new Item_left(message);
+        chatShow.add(item);
+        chatShow.revalidate();
+        chatShow.repaint();
     }
 
     // Override the JPanel's finalize method to close the socket when the ChatBox is destroyed
