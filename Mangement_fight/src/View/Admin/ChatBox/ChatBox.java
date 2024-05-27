@@ -2,7 +2,6 @@ package View.Admin.ChatBox;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.LayoutManager;
 import java.awt.Button;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,14 +10,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import javax.swing.JPanel;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
 public class ChatBox extends JPanel {
@@ -29,7 +25,6 @@ public class ChatBox extends JPanel {
     private PrintWriter out;
     private BufferedReader in;
     private JPanel chatShow;
-
 
     public ChatBox() {
         setBackground(new Color(240, 240, 240));
@@ -68,14 +63,12 @@ public class ChatBox extends JPanel {
         // NHAP TIN NHAN
         txtNhp = new JTextField();
         txtNhp.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-        JScrollPane scrollPane = new JScrollPane(txtNhp);
-        scrollPane.setBounds(274, 500, 698, 87);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        add(scrollPane);
+        txtNhp.setBounds(274, 500, 698, 87);
+        add(txtNhp);
 
         // PANEL CHỨA TIN NHẮN
         chatShow = new JPanel();
-        chatShow.setLayout((LayoutManager) new BoxLayout(chatShow, BoxLayout.Y_AXIS));
+        chatShow.setLayout(new BoxLayout(chatShow, BoxLayout.Y_AXIS));
         chatShow.setBackground(Color.WHITE);
 
         // SCROLL PANE CHỨA PANEL TIN NHẮN
