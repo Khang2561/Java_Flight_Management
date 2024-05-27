@@ -12,10 +12,11 @@ public class TicketClass {
     public TicketClass() {
     }
 
-    public TicketClass(String ticketClassName, String pricePercentage, String ticketClassID) {
+    public TicketClass(String ticketClassName, String pricePercentage, String ticketClassID, Color colorTicketClass) {
         this.ticketClassName = ticketClassName;
         this.pricePercentage = pricePercentage;
         this.ticketClassID = ticketClassID;
+        this.colorTicketClass = colorTicketClass;
     }
 
     // Getters and setters

@@ -3,6 +3,9 @@ package libData;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import DAO.AirportDAO;
 import View.Admin.Setting.Setting;
@@ -12,10 +15,10 @@ public class JDBCUtil {
     	Connection c = null;
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            String url= "jdbc:sqlserver://MSI\\SQLEXPRESS:1433;" +
-            			"databaseName=FlightTicketManagement;encrypt=false";
-            String userName = "java";
-            String password = "java";
+            String url= "jdbc:sqlserver://localhost:1433;databaseName=FlightTicketManagement;"
+            		+ "trustServerCertificate=true";
+            String userName = "admin";
+            String password = "1";
 
             c = DriverManager.getConnection(url, userName, password);
           
@@ -47,4 +50,30 @@ public class JDBCUtil {
     			e.printStackTrace();
     		}
     }
+    public static void close(ResultSet rs, Statement stmt, Connection conn) {
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (stmt != null) {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
 }
