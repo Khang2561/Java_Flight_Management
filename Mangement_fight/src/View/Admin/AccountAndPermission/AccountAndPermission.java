@@ -148,21 +148,21 @@ public class AccountAndPermission extends JPanel {
 		lblNewLabel_1_1_1_1_1_1_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1_1_1_1_1_1_1.setFont(new Font("Times New Roman", Font.PLAIN, 17));
 		lblNewLabel_1_1_1_1_1_1_1.setBackground(new Color(114, 114, 114));
-		lblNewLabel_1_1_1_1_1_1_1.setBounds(1279, 0, 221, 49);
+		lblNewLabel_1_1_1_1_1_1_1.setBounds(1269, 0, 221, 49);
 		panel.add(lblNewLabel_1_1_1_1_1_1_1);
 		
 		JLabel lblNewLabel_1_1_2 = new JLabel("Siêu quản trị ");
 		lblNewLabel_1_1_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1_1_2.setFont(new Font("Times New Roman", Font.PLAIN, 17));
 		lblNewLabel_1_1_2.setBackground(new Color(114, 114, 114));
-		lblNewLabel_1_1_2.setBounds(0, 59, 146, 49);
+		lblNewLabel_1_1_2.setBounds(0, 49, 146, 49);
 		panel.add(lblNewLabel_1_1_2);
 		
 		JLabel lblNewLabel_1_1_2_1 = new JLabel("Quản trị ");
 		lblNewLabel_1_1_2_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1_1_2_1.setFont(new Font("Times New Roman", Font.PLAIN, 17));
 		lblNewLabel_1_1_2_1.setBackground(new Color(114, 114, 114));
-		lblNewLabel_1_1_2_1.setBounds(0, 108, 146, 49);
+		lblNewLabel_1_1_2_1.setBounds(0, 97, 146, 49);
 		panel.add(lblNewLabel_1_1_2_1);
 		
 		JLabel lblNewLabel_1_1_2_1_1 = new JLabel("Ban Giám Đốc ");
@@ -183,7 +183,7 @@ public class AccountAndPermission extends JPanel {
 		lblNewLabel.setForeground(new Color(0, 0, 160));
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(0, 0, 480, 35);
+		lblNewLabel.setBounds(10, 4, 429, 35);
 		add(lblNewLabel);
 		
 		JLabel lblQuynHngCa = new JLabel("QUYỀN HẠNG CỦA CÁC TÀI KHOẢN");
