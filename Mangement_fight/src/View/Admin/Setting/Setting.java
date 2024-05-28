@@ -10,6 +10,8 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
+
+import CustomUI.BtnCS;
 import DALs.AirportDAL;
 import DAO.AAADAO;
 import DAO.AirportDAO;
@@ -67,6 +69,7 @@ public class Setting extends JPanel {
 	private JLabel lbearliestBookingTime;
 	public Parameters settingValue = new Parameters();
 	private Button btInsertAirport;
+	private BtnCS tmp1;
 	
 	//------------------------------setting main------------------------------------------------------
 	public Setting() throws ClassNotFoundException, SQLException {
@@ -446,8 +449,8 @@ public class Setting extends JPanel {
 		lblNewLabel_1_3_1_2_1_2.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		lblNewLabel_1_3_1_2_1_2.setBounds(356, 46, 46, 26);
 		panel_1_1.add(lblNewLabel_1_3_1_2_1_2);
-		
-		//nut lưu setting cơ bản 
+		//--------------------------
+		/*
 		Button button_3 = new Button("Lưu");
 		button_3.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
@@ -500,6 +503,68 @@ public class Setting extends JPanel {
 		button_3.setBounds(10, 243, 570, 37);
 		panel_1_1.add(button_3);
 		
+		*/
+		//nut lưu setting cơ bản 
+		//----------------------------------------
+		tmp1 = new BtnCS();
+		tmp1.setColorClick(new Color(0, 0, 160));
+		tmp1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+		            int minimumFlightTime = Integer.parseInt(tfminimumFlightTime.getText());
+		            int tfmaxPreventiveAirports1 = Integer.parseInt(tfmaxPreventiveAirports.getText());
+		            int tfminimumStopoverTime1 = Integer.parseInt(tfminimumStopoverTime.getText());
+		            int tfmaximumStopoverTime1 = Integer.parseInt(tfmaximumStopoverTime.getText());
+		            int tfearliestBookingTime1 = Integer.parseInt(tfearliestBookingTime.getText());
+		            int tflatestBookingCancellationTime1 = Integer.parseInt(tflatestBookingCancellationTime.getText());
+		            
+		            // Kiểm tra điều kiện tfminimumStopoverTime1 < tfmaximumStopoverTime1
+		            if (tfminimumStopoverTime1 >= tfmaximumStopoverTime1) {
+		                JOptionPane.showMessageDialog(null, "Thời gian dừng tối thiểu phải nhỏ hơn thời gian dừng tối đa.");
+		                return; // Dừng phương thức nếu điều kiện không được thỏa mãn
+		            }
+		            
+		            // Tiếp tục nếu điều kiện được thỏa mãn
+		            
+		            settingValue.setMinimumFlightTime(minimumFlightTime);
+		            settingValue.setMaxPreventiveAirports(tfmaxPreventiveAirports1);
+		            settingValue.setMinimumStopoverTime(tfminimumStopoverTime1);
+		            settingValue.setMaximumStopoverTime(tfmaximumStopoverTime1);
+		            settingValue.setEarliestBookingTime(tfearliestBookingTime1);
+		            settingValue.setLatestBookingCancellationTime(tflatestBookingCancellationTime1);
+		            
+		            int rowsAffected = ParametersDAO.updateFightTime(settingValue);
+		            reloadSetting();
+		            if (rowsAffected > 0) {
+		                JOptionPane.showMessageDialog(null, "Dữ liệu đã được cập nhật thành công.");
+		            } else {
+		                JOptionPane.showMessageDialog(null, "Không có bản ghi nào được cập nhật.");
+		            }
+		        } catch (SQLException ex) {
+		            JOptionPane.showMessageDialog(null, "Lỗi SQL: " + ex.getMessage());
+		            ex.printStackTrace();
+		        } catch (ClassNotFoundException ex) {
+		            JOptionPane.showMessageDialog(null, "Không tìm thấy lớp: " + ex.getMessage());
+		            ex.printStackTrace();
+		        } catch (NumberFormatException ex) {
+		            JOptionPane.showMessageDialog(null, "Vui lòng nhập số nguyên hợp lệ cho các trường dữ liệu.");
+		            ex.printStackTrace();
+		        }
+		    }
+		});
+		tmp1.setColorOver(new Color(0, 0, 160));
+		tmp1.setColor(new Color(3, 4, 94));
+		tmp1.setBorderColor(new Color(3, 4, 94));
+		tmp1.setRadius(30);
+		tmp1.setBounds(10, 243, 570, 37);
+		panel_1_1.add(tmp1);
+		tmp1.setText("CẬP NHẬP");
+		
+		
+		tmp1.setFont(new Font("Times New Roman", Font.BOLD, 15));
+		tmp1.setForeground(new Color(255, 255, 255));
+		tmp1.setBackground(new Color(3, 4, 94));
+		
 		
 		//HANG VE
 		JPanel panel_1_2 = new JPanel();
@@ -527,6 +592,7 @@ public class Setting extends JPanel {
 		inputNamePercent.setColumns(10);
 		inputNamePercent.setBounds(558, 124, 221, 24);
 		panel_1_2.add(inputNamePercent);
+		
 		
 		Button btnThemTicketClass = new Button("Thêm ");
 		btnThemTicketClass.setFont(new Font("Arial", Font.BOLD, 14));
@@ -578,6 +644,7 @@ public class Setting extends JPanel {
 		btnThemTicketClass.setBackground(new Color(3, 4, 94));
 		btnThemTicketClass.setBounds(416, 180, 410, 37);
 		panel_1_2.add(btnThemTicketClass);
+		
 		
 		Button btnUpdateTicketClass = new Button("Cập nhập");
 		btnUpdateTicketClass.addActionListener(new ActionListener() {
