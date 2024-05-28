@@ -68,7 +68,7 @@ public class Setting extends JPanel {
 	private DefaultTableModel modelTicketLevel;
 	private JLabel lbearliestBookingTime;
 	public Parameters settingValue = new Parameters();
-	private Button btInsertAirport;
+	private BtnCS btInsertAirport;
 	private BtnCS tmp1;
 	
 	//------------------------------setting main------------------------------------------------------
@@ -178,7 +178,8 @@ public class Setting extends JPanel {
 		panel_1.add(inputNameCountry);
 		
 		//button to insert airport to table
-		btInsertAirport = new Button("Thêm ");
+		btInsertAirport = new BtnCS();
+		btInsertAirport.setText("THÊM");
 		btInsertAirport.setFont(new Font("Arial", Font.BOLD, 14));
 		btInsertAirport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -242,11 +243,20 @@ public class Setting extends JPanel {
 		//setting design for button
 		btInsertAirport.setForeground(new Color(255, 255, 255));
 		btInsertAirport.setBackground(new Color(3, 4, 94));
-		btInsertAirport.setBounds(33, 199, 576, 48);
+		
+		
+		btInsertAirport.setColorOver(new Color(0, 0, 160));
+		btInsertAirport.setColor(new Color(3, 4, 94));
+		btInsertAirport.setBorderColor(new Color(3, 4, 94));
+		btInsertAirport.setRadius(30);
+		btInsertAirport.setBounds(39, 199, 570, 48);
 		panel_1.add(btInsertAirport);
 		
+		
+		
 		//button update airport
-		Button btUpdate = new Button("Cập nhật");
+		BtnCS btUpdate = new BtnCS();
+		btUpdate.setText("CẬP NHẬT");
 		btUpdate.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        try {
@@ -294,11 +304,21 @@ public class Setting extends JPanel {
 		btUpdate.setForeground(new Color(255, 255, 255));
 		btUpdate.setBackground(new Color(3, 4, 94));
 		btUpdate.setBounds(46, 199, 168, 48);
+		btUpdate.setColorOver(new Color(0, 0, 160));
+		btUpdate.setColor(new Color(3, 4, 94));
+		btUpdate.setBorderColor(new Color(3, 4, 94));
+		btUpdate.setRadius(30);
+		
 		panel_1.add(btUpdate);
 		
-		
 		//button delete airport
-		Button btDelete = new Button("Xóa");
+		BtnCS btDelete = new BtnCS();
+		btDelete.setColorClick(new Color(217, 217, 217));
+		btDelete.setColorOver(new Color(217, 217, 217));
+		btDelete.setColor(new Color(192, 192, 192));
+		btDelete.setBorderColor(new Color(192, 192, 192));
+		btDelete.setRadius(30);
+		btDelete.setText("XÓA");
 		btDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				AirportDAO.deleteByName(inputNameAirport.getText());
@@ -330,7 +350,13 @@ public class Setting extends JPanel {
 		
 		
 		//button cancel airport
-		Button btCancel = new Button("Hủy");
+		BtnCS btCancel = new BtnCS();
+		btCancel.setColorClick(new Color(156, 156, 156));
+		btCancel.setColorOver(new Color(156, 156, 156));
+		btCancel.setColor(new Color(128, 128, 128));
+		btCancel.setRadius(30);
+		btCancel.setBorderColor(new Color(128, 128, 128));
+		btCancel.setText("HỦY");
 		btCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				inputNameAirport.setText("");
@@ -450,60 +476,7 @@ public class Setting extends JPanel {
 		lblNewLabel_1_3_1_2_1_2.setBounds(356, 46, 46, 26);
 		panel_1_1.add(lblNewLabel_1_3_1_2_1_2);
 		//--------------------------
-		/*
-		Button button_3 = new Button("Lưu");
-		button_3.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-		        try {
-		            int minimumFlightTime = Integer.parseInt(tfminimumFlightTime.getText());
-		            int tfmaxPreventiveAirports1 = Integer.parseInt(tfmaxPreventiveAirports.getText());
-		            int tfminimumStopoverTime1 = Integer.parseInt(tfminimumStopoverTime.getText());
-		            int tfmaximumStopoverTime1 = Integer.parseInt(tfmaximumStopoverTime.getText());
-		            int tfearliestBookingTime1 = Integer.parseInt(tfearliestBookingTime.getText());
-		            int tflatestBookingCancellationTime1 = Integer.parseInt(tflatestBookingCancellationTime.getText());
-		            
-		            // Kiểm tra điều kiện tfminimumStopoverTime1 < tfmaximumStopoverTime1
-		            if (tfminimumStopoverTime1 >= tfmaximumStopoverTime1) {
-		                JOptionPane.showMessageDialog(null, "Thời gian dừng tối thiểu phải nhỏ hơn thời gian dừng tối đa.");
-		                return; // Dừng phương thức nếu điều kiện không được thỏa mãn
-		            }
-		            
-		            // Tiếp tục nếu điều kiện được thỏa mãn
-		            
-		            settingValue.setMinimumFlightTime(minimumFlightTime);
-		            settingValue.setMaxPreventiveAirports(tfmaxPreventiveAirports1);
-		            settingValue.setMinimumStopoverTime(tfminimumStopoverTime1);
-		            settingValue.setMaximumStopoverTime(tfmaximumStopoverTime1);
-		            settingValue.setEarliestBookingTime(tfearliestBookingTime1);
-		            settingValue.setLatestBookingCancellationTime(tflatestBookingCancellationTime1);
-		            
-		            int rowsAffected = ParametersDAO.updateFightTime(settingValue);
-		            reloadSetting();
-		            if (rowsAffected > 0) {
-		                JOptionPane.showMessageDialog(null, "Dữ liệu đã được cập nhật thành công.");
-		            } else {
-		                JOptionPane.showMessageDialog(null, "Không có bản ghi nào được cập nhật.");
-		            }
-		        } catch (SQLException ex) {
-		            JOptionPane.showMessageDialog(null, "Lỗi SQL: " + ex.getMessage());
-		            ex.printStackTrace();
-		        } catch (ClassNotFoundException ex) {
-		            JOptionPane.showMessageDialog(null, "Không tìm thấy lớp: " + ex.getMessage());
-		            ex.printStackTrace();
-		        } catch (NumberFormatException ex) {
-		            JOptionPane.showMessageDialog(null, "Vui lòng nhập số nguyên hợp lệ cho các trường dữ liệu.");
-		            ex.printStackTrace();
-		        }
-		    }
-		});
-
-		button_3.setFont(new Font("Times New Roman", Font.BOLD, 15));
-		button_3.setForeground(new Color(255, 255, 255));
-		button_3.setBackground(new Color(3, 4, 94));
-		button_3.setBounds(10, 243, 570, 37);
-		panel_1_1.add(button_3);
 		
-		*/
 		//nut lưu setting cơ bản 
 		//----------------------------------------
 		tmp1 = new BtnCS();
@@ -594,7 +567,8 @@ public class Setting extends JPanel {
 		panel_1_2.add(inputNamePercent);
 		
 		
-		Button btnThemTicketClass = new Button("Thêm ");
+		BtnCS btnThemTicketClass = new BtnCS();
+		btnThemTicketClass.setText("THÊM ");
 		btnThemTicketClass.setFont(new Font("Arial", Font.BOLD, 14));
 		btnThemTicketClass.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -642,11 +616,19 @@ public class Setting extends JPanel {
 		});
 		btnThemTicketClass.setForeground(Color.WHITE);
 		btnThemTicketClass.setBackground(new Color(3, 4, 94));
-		btnThemTicketClass.setBounds(416, 180, 410, 37);
+	
+		
+		
+		btnThemTicketClass.setColorOver(new Color(0, 0, 160));
+		btnThemTicketClass.setColor(new Color(3, 4, 94));
+		btnThemTicketClass.setBorderColor(new Color(3, 4, 94));
+		btnThemTicketClass.setRadius(30);
+		btnThemTicketClass.setBounds(399, 180, 427, 37);
 		panel_1_2.add(btnThemTicketClass);
 		
-		
-		Button btnUpdateTicketClass = new Button("Cập nhập");
+		BtnCS btnUpdateTicketClass = new BtnCS();
+		btnUpdateTicketClass.setRadius(30);
+		btnUpdateTicketClass.setText("CẬP NHẬT ");
 		btnUpdateTicketClass.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        //----------------------------------
@@ -695,9 +677,15 @@ public class Setting extends JPanel {
 		btnUpdateTicketClass.setForeground(Color.WHITE);
 		btnUpdateTicketClass.setBackground(new Color(3, 4, 94));
 		btnUpdateTicketClass.setBounds(416, 180, 131, 37);
+		btnUpdateTicketClass.setColorOver(new Color(0, 0, 160));
+		btnUpdateTicketClass.setColor(new Color(3, 4, 94));
+		btnUpdateTicketClass.setBorderColor(new Color(3, 4, 94));
+		btnUpdateTicketClass.setRadius(30);
 		panel_1_2.add(btnUpdateTicketClass);
 		
-		Button buttonDeleteTicketClass = new Button("Xóa");
+		BtnCS buttonDeleteTicketClass = new BtnCS();
+		buttonDeleteTicketClass.setRadius(30);
+		buttonDeleteTicketClass.setText("XÓA ");
 		buttonDeleteTicketClass.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				TicketClassDAO.deleteByName(inputNameClass.getText());
@@ -720,6 +708,12 @@ public class Setting extends JPanel {
 		buttonDeleteTicketClass.setForeground(Color.WHITE);
 		buttonDeleteTicketClass.setBackground(Color.LIGHT_GRAY);
 		buttonDeleteTicketClass.setBounds(573, 180, 123, 37);
+		
+		buttonDeleteTicketClass.setColorClick(new Color(217, 217, 217));
+		buttonDeleteTicketClass.setColorOver(new Color(217, 217, 217));
+		buttonDeleteTicketClass.setColor(new Color(192, 192, 192));
+		buttonDeleteTicketClass.setBorderColor(new Color(192, 192, 192));
+		buttonDeleteTicketClass.setRadius(30);
 		panel_1_2.add(buttonDeleteTicketClass);
 		
 		JLabel lbHangVe = new JLabel("HẠNG VÉ");
@@ -754,7 +748,9 @@ public class Setting extends JPanel {
 		}
 		scrollPane_1.setViewportView(table_1);
 		
-		Button buttonCancelTicketClass = new Button("Hủy ");
+		BtnCS buttonCancelTicketClass = new BtnCS();
+		buttonCancelTicketClass.setRadius(30);
+		buttonCancelTicketClass.setText("HỦY ");
 		buttonCancelTicketClass.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				inputNameClass.setText("");
@@ -762,6 +758,13 @@ public class Setting extends JPanel {
             	btnThemTicketClass.setVisible(true);
 			}
 		});
+		
+		buttonCancelTicketClass.setColorClick(new Color(156, 156, 156));
+		buttonCancelTicketClass.setColorOver(new Color(156, 156, 156));
+		buttonCancelTicketClass.setColor(new Color(128, 128, 128));
+		buttonCancelTicketClass.setRadius(30);
+		buttonCancelTicketClass.setBorderColor(new Color(128, 128, 128));
+		
 		buttonCancelTicketClass.setForeground(Color.WHITE);
 		buttonCancelTicketClass.setFont(new Font("Arial", Font.BOLD, 14));
 		buttonCancelTicketClass.setBackground(new Color(128, 128, 128));
