@@ -115,7 +115,7 @@ public class Admin_header extends JPanel {
         highlightButton(buttons[0]);
         FormAdmin.contentPane.add(newPanel); // Thêm form mới vào contentPane
         newPanel.setSize(1500, 653);
-        newPanel.setLocation(0, 70);
+        newPanel.setLocation(0, 78);
         FormAdmin.contentPane.revalidate(); // Cập nhật giao diện
         FormAdmin.contentPane.repaint(); // Vẽ lại giao diện
     }

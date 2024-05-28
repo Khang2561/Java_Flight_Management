@@ -9,8 +9,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Random;
 
+import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -47,10 +49,14 @@ public class CreatePlane extends JPanel {
 	private JPanel panelSeatNumer;
 	private JTable tableClassTicket;
 	private DefaultTableModel modelTicketLevel;
+	private JTable countTicketClassTable;
+	private static DefaultTableModel modelTicketcount;
 	private static JPanel panelSeatMap;
 	public static TicketClass[] arrayticket = new TicketClass[6];
-	private static Color tmpColor;
+	private static Color tmpColor = new Color(0, 102, 204);
+	private static AbstractButton btnNewButton_1;
 	//------------------------------
+	private static HashMap buttonCount;
 
 	/**
 	 * Create the panel.
@@ -191,7 +197,7 @@ public class CreatePlane extends JPanel {
 		                    ResultSet rs = PlaneDAO.countPlane();
 		                    if (rs.next()) {
 		                        int planeCount = rs.getInt(1);
-		                        String inputPlaneId = "PE0" + (planeCount + 1);
+		                        String inputPlaneId = "PE000" + (planeCount + 1);
 
 		                        Plane pla = new Plane();
 		                        pla.setPlaneID(inputPlaneId);
@@ -242,10 +248,12 @@ public class CreatePlane extends JPanel {
 		lblNewLabel_1.setLabelFor(panel_1);
 		panel_1.add(lblNewLabel_1);
 		
-		JButton btnNewButton_1 = new JButton("Chưa có hạng vé");
+		btnNewButton_1 = new JButton("Chưa có hạng vé");
 		btnNewButton_1.setBounds(30, 479, 197, 41);
 		btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 15));
 		panel_1.add(btnNewButton_1);
+		
+		
 		
 		//jscroll cho hạng vé 
 		JScrollPane scrollPane = new JScrollPane((Component) null);
@@ -281,6 +289,36 @@ public class CreatePlane extends JPanel {
 			ex.printStackTrace();
 		}
 		scrollPane.setViewportView(tableClassTicket);
+		panelChitietve.setLayout(null);
+		
+		//create chi tiet hang ve table
+		JScrollPane scrollpane1 = new JScrollPane((Component) null);
+		scrollpane1.setBounds(0, 0, 197, 243);
+		panelChitietve.add(scrollpane1);
+		
+		countTicketClassTable = new JTable();
+		countTicketClassTable.setSurrendersFocusOnKeystroke(false);
+		countTicketClassTable.setColumnSelectionAllowed(false);
+		countTicketClassTable.setCellSelectionEnabled(false);
+		countTicketClassTable.setFont(new Font("Times New Roman", Font.BOLD, 15));
+		
+		
+		Object [] obj = {"Tên hạng vé","Số lượng ghế"};
+		modelTicketcount = new DefaultTableModel();
+		modelTicketcount.setColumnIdentifiers(obj);
+		countTicketClassTable.setModel(modelTicketcount);
+		
+		
+		try {
+			ResultSet rs = TicketClassDAO.selectAll();
+			while(rs.next()) {
+				modelTicketcount.addRow(new Object[] { rs.getString("TicketClassName"), 0 });
+			}
+		}catch(SQLException | ClassNotFoundException ex){
+			ex.printStackTrace();
+		}
+		scrollpane1.setViewportView(countTicketClassTable);
+		
 		
 		
 		//-------------------------------------------------------------------------
@@ -407,6 +445,29 @@ public class CreatePlane extends JPanel {
 	    // Get the default color and ticket class ID from the first ticket class
 	    Color defaultColor = arrayticket[0].getColorTicketClass();
 	    String defaultTicketClassID = arrayticket[0].getTicketClassID();
+	    
+	    
+	    //default ticketclass
+		btnNewButton_1.setText(arrayticket[0].getTicketClassName());
+		btnNewButton_1.setBackground(defaultColor);
+		
+		//set default seat count
+		try {
+			ResultSet rs = TicketClassDAO.selectAll();
+			modelTicketcount.setRowCount(0);
+			while(rs.next()) {
+				if(rs.getString("TicketClassName").equals(arrayticket[0].getTicketClassName()))
+				{
+					modelTicketcount.addRow(new Object[] { rs.getString("TicketClassName"), numButtons });
+				}
+				else modelTicketcount.addRow(new Object[] { rs.getString("TicketClassName"), 0 });
+			}
+		}catch(SQLException | ClassNotFoundException ex){
+			ex.printStackTrace();
+		}
+		buttonCount = new HashMap<>();
+		buttonCount.put(defaultTicketClassID, defaultTicketClassID);
+		
 
 	    for (int i = 0; i < numButtons; i++) {
 	        buttonArray[i] = new JButton();
@@ -425,6 +486,9 @@ public class CreatePlane extends JPanel {
 	                clickedButton.setBackground(tmpColor);
 	                // Update the ticket class ID
 	                clickedButton.setActionCommand(getCurrentTicketClassID());
+	                for(int i = 0; i < numButtons; i++) {
+	                	
+	                }
 	            }
 	        });
 

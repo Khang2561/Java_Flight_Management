@@ -137,16 +137,17 @@ public class PlaneDAO implements DAOInterface<Plane>{
         PreparedStatement stmt = null;
         ResultSet rs = null;
         String query = "SELECT COUNT(*) FROM PLANE";
+        try {
+            connect = JDBCUtil.getConnection();
+            stmt = connect.prepareStatement(query);
+            rs = stmt.executeQuery();
+            return rs;
 
-   
-
-    
-
-  
-
-    
-
-    
+        } catch (SQLException ex) {
+            Logger.getLogger(null);
+            throw ex;
+        } 
+	}
 
     //--------------------------function select all planes--------------------------------
     public static ResultSet selectAll() throws SQLException, ClassNotFoundException {
@@ -154,7 +155,6 @@ public class PlaneDAO implements DAOInterface<Plane>{
         PreparedStatement stmt = null;
         ResultSet rs = null;
         String query = "SELECT *  FROM PLANE";
-
         try {
             connect = JDBCUtil.getConnection();
             stmt = connect.prepareStatement(query);
@@ -171,8 +171,7 @@ public class PlaneDAO implements DAOInterface<Plane>{
 	
 
 
-        return rs;
-    }
+     
 
     //--------------------------function select ticket counts for a given plane ID--------------------------------
     public static ResultSet numberTicketClass(String planeID) throws SQLException, ClassNotFoundException {
