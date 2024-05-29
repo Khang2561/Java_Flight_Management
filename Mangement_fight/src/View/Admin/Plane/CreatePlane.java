@@ -37,6 +37,8 @@ import Model.TicketClass;
 import java.awt.FlowLayout;
 import java.awt.SystemColor;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -56,7 +58,7 @@ public class CreatePlane extends JPanel {
 	private static Color tmpColor = new Color(0, 102, 204);
 	private static AbstractButton btnNewButton_1;
 	//------------------------------
-	private static HashMap buttonCount;
+	private static HashMap<Object, Object> buttonCount;
 
 	/**
 	 * Create the panel.
@@ -122,9 +124,12 @@ public class CreatePlane extends JPanel {
 		                );
 		                return;
 		            }
+		            //enable ticketclasstable
+		            tableClassTicket.setEnabled(true);
 		            // Tạo ghế
+		            panelSeatMap.removeAll();
 		            CreateSeat();
-		            // Tạo các button ghế
+		            // Tạo các button số ghế
 		            JButton[] buttonArray = new JButton[numButtons / 6];
 		            panelSeatNumer.removeAll();  // Xóa các button cũ (nếu có)
 		            for (int i = 0; i < numButtons / 6; i++) {
@@ -137,6 +142,10 @@ public class CreatePlane extends JPanel {
 		            // Cập nhật panel
 		            panelSeatNumer.revalidate();
 		            panelSeatNumer.repaint();
+		            
+		            
+		            panelSeatMap.revalidate();
+		            panelSeatMap.repaint();
 
 		        } catch (NumberFormatException ex) {
 		            // Xử lý khi nhập không phải là số
@@ -232,9 +241,39 @@ public class CreatePlane extends JPanel {
 		btnLuu.setFont(new Font("Tahoma", Font.BOLD, 15));
 		panel_2.add(btnLuu);
 		
+		
+		//------------------------------------------------------------------------
+		
 		JButton btnHuy = new JButton("Hủy");
 		btnHuy.setFont(new Font("Tahoma", Font.BOLD, 15));
 		panel_2.add(btnHuy);
+		
+		btnHuy.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				textfieldPlaneName.setText("");
+				textFieldChairCount.setText("");
+				panelSeatMap.removeAll();
+				panelSeatNumer.removeAll();
+				panelSeatNumer.revalidate();
+	            panelSeatNumer.repaint();
+	            panelSeatMap.revalidate();
+	            panelSeatMap.repaint();
+	            
+	            btnNewButton_1.setText(arrayticket[0].getTicketClassName());
+	    		btnNewButton_1.setBackground(SystemColor.GRAY);
+	    		btnNewButton_1.setText("Chưa có hạng vé");
+	    		
+	    		tableClassTicket.setEnabled(false);
+	    		
+	    		int row = modelTicketcount.getRowCount();
+				for(int i=0;i<row;i++) {
+						modelTicketcount.setValueAt(0, i, 1);
+				}
+				
+			}
+		});
 		
 		
 		//------------------------------------------------------------------------
@@ -242,15 +281,17 @@ public class CreatePlane extends JPanel {
 		panelLeft.add(panel_1);
 		panel_1.setLayout(null);
 		
-		JLabel lblNewLabel_1 = new JLabel("Hạng vé");
-		lblNewLabel_1.setBounds(88, 18, 81, 19);
+		JLabel lblNewLabel_1 = new JLabel("Hạng vé", SwingConstants.CENTER);
+		lblNewLabel_1.setBounds(10, 18, 210, 19);
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblNewLabel_1.setLabelFor(panel_1);
 		panel_1.add(lblNewLabel_1);
 		
 		btnNewButton_1 = new JButton("Chưa có hạng vé");
-		btnNewButton_1.setBounds(30, 479, 197, 41);
+		btnNewButton_1.setEnabled(false);
+		btnNewButton_1.setBounds(10, 479, 210, 41);
 		btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 15));
+		UIManager.put("Button.disabledText", Color.BLACK);
 		panel_1.add(btnNewButton_1);
 		
 		
@@ -261,6 +302,7 @@ public class CreatePlane extends JPanel {
 		panel_1.add(scrollPane);
 		//table cho hang ve 
 		tableClassTicket = new JTable();
+		tableClassTicket.setEnabled(false);
 		tableClassTicket.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -486,9 +528,7 @@ public class CreatePlane extends JPanel {
 	                clickedButton.setBackground(tmpColor);
 	                // Update the ticket class ID
 	                clickedButton.setActionCommand(getCurrentTicketClassID());
-	                for(int i = 0; i < numButtons; i++) {
-	                	
-	                }
+	                seatCount(buttonArray);
 	            }
 	        });
 
@@ -597,6 +637,35 @@ public class CreatePlane extends JPanel {
 	    String row = String.valueOf((seatIndex / 6) + 1); // Số nằm ngang
 	    String column = String.valueOf((char) ('A' + seatIndex % 6)); // Chữ nằm dọc
 	    return column + row;
+	}
+	private static void seatCount(JButton[] buttonArray) {
+		try {
+			ResultSet rs = TicketClassDAO.selectAll();
+			int ticketClassCount = 0;
+			int row = modelTicketcount.getRowCount();
+			// 
+			while(rs.next()) {
+				for(int i=0;i<buttonArray.length;i++) {
+					if (buttonArray[i].getActionCommand().equals(rs.getString("TicketClassID"))) {
+						ticketClassCount++;
+					}
+				}
+				for(int i=0;i<row;i++) {
+					if(modelTicketcount.getValueAt(i, 0).toString().equals(rs.getString("TicketClassName"))){
+						modelTicketcount.setValueAt(ticketClassCount, i, 1);
+					}
+				}
+				ticketClassCount=0;
+
+			}
+			
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	
