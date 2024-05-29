@@ -2,7 +2,6 @@ package View.Admin.ChatBox;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Button;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -28,7 +27,7 @@ public class ChatBox extends JPanel {
     private PrintWriter out;
     private BufferedReader in;
     private JPanel chatShow;
-	private BtnCS button_3;
+    private BtnCS button_3;
 
     public ChatBox() {
         setBackground(new Color(240, 240, 240));
@@ -49,15 +48,7 @@ public class ChatBox extends JPanel {
         button_3.setRadius(35);
         button_3.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String text = txtNhp.getText();
-                if (!text.trim().isEmpty()) {
-                    Item_right item = new Item_right(text);
-                    chatShow.add(item);
-                    chatShow.revalidate(); // Cập nhật giao diện
-                    chatShow.repaint();    // Vẽ lại giao diện
-                    sendMessage(text); // Gửi tin nhắn tới server
-                    txtNhp.setText(""); // Xóa nội dung sau khi gửi
-                }
+                sendMessageFromInput();
             }
         });
         button_3.setForeground(Color.WHITE);
@@ -70,6 +61,12 @@ public class ChatBox extends JPanel {
         txtNhp = new JtfCS();
         txtNhp.setFont(new Font("Times New Roman", Font.PLAIN, 20));
         txtNhp.setBounds(274, 500, 698, 87);
+        txtNhp.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                sendMessageFromInput();
+            }
+        });
         add(txtNhp);
 
         // PANEL CHỨA TIN NHẮN
@@ -107,6 +104,18 @@ public class ChatBox extends JPanel {
             receiveThread.start();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void sendMessageFromInput() {
+        String text = txtNhp.getText();
+        if (!text.trim().isEmpty()) {
+            Item_right item = new Item_right(text);
+            chatShow.add(item);
+            chatShow.revalidate(); // Cập nhật giao diện
+            chatShow.repaint();    // Vẽ lại giao diện
+            sendMessage(text); // Gửi tin nhắn tới server
+            txtNhp.setText(""); // Xóa nội dung sau khi gửi
         }
     }
 
