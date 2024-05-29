@@ -11,10 +11,10 @@ import java.awt.event.MouseEvent;
 public class BtnCS extends JButton {
 	public BtnCS() {
         // Init Color
-        setColor(Color.white);
-        colorOver = new Color(179, 250, 160);
-        colorClick = new Color(152, 184, 56);
-        borderColor = new Color(30, 136, 56);
+		setColor(new Color(3, 4, 94));
+        colorOver = new Color(0, 0, 160);
+        colorClick = new Color(0, 0, 160);
+        borderColor = new Color(3, 4, 94);
 
         setContentAreaFilled(false);
         setOpaque(false); // Make button non-opaque to fully control painting
