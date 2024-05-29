@@ -12,6 +12,8 @@ import java.awt.HeadlessException;
 import javax.swing.border.BevelBorder;
 import javax.swing.table.DefaultTableModel;
 
+import CustomUI.BtnCS;
+import CustomUI.JtfCS;
 import DAO.AAADAO;
 import DAO.AirportDAO;
 import DAO.ParametersDAO;
@@ -49,13 +51,13 @@ public class AccountAndPermission extends JPanel {
 	public static final long serialVersionUID = 1L;
 	//account
 	public JTable table;
-	public JTextField tfHoVaTen;
-	public JTextField tfEmail;
-	public JTextField tfSDT;
-	public JTextField tfMK;
-	private Button buttonCapNhap;
-	private Button buttonXoa;
-	private Button buttonHuy;
+	public JtfCS tfHoVaTen;
+	public JtfCS tfEmail;
+	public JtfCS tfSDT;
+	public JtfCS tfMK;
+	private BtnCS buttonCapNhap;
+	private BtnCS buttonXoa;
+	private BtnCS buttonHuy;
 	
 	//main pane
 	static JPanel contentPane ;
@@ -86,6 +88,8 @@ public class AccountAndPermission extends JPanel {
 	private JRadioButton rdbtnQTChatBox;
 	private JRadioButton rdbtnBGDChatBox;
 	private JRadioButton rdbtnNhanVien6;
+	private BtnCS buttonCreateAccount;
+	private BtnCS buttonLuuAp;
 	
 	//main AccountAndPermission
 	public AccountAndPermission() throws ClassNotFoundException, SQLException{
@@ -104,77 +108,77 @@ public class AccountAndPermission extends JPanel {
 		//-----------------------------label---------------------------------------------------- 
 		JLabel lblNewLabel_1 = new JLabel("Nhóm quyền \r\n");
 		lblNewLabel_1.setBackground(new Color(114, 114, 114));
-		lblNewLabel_1.setFont(new Font("Times New Roman", Font.BOLD, 17));
+		lblNewLabel_1.setFont(new Font("Times New Roman", Font.BOLD, 20));
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1.setBounds(10, 0, 124, 49);
 		panel.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_1_1 = new JLabel("Chuyến Bay");
 		lblNewLabel_1_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1_1.setFont(new Font("Times New Roman", Font.PLAIN, 17));
+		lblNewLabel_1_1.setFont(new Font("Times New Roman", Font.BOLD, 20));
 		lblNewLabel_1_1.setBackground(new Color(114, 114, 114));
 		lblNewLabel_1_1.setBounds(165, 0, 146, 49);
 		panel.add(lblNewLabel_1_1);
 		
 		JLabel lblNewLabel_1_1_1 = new JLabel("Vé Chuyến Bay");
 		lblNewLabel_1_1_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1_1_1.setFont(new Font("Times New Roman", Font.PLAIN, 17));
+		lblNewLabel_1_1_1.setFont(new Font("Times New Roman", Font.BOLD, 20));
 		lblNewLabel_1_1_1.setBackground(new Color(114, 114, 114));
 		lblNewLabel_1_1_1.setBounds(336, 0, 174, 49);
 		panel.add(lblNewLabel_1_1_1);
 		
 		JLabel lblNewLabel_1_1_1_1 = new JLabel("Máy Bay");
 		lblNewLabel_1_1_1_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1_1_1_1.setFont(new Font("Times New Roman", Font.PLAIN, 17));
+		lblNewLabel_1_1_1_1.setFont(new Font("Times New Roman", Font.BOLD, 20));
 		lblNewLabel_1_1_1_1.setBackground(new Color(114, 114, 114));
 		lblNewLabel_1_1_1_1.setBounds(520, 0, 169, 49);
 		panel.add(lblNewLabel_1_1_1_1);
 		
 		JLabel lblNewLabel_1_1_1_1_1 = new JLabel("Tài Khoản Và Phân Quyền ");
 		lblNewLabel_1_1_1_1_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1_1_1_1_1.setFont(new Font("Times New Roman", Font.PLAIN, 17));
+		lblNewLabel_1_1_1_1_1.setFont(new Font("Times New Roman", Font.BOLD, 20));
 		lblNewLabel_1_1_1_1_1.setBackground(new Color(114, 114, 114));
 		lblNewLabel_1_1_1_1_1.setBounds(699, 0, 310, 49);
 		panel.add(lblNewLabel_1_1_1_1_1);
 		
 		JLabel lblNewLabel_1_1_1_1_1_1 = new JLabel("Cài Đặt ");
 		lblNewLabel_1_1_1_1_1_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1_1_1_1_1_1.setFont(new Font("Times New Roman", Font.PLAIN, 17));
+		lblNewLabel_1_1_1_1_1_1.setFont(new Font("Times New Roman", Font.BOLD, 20));
 		lblNewLabel_1_1_1_1_1_1.setBackground(new Color(114, 114, 114));
 		lblNewLabel_1_1_1_1_1_1.setBounds(1019, 0, 243, 49);
 		panel.add(lblNewLabel_1_1_1_1_1_1);
 		
 		JLabel lblNewLabel_1_1_1_1_1_1_1 = new JLabel("Chat Box");
 		lblNewLabel_1_1_1_1_1_1_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1_1_1_1_1_1_1.setFont(new Font("Times New Roman", Font.PLAIN, 17));
+		lblNewLabel_1_1_1_1_1_1_1.setFont(new Font("Times New Roman", Font.BOLD, 20));
 		lblNewLabel_1_1_1_1_1_1_1.setBackground(new Color(114, 114, 114));
 		lblNewLabel_1_1_1_1_1_1_1.setBounds(1269, 0, 221, 49);
 		panel.add(lblNewLabel_1_1_1_1_1_1_1);
 		
 		JLabel lblNewLabel_1_1_2 = new JLabel("Siêu quản trị ");
 		lblNewLabel_1_1_2.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1_1_2.setFont(new Font("Times New Roman", Font.PLAIN, 17));
+		lblNewLabel_1_1_2.setFont(new Font("Times New Roman", Font.BOLD, 20));
 		lblNewLabel_1_1_2.setBackground(new Color(114, 114, 114));
 		lblNewLabel_1_1_2.setBounds(0, 49, 146, 49);
 		panel.add(lblNewLabel_1_1_2);
 		
 		JLabel lblNewLabel_1_1_2_1 = new JLabel("Quản trị ");
 		lblNewLabel_1_1_2_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1_1_2_1.setFont(new Font("Times New Roman", Font.PLAIN, 17));
+		lblNewLabel_1_1_2_1.setFont(new Font("Times New Roman", Font.BOLD, 20));
 		lblNewLabel_1_1_2_1.setBackground(new Color(114, 114, 114));
-		lblNewLabel_1_1_2_1.setBounds(0, 97, 146, 49);
+		lblNewLabel_1_1_2_1.setBounds(0, 108, 146, 49);
 		panel.add(lblNewLabel_1_1_2_1);
 		
 		JLabel lblNewLabel_1_1_2_1_1 = new JLabel("Ban Giám Đốc ");
 		lblNewLabel_1_1_2_1_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1_1_2_1_1.setFont(new Font("Times New Roman", Font.PLAIN, 17));
+		lblNewLabel_1_1_2_1_1.setFont(new Font("Times New Roman", Font.BOLD, 20));
 		lblNewLabel_1_1_2_1_1.setBackground(new Color(114, 114, 114));
 		lblNewLabel_1_1_2_1_1.setBounds(0, 156, 146, 49);
 		panel.add(lblNewLabel_1_1_2_1_1);
 		
 		JLabel lblNewLabel_1_1_2_1_2 = new JLabel("Nhân Viên ");
 		lblNewLabel_1_1_2_1_2.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1_1_2_1_2.setFont(new Font("Times New Roman", Font.PLAIN, 17));
+		lblNewLabel_1_1_2_1_2.setFont(new Font("Times New Roman", Font.BOLD, 20));
 		lblNewLabel_1_1_2_1_2.setBackground(new Color(114, 114, 114));
 		lblNewLabel_1_1_2_1_2.setBounds(0, 204, 146, 49);
 		panel.add(lblNewLabel_1_1_2_1_2);
@@ -282,12 +286,12 @@ public class AccountAndPermission extends JPanel {
 		
 		rdbtnQTCaiDat = new JRadioButton("");
 		rdbtnQTCaiDat.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		rdbtnQTCaiDat.setBounds(1129, 116, 21, 41);
+		rdbtnQTCaiDat.setBounds(1129, 108, 21, 41);
 		panel.add(rdbtnQTCaiDat);
 		
 		rdbtnBGDCaiDat = new JRadioButton("");
 		rdbtnBGDCaiDat.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		rdbtnBGDCaiDat.setBounds(1129, 164, 21, 41);
+		rdbtnBGDCaiDat.setBounds(1129, 156, 21, 41);
 		panel.add(rdbtnBGDCaiDat);
 		
 		rdbtnNhanVien5 = new JRadioButton("");
@@ -352,60 +356,67 @@ public class AccountAndPermission extends JPanel {
 		
 		//add jlabel for account panel
 		JLabel lbHoVaTen = new JLabel("Họ và tên ");
-		lbHoVaTen.setBounds(10, 10, 140, 30);
+		lbHoVaTen.setBounds(10, 21, 140, 30);
 		lbHoVaTen.setFont(new Font("Times New Roman", Font.BOLD, 21));
 		panel_1.add(lbHoVaTen);
 		
 		JLabel lbEmail = new JLabel("Email");
 		lbEmail.setFont(new Font("Times New Roman", Font.BOLD, 21));
-		lbEmail.setBounds(10, 50, 140, 30);
+		lbEmail.setBounds(10, 73, 140, 30);
 		panel_1.add(lbEmail);
 		
 		JLabel lbSDT = new JLabel("Số điện thoại");
 		lbSDT.setFont(new Font("Times New Roman", Font.BOLD, 21));
-		lbSDT.setBounds(10, 90, 140, 30);
+		lbSDT.setBounds(10, 122, 140, 30);
 		panel_1.add(lbSDT);
 		
 		JLabel lbMK = new JLabel("Mật khẩu");
 		lbMK.setFont(new Font("Times New Roman", Font.BOLD, 21));
-		lbMK.setBounds(10, 130, 140, 30);
+		lbMK.setBounds(10, 167, 140, 30);
 		panel_1.add(lbMK);
 		
 		JLabel lbNhomQuyen = new JLabel("Nhóm phân quyền ");
 		lbNhomQuyen.setFont(new Font("Times New Roman", Font.BOLD, 21));
-		lbNhomQuyen.setBounds(10, 170, 173, 30);
+		lbNhomQuyen.setBounds(10, 207, 173, 30);
 		panel_1.add(lbNhomQuyen);
 		
 		//jtextfile for account pannel
-		tfHoVaTen = new JTextField();
-		tfHoVaTen.setBounds(232, 10, 522, 28);
+		tfHoVaTen = new JtfCS();
+		tfHoVaTen.setFont(new Font("Times New Roman", Font.BOLD, 15));
+		tfHoVaTen.setBounds(232, 10, 522, 43);
 		panel_1.add(tfHoVaTen);
 		tfHoVaTen.setColumns(10);
 		
-		tfEmail = new JTextField();
+		tfEmail = new JtfCS();
+		tfEmail.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		tfEmail.setColumns(10);
-		tfEmail.setBounds(232, 50, 522, 28);
+		tfEmail.setBounds(232, 63, 522, 43);
 		panel_1.add(tfEmail);
 		
-		tfSDT = new JTextField();
+		tfSDT = new JtfCS();
+		tfSDT.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		tfSDT.setColumns(10);
-		tfSDT.setBounds(232, 90, 522, 28);
+		tfSDT.setBounds(232, 114, 522, 43);
 		panel_1.add(tfSDT);
 		
-		tfMK = new JTextField();
+		tfMK = new JtfCS();
+		tfMK.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		tfMK.setColumns(10);
-		tfMK.setBounds(232, 130, 522, 28);
+		tfMK.setBounds(232, 164, 522, 42);
 		panel_1.add(tfMK);
 		//combo box for add permission
 		JComboBox cbQuyen = new JComboBox();
 		cbQuyen.setFont(new Font("Times New Roman", Font.BOLD, 17));
 		cbQuyen.setModel(new DefaultComboBoxModel(new String[] {"Siêu quản trị", "Quản trị", "Ban giám đốc", "Nhân viên"}));
-		cbQuyen.setBounds(232, 171, 522, 30);
+		cbQuyen.setBounds(232, 208, 522, 30);
 		panel_1.add(cbQuyen);
 		
 		
 		//--------------------create button to add account--------------------------------
-		Button buttonCreateAccount = new Button("Tạo tài khoản");
+		buttonCreateAccount = new BtnCS();
+		buttonCreateAccount.setRadius(30);
+		buttonCreateAccount.setColor(new Color(3, 4, 94));
+		buttonCreateAccount.setText("THÊM ");
 		buttonCreateAccount.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        try {
@@ -485,13 +496,17 @@ public class AccountAndPermission extends JPanel {
 		});
 		//setting view for button
 		buttonCreateAccount.setForeground(new Color(255, 255, 255));
-		buttonCreateAccount.setBackground(new Color(0, 0, 160));
+		buttonCreateAccount.setBackground(new Color(3, 4, 94));
 		buttonCreateAccount.setFont(new Font("Times New Roman", Font.BOLD, 16));
-		buttonCreateAccount.setBounds(25, 249, 751, 44);
+		buttonCreateAccount.setBounds(10, 247, 751, 44);
 		panel_1.add(buttonCreateAccount);
 		
 		//update button
-		buttonCapNhap = new Button("Cập nhập ");
+		buttonCapNhap = new BtnCS();
+		buttonCapNhap.setColorOver(new Color(0, 0, 160));
+		buttonCapNhap.setColorClick(new Color(0, 0, 160));
+		buttonCapNhap.setColor(new Color(3, 4, 94));
+		buttonCapNhap.setText("CẬP NHẬT");
 		buttonCapNhap.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        // Retrieve existing email
@@ -537,12 +552,17 @@ public class AccountAndPermission extends JPanel {
 		//setting view for update button
 		buttonCapNhap.setForeground(Color.WHITE);
 		buttonCapNhap.setFont(new Font("Times New Roman", Font.BOLD, 16));
-		buttonCapNhap.setBackground(new Color(0, 0, 160));
+		buttonCapNhap.setBackground(new Color(3, 4, 94));
 		buttonCapNhap.setBounds(25, 250, 249, 39);
 		panel_1.add(buttonCapNhap);
 		
 		//create delete button
-		buttonXoa = new Button("Xóa ");
+		buttonXoa = new BtnCS();
+		buttonXoa.setColorOver(new Color(217,217,217));
+		buttonXoa.setColorClick(new Color(217,217,217));
+		buttonXoa.setColor(new Color(192, 192, 192));
+		buttonXoa.setBorderColor(new Color(192, 192, 192));
+		buttonXoa.setText("XÓA ");
 		buttonXoa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				AAADAO.deleteByEmail(tfEmail.getText());
@@ -573,7 +593,12 @@ public class AccountAndPermission extends JPanel {
 		panel_1.add(buttonXoa);
 		
 		//create cancel button
-		buttonHuy = new Button("Hủy");
+		buttonHuy = new BtnCS();
+		buttonHuy.setColorClick(new Color(156, 156, 156));
+		buttonHuy.setColor(new Color(128, 128, 128));
+		buttonHuy.setBorderColor(new Color(128, 128, 128));
+		buttonHuy.setColorOver(new Color(156,156,156));
+		buttonHuy.setText("HỦY");
 		buttonHuy.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// clear form
@@ -595,7 +620,10 @@ public class AccountAndPermission extends JPanel {
 		
 		
 		//-----------Create and process for save permission group -----------------------------------
-		Button buttonLuuAp = new Button("Lưu");
+		buttonLuuAp = new BtnCS();
+		buttonLuuAp.setColor(new Color(3, 4, 94));
+		buttonLuuAp.setBorderColor(new Color(3, 4, 94));
+		buttonLuuAp.setText("LƯU");
 		buttonLuuAp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//string to save permission flag
@@ -671,8 +699,8 @@ public class AccountAndPermission extends JPanel {
 		//setting view for save
 		buttonLuuAp.setForeground(Color.WHITE);
 		buttonLuuAp.setFont(new Font("Times New Roman", Font.BOLD, 16));
-		buttonLuuAp.setBackground(new Color(0, 0, 160));
-		buttonLuuAp.setBounds(1328, 0, 151, 39);
+		buttonLuuAp.setBackground(new Color(3, 4, 94));
+		buttonLuuAp.setBounds(1328, 5, 151, 39);
 		add(buttonLuuAp);
 		
 		//click row in account table event
@@ -703,7 +731,7 @@ public class AccountAndPermission extends JPanel {
 		                	    cbQuyen.setSelectedIndex(3);
 		                	}
 		                	buttonCreateAccount.setVisible(false);
-		                	tfEmail.setEditable(false);
+		                	tfEmail.setEditable(false); // Đặt trường văn bản thành không thể chỉnh sửa
 		                    // Hiển thị thông tin tài khoản hoặc thực hiện các thao tác khác ở đây
 		                } else {
 		                    // Không có tài khoản nào được tìm thấy

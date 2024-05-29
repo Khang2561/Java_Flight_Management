@@ -401,7 +401,7 @@ public class Setting extends JPanel {
 		
 		JLabel lbminimunStopoverTime = new JLabel("Thời gian dừng tối thiểu");
 		lbminimunStopoverTime.setFont(new Font("Times New Roman", Font.BOLD, 15));
-		lbminimunStopoverTime.setBounds(10, 82, 187, 26);
+		lbminimunStopoverTime.setBounds(10, 89, 187, 26);
 		panel_1_1.add(lbminimunStopoverTime);
 		
 		JLabel lbmaximumStopoverTime = new JLabel("Thời gian dừng tối đa ");
@@ -445,14 +445,14 @@ public class Setting extends JPanel {
 		tfmaximumStopoverTime.setHorizontalAlignment(SwingConstants.CENTER);
 		tfmaximumStopoverTime.setFont(new Font("Tahoma", Font.BOLD, 13));
 		tfmaximumStopoverTime.setColumns(10);
-		tfmaximumStopoverTime.setBounds(255, 118, 81, 38);
+		tfmaximumStopoverTime.setBounds(255, 121, 81, 38);
 		panel_1_1.add(tfmaximumStopoverTime);
 		
 		tfearliestBookingTime = new JtfCS();
 		tfearliestBookingTime.setHorizontalAlignment(SwingConstants.CENTER);
 		tfearliestBookingTime.setFont(new Font("Tahoma", Font.BOLD, 13));
 		tfearliestBookingTime.setColumns(10);
-		tfearliestBookingTime.setBounds(255, 154, 81, 38);
+		tfearliestBookingTime.setBounds(255, 157, 81, 38);
 		panel_1_1.add(tfearliestBookingTime);
 		
 		tflatestBookingCancellationTime = new JtfCS();
