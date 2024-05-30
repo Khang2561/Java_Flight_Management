@@ -17,6 +17,10 @@ public class TicketClass {
         this.ticketClassID = ticketClassID;
         this.colorTicketClass = colorTicketClass;
     }
+    
+    public TicketClass() {
+    	
+    }
 
     // Getters and setters
     public String getTicketClassID() {
