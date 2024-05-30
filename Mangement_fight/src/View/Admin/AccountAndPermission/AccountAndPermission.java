@@ -14,6 +14,8 @@ import javax.swing.table.DefaultTableModel;
 
 import CustomUI.BtnCS;
 import CustomUI.JtfCS;
+import CustomUI.PanelRound;
+import CustomUI.RadioButtonCustom;
 import DAO.AAADAO;
 import DAO.AirportDAO;
 import DAO.ParametersDAO;
@@ -46,6 +48,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 public class AccountAndPermission extends JPanel {
 
 	public static final long serialVersionUID = 1L;
@@ -64,32 +69,34 @@ public class AccountAndPermission extends JPanel {
 	
 	//permission for account
 	public DefaultTableModel modelAccount;
-	private JRadioButton rdbtnSQTChatBox;
-	private JRadioButton rdbtnSQTChuyenBay;
-	private JRadioButton rdbtnQTChuyenBay;
-	private JRadioButton rdbtnBGDChuyenBay;
-	private JRadioButton rdbtnNhanVien1;
-	private JRadioButton rdbtnSQTVeChuyenBay;
-	private JRadioButton rdbtnQTVeChuyenBay;
-	private JRadioButton rdbtnBGDVeChuyenBay;
-	private JRadioButton rdbtnNhanVien2;
-	private JRadioButton rdbtnSQTMayBay;
-	private JRadioButton rdbtnQTMayBay;
-	private JRadioButton rdbtnBGDMayBay;
-	private JRadioButton rdbtnNhanVien3;
-	private JRadioButton rdbtnSQLTKvaPP;
-	private JRadioButton rdbtnQTTKvaPQ;
-	private JRadioButton rdbtnBGDTKvaPQ;
-	private JRadioButton rdbtnNhanVien4;
-	private JRadioButton rdbtnSQTCaiDat;
-	private JRadioButton rdbtnQTCaiDat;
-	private JRadioButton rdbtnBGDCaiDat;
-	private JRadioButton rdbtnNhanVien5;
-	private JRadioButton rdbtnQTChatBox;
-	private JRadioButton rdbtnBGDChatBox;
-	private JRadioButton rdbtnNhanVien6;
+	private RadioButtonCustom rdbtnSQTChatBox;
+	private RadioButtonCustom rdbtnSQTChuyenBay;
+	private RadioButtonCustom rdbtnQTChuyenBay;
+	private RadioButtonCustom rdbtnBGDChuyenBay;
+	private RadioButtonCustom rdbtnNhanVien1;
+	private RadioButtonCustom rdbtnSQTVeChuyenBay;
+	private RadioButtonCustom rdbtnQTVeChuyenBay;
+	private RadioButtonCustom rdbtnBGDVeChuyenBay;
+	private RadioButtonCustom rdbtnNhanVien2;
+	private RadioButtonCustom rdbtnSQTMayBay;
+	private RadioButtonCustom rdbtnQTMayBay;
+	private RadioButtonCustom rdbtnBGDMayBay;
+	private RadioButtonCustom rdbtnNhanVien3;
+	private RadioButtonCustom rdbtnSQLTKvaPP;
+	private RadioButtonCustom rdbtnQTTKvaPQ;
+	private RadioButtonCustom rdbtnBGDTKvaPQ;
+	private RadioButtonCustom rdbtnNhanVien4;
+	private RadioButtonCustom rdbtnSQTCaiDat;
+	private RadioButtonCustom rdbtnQTCaiDat;
+	private RadioButtonCustom rdbtnBGDCaiDat;
+	private RadioButtonCustom rdbtnNhanVien5;
+	private RadioButtonCustom rdbtnQTChatBox;
+	private RadioButtonCustom rdbtnBGDChatBox;
+	private RadioButtonCustom rdbtnNhanVien6;
 	private BtnCS buttonCreateAccount;
 	private BtnCS buttonLuuAp;
+	private PanelRound panel;
+	private PanelRound panel_1;
 	
 	//main AccountAndPermission
 	public AccountAndPermission() throws ClassNotFoundException, SQLException{
@@ -98,9 +105,13 @@ public class AccountAndPermission extends JPanel {
 		setBackground(new Color(240, 240, 240));
 		setBounds(0, 71, 1500, 642);
 		setLayout(null);
-		JPanel panel = new JPanel();
+		panel = new PanelRound();
+		panel.setRoundTopRight(20);
+		panel.setRoundTopLeft(20);
+		panel.setRoundBottomRight(20);
+		panel.setRoundBottomLeft(90);
 		panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		panel.setBounds(0, 45, 1500, 262);
+		panel.setBounds(10, 54, 1468, 253);
 		add(panel);
 		panel.setLayout(null);
 		
@@ -169,7 +180,7 @@ public class AccountAndPermission extends JPanel {
 		lblNewLabel_1_1_2_1.setBounds(0, 108, 146, 49);
 		panel.add(lblNewLabel_1_1_2_1);
 		
-		JLabel lblNewLabel_1_1_2_1_1 = new JLabel("Ban Giám Đốc ");
+		JLabel lblNewLabel_1_1_2_1_1 = new JLabel("Khách hàng ");
 		lblNewLabel_1_1_2_1_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1_1_2_1_1.setFont(new Font("Times New Roman", Font.BOLD, 20));
 		lblNewLabel_1_1_2_1_1.setBackground(new Color(114, 114, 114));
@@ -187,134 +198,134 @@ public class AccountAndPermission extends JPanel {
 		lblNewLabel.setForeground(new Color(0, 0, 160));
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(10, 4, 429, 35);
+		lblNewLabel.setBounds(10, 9, 429, 35);
 		add(lblNewLabel);
 		
 		JLabel lblQuynHngCa = new JLabel("QUYỀN HẠNG CỦA CÁC TÀI KHOẢN");
 		lblQuynHngCa.setHorizontalAlignment(SwingConstants.CENTER);
 		lblQuynHngCa.setForeground(new Color(0, 0, 160));
 		lblQuynHngCa.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblQuynHngCa.setBounds(10, 331, 376, 35);
+		lblQuynHngCa.setBounds(10, 317, 366, 35);
 		add(lblQuynHngCa);
 		
 		
 		//-------------------radio button for permission-------------------------------------------
-		rdbtnSQTChuyenBay = new JRadioButton("");
+		rdbtnSQTChuyenBay = new RadioButtonCustom();
 		rdbtnSQTChuyenBay.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnSQTChuyenBay.setBounds(223, 55, 21, 41);
 		panel.add(rdbtnSQTChuyenBay);
 		
-		rdbtnQTChuyenBay = new JRadioButton("");
+		rdbtnQTChuyenBay = new RadioButtonCustom();
 		rdbtnQTChuyenBay.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnQTChuyenBay.setBounds(223, 108, 21, 41);
 		panel.add(rdbtnQTChuyenBay);
 		
-		rdbtnBGDChuyenBay = new JRadioButton("");
+		rdbtnBGDChuyenBay = new RadioButtonCustom();
 		rdbtnBGDChuyenBay.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnBGDChuyenBay.setBounds(223, 156, 21, 41);
 		panel.add(rdbtnBGDChuyenBay);
 		
-		rdbtnNhanVien1 = new JRadioButton("");
+		rdbtnNhanVien1 = new RadioButtonCustom();
 		rdbtnNhanVien1.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnNhanVien1.setBounds(223, 204, 21, 41);
 		panel.add(rdbtnNhanVien1);
 		
-		rdbtnSQTVeChuyenBay = new JRadioButton("");
+		rdbtnSQTVeChuyenBay = new RadioButtonCustom();
 		rdbtnSQTVeChuyenBay.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnSQTVeChuyenBay.setBounds(414, 55, 21, 41);
 		panel.add(rdbtnSQTVeChuyenBay);
 		
-		rdbtnQTVeChuyenBay = new JRadioButton("");
+		rdbtnQTVeChuyenBay = new RadioButtonCustom();
 		rdbtnQTVeChuyenBay.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnQTVeChuyenBay.setBounds(414, 108, 21, 41);
 		panel.add(rdbtnQTVeChuyenBay);
 		
-		rdbtnBGDVeChuyenBay = new JRadioButton("");
+		rdbtnBGDVeChuyenBay = new RadioButtonCustom();
 		rdbtnBGDVeChuyenBay.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnBGDVeChuyenBay.setBounds(414, 156, 21, 41);
 		panel.add(rdbtnBGDVeChuyenBay);
 		
-		rdbtnNhanVien2 = new JRadioButton("");
+		rdbtnNhanVien2 = new RadioButtonCustom();
 		rdbtnNhanVien2.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnNhanVien2.setBounds(414, 204, 21, 41);
 		panel.add(rdbtnNhanVien2);
 		
-		rdbtnSQTMayBay = new JRadioButton("");
+		rdbtnSQTMayBay = new RadioButtonCustom();
 		rdbtnSQTMayBay.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnSQTMayBay.setBounds(595, 55, 21, 41);
 		panel.add(rdbtnSQTMayBay);
 		
-		rdbtnQTMayBay = new JRadioButton("");
+		rdbtnQTMayBay = new RadioButtonCustom();
 		rdbtnQTMayBay.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnQTMayBay.setBounds(595, 108, 21, 41);
 		panel.add(rdbtnQTMayBay);
 		
-		rdbtnBGDMayBay = new JRadioButton("");
+		rdbtnBGDMayBay = new RadioButtonCustom();
 		rdbtnBGDMayBay.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnBGDMayBay.setBounds(595, 156, 21, 41);
 		panel.add(rdbtnBGDMayBay);
 		
-		rdbtnNhanVien3 = new JRadioButton("");
+		rdbtnNhanVien3 = new RadioButtonCustom();
 		rdbtnNhanVien3.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnNhanVien3.setBounds(595, 204, 21, 41);
 		panel.add(rdbtnNhanVien3);
 		
-		rdbtnSQLTKvaPP = new JRadioButton("");
+		rdbtnSQLTKvaPP = new RadioButtonCustom();
 		rdbtnSQLTKvaPP.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnSQLTKvaPP.setBounds(842, 55, 21, 41);
 		panel.add(rdbtnSQLTKvaPP);
 		
-		rdbtnQTTKvaPQ = new JRadioButton("");
+		rdbtnQTTKvaPQ = new RadioButtonCustom();
 		rdbtnQTTKvaPQ.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnQTTKvaPQ.setBounds(842, 108, 21, 41);
 		panel.add(rdbtnQTTKvaPQ);
 		
-		rdbtnBGDTKvaPQ = new JRadioButton("");
+		rdbtnBGDTKvaPQ = new RadioButtonCustom();
 		rdbtnBGDTKvaPQ.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnBGDTKvaPQ.setBounds(842, 156, 21, 41);
 		panel.add(rdbtnBGDTKvaPQ);
 		
-		rdbtnNhanVien4 = new JRadioButton("");
+		rdbtnNhanVien4 = new RadioButtonCustom();
 		rdbtnNhanVien4.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnNhanVien4.setBounds(842, 204, 21, 41);
 		panel.add(rdbtnNhanVien4);
 		
-		rdbtnSQTCaiDat = new JRadioButton("");
+		rdbtnSQTCaiDat = new RadioButtonCustom();
 		rdbtnSQTCaiDat.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnSQTCaiDat.setBounds(1129, 55, 21, 41);
 		panel.add(rdbtnSQTCaiDat);
 		
-		rdbtnQTCaiDat = new JRadioButton("");
+		rdbtnQTCaiDat = new RadioButtonCustom();
 		rdbtnQTCaiDat.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnQTCaiDat.setBounds(1129, 108, 21, 41);
 		panel.add(rdbtnQTCaiDat);
 		
-		rdbtnBGDCaiDat = new JRadioButton("");
+		rdbtnBGDCaiDat = new RadioButtonCustom();
 		rdbtnBGDCaiDat.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnBGDCaiDat.setBounds(1129, 156, 21, 41);
 		panel.add(rdbtnBGDCaiDat);
 		
-		rdbtnNhanVien5 = new JRadioButton("");
+		rdbtnNhanVien5 = new RadioButtonCustom();
 		rdbtnNhanVien5.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnNhanVien5.setBounds(1129, 204, 21, 41);
 		panel.add(rdbtnNhanVien5);
 		
-		rdbtnSQTChatBox = new JRadioButton("");
+		rdbtnSQTChatBox = new RadioButtonCustom();
 		rdbtnSQTChatBox.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnSQTChatBox.setBounds(1377, 55, 21, 41);
 		panel.add(rdbtnSQTChatBox);
 		
-		rdbtnQTChatBox = new JRadioButton("");
+		rdbtnQTChatBox = new RadioButtonCustom();
 		rdbtnQTChatBox.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnQTChatBox.setBounds(1377, 108, 21, 41);
 		panel.add(rdbtnQTChatBox);
 		
-		rdbtnBGDChatBox = new JRadioButton("");
+		rdbtnBGDChatBox = new RadioButtonCustom();
 		rdbtnBGDChatBox.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnBGDChatBox.setBounds(1377, 156, 21, 41);
 		panel.add(rdbtnBGDChatBox);
 		
-		rdbtnNhanVien6 = new JRadioButton("");
+		rdbtnNhanVien6 = new RadioButtonCustom();
 		rdbtnNhanVien6.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnNhanVien6.setBounds(1377, 204, 21, 41);
 		panel.add(rdbtnNhanVien6);
@@ -342,14 +353,19 @@ public class AccountAndPermission extends JPanel {
 		}
 		// Create scrollpane for account table
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(10, 368, 630, 264); 
+		scrollPane.setBounds(10, 351, 630, 270); 
 		add(scrollPane);
 		scrollPane.setViewportView(table);
 		
 		
 		//-------------------create panel to add account---------------------------------
-		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		panel_1 = new PanelRound();
+		panel_1.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(0, 64, 64), null, null, null));
+		panel_1.setBackground(new Color(240, 240, 240));
+		panel_1.setRoundTopRight(30);
+		panel_1.setRoundBottomRight(30);
+		panel_1.setRoundBottomLeft(30);
+		panel_1.setRoundTopLeft(30);
 		panel_1.setBounds(693, 333, 786, 299);
 		add(panel_1);
 		panel_1.setLayout(null);
@@ -632,10 +648,10 @@ public class AccountAndPermission extends JPanel {
 				String ACQT = "";
 				String ACBGD ="";
 				//list radio button
-				JRadioButton[] nhanVienRadios = {rdbtnNhanVien1, rdbtnNhanVien2, rdbtnNhanVien3, rdbtnNhanVien4, rdbtnNhanVien5, rdbtnNhanVien6};
-				JRadioButton[] sieuQuanTriRadios = {rdbtnSQTChuyenBay, rdbtnSQTVeChuyenBay,rdbtnSQTMayBay, rdbtnSQLTKvaPP, rdbtnSQTCaiDat,rdbtnSQTChatBox};
-				JRadioButton[] quanTriRadios = {rdbtnQTChuyenBay, rdbtnQTVeChuyenBay, rdbtnQTMayBay, rdbtnQTTKvaPQ, rdbtnQTCaiDat, rdbtnQTChatBox};
-				JRadioButton[] bGDRadios = {rdbtnBGDChuyenBay, rdbtnBGDVeChuyenBay, rdbtnBGDMayBay, rdbtnBGDTKvaPQ, rdbtnBGDCaiDat, rdbtnBGDChatBox};
+				RadioButtonCustom[] nhanVienRadios = {rdbtnNhanVien1, rdbtnNhanVien2, rdbtnNhanVien3, rdbtnNhanVien4, rdbtnNhanVien5, rdbtnNhanVien6};
+				RadioButtonCustom[] sieuQuanTriRadios = {rdbtnSQTChuyenBay, rdbtnSQTVeChuyenBay,rdbtnSQTMayBay, rdbtnSQLTKvaPP, rdbtnSQTCaiDat,rdbtnSQTChatBox};
+				RadioButtonCustom[] quanTriRadios = {rdbtnQTChuyenBay, rdbtnQTVeChuyenBay, rdbtnQTMayBay, rdbtnQTTKvaPQ, rdbtnQTCaiDat, rdbtnQTChatBox};
+				RadioButtonCustom[] bGDRadios = {rdbtnBGDChuyenBay, rdbtnBGDVeChuyenBay, rdbtnBGDMayBay, rdbtnBGDTKvaPQ, rdbtnBGDCaiDat, rdbtnBGDChatBox};
 				
 				//super admin
 				boolean tkvaPPSelected = rdbtnSQLTKvaPP.isSelected();
@@ -650,7 +666,7 @@ public class AccountAndPermission extends JPanel {
 						e1.printStackTrace();
 					}
 				}else {
-					for (JRadioButton radioButton : sieuQuanTriRadios) {
+					for (RadioButtonCustom radioButton : sieuQuanTriRadios) {
 			            if (radioButton.isSelected()) {
 			                ACSQT+= "1";
 			            } else {
@@ -659,7 +675,7 @@ public class AccountAndPermission extends JPanel {
 			        }
 					
 					//Admin
-					for (JRadioButton radioButton : quanTriRadios) {
+					for (RadioButtonCustom radioButton : quanTriRadios) {
 			            if (radioButton.isSelected()) {
 			                ACQT += "1";
 			            } else {
@@ -667,7 +683,7 @@ public class AccountAndPermission extends JPanel {
 			            }
 			        }
 					//CEO
-					for (JRadioButton radioButton : bGDRadios) {
+					for (RadioButtonCustom radioButton : bGDRadios) {
 			            if (radioButton.isSelected()) {
 			                ACBGD += "1";
 			            } else {
@@ -675,7 +691,7 @@ public class AccountAndPermission extends JPanel {
 			            }
 			        }
 					//Staff
-			        for (JRadioButton radioButton : nhanVienRadios) {
+			        for (RadioButtonCustom radioButton : nhanVienRadios) {
 			            if (radioButton.isSelected()) {
 			                ACNV += "1";
 			            } else {

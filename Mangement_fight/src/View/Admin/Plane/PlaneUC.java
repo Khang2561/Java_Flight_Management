@@ -13,7 +13,7 @@ import java.awt.Font;
 public class PlaneUC extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPanel;
+	public static JPanel contentPanel;
 
 	/**
 	 * Create the panel.
