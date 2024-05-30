@@ -6,14 +6,19 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import View.Admin.Admin_header;
+import View.Admin.FormAdmin;
 import libData.JDBCUtil;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Statement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -82,12 +87,72 @@ public class PlaneListUC extends JPanel {
 		JButton btnThongTin = new JButton("Điều chỉnh");
 		btnThongTin.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		panel.add(btnThongTin);
+		btnThongTin.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				OperationPlaneUC ope = new OperationPlaneUC(getSelectRow(table.getSelectedRow()));
+				clearAndShow(ope);
+
+				
+			}
+		});
 		
 		JButton btnXoa = new JButton("Xóa");
 		btnXoa.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		panel.add(btnXoa);
 		
+		btnXoa.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int selectedRow = table.getSelectedRow();
+				String sql = "DELETE FROM PLANE WHERE PlaneID = ?";
+				PreparedStatement pstmt;
+				try {
+					pstmt = c.prepareStatement(sql);
+                    pstmt.setString(1, table.getValueAt(selectedRow, 0).toString());
+                    pstmt.executeUpdate();
+                    showAndReloadTable();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 
 
 	}
+	public void showAndReloadTable() {
+		try {
+			Statement st = c.createStatement();
+			String sql = "SELECT * from PLANE";
+			ResultSet rs = st.executeQuery(sql);
+			DefaultTableModel model = (DefaultTableModel) table.getModel();
+			int rowCount = model.getRowCount();
+			if(rowCount>0) {
+				for (int i = rowCount - 1; i >= 0; i--) {
+					  model.removeRow(i);
+					}
+			}			
+			while(rs.next()) {
+				model.addRow(new Object[] { rs.getString("PlaneID"), rs.getString("PlaneName"), rs.getString("SeatCount")});
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
+	public int getSelectRow(int row) {
+		
+		return row;
+	}
+	public static void clearAndShow(JPanel newPanel) {
+        PlaneUC.contentPanel.removeAll(); // Remove all components from contentPane
+        PlaneUC.contentPanel.add(newPanel); // Add the new panel to contentPane
+        newPanel.setSize(1365, 520);
+        newPanel.setLocation(0, 0);
+        PlaneUC.contentPanel.revalidate(); // Refresh the contentPane
+        PlaneUC.contentPanel.repaint(); // Repaint the contentPane
+    }
 }

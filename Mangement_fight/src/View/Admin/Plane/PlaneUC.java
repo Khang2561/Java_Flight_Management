@@ -8,12 +8,15 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Button;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.Font;
 
 public class PlaneUC extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPanel;
+	public static JPanel contentPanel;
+	public static JPanel panel;
 
 	/**
 	 * Create the panel.
@@ -21,7 +24,7 @@ public class PlaneUC extends JPanel {
 	public PlaneUC() {
 		setLayout(null);
 		setBounds(0,70,1500,653);
-		JPanel panel = new JPanel();
+		panel = new JPanel();
 		panel.setBounds(62, 10, 1365, 53);
 		add(panel);
 		panel.setLayout(null);
@@ -41,8 +44,8 @@ public class PlaneUC extends JPanel {
 		panel.add(btnNewPlane);
 		
 		JButton btnPlaneOperation = new JButton("Chi tiết máy bay");
-		btnPlaneOperation.setEnabled(false);
 		btnPlaneOperation.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnPlaneOperation.setEnabled(true);
 		btnPlaneOperation.setBounds(1190, 0, 175, 53);
 		panel.add(btnPlaneOperation);
 		
@@ -50,21 +53,22 @@ public class PlaneUC extends JPanel {
         contentPanel.setBounds(62, 73, 1365, 520);
         add(contentPanel);
         contentPanel.setLayout(null);
+        
 		
-		btnPlaneOperation.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				contentPanel.removeAll();
-                OperationPlaneUC ap = new OperationPlaneUC();
-                contentPanel.add(ap);
-                ap.setLocation(0, 0);
-                ap.setSize(1365, 520);
-                contentPanel.revalidate();
-                contentPanel.repaint();
-				
-			}
-		});
+//		btnPlaneOperation.addActionListener(new ActionListener() {
+//			
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				contentPanel.removeAll();
+//                OperationPlaneUC ap = new OperationPlaneUC();
+//                contentPanel.add(ap);
+//                ap.setLocation(0, 0);
+//                ap.setSize(1365, 520);
+//                contentPanel.revalidate();
+//                contentPanel.repaint();
+//				
+//			}
+//		});
 		
 		
 		btnPlaneList.addActionListener(new ActionListener() {
@@ -98,4 +102,5 @@ public class PlaneUC extends JPanel {
 		
 
 	}
+
 }
