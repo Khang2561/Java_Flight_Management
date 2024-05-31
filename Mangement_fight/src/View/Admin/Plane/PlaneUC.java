@@ -1,22 +1,22 @@
 package View.Admin.Plane;
 
 import javax.swing.JPanel;
-
-import View.Admin.FormAdmin;
-
+import javax.swing.UIManager;
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.Button;
-import java.awt.Component;
-import java.awt.Container;
+import java.awt.Color;
 import java.awt.Font;
+
 
 public class PlaneUC extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	public static JPanel contentPanel;
 	public static JPanel panel;
+	private static JButton selectedButton = null;
+	public static JButton btnPlaneOperation;
 
 	/**
 	 * Create the panel.
@@ -31,22 +31,25 @@ public class PlaneUC extends JPanel {
 		
 		JButton btnPlaneList = new JButton("Danh sách \r\nmáy bay");
 		btnPlaneList.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnPlaneList.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		btnPlaneList.setBackground(new Color(245, 245, 248)); 
+		btnPlaneList.setForeground(new Color(0, 0, 0)); 
 		btnPlaneList.setBounds(0, 0, 175, 53);
 		panel.add(btnPlaneList);
 		
 		JButton btnNewPlane = new JButton("Tạo mới máy bay");
 		btnNewPlane.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnNewPlane.setBackground(new Color(245, 245, 248)); 
+		btnNewPlane.setForeground(new Color(0, 0, 0)); 
 		btnNewPlane.setBounds(229, 0, 175, 53);
 		panel.add(btnNewPlane);
 		
-		JButton btnPlaneOperation = new JButton("Chi tiết máy bay");
+		btnPlaneOperation = new JButton("Chi tiết máy bay");
 		btnPlaneOperation.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnPlaneOperation.setEnabled(true);
-		btnPlaneOperation.setBounds(1190, 0, 175, 53);
+		btnPlaneOperation.setBackground(Color.LIGHT_GRAY);
+		btnPlaneOperation.setEnabled(false);
+		btnPlaneOperation.setBounds(1190, 0, 175, 53); 
+
 		panel.add(btnPlaneOperation);
 		
 		contentPanel = new JPanel();
@@ -54,7 +57,9 @@ public class PlaneUC extends JPanel {
         add(contentPanel);
         contentPanel.setLayout(null);
         
-		
+//		if(btnPlaneOperation.isEnabled()) {
+//			highlightButton(btnPlaneOperation);
+//		}
 //		btnPlaneOperation.addActionListener(new ActionListener() {
 //			
 //			@Override
@@ -82,6 +87,9 @@ public class PlaneUC extends JPanel {
                 ap.setSize(1365, 520);
                 contentPanel.revalidate();
                 contentPanel.repaint();
+                highlightButton(btnPlaneList);
+                btnPlaneOperation.setBackground(Color.LIGHT_GRAY);
+                btnPlaneOperation.setEnabled(false);
 				
 			}
 		});
@@ -96,11 +104,25 @@ public class PlaneUC extends JPanel {
                 ap.setSize(1365, 520);
                 contentPanel.revalidate();
                 contentPanel.repaint();
-				
+                highlightButton(btnNewPlane);
+                btnPlaneOperation.setBackground(Color.LIGHT_GRAY);
+                btnPlaneOperation.setEnabled(false); 
 			}
 		});
 		
 
+	}
+	public static void highlightButton(JButton button) {
+        if (selectedButton != null) {
+            selectedButton.setBackground(new Color(245, 245, 248)); // Reset background color of previously selected button
+            selectedButton.setForeground(new Color(0, 0, 0)); // Reset text color of previously selected button
+        }
+        button.setBackground(new Color(3, 4, 94)); // Highlight the currently selected button with blue background
+        button.setForeground(new Color(255, 255, 255)); // Set text color to white
+        selectedButton = button; // Update the currently selected button
+    }
+	public static void setOpeButtonEnable(Boolean temp) {
+		btnPlaneOperation.setEnabled(temp);
 	}
 
 }

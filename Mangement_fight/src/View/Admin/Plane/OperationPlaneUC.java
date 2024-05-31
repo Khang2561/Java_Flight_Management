@@ -43,11 +43,11 @@ import java.awt.event.ActionEvent;
 public class OperationPlaneUC extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JTextField textfieldPlaneName;
+	private static JTextField textfieldPlaneName;
 	private static JTextField textFieldChairCount;
 	private JPanel seatPanel;
 	private JPanel panelSeatNumer;
-	private JTable tableClassTicket;
+	private static JTable tableClassTicket;
 	private DefaultTableModel modelTicketLevel;
 	private JTable countTicketClassTable;
 	private static DefaultTableModel modelTicketcount;
@@ -55,13 +55,14 @@ public class OperationPlaneUC extends JPanel {
 	public static TicketClass[] arrayticket = new TicketClass[6];
 	private static Color tmpColor = new Color(0, 102, 204);
 	private static AbstractButton btnNewButton_1;
+	private static String planeID;
 	//------------------------------
-	private static HashMap<Object, Object> buttonCount;
 
 	/**
 	 * Create the panel.
 	 */
-	public OperationPlaneUC(int row) {
+	public OperationPlaneUC(String PlaneID) {
+		planeID=PlaneID;
 		//------------------------------------------------------------------------------
 		setLayout(null);
 		setBounds(62, 73, 1365, 520);
@@ -77,8 +78,8 @@ public class OperationPlaneUC extends JPanel {
 		panelLeft.add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Tạo máy bay");
-		lblNewLabel.setBounds(41, 20, 131, 19);
+		JLabel lblNewLabel = new JLabel("Thông tin máy bay", SwingConstants.CENTER);
+		lblNewLabel.setBounds(0, 20, 197, 19);
 		lblNewLabel.setLabelFor(panel);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 17));
 		panel.add(lblNewLabel);
@@ -181,6 +182,9 @@ public class OperationPlaneUC extends JPanel {
 		panel_2.setBounds(0, 479, 197, 41);
 		panel.add(panel_2);
 		panel_2.setLayout(new GridLayout(0, 2, 40, 0));
+		
+		//load thong tin plane duoc chon vao panel
+		loadPlaneFromDB(planeID);
 		
 		JButton btnLuu = new JButton("Lưu");
 		btnLuu.addActionListener(new ActionListener() {
@@ -321,52 +325,67 @@ public class OperationPlaneUC extends JPanel {
 		modelTicketLevel = new DefaultTableModel();
 		modelTicketLevel.setColumnIdentifiers(column1);
 		tableClassTicket.setModel(modelTicketLevel);
+		
+		//create chi tiet hang ve table
+				JScrollPane scrollpane1 = new JScrollPane((Component) null);
+				scrollpane1.setBounds(0, 0, 197, 243);
+				panelChitietve.add(scrollpane1);
+				
+				countTicketClassTable = new JTable();
+				countTicketClassTable.setSurrendersFocusOnKeystroke(false);
+				countTicketClassTable.setColumnSelectionAllowed(false);
+				countTicketClassTable.setCellSelectionEnabled(false);
+				countTicketClassTable.setFont(new Font("Times New Roman", Font.BOLD, 15));
+				
+				
+				Object [] obj = {"Tên hạng vé","Số lượng ghế"};
+				modelTicketcount = new DefaultTableModel();
+				modelTicketcount.setColumnIdentifiers(obj);
+				countTicketClassTable.setModel(modelTicketcount);
+				
+				
+				try {
+					ResultSet rs = TicketClassDAO.selectAll();
+					while(rs.next()) {
+						modelTicketcount.addRow(new Object[] { rs.getString("TicketClassName"), 0 });
+					}
+				}catch(SQLException | ClassNotFoundException ex){
+					ex.printStackTrace();
+				}
+				scrollpane1.setViewportView(countTicketClassTable);
+				//-------------------------------------------------------------------------
+				seatPanel = new JPanel();
+				seatPanel.setBorder(new LineBorder(Color.BLACK));
+				seatPanel.setBounds(608, 51, 756, 469);
+				seatPanel.setLayout(null);
+				add(seatPanel);
+				
+				//------------------------------------
+				panelSeatMap = new JPanel();
+				FlowLayout flowLayout_1 = (FlowLayout) panelSeatMap.getLayout();
+				flowLayout_1.setVgap(6);
+				flowLayout_1.setHgap(16);
+				flowLayout_1.setAlignment(FlowLayout.CENTER);
+				panelSeatMap.setBorder(new LineBorder(SystemColor.desktop));
+				panelSeatMap.setPreferredSize(new Dimension(647, 454));
+				panelSeatMap.setBounds(109, 0, 647, 469);
+				seatPanel.add(panelSeatMap);
 		//upload data
 		try {
 			ResultSet rs = TicketClassDAO.selectAll();
 			loadRsToTableTicketLevel(rs);
+			LoadSeatFromDB();
 		}catch(SQLException | ClassNotFoundException ex){
 			ex.printStackTrace();
 		}
 		scrollPane.setViewportView(tableClassTicket);
 		panelChitietve.setLayout(null);
 		
-		//create chi tiet hang ve table
-		JScrollPane scrollpane1 = new JScrollPane((Component) null);
-		scrollpane1.setBounds(0, 0, 197, 243);
-		panelChitietve.add(scrollpane1);
-		
-		countTicketClassTable = new JTable();
-		countTicketClassTable.setSurrendersFocusOnKeystroke(false);
-		countTicketClassTable.setColumnSelectionAllowed(false);
-		countTicketClassTable.setCellSelectionEnabled(false);
-		countTicketClassTable.setFont(new Font("Times New Roman", Font.BOLD, 15));
-		
-		
-		Object [] obj = {"Tên hạng vé","Số lượng ghế"};
-		modelTicketcount = new DefaultTableModel();
-		modelTicketcount.setColumnIdentifiers(obj);
-		countTicketClassTable.setModel(modelTicketcount);
-		
-		
-		try {
-			ResultSet rs = TicketClassDAO.selectAll();
-			while(rs.next()) {
-				modelTicketcount.addRow(new Object[] { rs.getString("TicketClassName"), 0 });
-			}
-		}catch(SQLException | ClassNotFoundException ex){
-			ex.printStackTrace();
-		}
-		scrollpane1.setViewportView(countTicketClassTable);
 		
 		
 		
-		//-------------------------------------------------------------------------
-		seatPanel = new JPanel();
-		seatPanel.setBorder(new LineBorder(Color.BLACK));
-		seatPanel.setBounds(608, 51, 756, 469);
-		seatPanel.setLayout(null);
-		add(seatPanel);
+		
+
 		
 		panelSeatNumer = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) panelSeatNumer.getLayout();
@@ -377,16 +396,7 @@ public class OperationPlaneUC extends JPanel {
 		seatPanel.add(panelSeatNumer);
 		
 		
-		//------------------------------------
-		panelSeatMap = new JPanel();
-		FlowLayout flowLayout_1 = (FlowLayout) panelSeatMap.getLayout();
-		flowLayout_1.setVgap(6);
-		flowLayout_1.setHgap(16);
-		flowLayout_1.setAlignment(FlowLayout.CENTER);
-		panelSeatMap.setBorder(new LineBorder(SystemColor.desktop));
-		panelSeatMap.setPreferredSize(new Dimension(647, 454));
-		panelSeatMap.setBounds(109, 0, 647, 469);
-		seatPanel.add(panelSeatMap);
+
 		
 
 
@@ -432,6 +442,9 @@ public class OperationPlaneUC extends JPanel {
 		lblNewLabel_3.setBorder(new LineBorder(Color.BLACK));
 		lblNewLabel_3.setPreferredSize(new Dimension(90, 26));
 		panel_3.add(lblNewLabel_3);
+		
+		//load seat from db
+		
 	}
 	
 	/*
@@ -478,6 +491,7 @@ public class OperationPlaneUC extends JPanel {
 	    }
 	}*/
 	
+
 	private static void CreateSeat() {
 	    int numButtons = Integer.parseInt(textFieldChairCount.getText());
 	    JButton[] buttonArray = new JButton[numButtons];
@@ -505,8 +519,6 @@ public class OperationPlaneUC extends JPanel {
 		}catch(SQLException | ClassNotFoundException ex){
 			ex.printStackTrace();
 		}
-		buttonCount = new HashMap<>();
-		buttonCount.put(defaultTicketClassID, defaultTicketClassID);
 		
 
 	    for (int i = 0; i < numButtons; i++) {
@@ -584,6 +596,88 @@ public class OperationPlaneUC extends JPanel {
 	        i++;
 	    }
 	}
+	private static void LoadSeatFromDB() {
+	    int numButtons = Integer.parseInt(textFieldChairCount.getText());
+	    JButton[] buttonArray = new JButton[numButtons];
+
+	    // Get the default color and ticket class ID from the first ticket class
+	    Color defaultColor = arrayticket[0].getColorTicketClass();
+	    String defaultTicketClassID = arrayticket[0].getTicketClassID();
+	    
+	    
+	    //default ticket class
+		btnNewButton_1.setText(arrayticket[0].getTicketClassName());
+		btnNewButton_1.setBackground(defaultColor);
+		
+		//set default seat count
+		try {
+			ResultSet rs = TicketClassDAO.selectAll();
+			modelTicketcount.setRowCount(0);
+			while(rs.next()) {
+				if(rs.getString("TicketClassName").equals(arrayticket[0].getTicketClassName()))
+				{
+					modelTicketcount.addRow(new Object[] { rs.getString("TicketClassName"), numButtons });
+				}
+				else modelTicketcount.addRow(new Object[] { rs.getString("TicketClassName"), 0 });
+			}
+		}catch(SQLException | ClassNotFoundException ex){
+			ex.printStackTrace();
+		}
+		for (int i = 0; i < numButtons; i++) {
+		        buttonArray[i] = new JButton();
+		        buttonArray[i].setPreferredSize(new Dimension(90, 40)); // Kích thước cố định
+
+		        // Set the background color to the default color
+		        buttonArray[i].setBackground(defaultColor);
+		        buttonArray[i].setActionCommand(defaultTicketClassID); // Set default ticket class ID
+
+		        // Add MouseListener to change the color and ticket class ID when clicked
+		        buttonArray[i].addMouseListener(new MouseAdapter() {
+		            @Override
+		            public void mouseClicked(MouseEvent e) {
+		                JButton clickedButton = (JButton) e.getSource();
+		                // Change the background color to the selected tmpColor
+		                clickedButton.setBackground(tmpColor);
+		                // Update the ticket class ID
+		                clickedButton.setActionCommand(getCurrentTicketClassID());
+		            }
+		        });
+
+		        try {
+		            panelSeatMap.add(buttonArray[i]);
+		        } catch (Exception e) {
+		            e.printStackTrace();
+		        }
+		//load seat info from db
+		try {
+			ResultSet rs = SeatDAO.selectWithPlaneID(planeID);//lay ra tat ca ghe cua may bay dang chon
+			while(rs.next()) {
+				for(int temp = 0; temp < numButtons; temp++) {
+					if(getSeatID(buttonArray[temp]).equals(rs.getString("SeatID"))) {
+						buttonArray[temp].setActionCommand(rs.getString("TicketClassID"));//set ticket class ID cua seat = voi ticket class cua seat trong db
+						for(int j = 0;j<arrayticket.length;j++) {
+							if(arrayticket[j].getTicketClassID().equals(rs.getString("TicketClassID"))) {
+								tmpColor = arrayticket[j].getColorTicketClass();
+							}
+						}
+						buttonArray[temp].setBackground(tmpColor);
+					}
+				}
+
+			}
+			seatCount(buttonArray);
+		}catch(SQLException | ClassNotFoundException ex){
+			ex.printStackTrace();
+		}
+		
+
+	   
+
+	        panelSeatMap.revalidate();
+	        panelSeatMap.repaint();
+	    }
+	}
+	
 	
 	//tao ra so ngau nhien 
 	private String generateUniqueTicketClassId() {
@@ -663,6 +757,20 @@ public class OperationPlaneUC extends JPanel {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+	private static void loadPlaneFromDB(String planeID) {
+		try {
+			ResultSet rs = PlaneDAO.selectAll();
+			while(rs.next()) {
+				if(rs.getString("PlaneID").equals(planeID))
+				{
+					textfieldPlaneName.setText(rs.getString("PlaneName"));
+					textFieldChairCount.setText(rs.getString("SeatCount"));
+				}
+			}
+		}catch(SQLException | ClassNotFoundException ex){
+			ex.printStackTrace();
 		}
 	}
 }

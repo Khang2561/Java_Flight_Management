@@ -6,12 +6,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import View.Admin.Admin_header;
-import View.Admin.FormAdmin;
 import libData.JDBCUtil;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -91,7 +91,13 @@ public class PlaneListUC extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				OperationPlaneUC ope = new OperationPlaneUC(getSelectRow(table.getSelectedRow()));
+				//thong bao neu chua chon may bay
+				int selectedRow = table.getSelectedRow();
+                if (selectedRow == -1) {
+                    JOptionPane.showMessageDialog(null, "Hãy chọn một máy bay để điều chỉnh.", "Thông báo", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+				OperationPlaneUC ope = new OperationPlaneUC(table.getValueAt(selectedRow, 0).toString());
 				clearAndShow(ope);
 
 				
@@ -148,8 +154,10 @@ public class PlaneListUC extends JPanel {
 		return row;
 	}
 	public static void clearAndShow(JPanel newPanel) {
-        PlaneUC.contentPanel.removeAll(); // Remove all components from contentPane
-        PlaneUC.contentPanel.add(newPanel); // Add the new panel to contentPane
+        PlaneUC.contentPanel.removeAll(); 
+        PlaneUC.setOpeButtonEnable(true);// Remove all components from contentPane
+        PlaneUC.highlightButton(PlaneUC.btnPlaneOperation);
+        PlaneUC.contentPanel.add(newPanel);// Add the new panel to contentPane
         newPanel.setSize(1365, 520);
         newPanel.setLocation(0, 0);
         PlaneUC.contentPanel.revalidate(); // Refresh the contentPane
