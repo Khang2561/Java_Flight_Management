@@ -1,16 +1,22 @@
 package View.Admin;
 
 import java.awt.Color;
-import java.awt.Button;
+import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.event.ActionListener;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.BoxLayout;
+
+import CustomUI.BtnCS;
 
 import View.Admin.AccountAndPermission.AccountAndPermission;
 import View.Admin.ChatBox.ChatBox;
@@ -21,8 +27,8 @@ import View.Admin.Setting.Setting;
 public class Admin_header extends JPanel {
 
     public static final long serialVersionUID = 1L;
-    public static Button[] buttons = new Button[6];
-    private static Button selectedButton = null;  // Track the currently selected button
+    public static BtnCS[] buttons = new BtnCS[6];
+    private static BtnCS selectedButton = null;  // Track the currently selected button
 
     /**
      * Create the panel.
@@ -30,16 +36,22 @@ public class Admin_header extends JPanel {
     public Admin_header() {
         setBackground(new Color(245, 245, 248));
         setBounds(0, 0, 1500, 80);
-        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+        setLayout(new GridBagLayout());
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(5, 5, 5, 5); // Margin around buttons
 
         // Logo
         JLabel lblNewLabel = new JLabel("");
         lblNewLabel.setIcon(new ImageIcon(Admin_header.class.getResource("/Resource/LogoMAT_180x40.png")));
-        add(lblNewLabel);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 1;
+        add(lblNewLabel, gbc);
 
-        // Button "Chuyến bay"
-        buttons[0] = new Button("Chuyến bay ");
-        buttons[0].addActionListener(new ActionListener() {
+        // Create and add buttons
+        createButton("CHUYẾN BAY", new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
                     clearAndShow(new FlightUC());
@@ -48,24 +60,19 @@ public class Admin_header extends JPanel {
                     e1.printStackTrace();
                 }
             }
-        });
+        }, gbc, 1);
 
-        // Button "Vé máy bay"
-        buttons[1] = new Button("Vé máy bay");
+        createButton("VÉ MÁY BAY", null, gbc, 2);
 
-        // Button "Máy bay"
-        buttons[2] = new Button("Máy bay");
-        buttons[2].addActionListener(new ActionListener() {
+        createButton("MÁY BAY", new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 clearAndShow(new PlaneUC());
                 highlightButton(buttons[2]);
             }
-        });
+        }, gbc, 3);
 
-        // Button "Tài khoảng và quyền"
-        buttons[3] = new Button("Tài khoảng và quyền ");
-        buttons[3].addActionListener(new ActionListener() {
+        createButton("TÀI KHOẢN", new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
                     clearAndShow(new AccountAndPermission());
@@ -74,11 +81,9 @@ public class Admin_header extends JPanel {
                     e1.printStackTrace();
                 }
             }
-        });
+        }, gbc, 4);
 
-        // Button "Cài đặt"
-        buttons[4] = new Button("Cài đặt");
-        buttons[4].addActionListener(new ActionListener() {
+        createButton("CÀI ĐẶT", new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
                     clearAndShow(new Setting());
@@ -87,49 +92,80 @@ public class Admin_header extends JPanel {
                     e1.printStackTrace();
                 }
             }
-        });
+        }, gbc, 5);
 
-        // Button "Chat Box"
-        buttons[5] = new Button("Chat Box");
-        buttons[5].addActionListener(new ActionListener() {
+        createButton("CHAT BOX", new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 clearAndShow(new ChatBox());
                 highlightButton(buttons[5]);
             }
-        });
+        }, gbc, 6);
 
-        // Add buttons to panel and set initial styles
-        for (Button button : buttons) {
-            button.setFont(new Font("Times New Roman", Font.BOLD, 18));
-            button.setBackground(new Color(245, 245, 248));
-            button.setForeground(new Color(0, 0, 0));
-            add(button);
+        // Set initial styles for all buttons
+        for (BtnCS button : buttons) {
+            if (button != null) {
+                button.setFont(new Font("Times New Roman", Font.BOLD, 18));
+                button.setBackground(Color.WHITE); // Set initial background color to white
+                button.setForeground(Color.BLACK); // Set initial text color to black
+                button.setMinimumSize(new Dimension(200, 50)); // Set minimum size
+                button.setPreferredSize(new Dimension(150, 40)); // Set preferred size
+                button.setMaximumSize(new Dimension(150, 40)); // Set maximum size
+
+                // Add MouseListener for hover effect
+                button.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        if (button != selectedButton) {
+                            button.setBackground(new Color(0, 0, 160));
+                            button.setForeground(Color.WHITE);
+                        }
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        if (button != selectedButton) {
+                            button.setBackground(Color.WHITE);
+                            button.setForeground(Color.BLACK);
+                        }
+                    }
+                });
+            }
         }
     }
 
+    // Method to create a button and add it to the panel
+    private void createButton(String text, ActionListener actionListener, GridBagConstraints gbc, int gridx) {
+        BtnCS button = new BtnCS();
+        button.setText(text);
+        if (actionListener != null) {
+            button.addActionListener(actionListener);
+        }
+        gbc.gridx = gridx;
+        gbc.gridy = 0;
+        add(button, gbc);
+        buttons[gridx - 1] = button;
+    }
+
     // Method to clear and show new panel
-    public static  void clearAndShow(JPanel newPanel) {
+    public static void clearAndShow(JPanel newPanel) {
         FormAdmin.contentPane.removeAll(); // Xóa tất cả các thành phần trên contentPane
         Admin_header tmp = new Admin_header();
         FormAdmin.contentPane.add(tmp); // Thêm lại Admin_header vào contentPane
-        highlightButton(buttons[0]);
         FormAdmin.contentPane.add(newPanel); // Thêm form mới vào contentPane
         newPanel.setSize(1500, 653);
-        newPanel.setLocation(0, 70);
+        newPanel.setLocation(0, 78);
         FormAdmin.contentPane.revalidate(); // Cập nhật giao diện
         FormAdmin.contentPane.repaint(); // Vẽ lại giao diện
     }
 
     // Method to highlight the selected button
-    public static void highlightButton(Button button) {
+    public static void highlightButton(BtnCS button) {
         if (selectedButton != null) {
-            selectedButton.setBackground(new Color(245, 245, 248)); // Reset background color of previously selected button
-            selectedButton.setForeground(new Color(0, 0, 0)); // Reset text color of previously selected button
+            selectedButton.setBackground(Color.WHITE); // Reset background color of previously selected button
+            selectedButton.setForeground(Color.BLACK); // Reset text color of previously selected button
         }
-        button.setBackground(new Color(3, 4, 94)); // Highlight the currently selected button with blue background
-        button.setForeground(new Color(255, 255, 255)); // Set text color to white
+        button.setBackground(new Color(3, 4, 94)); // Highlight the currently selected button with black background
+        button.setForeground(Color.WHITE); // Set text color to white
         selectedButton = button; // Update the currently selected button
     }
-    
-    
 }

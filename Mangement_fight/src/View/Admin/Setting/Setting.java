@@ -10,6 +10,9 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
+
+import CustomUI.BtnCS;
+import CustomUI.JtfCS;
 import DALs.AirportDAL;
 import DAO.AAADAO;
 import DAO.AirportDAO;
@@ -24,6 +27,7 @@ import libData.JDBCUtil;
 import java.awt.Font;
 import javax.swing.JTable;
 import javax.swing.border.BevelBorder;
+import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 import java.awt.Button;
 import java.awt.Panel;
@@ -46,19 +50,19 @@ public class Setting extends JPanel {
 	//airport table
 	private static JTable table;
 	// text field to insert airport
-	private JTextField inputNameAirport;
-	private JTextField inputNameCity;
-	private JTextField inputNameCountry;
+	private JtfCS inputNameAirport;
+	private JtfCS inputNameCity;
+	private JtfCS inputNameCountry;
 	//text field to for setting value
-	private JTextField tfminimumFlightTime;
-	private JTextField tfmaxPreventiveAirports;
-	private JTextField tfminimumStopoverTime;
-	private JTextField tfmaximumStopoverTime;
-	private JTextField tfearliestBookingTime;
-	private JTextField tflatestBookingCancellationTime;
+	private JtfCS tfminimumFlightTime;
+	private JtfCS tfmaxPreventiveAirports;
+	private JtfCS tfminimumStopoverTime;
+	private JtfCS tfmaximumStopoverTime;
+	private JtfCS tfearliestBookingTime;
+	private JtfCS tflatestBookingCancellationTime;
 	//text field for setting ticket class
-	private JTextField inputNameClass;
-	private JTextField inputNamePercent;
+	private JtfCS inputNameClass;
+	private JtfCS inputNamePercent;
 	//create table for ticket class
 	private JTable table_1;
 	static JPanel contentPane;
@@ -66,7 +70,8 @@ public class Setting extends JPanel {
 	private DefaultTableModel modelTicketLevel;
 	private JLabel lbearliestBookingTime;
 	public Parameters settingValue = new Parameters();
-	private Button btInsertAirport;
+	private BtnCS btInsertAirport;
+	private BtnCS tmp1;
 	
 	//------------------------------setting main------------------------------------------------------
 	public Setting() throws ClassNotFoundException, SQLException {
@@ -145,37 +150,43 @@ public class Setting extends JPanel {
 		panel_1.setLayout(null);
 		
 		JLabel labelNameAirport = new JLabel("Tên sân bay :");
-		labelNameAirport.setFont(new Font("Times New Roman", Font.BOLD, 15));
-		labelNameAirport.setBounds(35, 25, 99, 26);
+		labelNameAirport.setFont(new Font("Times New Roman", Font.BOLD, 17));
+		labelNameAirport.setBounds(35, 27, 99, 26);
 		panel_1.add(labelNameAirport);
 		
 		JLabel lbNameCity = new JLabel("Tên thành phố :");
-		lbNameCity.setFont(new Font("Times New Roman", Font.BOLD, 15));
+		lbNameCity.setFont(new Font("Times New Roman", Font.BOLD, 17));
 		lbNameCity.setBounds(35, 87, 199, 26);
 		panel_1.add(lbNameCity);
 		
 		JLabel lbNameCountry = new JLabel("Tên đất nước :");
-		lbNameCountry.setFont(new Font("Times New Roman", Font.BOLD, 15));
-		lbNameCountry.setBounds(35, 147, 99, 26);
+		lbNameCountry.setFont(new Font("Times New Roman", Font.BOLD, 17));
+		lbNameCountry.setBounds(35, 143, 124, 26);
 		panel_1.add(lbNameCountry);
 		
-		inputNameAirport = new JTextField();
-		inputNameAirport.setBounds(161, 25, 334, 24);
+		inputNameAirport = new JtfCS();
+		inputNameAirport.setFont(new Font("Times New Roman", Font.BOLD, 15));
+		inputNameAirport.setShadowColor(new Color(0, 128, 255));
+		inputNameAirport.setToolTipText("");
+		inputNameAirport.setBounds(161, 25, 334, 38);
 		panel_1.add(inputNameAirport);
 		inputNameAirport.setColumns(10);
 		
-		inputNameCity = new JTextField();
+		inputNameCity = new JtfCS();
+		inputNameCity.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		inputNameCity.setColumns(10);
-		inputNameCity.setBounds(161, 87, 334, 24);
+		inputNameCity.setBounds(161, 86, 334, 38);
 		panel_1.add(inputNameCity);
 		
-		inputNameCountry = new JTextField();
+		inputNameCountry = new JtfCS();
+		inputNameCountry.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		inputNameCountry.setColumns(10);
-		inputNameCountry.setBounds(161, 147, 334, 24);
+		inputNameCountry.setBounds(161, 142, 334, 38);
 		panel_1.add(inputNameCountry);
 		
 		//button to insert airport to table
-		btInsertAirport = new Button("Thêm ");
+		btInsertAirport = new BtnCS();
+		btInsertAirport.setText("THÊM");
 		btInsertAirport.setFont(new Font("Arial", Font.BOLD, 14));
 		btInsertAirport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -239,11 +250,20 @@ public class Setting extends JPanel {
 		//setting design for button
 		btInsertAirport.setForeground(new Color(255, 255, 255));
 		btInsertAirport.setBackground(new Color(3, 4, 94));
-		btInsertAirport.setBounds(33, 199, 576, 48);
+		
+		
+		btInsertAirport.setColorOver(new Color(0, 0, 160));
+		btInsertAirport.setColor(new Color(3, 4, 94));
+		btInsertAirport.setBorderColor(new Color(3, 4, 94));
+		btInsertAirport.setRadius(30);
+		btInsertAirport.setBounds(39, 199, 570, 48);
 		panel_1.add(btInsertAirport);
 		
+		
+		
 		//button update airport
-		Button btUpdate = new Button("Cập nhật");
+		BtnCS btUpdate = new BtnCS();
+		btUpdate.setText("CẬP NHẬT");
 		btUpdate.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        try {
@@ -291,11 +311,21 @@ public class Setting extends JPanel {
 		btUpdate.setForeground(new Color(255, 255, 255));
 		btUpdate.setBackground(new Color(3, 4, 94));
 		btUpdate.setBounds(46, 199, 168, 48);
+		btUpdate.setColorOver(new Color(0, 0, 160));
+		btUpdate.setColor(new Color(3, 4, 94));
+		btUpdate.setBorderColor(new Color(3, 4, 94));
+		btUpdate.setRadius(30);
+		
 		panel_1.add(btUpdate);
 		
-		
 		//button delete airport
-		Button btDelete = new Button("Xóa");
+		BtnCS btDelete = new BtnCS();
+		btDelete.setColorClick(new Color(217, 217, 217));
+		btDelete.setColorOver(new Color(217, 217, 217));
+		btDelete.setColor(new Color(192, 192, 192));
+		btDelete.setBorderColor(new Color(192, 192, 192));
+		btDelete.setRadius(30);
+		btDelete.setText("XÓA");
 		btDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				AirportDAO.deleteByName(inputNameAirport.getText());
@@ -327,7 +357,13 @@ public class Setting extends JPanel {
 		
 		
 		//button cancel airport
-		Button btCancel = new Button("Hủy");
+		BtnCS btCancel = new BtnCS();
+		btCancel.setColorClick(new Color(156, 156, 156));
+		btCancel.setColorOver(new Color(156, 156, 156));
+		btCancel.setColor(new Color(128, 128, 128));
+		btCancel.setRadius(30);
+		btCancel.setBorderColor(new Color(128, 128, 128));
+		btCancel.setText("HỦY");
 		btCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				inputNameAirport.setText("");
@@ -365,53 +401,65 @@ public class Setting extends JPanel {
 		
 		JLabel lbminimunStopoverTime = new JLabel("Thời gian dừng tối thiểu");
 		lbminimunStopoverTime.setFont(new Font("Times New Roman", Font.BOLD, 15));
-		lbminimunStopoverTime.setBounds(10, 82, 187, 26);
+		lbminimunStopoverTime.setBounds(10, 89, 187, 26);
 		panel_1_1.add(lbminimunStopoverTime);
 		
 		JLabel lbmaximumStopoverTime = new JLabel("Thời gian dừng tối đa ");
 		lbmaximumStopoverTime.setFont(new Font("Times New Roman", Font.BOLD, 15));
-		lbmaximumStopoverTime.setBounds(10, 118, 198, 26);
+		lbmaximumStopoverTime.setBounds(10, 125, 198, 26);
 		panel_1_1.add(lbmaximumStopoverTime);
 		
 		lbearliestBookingTime = new JLabel("Thời gian đặt vé chậm nhất ");
 		lbearliestBookingTime.setFont(new Font("Times New Roman", Font.BOLD, 15));
-		lbearliestBookingTime.setBounds(10, 154, 198, 26);
+		lbearliestBookingTime.setBounds(10, 161, 198, 26);
 		panel_1_1.add(lbearliestBookingTime);
 		
 		JLabel lblatestBookingCancellationTime = new JLabel("Thời gian hủy đặt vé chậm nhất ");
 		lblatestBookingCancellationTime.setFont(new Font("Times New Roman", Font.BOLD, 15));
-		lblatestBookingCancellationTime.setBounds(10, 190, 210, 26);
+		lblatestBookingCancellationTime.setBounds(10, 197, 210, 26);
 		panel_1_1.add(lblatestBookingCancellationTime);
 		
 		
-		tfminimumFlightTime = new JTextField();
-		tfminimumFlightTime.setBounds(255, 15, 81, 19);
+		tfminimumFlightTime = new JtfCS();
+		tfminimumFlightTime.setHorizontalAlignment(SwingConstants.CENTER);
+		tfminimumFlightTime.setFont(new Font("Tahoma", Font.BOLD, 12));
+		tfminimumFlightTime.setBounds(255, 10, 81, 38);
 		panel_1_1.add(tfminimumFlightTime);
 		tfminimumFlightTime.setColumns(10);
-		tfmaxPreventiveAirports = new JTextField();
+		tfmaxPreventiveAirports = new JtfCS();
+		tfmaxPreventiveAirports.setHorizontalAlignment(SwingConstants.CENTER);
+		tfmaxPreventiveAirports.setFont(new Font("Tahoma", Font.BOLD, 13));
 		
 		tfmaxPreventiveAirports.setColumns(10);
-		tfmaxPreventiveAirports.setBounds(255, 51, 81, 19);
+		tfmaxPreventiveAirports.setBounds(255, 46, 81, 38);
 		panel_1_1.add(tfmaxPreventiveAirports);
 		
-		tfminimumStopoverTime = new JTextField();
+		tfminimumStopoverTime = new JtfCS();
+		tfminimumStopoverTime.setHorizontalAlignment(SwingConstants.CENTER);
+		tfminimumStopoverTime.setFont(new Font("Tahoma", Font.BOLD, 13));
 		tfminimumStopoverTime.setColumns(10);
-		tfminimumStopoverTime.setBounds(255, 87, 81, 19);
+		tfminimumStopoverTime.setBounds(255, 82, 81, 38);
 		panel_1_1.add(tfminimumStopoverTime);
 		
-		tfmaximumStopoverTime = new JTextField();
+		tfmaximumStopoverTime = new JtfCS();
+		tfmaximumStopoverTime.setHorizontalAlignment(SwingConstants.CENTER);
+		tfmaximumStopoverTime.setFont(new Font("Tahoma", Font.BOLD, 13));
 		tfmaximumStopoverTime.setColumns(10);
-		tfmaximumStopoverTime.setBounds(255, 123, 81, 19);
+		tfmaximumStopoverTime.setBounds(255, 121, 81, 38);
 		panel_1_1.add(tfmaximumStopoverTime);
 		
-		tfearliestBookingTime = new JTextField();
+		tfearliestBookingTime = new JtfCS();
+		tfearliestBookingTime.setHorizontalAlignment(SwingConstants.CENTER);
+		tfearliestBookingTime.setFont(new Font("Tahoma", Font.BOLD, 13));
 		tfearliestBookingTime.setColumns(10);
-		tfearliestBookingTime.setBounds(255, 159, 81, 19);
+		tfearliestBookingTime.setBounds(255, 157, 81, 38);
 		panel_1_1.add(tfearliestBookingTime);
 		
-		tflatestBookingCancellationTime = new JTextField();
+		tflatestBookingCancellationTime = new JtfCS();
+		tflatestBookingCancellationTime.setHorizontalAlignment(SwingConstants.CENTER);
+		tflatestBookingCancellationTime.setFont(new Font("Tahoma", Font.BOLD, 13));
 		tflatestBookingCancellationTime.setColumns(10);
-		tflatestBookingCancellationTime.setBounds(255, 195, 81, 19);
+		tflatestBookingCancellationTime.setBounds(255, 195, 81, 38);
 		panel_1_1.add(tflatestBookingCancellationTime);
 		
 		//
@@ -439,19 +487,22 @@ public class Setting extends JPanel {
 		
 		JLabel lblNewLabel_1_3_1_2_1_1 = new JLabel("Ngày");
 		lblNewLabel_1_3_1_2_1_1.setFont(new Font("Times New Roman", Font.BOLD, 15));
-		lblNewLabel_1_3_1_2_1_1.setBounds(356, 190, 46, 26);
+		lblNewLabel_1_3_1_2_1_1.setBounds(356, 197, 46, 26);
 		panel_1_1.add(lblNewLabel_1_3_1_2_1_1);
 		
 		JLabel lblNewLabel_1_3_1_2_1_2 = new JLabel("Sân");
 		lblNewLabel_1_3_1_2_1_2.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		lblNewLabel_1_3_1_2_1_2.setBounds(356, 46, 46, 26);
 		panel_1_1.add(lblNewLabel_1_3_1_2_1_2);
+		//--------------------------
 		
 		//nut lưu setting cơ bản 
-		Button button_3 = new Button("Lưu");
-		button_3.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-		        try {
+		//----------------------------------------
+		tmp1 = new BtnCS();
+		tmp1.setColorClick(new Color(0, 0, 160));
+		tmp1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
 		            int minimumFlightTime = Integer.parseInt(tfminimumFlightTime.getText());
 		            int tfmaxPreventiveAirports1 = Integer.parseInt(tfmaxPreventiveAirports.getText());
 		            int tfminimumStopoverTime1 = Integer.parseInt(tfminimumStopoverTime.getText());
@@ -493,12 +544,18 @@ public class Setting extends JPanel {
 		        }
 		    }
 		});
-
-		button_3.setFont(new Font("Times New Roman", Font.BOLD, 15));
-		button_3.setForeground(new Color(255, 255, 255));
-		button_3.setBackground(new Color(3, 4, 94));
-		button_3.setBounds(10, 243, 570, 37);
-		panel_1_1.add(button_3);
+		tmp1.setColorOver(new Color(0, 0, 160));
+		tmp1.setColor(new Color(3, 4, 94));
+		tmp1.setBorderColor(new Color(3, 4, 94));
+		tmp1.setRadius(30);
+		tmp1.setBounds(10, 243, 570, 37);
+		panel_1_1.add(tmp1);
+		tmp1.setText("CẬP NHẬP");
+		
+		
+		tmp1.setFont(new Font("Times New Roman", Font.BOLD, 15));
+		tmp1.setForeground(new Color(255, 255, 255));
+		tmp1.setBackground(new Color(3, 4, 94));
 		
 		
 		//HANG VE
@@ -509,26 +566,30 @@ public class Setting extends JPanel {
 		add(panel_1_2);
 		
 		JLabel lbNameClass = new JLabel("Tên hạng vé :");
-		lbNameClass.setFont(new Font("Times New Roman", Font.BOLD, 15));
-		lbNameClass.setBounds(416, 59, 99, 26);
+		lbNameClass.setFont(new Font("Times New Roman", Font.BOLD, 17));
+		lbNameClass.setBounds(399, 62, 99, 26);
 		panel_1_2.add(lbNameClass);
 		
 		JLabel lbNamePercent = new JLabel("Phần trăm đơn giá :");
-		lbNamePercent.setFont(new Font("Times New Roman", Font.BOLD, 15));
-		lbNamePercent.setBounds(416, 121, 199, 26);
+		lbNamePercent.setFont(new Font("Times New Roman", Font.BOLD, 17));
+		lbNamePercent.setBounds(399, 122, 199, 26);
 		panel_1_2.add(lbNamePercent);
 		
-		inputNameClass = new JTextField();
+		inputNameClass = new JtfCS();
+		inputNameClass.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		inputNameClass.setColumns(10);
-		inputNameClass.setBounds(558, 62, 221, 24);
+		inputNameClass.setBounds(558, 61, 221, 37);
 		panel_1_2.add(inputNameClass);
 		
-		inputNamePercent = new JTextField();
+		inputNamePercent = new JtfCS();
+		inputNamePercent.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		inputNamePercent.setColumns(10);
-		inputNamePercent.setBounds(558, 124, 221, 24);
+		inputNamePercent.setBounds(558, 121, 221, 37);
 		panel_1_2.add(inputNamePercent);
 		
-		Button btnThemTicketClass = new Button("Thêm ");
+		
+		BtnCS btnThemTicketClass = new BtnCS();
+		btnThemTicketClass.setText("THÊM ");
 		btnThemTicketClass.setFont(new Font("Arial", Font.BOLD, 14));
 		btnThemTicketClass.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -576,10 +637,19 @@ public class Setting extends JPanel {
 		});
 		btnThemTicketClass.setForeground(Color.WHITE);
 		btnThemTicketClass.setBackground(new Color(3, 4, 94));
-		btnThemTicketClass.setBounds(416, 180, 410, 37);
+	
+		
+		
+		btnThemTicketClass.setColorOver(new Color(0, 0, 160));
+		btnThemTicketClass.setColor(new Color(3, 4, 94));
+		btnThemTicketClass.setBorderColor(new Color(3, 4, 94));
+		btnThemTicketClass.setRadius(30);
+		btnThemTicketClass.setBounds(399, 180, 427, 37);
 		panel_1_2.add(btnThemTicketClass);
 		
-		Button btnUpdateTicketClass = new Button("Cập nhập");
+		BtnCS btnUpdateTicketClass = new BtnCS();
+		btnUpdateTicketClass.setRadius(30);
+		btnUpdateTicketClass.setText("CẬP NHẬT ");
 		btnUpdateTicketClass.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        //----------------------------------
@@ -628,9 +698,15 @@ public class Setting extends JPanel {
 		btnUpdateTicketClass.setForeground(Color.WHITE);
 		btnUpdateTicketClass.setBackground(new Color(3, 4, 94));
 		btnUpdateTicketClass.setBounds(416, 180, 131, 37);
+		btnUpdateTicketClass.setColorOver(new Color(0, 0, 160));
+		btnUpdateTicketClass.setColor(new Color(3, 4, 94));
+		btnUpdateTicketClass.setBorderColor(new Color(3, 4, 94));
+		btnUpdateTicketClass.setRadius(30);
 		panel_1_2.add(btnUpdateTicketClass);
 		
-		Button buttonDeleteTicketClass = new Button("Xóa");
+		BtnCS buttonDeleteTicketClass = new BtnCS();
+		buttonDeleteTicketClass.setRadius(30);
+		buttonDeleteTicketClass.setText("XÓA ");
 		buttonDeleteTicketClass.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				TicketClassDAO.deleteByName(inputNameClass.getText());
@@ -653,6 +729,12 @@ public class Setting extends JPanel {
 		buttonDeleteTicketClass.setForeground(Color.WHITE);
 		buttonDeleteTicketClass.setBackground(Color.LIGHT_GRAY);
 		buttonDeleteTicketClass.setBounds(573, 180, 123, 37);
+		
+		buttonDeleteTicketClass.setColorClick(new Color(217, 217, 217));
+		buttonDeleteTicketClass.setColorOver(new Color(217, 217, 217));
+		buttonDeleteTicketClass.setColor(new Color(192, 192, 192));
+		buttonDeleteTicketClass.setBorderColor(new Color(192, 192, 192));
+		buttonDeleteTicketClass.setRadius(30);
 		panel_1_2.add(buttonDeleteTicketClass);
 		
 		JLabel lbHangVe = new JLabel("HẠNG VÉ");
@@ -687,7 +769,9 @@ public class Setting extends JPanel {
 		}
 		scrollPane_1.setViewportView(table_1);
 		
-		Button buttonCancelTicketClass = new Button("Hủy ");
+		BtnCS buttonCancelTicketClass = new BtnCS();
+		buttonCancelTicketClass.setRadius(30);
+		buttonCancelTicketClass.setText("HỦY ");
 		buttonCancelTicketClass.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				inputNameClass.setText("");
@@ -695,6 +779,13 @@ public class Setting extends JPanel {
             	btnThemTicketClass.setVisible(true);
 			}
 		});
+		
+		buttonCancelTicketClass.setColorClick(new Color(156, 156, 156));
+		buttonCancelTicketClass.setColorOver(new Color(156, 156, 156));
+		buttonCancelTicketClass.setColor(new Color(128, 128, 128));
+		buttonCancelTicketClass.setRadius(30);
+		buttonCancelTicketClass.setBorderColor(new Color(128, 128, 128));
+		
 		buttonCancelTicketClass.setForeground(Color.WHITE);
 		buttonCancelTicketClass.setFont(new Font("Arial", Font.BOLD, 14));
 		buttonCancelTicketClass.setBackground(new Color(128, 128, 128));

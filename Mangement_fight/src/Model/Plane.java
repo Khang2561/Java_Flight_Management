@@ -1,5 +1,12 @@
 package Model;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import libData.JDBCUtil;
+
 public class Plane {
 	private String planeID;
     private String planeName;
@@ -19,8 +26,12 @@ public class Plane {
     public String getPlaneID() {
         return planeID;
     }
+    
+    public void setPlaneID(String planeName) {
+        this.planeID = planeName;
+    }
 
-    public void setPlaneID(String planeID) {
+    public void PlaneDAO(String planeID) {
         this.planeID = planeID;
     }
 
@@ -39,4 +50,5 @@ public class Plane {
     public void setSeatCount(int seatCount) {
         this.seatCount = seatCount;
     }
+    
 }

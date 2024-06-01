@@ -2,7 +2,6 @@ package View.Admin.ChatBox;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Button;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -17,14 +16,18 @@ import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
+import CustomUI.BtnCS;
+import CustomUI.JtfCS;
+
 public class ChatBox extends JPanel {
 
     private static final long serialVersionUID = 1L;
-    private JTextField txtNhp;
+    private JtfCS txtNhp;
     private Socket socket;
     private PrintWriter out;
     private BufferedReader in;
     private JPanel chatShow;
+    private BtnCS button_3;
 
     public ChatBox() {
         setBackground(new Color(240, 240, 240));
@@ -40,30 +43,30 @@ public class ChatBox extends JPanel {
         add(lblChatBoxChm);
 
         // BUTTON GUI
-        Button button_3 = new Button("GỬI");
+        button_3 = new BtnCS();
+        button_3.setText("GỬI");
+        button_3.setRadius(35);
         button_3.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String text = txtNhp.getText();
-                if (!text.trim().isEmpty()) {
-                    Item_right item = new Item_right(text);
-                    chatShow.add(item);
-                    chatShow.revalidate(); // Cập nhật giao diện
-                    chatShow.repaint();    // Vẽ lại giao diện
-                    sendMessage(text); // Gửi tin nhắn tới server
-                    txtNhp.setText(""); // Xóa nội dung sau khi gửi
-                }
+                sendMessageFromInput();
             }
         });
         button_3.setForeground(Color.WHITE);
-        button_3.setFont(new Font("Times New Roman", Font.BOLD, 15));
+        button_3.setFont(new Font("Times New Roman", Font.BOLD, 20));
         button_3.setBackground(new Color(3, 4, 94));
         button_3.setBounds(988, 500, 222, 87);
         add(button_3);
 
         // NHAP TIN NHAN
-        txtNhp = new JTextField();
+        txtNhp = new JtfCS();
         txtNhp.setFont(new Font("Times New Roman", Font.PLAIN, 20));
         txtNhp.setBounds(274, 500, 698, 87);
+        txtNhp.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                sendMessageFromInput();
+            }
+        });
         add(txtNhp);
 
         // PANEL CHỨA TIN NHẮN
@@ -101,6 +104,18 @@ public class ChatBox extends JPanel {
             receiveThread.start();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void sendMessageFromInput() {
+        String text = txtNhp.getText();
+        if (!text.trim().isEmpty()) {
+            Item_right item = new Item_right(text);
+            chatShow.add(item);
+            chatShow.revalidate(); // Cập nhật giao diện
+            chatShow.repaint();    // Vẽ lại giao diện
+            sendMessage(text); // Gửi tin nhắn tới server
+            txtNhp.setText(""); // Xóa nội dung sau khi gửi
         }
     }
 
