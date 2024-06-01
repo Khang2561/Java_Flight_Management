@@ -128,7 +128,7 @@ public class PlaneListUC extends JPanel {
 		btnThongTin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Create a new panel that you want to show
-				OperationPlaneUC newPanel = new OperationPlaneUC(); // Replace this with your actual new panel
+				OperationPlaneUC newPanel = new OperationPlaneUC(null); // Replace this with your actual new panel
                 clearAndShow(newPanel);
 			}
 		});

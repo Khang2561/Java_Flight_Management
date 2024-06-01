@@ -314,6 +314,7 @@ public class OperationFlightUC extends JPanel {
 
 		            JOptionPane.showMessageDialog(null, "Đã thêm chuyến bay thành công", "Thông báo",
 		                    JOptionPane.INFORMATION_MESSAGE);
+		            
 
 		            // Làm trống các ô thuộc tính
 		            comboBoxFlightFrom.setSelectedItem(null);
@@ -324,7 +325,7 @@ public class OperationFlightUC extends JPanel {
 		            txtFlightCost.setText("");
 		            tableModel.setRowCount(0);
 		            modelTicketLevel.setRowCount(0);
-
+		            Admin_header.clearAndShow(new FlightUC());
 		        } catch (Exception ex) {
 		            ex.printStackTrace();
 		            JOptionPane.showMessageDialog(null, "Đã xảy ra lỗi. Vui lòng thử lại", "Thông báo",
