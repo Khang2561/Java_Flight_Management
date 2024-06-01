@@ -8,14 +8,17 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import View.Admin.Admin_header;
+import View.Admin.FormAdmin;
 
 public class FlightUC extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JTextField textField;
-	private JPanel panelMainContent;
+	public static JPanel panelMainContent;
 	/**
 	 * Create the panel.
 	 */
@@ -53,15 +56,16 @@ public class FlightUC extends JPanel {
 
 
 		JButton btnDetailFlight = new JButton("Chi Tiết Chuyến Bay");
+		btnDetailFlight.setEnabled(false);
 		btnDetailFlight.setBounds(1241, 21, 209, 50);
 		btnDetailFlight.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
 		btnDetailFlight.setBackground(null);
-		btnDetailFlight.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				switchPanel("DetailFlight");
-			}
-		});
+//		btnDetailFlight.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				switchPanel("DetailFlight");
+//			}
+//		});
         panelMainContent = new JPanel(new CardLayout());
         panelMainContent.setBounds(0, 70, 1500, 610);
         add(panelMainContent);
@@ -70,7 +74,7 @@ public class FlightUC extends JPanel {
         panelMainContent.add(new FlightListUC(), "FlightList");
         panelMainContent.add(new OperationFlightUC(), "OperationFlight");
         // Assuming DetailFlightUC exists
-        panelMainContent.add(new DetailFlightUC(), "DetailFlight");
+//        panelMainContent.add(new DetailFlightUC(String), "DetailFlight");
 
 		panel.setLayout(null);
 		panel.add(btnListFlight);
@@ -78,8 +82,14 @@ public class FlightUC extends JPanel {
 		panel.add(btnDetailFlight);
 
 	}
-    private void switchPanel(String panelName) {
+    public static void switchPanel(String panelName) {
         CardLayout cl = (CardLayout)(panelMainContent.getLayout());
         cl.show(panelMainContent, panelName);
+    }
+    public static void switchDetailFlightUC(DetailFlightUC newPanel) {
+        panelMainContent.removeAll(); // Xóa tất cả các thành phần trên panel
+        panelMainContent.add(newPanel); // Thêm form mới vào panel
+        panelMainContent.revalidate(); // Cập nhật giao diện
+        panelMainContent.repaint(); // Vẽ lại giao diện
     }
 }
