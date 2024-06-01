@@ -14,9 +14,11 @@ public class PlaneUC extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	public static JPanel contentPanel;
+
 	public static JPanel panel;
 	private static JButton selectedButton = null;
 	public static JButton btnPlaneOperation;
+
 
 	/**
 	 * Create the panel.

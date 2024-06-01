@@ -6,6 +6,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import View.Admin.Admin_header;
+import View.Admin.FormAdmin;
 import libData.JDBCUtil;
 
 import javax.swing.JTextField;
@@ -23,6 +25,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class PlaneListUC extends JPanel {
 
@@ -121,6 +125,13 @@ public class PlaneListUC extends JPanel {
 		panel.setLayout(new GridLayout(0, 2, 30, 0));
 		
 		JButton btnThongTin = new JButton("Điều chỉnh");
+		btnThongTin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Create a new panel that you want to show
+				OperationPlaneUC newPanel = new OperationPlaneUC(); // Replace this with your actual new panel
+                clearAndShow(newPanel);
+			}
+		});
 		btnThongTin.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		panel.add(btnThongTin);
 		btnThongTin.addActionListener(new ActionListener() {
@@ -143,6 +154,7 @@ public class PlaneListUC extends JPanel {
 		JButton btnXoa = new JButton("Xóa");
 		btnXoa.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		panel.add(btnXoa);
+
 		
 		btnXoa.addActionListener(new ActionListener() {
 			

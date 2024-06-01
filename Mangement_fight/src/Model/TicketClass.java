@@ -9,14 +9,17 @@ public class TicketClass {
     private Color colorTicketClass;
 
     // Constructors
-    public TicketClass() {
-    }
+    
 
     public TicketClass(String ticketClassName, String pricePercentage, String ticketClassID, Color colorTicketClass) {
         this.ticketClassName = ticketClassName;
         this.pricePercentage = pricePercentage;
         this.ticketClassID = ticketClassID;
         this.colorTicketClass = colorTicketClass;
+    }
+    
+    public TicketClass() {
+    	
     }
 
     // Getters and setters
