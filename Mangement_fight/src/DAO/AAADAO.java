@@ -369,6 +369,7 @@ public class AAADAO implements DAOInterface<Account>{
 	// Kiểm tra SĐT phải có 10 chữ số
 	public static boolean isValPhoneNumber(String phone) {
 
-		return phone.length() == 10;	}
-
+		return phone.length() == 10;	
+	}
+	
 }

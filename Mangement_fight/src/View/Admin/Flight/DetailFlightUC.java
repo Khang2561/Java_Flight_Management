@@ -114,6 +114,11 @@ public class DetailFlightUC extends JPanel {
 		panel_1.add(btnSave);
 
 		JButton btnCancel = new JButton("Huỷ");
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 		btnCancel.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
 		btnCancel.setBounds(225, 516, 106, 45);
 		panel_1.add(btnCancel);

@@ -23,6 +23,7 @@ import View.Admin.ChatBox.ChatBox;
 import View.Admin.Flight.FlightUC;
 import View.Admin.Plane.PlaneUC;
 import View.Admin.Setting.Setting;
+import View.Admin.TicketPlane.FlightTicket;
 
 public class Admin_header extends JPanel {
 
@@ -50,7 +51,7 @@ public class Admin_header extends JPanel {
         gbc.gridwidth = 1;
         add(lblNewLabel, gbc);
 
-        // Create and add buttons
+        //-------------------------------------------------------------
         createButton("CHUYẾN BAY", new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
@@ -61,9 +62,14 @@ public class Admin_header extends JPanel {
                 }
             }
         }, gbc, 1);
-
-        createButton("VÉ MÁY BAY", null, gbc, 2);
-
+        //--------------------------------------------------------------
+        createButton("VÉ MÁY BAY",new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                clearAndShow(new FlightTicket());
+				highlightButton(buttons[1]);
+            }
+        }, gbc, 2);
+        //----------------------------------------------------------------
         createButton("MÁY BAY", new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -71,7 +77,7 @@ public class Admin_header extends JPanel {
                 highlightButton(buttons[2]);
             }
         }, gbc, 3);
-
+        //------------------------------------------------------------------
         createButton("TÀI KHOẢN", new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
@@ -82,7 +88,7 @@ public class Admin_header extends JPanel {
                 }
             }
         }, gbc, 4);
-
+        //--------------------------------------------------------------------
         createButton("CÀI ĐẶT", new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
@@ -93,7 +99,7 @@ public class Admin_header extends JPanel {
                 }
             }
         }, gbc, 5);
-
+        //-----------------------------------------------------------------------
         createButton("CHAT BOX", new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 clearAndShow(new ChatBox());
