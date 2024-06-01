@@ -26,6 +26,7 @@ import DAO.TicketClassDAO;
 import Model.Plane;
 import Model.Seat;
 import Model.TicketClass;
+import libData.JDBCUtil;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -34,6 +35,8 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -106,7 +109,7 @@ public class OperationPlaneUC extends JPanel {
 		panel.add(lblNewLabel_2_1);
 
 		// Khởi tạo button "Tải danh sách ghế"
-		JButton btnLoadSeat = new JButton("Tải danh sách ghế");
+		JButton btnLoadSeat = new JButton("Tải ghế từ dữ liệu");
 		btnLoadSeat.addActionListener(new ActionListener() {
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
@@ -127,7 +130,7 @@ public class OperationPlaneUC extends JPanel {
 		            tableClassTicket.setEnabled(true);
 		            // Tạo ghế
 		            panelSeatMap.removeAll();
-		            CreateSeat();
+		            LoadSeatFromDB();
 		            // Tạo các button số ghế
 		            JButton[] buttonArray = new JButton[numButtons / 6];
 		            panelSeatNumer.removeAll();  // Xóa các button cũ (nếu có)
@@ -162,20 +165,18 @@ public class OperationPlaneUC extends JPanel {
 		});
 
 		// Đặt vị trí và kích thước cho button
-		btnLoadSeat.setBounds(0, 130, 180, 30);
+		btnLoadSeat.setBounds(21, 166, 176, 21);
 		panel.add(btnLoadSeat);
 
-		btnLoadSeat.setBounds(36, 166, 161, 21);
-		panel.add(btnLoadSeat);
 		
 		JLabel lblNewLabel_2_1_1 = new JLabel("Chi tiết hạng vé");
 		lblNewLabel_2_1_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNewLabel_2_1_1.setBounds(0, 197, 114, 19);
+		lblNewLabel_2_1_1.setBounds(0, 231, 114, 19);
 		panel.add(lblNewLabel_2_1_1);
 		
 		JPanel panelChitietve = new JPanel();
 		panelChitietve.setBorder(new LineBorder(Color.BLACK));
-		panelChitietve.setBounds(0, 226, 197, 243);
+		panelChitietve.setBounds(0, 260, 197, 209);
 		panel.add(panelChitietve);
 		
 		JPanel panel_2 = new JPanel();
@@ -201,34 +202,61 @@ public class OperationPlaneUC extends JPanel {
 		                // Kiểm tra xem máy bay có tồn tại không
 		                boolean isPlaneExists = PlaneDAO.isPlaneExists(namePlane);
 
-		                if (isPlaneExists) {
-		                    JOptionPane.showMessageDialog(null, "Máy bay đã tồn tại!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+		                if (isPlaneExists) {//neu nguoi dung luu ma giu nguyen thong tin may bay
+		                	String sql = "DELETE FROM PLANE WHERE PlaneName = ?";
+		    				PreparedStatement pstmt;
+		    				try {
+		    					Connection c = JDBCUtil.getConnection();
+		    					pstmt = c.prepareStatement(sql);
+		                        pstmt.setString(1, namePlane);
+		                        pstmt.executeUpdate();
+		                        ResultSet rs = PlaneDAO.countPlane();
+			                    if (rs.next()) {
+			                        int planeCount = rs.getInt(1);
+			                        String inputPlaneId = "PE000" + (planeCount + 1);
+
+			                        Plane pla = new Plane();
+			                        pla.setPlaneID(inputPlaneId);
+			                        pla.setPlaneName(namePlane);
+			                        pla.setSeatCount(soLuongGhe); // Sử dụng số lượng ghế đã lấy được
+			                        PlaneDAO planeDAO = new PlaneDAO();
+			                        planeDAO.insert(pla);
+
+			                        for (Component comp : panelSeatMap.getComponents()) {
+			                            if (comp instanceof JButton) {
+			                                JButton seatButton = (JButton) comp;
+			                                String seatID = getSeatID(seatButton);
+			                                String ticketClassID = seatButton.getActionCommand();
+			                                addSeatToDatabase(seatID, inputPlaneId, ticketClassID);
+			                            }
+			                        }}
+			                    JOptionPane.showMessageDialog(null, "Đã cập nhật dữ liệu máy bay thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+		    				} catch (SQLException e1) {
+		    					// TODO Auto-generated catch block
+		    					e1.printStackTrace();
+		    				}
 		                } else {
-		                    // Nếu máy bay chưa tồn tại và các trường dữ liệu không bị bỏ trống, tiến hành thêm mới
-		                    ResultSet rs = PlaneDAO.countPlane();
-		                    if (rs.next()) {
-		                        int planeCount = rs.getInt(1);
-		                        String inputPlaneId = "PE000" + (planeCount + 1);
+		                    // neu nguoi dung thay doi ten may bay, cap nhap lai du lieu
+							try {
+								PlaneDAO.updatePlanebyID(planeID,namePlane,soLuongGhe);
+								SeatDAO.deleteSeat(planeID);
 
-		                        Plane pla = new Plane();
-		                        pla.setPlaneID(inputPlaneId);
-		                        pla.setPlaneName(namePlane);
-		                        pla.setSeatCount(soLuongGhe); // Sử dụng số lượng ghế đã lấy được
-		                        PlaneDAO planeDAO = new PlaneDAO();
-		                        planeDAO.insert(pla);
+				                        for (Component comp : panelSeatMap.getComponents()) {
+				                            if (comp instanceof JButton) {
+				                                JButton seatButton = (JButton) comp;
+				                                String seatID = getSeatID(seatButton);
+				                                String ticketClassID = seatButton.getActionCommand();
+				                                addSeatToDatabase(seatID, planeID, ticketClassID);
+				                            }
+				                        }
 
-		                        for (Component comp : panelSeatMap.getComponents()) {
-		                            if (comp instanceof JButton) {
-		                                JButton seatButton = (JButton) comp;
-		                                String seatID = getSeatID(seatButton);
-		                                String ticketClassID = seatButton.getActionCommand();
-		                                addSeatToDatabase(seatID, inputPlaneId, ticketClassID);
-		                            }
-		                        }
-
-		                        // Thông báo nhập thành công
-		                        JOptionPane.showMessageDialog(null, "Đã thêm máy bay thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-		                    }
+				                        // Thông báo nhập thành công
+				                        JOptionPane.showMessageDialog(null, "Đã cập nhật dữ liệu máy bay thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+							} catch (ClassNotFoundException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+		                   
 		                }
 		            }
 		        } catch (SQLException ex) {
@@ -328,7 +356,7 @@ public class OperationPlaneUC extends JPanel {
 		
 		//create chi tiet hang ve table
 				JScrollPane scrollpane1 = new JScrollPane((Component) null);
-				scrollpane1.setBounds(0, 0, 197, 243);
+				scrollpane1.setBounds(0, 0, 197, 209);
 				panelChitietve.add(scrollpane1);
 				
 				countTicketClassTable = new JTable();
@@ -374,13 +402,69 @@ public class OperationPlaneUC extends JPanel {
 		try {
 			ResultSet rs = TicketClassDAO.selectAll();
 			loadRsToTableTicketLevel(rs);
-			LoadSeatFromDB();
 		}catch(SQLException | ClassNotFoundException ex){
 			ex.printStackTrace();
 		}
 		scrollPane.setViewportView(tableClassTicket);
 		panelChitietve.setLayout(null);
 		
+		JButton btnCreateNewSeatMap = new JButton("Tạo mới danh sách ghế");
+		btnCreateNewSeatMap.setBounds(21, 200, 176, 21);
+		panel.add(btnCreateNewSeatMap);
+		btnCreateNewSeatMap.addActionListener(new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		        try {
+		            // Lấy số lượng ghế từ textField
+		            int numButtons = Integer.parseInt(textFieldChairCount.getText());
+		            // Kiểm tra điều kiện số ghế
+		            if (numButtons % 6 != 0 || numButtons > 60) {
+		                JOptionPane.showMessageDialog(
+		                    null, 
+		                    "Vui lòng nhập một số chia hết cho 6 và không lớn hơn 60!", 
+		                    "Thông báo", 
+		                    JOptionPane.ERROR_MESSAGE
+		                );
+		                return;
+		            }
+		            //enable ticketclasstable
+		            tableClassTicket.setEnabled(true);
+		            // Tạo ghế
+		            panelSeatMap.removeAll();
+		            CreateSeat();
+		            // Tạo các button số ghế
+		            JButton[] buttonArray = new JButton[numButtons / 6];
+		            panelSeatNumer.removeAll();  // Xóa các button cũ (nếu có)
+		            for (int i = 0; i < numButtons / 6; i++) {
+		                buttonArray[i] = new JButton("" + (i + 1));
+		                buttonArray[i].setPreferredSize(new Dimension(90, 40)); // Kích thước cố định
+		                // Thêm button vào panel
+		                panelSeatNumer.add(buttonArray[i]);
+		            }
+
+		            // Cập nhật panel
+		            panelSeatNumer.revalidate();
+		            panelSeatNumer.repaint();
+		            
+		            
+		            panelSeatMap.revalidate();
+		            panelSeatMap.repaint();
+
+		        } catch (NumberFormatException ex) {
+		            // Xử lý khi nhập không phải là số
+		            JOptionPane.showMessageDialog(
+		                null, 
+		                "Vui lòng nhập một số hợp lệ!", 
+		                "Thông báo", 
+		                JOptionPane.ERROR_MESSAGE
+		            );
+		        } catch (Exception ex) {
+		            // Xử lý lỗi chung
+		            ex.printStackTrace();
+		        }
+		    }
+		});
+
 		
 		
 		
@@ -442,9 +526,6 @@ public class OperationPlaneUC extends JPanel {
 		lblNewLabel_3.setBorder(new LineBorder(Color.BLACK));
 		lblNewLabel_3.setPreferredSize(new Dimension(90, 26));
 		panel_3.add(lblNewLabel_3);
-		
-		//load seat from db
-		
 	}
 	
 	/*
@@ -640,6 +721,7 @@ public class OperationPlaneUC extends JPanel {
 		                clickedButton.setBackground(tmpColor);
 		                // Update the ticket class ID
 		                clickedButton.setActionCommand(getCurrentTicketClassID());
+			        	seatCount(buttonArray);
 		            }
 		        });
 
@@ -648,34 +730,28 @@ public class OperationPlaneUC extends JPanel {
 		        } catch (Exception e) {
 		            e.printStackTrace();
 		        }
-		//load seat info from db
-		try {
-			ResultSet rs = SeatDAO.selectWithPlaneID(planeID);//lay ra tat ca ghe cua may bay dang chon
-			while(rs.next()) {
-				for(int temp = 0; temp < numButtons; temp++) {
-					if(getSeatID(buttonArray[temp]).equals(rs.getString("SeatID"))) {
-						buttonArray[temp].setActionCommand(rs.getString("TicketClassID"));//set ticket class ID cua seat = voi ticket class cua seat trong db
-						for(int j = 0;j<arrayticket.length;j++) {
-							if(arrayticket[j].getTicketClassID().equals(rs.getString("TicketClassID"))) {
-								tmpColor = arrayticket[j].getColorTicketClass();
-							}
-						}
-						buttonArray[temp].setBackground(tmpColor);
-					}
-				}
+		        //load seat info from db
+		        try {
+		        	int j = 0;
+		        	ResultSet rs = SeatDAO.selectSeat(planeID,getSeatID(buttonArray[i]));//lay ghe cua may bay dang chon co seatID
+		        	while(rs.next()) {
+			        	buttonArray[i].setActionCommand(rs.getString("TicketClassID"));
+			        	while(arrayticket[j]!= null) {
+			        		if(buttonArray[i].getActionCommand().equals(arrayticket[j].getTicketClassID())) {
+			        			buttonArray[i].setBackground(arrayticket[j].getColorTicketClass());
+			        		}
+			        		j++;
+			        	}
+		        	}
 
-			}
-			seatCount(buttonArray);
-		}catch(SQLException | ClassNotFoundException ex){
+		        }catch(SQLException | ClassNotFoundException ex){
 			ex.printStackTrace();
-		}
-		
-
-	   
-
-	        panelSeatMap.revalidate();
-	        panelSeatMap.repaint();
+		        } 
+		        panelSeatMap.revalidate();
+		        panelSeatMap.repaint();
+	       
 	    }
+    	seatCount(buttonArray);
 	}
 	
 	

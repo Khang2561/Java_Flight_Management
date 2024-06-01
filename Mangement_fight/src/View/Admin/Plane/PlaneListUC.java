@@ -28,7 +28,7 @@ public class PlaneListUC extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTable table;
-	private JTextField textField;
+	private JTextField textFieldSearch;
 	static Connection c = JDBCUtil.getConnection();
 	public PlaneListUC() {
 		setLayout(null);
@@ -68,11 +68,47 @@ public class PlaneListUC extends JPanel {
 		scrollPane.setBounds(0, 80, 1365, 430);
 		add(scrollPane);
 		
-		textField = new JTextField();
-		textField.setToolTipText("Mã máy bay hoặc tên máy bay");
-		textField.setBounds(0, 45, 249, 25);
-		add(textField);
-		textField.setColumns(10);
+		textFieldSearch = new JTextField();
+		textFieldSearch.setToolTipText("Mã máy bay hoặc tên máy bay");
+		textFieldSearch.setBounds(0, 45, 249, 25);
+		add(textFieldSearch);
+		textFieldSearch.setColumns(10);
+		textFieldSearch.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("hello");
+				if(textFieldSearch.getText().equals("")) {
+					showAndReloadTable();
+				}else {
+					try {
+						PreparedStatement stmt = null;
+						ResultSet rs = null;
+						String sql = "SELECT * from PLANE WHERE PlaneID = ? OR PlaneName = ?";
+						stmt = c.prepareStatement(sql);
+				    	stmt.setString(1, textFieldSearch.getText());
+				    	stmt.setString(2, textFieldSearch.getText());
+				    	rs = stmt.executeQuery();
+						DefaultTableModel model = (DefaultTableModel) table.getModel();
+						int rowCount = model.getRowCount();
+						if(rowCount>0) {
+							for (int i = rowCount - 1; i >= 0; i--) {
+								  model.removeRow(i);
+								}
+						}			
+						while(rs.next()) {
+							model.addRow(new Object[] { rs.getString("PlaneID"), rs.getString("PlaneName"), rs.getString("SeatCount")});
+						}
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+				}
+
+			}
+		});
+
 		
 		JLabel lblNewLabel = new JLabel("Nhập mã máy bay hoặc tên máy bay");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -148,10 +184,6 @@ public class PlaneListUC extends JPanel {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-	}
-	public int getSelectRow(int row) {
-		
-		return row;
 	}
 	public static void clearAndShow(JPanel newPanel) {
         PlaneUC.contentPanel.removeAll(); 

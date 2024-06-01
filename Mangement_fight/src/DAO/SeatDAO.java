@@ -101,16 +101,17 @@ public class SeatDAO implements DAOInterface<Seat>{
 	    }*/
 		return rs;
 	}
-	public static ResultSet selectWithPlaneID(String planeID) throws SQLException, ClassNotFoundException {
+	public static ResultSet selectSeat(String planeID, String seatID) throws SQLException, ClassNotFoundException {
 	    //thu cua thay
 		Connection connect = null;
 	    PreparedStatement stmt = null;
 	    ResultSet rs = null;
-	    String query = "SELECT * FROM SEAT WHERE PlaneID = ?";
+	    String query = "SELECT * FROM SEAT WHERE PlaneID = ? AND SeatID = ?";
 	    try {
 	    	connect = JDBCUtil.getConnection();
 	    	stmt = connect.prepareStatement(query);
 	    	stmt.setString(1, planeID);
+	    	stmt.setString(2, seatID);
 	    	rs = stmt.executeQuery();
 	    //
 	    } catch (SQLException ex) {
@@ -125,6 +126,30 @@ public class SeatDAO implements DAOInterface<Seat>{
 	        }
 	    }*/
 		return rs;
+	}
+	public static void deleteSeat(String planeID) throws SQLException, ClassNotFoundException {
+	    //thu cua thay
+		Connection connect = null;
+	    PreparedStatement stmt = null;
+	    ResultSet rs = null;
+	    String query = "DELETE FROM SEAT WHERE PlaneID = ?";
+	    try {
+	    	connect = JDBCUtil.getConnection();
+	    	stmt = connect.prepareStatement(query);
+	    	stmt.setString(1, planeID);
+	    	stmt.executeUpdate();
+	    //
+	    } catch (SQLException ex) {
+	       Logger.getLogger(null);
+	       throw ex;
+	    } /*finally {
+	        if (stmt !=null &&!stmt.isClosed()) {
+	        	stmt.close();
+	        }
+	        if(connect != null && !connect.isClosed()) {
+	        	connect.close();
+	        }
+	    }*/
 	}
 
 	
