@@ -352,6 +352,7 @@ public class DetailFlightUC extends JPanel {
 		JButton btnCancel = new JButton("Huỷ");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
 				try {
 					Admin_header.clearAndShow(new FlightUC());
 				} catch (ClassNotFoundException | SQLException e1) {
@@ -363,6 +364,7 @@ public class DetailFlightUC extends JPanel {
 		btnCancel.setBackground(new Color(192, 192, 192));
 		btnCancel.setFont(new Font("Arial", Font.BOLD, 20));
 		btnCancel.setBounds(206, 516, 162, 45);
+
 		panel_1.add(btnCancel);
 
 		JLabel lblNewLabel_1 = new JLabel("Sân bay đi:");

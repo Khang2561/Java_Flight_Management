@@ -579,7 +579,7 @@ public class CreatePlane extends JPanel {
 	        i++;
 	    }
 	}
-	
+	/*
 	//tao ra so ngau nhien 
 	private String generateUniqueTicketClassId() {
 		String accountIdPrefix = "PE"; // Tiền tố của mã tài khoản
@@ -606,7 +606,7 @@ public class CreatePlane extends JPanel {
 			sb.append(random.nextInt(10)); // Thêm một chữ số ngẫu nhiên vào chuỗi
 		}
 		return sb.toString();
-	}
+	}*/
 	
 	//--------------------
 	private static void addSeatToDatabase(String seatID, String planeID, String ticketClassID) {
