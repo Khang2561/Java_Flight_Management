@@ -328,6 +328,36 @@ public class AirportDAO implements DAOInterface<Airport> {
 	    	}	
 	    }
 	}
+	// Phương thức truy vấn AirportName từ AirportID
+	public static String getAirportName(Connection conn, String airportID) throws SQLException {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT AirportName FROM AIRPORT WHERE AirportID = N'").append(airportID).append("' ");
+
+		try (PreparedStatement pstmt = conn.prepareStatement(queryBuilder.toString())) {
+			try (ResultSet rs = pstmt.executeQuery()) {
+				if (rs.next()) {
+					return rs.getString("AirportName");
+				} else {
+					return null;
+				}
+			}
+		}
+	}
+	// Phương thức truy vấn AirportID từ tên sân bay
+	public static String getAirportID(Connection conn, String airportName) throws SQLException {
+	    StringBuilder queryBuilder = new StringBuilder();
+	    queryBuilder.append("SELECT AirportID FROM AIRPORT WHERE AirportName = N'").append(airportName).append("' ");
+	    
+	    try (PreparedStatement pstmt = conn.prepareStatement(queryBuilder.toString())) {
+	        try (ResultSet rs = pstmt.executeQuery()) {
+	            if (rs.next()) {
+	                return rs.getString("AirportID");
+	            } else {
+	                return null;
+	            }
+	        }
+	    }
+	}
 	//---------------------------------function find airport id by name --------------------
 	/*
 	public static String findIDbyName(String NameAirport) throws SQLException, ClassNotFoundException{

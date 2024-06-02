@@ -77,6 +77,80 @@ public class SeatDAO implements DAOInterface<Seat>{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	public static ResultSet selectAll() throws SQLException, ClassNotFoundException {
+	    //thu cua thay
+		Connection connect = null;
+	    PreparedStatement stmt = null;
+	    ResultSet rs = null;
+	    String query = "SELECT * FROM SEAT;";
+	    try {
+	    	connect = JDBCUtil.getConnection();
+	    	stmt = connect.prepareStatement(query);
+	    	rs = stmt.executeQuery();
+	    //
+	    } catch (SQLException ex) {
+	       Logger.getLogger(null);
+	       throw ex;
+	    } /*finally {
+	        if (stmt !=null &&!stmt.isClosed()) {
+	        	stmt.close();
+	        }
+	        if(connect != null && !connect.isClosed()) {
+	        	connect.close();
+	        }
+	    }*/
+		return rs;
+	}
+	public static ResultSet selectSeat(String planeID, String seatID) throws SQLException, ClassNotFoundException {
+	    //thu cua thay
+		Connection connect = null;
+	    PreparedStatement stmt = null;
+	    ResultSet rs = null;
+	    String query = "SELECT * FROM SEAT WHERE PlaneID = ? AND SeatID = ?";
+	    try {
+	    	connect = JDBCUtil.getConnection();
+	    	stmt = connect.prepareStatement(query);
+	    	stmt.setString(1, planeID);
+	    	stmt.setString(2, seatID);
+	    	rs = stmt.executeQuery();
+	    //
+	    } catch (SQLException ex) {
+	       Logger.getLogger(null);
+	       throw ex;
+	    } /*finally {
+	        if (stmt !=null &&!stmt.isClosed()) {
+	        	stmt.close();
+	        }
+	        if(connect != null && !connect.isClosed()) {
+	        	connect.close();
+	        }
+	    }*/
+		return rs;
+	}
+	public static void deleteSeat(String planeID) throws SQLException, ClassNotFoundException {
+	    //thu cua thay
+		Connection connect = null;
+	    PreparedStatement stmt = null;
+	    ResultSet rs = null;
+	    String query = "DELETE FROM SEAT WHERE PlaneID = ?";
+	    try {
+	    	connect = JDBCUtil.getConnection();
+	    	stmt = connect.prepareStatement(query);
+	    	stmt.setString(1, planeID);
+	    	stmt.executeUpdate();
+	    //
+	    } catch (SQLException ex) {
+	       Logger.getLogger(null);
+	       throw ex;
+	    } /*finally {
+	        if (stmt !=null &&!stmt.isClosed()) {
+	        	stmt.close();
+	        }
+	        if(connect != null && !connect.isClosed()) {
+	        	connect.close();
+	        }
+	    }*/
+	}
 
 	//----------------------------------------------------------------
 	public static ResultSet sellectSeatByPlaneID(String name) throws SQLException, ClassNotFoundException{

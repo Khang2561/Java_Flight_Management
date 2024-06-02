@@ -167,6 +167,25 @@ public class PlaneDAO implements DAOInterface<Plane>{
         } 
 
 	}
+    public static void updatePlanebyID(String planeID,String planeName,int seat) throws SQLException, ClassNotFoundException {
+        Connection connect = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        String query = "UPDATE PLANE SET PlaneName = ? , SeatCount = ? WHERE PlaneID = ?";
+        try {
+            connect = JDBCUtil.getConnection();
+            stmt = connect.prepareStatement(query);
+            stmt.setString(1, planeName);
+            stmt.setInt(2, seat);
+            stmt.setString(3, planeID);
+            stmt.executeUpdate();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(null);
+            throw ex;
+        } 
+
+	}
 
 	
 

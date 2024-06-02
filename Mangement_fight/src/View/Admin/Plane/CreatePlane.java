@@ -9,12 +9,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Random;
 
 import javax.swing.AbstractButton;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -24,12 +22,10 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
-import DAO.AAADAO;
-import DAO.AirportDAO;
+
 import DAO.PlaneDAO;
 import DAO.SeatDAO;
 import DAO.TicketClassDAO;
-import Model.Airport;
 import Model.Plane;
 import Model.Seat;
 import Model.TicketClass;
@@ -58,7 +54,6 @@ public class CreatePlane extends JPanel {
 	private static Color tmpColor = new Color(0, 102, 204);
 	private static AbstractButton btnNewButton_1;
 	//------------------------------
-	private static HashMap<Object, Object> buttonCount;
 
 	/**
 	 * Create the panel.
@@ -507,8 +502,6 @@ public class CreatePlane extends JPanel {
 		}catch(SQLException | ClassNotFoundException ex){
 			ex.printStackTrace();
 		}
-		buttonCount = new HashMap<>();
-		buttonCount.put(defaultTicketClassID, defaultTicketClassID);
 		
 
 	    for (int i = 0; i < numButtons; i++) {
