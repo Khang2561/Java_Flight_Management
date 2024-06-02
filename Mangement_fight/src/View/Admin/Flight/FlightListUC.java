@@ -36,6 +36,7 @@ import DAO.FlightDAO;
 import View.Admin.Admin_header;
 import View.Admin.FormAdmin;
 import View.Admin.TicketPlane.CreateFlightTicket;
+import View.Admin.TicketPlane.FlightTicket;
 import libData.JDBCUtil;
 
 public class FlightListUC extends JPanel {
@@ -44,6 +45,7 @@ public class FlightListUC extends JPanel {
 	private JTable table;
 	private DefaultTableModel tableModel;
 	private Container panel;
+	private String flightID;
 
 	public FlightListUC() throws ClassNotFoundException, SQLException {
 		setBackground(new Color(240, 240, 240));
@@ -110,23 +112,23 @@ public class FlightListUC extends JPanel {
 
 		JButton btnBook = new JButton("Đặt vé");
 		btnBook.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-			}
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		        int selectedRow = table.getSelectedRow();
+		        if (selectedRow == -1) {
+		            JOptionPane.showMessageDialog(null, "Hãy lựa chọn chuyến bay cần đặt vé.", "Thông báo", JOptionPane.ERROR_MESSAGE);
+		            return;
+		        } else {
+		            String flightID = table.getValueAt(selectedRow, 0).toString();
+		            clearAndShow(new FlightTicket(flightID));
+		            // Proceed with the rest of your code to switch to the CreateFlightTicket view
+		        }
+		    }
 		});
 		btnBook.setBackground(new Color(51, 51, 255));
 		btnBook.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
 		btnBook.setBounds(1354, 186, 106, 35);
 		panel.add(btnBook);
-//		btnBook.addActionListener(new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				CreateFlightTicket newPanel = new CreateFlightTicket();
-//				// Call method in FormAdmin to switch panel
-//				clearAndShow(newPanel);
-//			}
-//		});
 
 		JLabel lblEdit = new JLabel("");
 		lblEdit.setFont(new Font("Lucida Grande", Font.PLAIN, 9));
@@ -316,14 +318,17 @@ public class FlightListUC extends JPanel {
 			column.setPreferredWidth((int) (tablePreferredWidth * (percentages[i] / total)));
 		}
 	}
+	//------------------
+	public static void clearAndShow(JPanel newPanel) {
+        FormAdmin.contentPane.removeAll(); // Xóa tất cả các thành phần trên contentPane
+        Admin_header tmp = new Admin_header();
+        FormAdmin.contentPane.add(tmp); // Thêm lại Admin_header vào contentPane
+        FormAdmin.contentPane.add(newPanel); // Thêm form mới vào contentPane
+        newPanel.setSize(1500, 653);
+        newPanel.setLocation(0, 78);
+        FormAdmin.contentPane.revalidate(); // Cập nhật giao diện
+        FormAdmin.contentPane.repaint(); // Vẽ lại giao diện
+    }
+	
 
-//	private void clearAndShow(JPanel newPanel) {
-//		panel.removeAll(); // Xóa tất cả các thành phần trên contentPane
-//		panel.add(this); // Thêm lại Admin_header vào contentPane
-//		panel.add(newPanel); // Thêm form mới vào contentPane
-//		newPanel.setSize(1500, 653);
-//		newPanel.setLocation(0, 70);
-//		panel.revalidate(); // Cập nhật giao diện
-//		panel.repaint(); // Vẽ lại giao diện
-//	}
 }

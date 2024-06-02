@@ -20,7 +20,7 @@ import View.Login.ForgotPassword3;
 public class FormAdmin extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	static JPanel contentPane;
+	public static JPanel contentPane;
 	/**
 	 * Launch the application..
 	 */

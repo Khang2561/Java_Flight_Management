@@ -14,11 +14,13 @@ public class FlightTicket extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel panel_1;
+	String flightID;
 
 	/**
 	 * Create the panel.
 	 */
-	public FlightTicket() {
+	public FlightTicket(String flightID1) {
+		flightID = flightID1;
 		setBounds(0, 71, 1500, 642);
 		setLayout(null);
 		
@@ -29,11 +31,12 @@ public class FlightTicket extends JPanel {
 		panel.setLayout(null);
 		
 		
+		
 		//------------------------------header--------------------------------------- 
 		Button button = new Button("Tạo vé máy bay ");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				clearAndShow(new CreateFlightTicket());
+				clearAndShow(new CreateFlightTicket(flightID));
 			}
 		});
 		button.setBounds(10, 10, 145, 49);
@@ -48,6 +51,10 @@ public class FlightTicket extends JPanel {
 		button_1.setBounds(190, 10, 117, 49);
 		panel.add(button_1);
 		
+		Button button_2 = new Button("Chi tiết vé máy bay ");
+		button_2.setBounds(1265, 10, 188, 49);
+		panel.add(button_2);
+		
 		
 		//--------------------------------nội dung--------------------------------- 
 		panel_1 = new JPanel();
@@ -56,6 +63,10 @@ public class FlightTicket extends JPanel {
 		add(panel_1);
 		panel_1.setLayout(null);
 		
+		if(flightID != null) {
+			clearAndShow(new CreateFlightTicket(flightID));
+		}
+		System.out.println(flightID);
 		
 	}
 	
