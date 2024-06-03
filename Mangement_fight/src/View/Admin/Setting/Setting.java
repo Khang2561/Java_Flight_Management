@@ -8,11 +8,19 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 
 import CustomUI.BtnCS;
 import CustomUI.JtfCS;
+import CustomUI.TableActionButton;
+import CustomUI.TableActionCellEditor;
+import CustomUI.TableActionCellRender;
+import CustomUI.TableActionEvent;
+import CustomUI.JTblCS;
+import CustomUI.TablePanelAction;
 import DALs.AirportDAL;
 import DAO.AAADAO;
 import DAO.AirportDAO;
@@ -48,7 +56,7 @@ public class Setting extends JPanel {
 	//------------------------------------value----------------------------------------------------
 	private static final long serialVersionUID = 1L;
 	//airport table
-	private static JTable table;
+	private static JTblCS table;
 	// text field to insert airport
 	private JtfCS inputNameAirport;
 	private JtfCS inputNameCity;
@@ -64,7 +72,7 @@ public class Setting extends JPanel {
 	private JtfCS inputNameClass;
 	private JtfCS inputNamePercent;
 	//create table for ticket class
-	private JTable table_1;
+	private JTblCS table_1;
 	static JPanel contentPane;
 	DefaultTableModel model;
 	private DefaultTableModel modelTicketLevel;
@@ -92,17 +100,26 @@ public class Setting extends JPanel {
 		lblNewLabel.setBounds(741, 5, 88, 25);
 		panel.add(lblNewLabel);
 		// create airport table
-		table = new JTable(); 
+		table = new JTblCS(); 
 		table.setSurrendersFocusOnKeystroke(true);
-		table.setColumnSelectionAllowed(true);
-		table.setCellSelectionEnabled(true);
+        table.setColumnSelectionAllowed(false);
+        table.setRowSelectionAllowed(false);
+        table.setCellSelectionEnabled(false);
 		table.setFont(new Font("Times New Roman", Font.BOLD, 15)); // Thiết lập font cho bảng
 		//table model
-        model = new DefaultTableModel();
-        Object[] column = {"Tên sân bay", "Tên thành phố", "Tên đất nước"};
+        model = new DefaultTableModel() {
+      	  @Override
+          public boolean isCellEditable(int row, int column) {
+              if (column == 3)
+              {
+            	  return true;
+              }
+              return false;
+          }
+        };
+        Object[] column = {"Tên sân bay", "Tên thành phố", "Tên đất nước", "Thao tác"};
         model.setColumnIdentifiers(column);
         table.setModel(model);
-		table.setRowHeight(30);
 		//load airport data from database
         try {
         	ResultSet rs = AirportDAO.selectAll();
@@ -117,30 +134,73 @@ public class Setting extends JPanel {
 		JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setBounds(10, 40, 770, 257); // Thiết lập vị trí và kích thước của thanh cuộn
 		panel.add(scrollPane);
+		table.fixTable(scrollPane);
 		//setting click table
-				table.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						int row = table.getSelectedRow();
-						if(row != -1) {
-							btInsertAirport.setVisible(false);
-							//String NameAirport = table.getValueAt(row, 0).toString();
-							/*
-							try (ResultSet rs = AirportDAO.findAPbyName(NameAirport)){
-								
-							}
-							*/
-							inputNameAirport.setText(table.getValueAt(row, 0).toString());
-							inputNameCity.setText(table.getValueAt(row, 1).toString());
-							inputNameCountry.setText(table.getValueAt(row, 2).toString());
-							/*
-							JTextField inputNameCity;
-							JTextField inputNameCountry;
-							*/
-						}
-						
+//				table.addMouseListener(new MouseAdapter() {
+//					@Override
+//					public void mouseClicked(MouseEvent e) {
+//						int row = table.getSelectedRow();
+//						if(row != -1) {
+//							btInsertAirport.setVisible(false);
+//							//String NameAirport = table.getValueAt(row, 0).toString();
+//							/*
+//							try (ResultSet rs = AirportDAO.findAPbyName(NameAirport)){
+//								
+//							}
+//							*/
+//							inputNameAirport.setText(table.getValueAt(row, 0).toString());
+//							inputNameCity.setText(table.getValueAt(row, 1).toString());
+//							inputNameCountry.setText(table.getValueAt(row, 2).toString());
+//							/*
+//							JTextField inputNameCity;
+//							JTextField inputNameCountry;
+//							*/
+//						}
+//						
+//					}
+//				}); 
+		TableColumnModel columnModel = table.getColumnModel();
+		// Set the preferred, minimum, and maximum widths for each column	        
+		TableColumn column0 = columnModel.getColumn(0);       
+		column0.setPreferredWidth(300);        
+		column0.setMinWidth(300);
+		table.getColumnModel().getColumn(3).setCellRenderer(new TableActionCellRender());
+        table.getColumnModel().getColumn(3).setCellEditor(new TableActionCellEditor(new TableActionEvent() {
+            @Override
+            public void onEdit(int row) {
+                btInsertAirport.setVisible(false);
+                inputNameAirport.setText(table.getValueAt(row, 0).toString());
+                inputNameCity.setText(table.getValueAt(row, 1).toString());
+                inputNameCountry.setText(table.getValueAt(row, 2).toString());
+            }
+
+			@Override
+			public void onDelete(int row) {
+				// TODO Auto-generated method stub
+				AirportDAO.deleteByName(inputNameAirport.getText());
+				inputNameAirport.setText("");
+                inputNameCity.setText("");
+                inputNameCountry.setText("");
+                // Load lại dữ liệu lên JTable
+
+                btInsertAirport.setVisible(true);
+                ResultSet rs;
+				try {
+					rs = AirportDAO.countAirport();
+					if (rs.next()) {
+						ResultSet updatedRs = AirportDAO.selectAll();
+		                loadRsToTable(updatedRs);
 					}
-				});
+					
+				} catch (ClassNotFoundException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+
+           
+        }));
+        
 		
 		//--------------------------------airport input-----------------------------------------
 		JPanel panel_1 = new JPanel();
@@ -750,14 +810,24 @@ public class Setting extends JPanel {
 		panel_1_2.add(scrollPane_1);
 		
 		//table ticket class
-		table_1 = new JTable();
+		table_1 = new JTblCS();
 		table_1.setSurrendersFocusOnKeystroke(true);
-		table_1.setColumnSelectionAllowed(true);
-		table_1.setCellSelectionEnabled(true);
+		table_1.setColumnSelectionAllowed(false);
+		table_1.setCellSelectionEnabled(false);
 		table_1.setFont(new Font("Times New Roman", Font.BOLD, 15)); // Thiết lập font cho bảng
 		
-		Object [] column1 = {"Tên hạng vé","Phần trăm"};
-		modelTicketLevel = new DefaultTableModel();
+		Object [] column1 = {"Tên hạng vé","Phần trăm","Thao tác"};
+		modelTicketLevel = new DefaultTableModel() {
+	      	  @Override
+	          public boolean isCellEditable(int row, int column) {
+	              if (column == 2)
+	              {
+	            	  return true;
+	              }
+	              return false;
+	          }
+	        };;
+		
 		modelTicketLevel.setColumnIdentifiers(column1);
 		table_1.setModel(modelTicketLevel);
 		//upload data
@@ -792,7 +862,7 @@ public class Setting extends JPanel {
 		buttonCancelTicketClass.setBounds(714, 180, 112, 37);
 		panel_1_2.add(buttonCancelTicketClass);
 		
-		table_1.addMouseListener(new MouseAdapter() {
+		/*table_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int row = table_1.getSelectedRow(); // Lấy dòng được chọn
@@ -816,24 +886,58 @@ public class Setting extends JPanel {
 					
 				}
 			}
-		});
+		});*/
+		
+		table_1.getColumnModel().getColumn(2).setCellRenderer(new TableActionCellRender());
+		table_1.getColumnModel().getColumn(2).setCellEditor(new TableActionCellEditor(new TableActionEvent() {
+	            @Override
+	            public void onEdit(int row) {
+	            	btnThemTicketClass.setVisible(false);
+	                inputNameClass.setText(table_1.getValueAt(row, 0).toString());
+	                inputNamePercent.setText(table_1.getValueAt(row, 1).toString());
+	            }
+
+				@Override
+				public void onDelete(int row) {
+					// TODO Auto-generated method stub
+					TicketClassDAO.deleteByName(inputNameClass.getText());
+					inputNameClass.setText("");
+					inputNamePercent.setText("");
+					btnThemTicketClass.setVisible(true);
+					// Load lại dữ liệu lên JTable
+	                ResultSet updatedRs;
+					try {
+						updatedRs = TicketClassDAO.selectAll();
+						loadRsToTableTicketLevel(updatedRs);
+					} catch (ClassNotFoundException | SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+
+	           
+	        }));		
 		
 	}
 	
+
 	
-	
+		
 	//load data len teable tai bang setting 
 	public void loadRsToTable(ResultSet rs) throws SQLException {
-		DefaultTableModel model = (DefaultTableModel) table.getModel();
-		model.setRowCount(0);
-		while(rs.next()) {
-			model.addRow(new Object[] {
-					rs.getString("AirportName"),
-					rs.getString("CityName"),
-					rs.getString("CountryName"),
-					
-			});
-		}
+	    DefaultTableModel model = (DefaultTableModel) table.getModel();
+	    model.setRowCount(0);
+
+	    // Add rows to the table
+	    while(rs.next()) {
+	        Object[] row = new Object[] {
+	            rs.getString("AirportName"),
+	            rs.getString("CityName"),
+	            rs.getString("CountryName"),
+	            new TablePanelAction()
+	        };
+	        model.addRow(row);  
+	    }
 	}
 	//reload setting value
 	public void reloadSetting() {
@@ -861,10 +965,12 @@ public class Setting extends JPanel {
 	    DefaultTableModel modelTicketLevel = (DefaultTableModel) table_1.getModel();
 	    modelTicketLevel.setRowCount(0);
 	    while (rs.next()) {
-	        modelTicketLevel.addRow(new Object[] {
-	            rs.getString("TicketClassName"), // Use getString instead of getInt
-	            rs.getString("PricePercentage"), // Assuming PricePercentage is also a string
-	        });
+	        Object[] row = new Object[] {
+		            rs.getString("TicketClassName"), // Use getString instead of getInt
+		            rs.getString("PricePercentage"), // Assuming PricePercentage is also a string
+		            new TablePanelAction()
+		        };
+		        modelTicketLevel.addRow(row); 
 	    }
 	}
 	private String generateUniqueTicketClassId() {
@@ -893,4 +999,7 @@ public class Setting extends JPanel {
 		}
 		return sb.toString();
 	}
+	
 }
+
+
