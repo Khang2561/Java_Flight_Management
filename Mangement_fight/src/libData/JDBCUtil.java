@@ -3,6 +3,7 @@ package libData;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -15,15 +16,15 @@ public class JDBCUtil {
     	Connection c = null;
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-//            String url= "jdbc:sqlserver://localhost:1433;databaseName=FlightTicketManagement;"
-//            		+ "trustServerCertificate=true";
-            String connectionUrl =
-				    "jdbc:sqlserver://MSI\\SQLEXPRESS:1433;" +
-				     "databaseName=FlightTicketManagement;encrypt=false";
-            String userName = "java";
-            String password = "java";
 
-            c = DriverManager.getConnection(connectionUrl, userName, password);
+            String url= "jdbc:sqlserver://localhost:1433;databaseName=FlightTicketManagement;"
+            		+ "trustServerCertificate=true";
+
+            String userName = "admin";
+            String password = "1";
+
+
+            c = DriverManager.getConnection(url, userName, password);
           
            
         } catch (Exception e) {
@@ -78,5 +79,13 @@ public class JDBCUtil {
             }
         }
     }
-    
+    // Phương thức thực thi truy vấn SQL và trả về kết quả dưới dạng ResultSet
+    public static ResultSet executeQuery(String query) throws SQLException, ClassNotFoundException {
+        Connection conn = getConnection();
+        PreparedStatement pstmt = conn.prepareStatement(query);
+        return pstmt.executeQuery();
+    }
+
+
 }
+
