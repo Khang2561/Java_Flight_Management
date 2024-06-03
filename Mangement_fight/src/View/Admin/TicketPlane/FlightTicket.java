@@ -133,7 +133,6 @@ public class FlightTicket extends JPanel {
                     button.setBackground(new Color(0,0,160));
                 }
             }
-
             @Override
             public void mouseExited(MouseEvent e) {
                 if (button != selectedButton) {
