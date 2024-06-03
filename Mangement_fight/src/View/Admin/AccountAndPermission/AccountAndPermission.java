@@ -16,6 +16,10 @@ import CustomUI.BtnCS;
 import CustomUI.JtfCS;
 import CustomUI.PanelRound;
 import CustomUI.RadioButtonCustom;
+import CustomUI.Table.JTblCS;
+import CustomUI.Table.TableActionCellEditor;
+import CustomUI.Table.TableActionCellRender;
+import CustomUI.Table.TableActionEvent;
 import DAO.AAADAO;
 import DAO.AirportDAO;
 import DAO.ParametersDAO;
@@ -55,7 +59,7 @@ public class AccountAndPermission extends JPanel {
 
 	public static final long serialVersionUID = 1L;
 	//account
-	public JTable table;
+	public JTblCS table;
 	public JtfCS tfHoVaTen;
 	public JtfCS tfEmail;
 	public JtfCS tfSDT;
@@ -97,6 +101,7 @@ public class AccountAndPermission extends JPanel {
 	private BtnCS buttonLuuAp;
 	private PanelRound panel;
 	private PanelRound panel_1;
+	private JComboBox cbQuyen;
 	
 	//main AccountAndPermission
 	public AccountAndPermission() throws ClassNotFoundException, SQLException{
@@ -333,17 +338,26 @@ public class AccountAndPermission extends JPanel {
 		
 		//--------------table for account ----------------------------------
 		//create account table
-		table = new JTable(); 
+		table = new JTblCS(); 
 		table.setSurrendersFocusOnKeystroke(true);
-		table.setColumnSelectionAllowed(true);
-		table.setCellSelectionEnabled(true);
+		table.setColumnSelectionAllowed(false);
+		table.setCellSelectionEnabled(false);
 		//setting basic for table
 		table.setFont(new Font("Times New Roman", Font.BOLD, 15)); 
-		modelAccount = new DefaultTableModel();
-		Object [] column = {"Tên tài khoản","Email","Nhóm quyền"};
+		modelAccount = new DefaultTableModel() {
+			  @Override
+	      	  public boolean isCellEditable(int row, int column) {
+	              if (column == 3)
+	              {
+	            	  return true;
+	              }
+	              return false;
+	          }
+		};
+		Object [] column = {"Tên tài khoản","Email","Nhóm quyền", "Thao tác"};
 		modelAccount.setColumnIdentifiers(column);
 		table.setModel(modelAccount);
-		table.setRowHeight(30);
+		table.setRowHeight(40);
 		//load data to table from database
 		try {
 			ResultSet rs = AAADAO.selectAll();
@@ -356,6 +370,84 @@ public class AccountAndPermission extends JPanel {
 		scrollPane.setBounds(10, 351, 630, 270); 
 		add(scrollPane);
 		scrollPane.setViewportView(table);
+		table.fixTable(scrollPane);
+		
+		table.getColumnModel().getColumn(3).setCellRenderer(new TableActionCellRender());
+        table.getColumnModel().getColumn(3).setCellEditor(new TableActionCellEditor(new TableActionEvent() {
+            @Override
+            public void onEdit(int row) {
+                if (row != -1) { // Check if a row is selected
+                    String email = table.getValueAt(row, 1).toString(); // Get the value of the "Email" column
+                    try (ResultSet rs = AAADAO.findACbyEmail(email)) {
+                        // Process ResultSet to extract data
+                        if (rs.next()) {
+                            // Example: get data from ResultSet
+                            tfHoVaTen.setText(rs.getString("Name"));
+                            tfEmail.setText(rs.getString("Email"));
+                            tfSDT.setText(rs.getString("Phone"));
+                            tfMK.setText(rs.getString("Password"));
+                            if ("RL0001".equals(rs.getString("RoleID"))) {
+                                cbQuyen.setSelectedIndex(0);
+                            }
+                            if ("RL0002".equals(rs.getString("RoleID"))) {
+                                cbQuyen.setSelectedIndex(1);
+                            }
+                            if ("RL0003".equals(rs.getString("RoleID"))) {
+                                cbQuyen.setSelectedIndex(2);
+                            }
+                            if ("RL0004".equals(rs.getString("RoleID"))) {
+                                cbQuyen.setSelectedIndex(3);
+                            }
+                            buttonCreateAccount.setVisible(false);
+                            tfEmail.setEditable(false); // Set the text field to non-editable
+                            // Display account information or perform other actions here
+                        } else {
+                            // No account found
+                        }
+                    } catch (SQLException | ClassNotFoundException ex) {
+                        ex.printStackTrace();
+                        // Handle exception
+                    }
+                }
+            }
+
+			@Override
+			public void onDelete(int row) {
+				// TODO Auto-generated method stub
+				
+				int response = JOptionPane.showConfirmDialog(null, "Bạn có muốn xóa tài khoản này?", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				if (response == JOptionPane.YES_OPTION) {
+					 // Get the email from the selected row
+				    String email = table.getValueAt(row, 1).toString();
+
+				    // Delete the account associated with the email
+				    AAADAO.deleteByEmail(email);
+
+				    // Clear the text fields
+				    tfHoVaTen.setText("");
+				    tfEmail.setText("");
+				    tfSDT.setText("");
+				    tfMK.setText("");
+
+				    // Reset the combo box and make the create account button visible
+				    cbQuyen.setSelectedIndex(0);
+				    buttonCreateAccount.setVisible(true);
+
+				    // Make the email text field editable
+				    tfEmail.setEditable(true);
+
+				    // Reload data to table
+				    ResultSet updatedRs;
+				    try {
+				        updatedRs = AAADAO.selectAll();
+				        loadRsToTable(updatedRs);
+				    } catch (ClassNotFoundException | SQLException e1) {
+				        e1.printStackTrace();
+				    }
+				}
+				else return;
+			}
+        }));
 		
 		
 		//-------------------create panel to add account---------------------------------
@@ -421,7 +513,7 @@ public class AccountAndPermission extends JPanel {
 		tfMK.setBounds(232, 164, 522, 42);
 		panel_1.add(tfMK);
 		//combo box for add permission
-		JComboBox cbQuyen = new JComboBox();
+		cbQuyen = new JComboBox();
 		cbQuyen.setFont(new Font("Times New Roman", Font.BOLD, 17));
 		cbQuyen.setModel(new DefaultComboBoxModel(new String[] {"Siêu quản trị", "Quản trị", "Ban giám đốc", "Nhân viên"}));
 		cbQuyen.setBounds(232, 208, 522, 30);
