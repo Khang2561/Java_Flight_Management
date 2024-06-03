@@ -151,7 +151,7 @@ public class Admin_header extends JPanel {
         add(button, gbc);
         buttons[gridx - 1] = button;
     }
-
+    //3,4,94
     // Method to clear and show new panel
     public static void clearAndShow(JPanel newPanel) {
         FormAdmin.contentPane.removeAll(); // Xóa tất cả các thành phần trên contentPane
@@ -173,5 +173,15 @@ public class Admin_header extends JPanel {
         button.setBackground(new Color(3, 4, 94)); // Highlight the currently selected button with black background
         button.setForeground(Color.WHITE); // Set text color to white
         selectedButton = button; // Update the currently selected button
+    }
+    //-------------------------------------------------------
+    public static void highlightButton1() {
+        if (selectedButton != null) {
+            selectedButton.setBackground(Color.WHITE); // Reset background color of previously selected button
+            selectedButton.setForeground(Color.BLACK); // Reset text color of previously selected button
+        }
+        buttons[1].setBackground(new Color(3, 4, 94)); // Highlight the currently selected button with black background
+        buttons[1].setForeground(Color.WHITE); // Set text color to white
+        selectedButton = buttons[1]; // Update the currently selected button
     }
 }

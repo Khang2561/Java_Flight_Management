@@ -126,13 +126,7 @@ public class PlaneListUC extends JPanel {
 		
 		JButton btnThongTin = new JButton("Điều chỉnh");
 
-		btnThongTin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// Create a new panel that you want to show
-				OperationPlaneUC newPanel = new OperationPlaneUC(null); // Replace this with your actual new panel
-                clearAndShow(newPanel);
-			}
-		});
+
 		btnThongTin.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		panel.add(btnThongTin);
 		btnThongTin.addActionListener(new ActionListener() {

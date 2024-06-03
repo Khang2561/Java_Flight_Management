@@ -110,6 +110,7 @@ public class FlightListUC extends JPanel {
 		populateComboBoxWithCities(comboBoxFrom);
 		populateComboBoxWithCities(comboBoxTo);
 
+		//------------------------------------------------
 		JButton btnBook = new JButton("Đặt vé");
 		btnBook.addActionListener(new ActionListener() {
 		    @Override
@@ -121,6 +122,14 @@ public class FlightListUC extends JPanel {
 		        } else {
 		            String flightID = table.getValueAt(selectedRow, 0).toString();
 		            clearAndShow(new FlightTicket(flightID));
+		            try {
+						
+						Admin_header.highlightButton1();
+						FlightTicket.button_2.setBackground(new Color(3,4,94));
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 		            // Proceed with the rest of your code to switch to the CreateFlightTicket view
 		        }
 		    }
@@ -130,6 +139,7 @@ public class FlightListUC extends JPanel {
 		btnBook.setBounds(1354, 186, 106, 35);
 		panel.add(btnBook);
 
+		//-----------------------------------------------
 		JLabel lblEdit = new JLabel("");
 		lblEdit.setFont(new Font("Lucida Grande", Font.PLAIN, 9));
 		Image img = new ImageIcon(this.getClass().getResource("/Resource/EditIcon.png")).getImage();
@@ -147,6 +157,8 @@ public class FlightListUC extends JPanel {
 		            return;
 		        } else {
 		            try {
+		            	FlightUC.selectButton(FlightUC.btnDetailFlight);
+		            	
 		                String flightID = table.getValueAt(selectedRow, 0).toString();
 		                DetailFlightUC detailFlightUC = new DetailFlightUC(flightID); // Khởi tạo DetailFlightUC với flightID
 		                FlightUC.switchDetailFlightUC(detailFlightUC);
@@ -158,6 +170,8 @@ public class FlightListUC extends JPanel {
 		        }
 		    }
 		});
+		
+		//----------------------------------------------------------------
 		JLabel lblDelete = new JLabel("");
 		Image img1 = new ImageIcon(this.getClass().getResource("/Resource/DeleteIcon.png")).getImage();
 		lblDelete.setIcon(new ImageIcon(img1));
@@ -223,7 +237,7 @@ public class FlightListUC extends JPanel {
 			}
 		});
 	}
-
+	//-----------------------------------------------------------------------------------------------------
 	private void loadFlightData(String fromCity, String toCity, Date selectedDate)
 			throws ClassNotFoundException, SQLException {
 		// Clear existing data
@@ -283,7 +297,7 @@ public class FlightListUC extends JPanel {
 			JDBCUtil.close(rs, stmt, conn);
 		}
 	}
-
+	//---------------------------------------------------------------------------------------------------
 	private void populateComboBoxWithCities(JComboBox<String> comboBox) throws ClassNotFoundException, SQLException {
 		Connection conn = null;
 		Statement stmt = null;
@@ -306,7 +320,7 @@ public class FlightListUC extends JPanel {
 			JDBCUtil.close(rs, stmt, conn);
 		}
 	}
-
+	//-------------------------------------------------------------------------------------------------
 	private void setJTableColumnsWidth(JTable table, int tablePreferredWidth, double... percentages) {
 		double total = 0;
 		for (int i = 0; i < table.getColumnModel().getColumnCount(); i++) {
@@ -318,7 +332,7 @@ public class FlightListUC extends JPanel {
 			column.setPreferredWidth((int) (tablePreferredWidth * (percentages[i] / total)));
 		}
 	}
-	//------------------
+	//----------------------------------------------------------------------------------------------
 	public static void clearAndShow(JPanel newPanel) {
         FormAdmin.contentPane.removeAll(); // Xóa tất cả các thành phần trên contentPane
         Admin_header tmp = new Admin_header();
