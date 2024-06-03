@@ -825,7 +825,7 @@ public class Setting extends JPanel {
 	              }
 	              return false;
 	          }
-	    };;
+	    };
 		modelTicketLevel.setColumnIdentifiers(column1);
 		table_1.setModel(modelTicketLevel);
 		//upload data
