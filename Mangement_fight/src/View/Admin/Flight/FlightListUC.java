@@ -32,6 +32,7 @@ import javax.swing.table.TableColumn;
 
 import com.toedter.calendar.JDateChooser;
 
+import CustomUI.BtnCS;
 import DAO.FlightDAO;
 import View.Admin.Admin_header;
 import View.Admin.FormAdmin;
@@ -46,6 +47,7 @@ public class FlightListUC extends JPanel {
 	private DefaultTableModel tableModel;
 	private Container panel;
 	private String flightID;
+	private BtnCS btnSearch;
 
 	public FlightListUC() throws ClassNotFoundException, SQLException {
 		setBackground(new Color(240, 240, 240));
@@ -57,8 +59,11 @@ public class FlightListUC extends JPanel {
 		add(panel);
 		panel.setLayout(null);
 
-		JButton btnSearch = new JButton("Tìm kiến");
-		btnSearch.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
+		btnSearch = new BtnCS();
+		btnSearch.setForeground(new Color(255, 255, 255));
+		btnSearch.setRadius(20);
+		btnSearch.setText("Tìm kiến");
+		btnSearch.setFont(new Font("Times New Roman", Font.BOLD, 18));
 		btnSearch.setBounds(1354, 11, 106, 35);
 		panel.add(btnSearch);
 

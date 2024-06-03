@@ -33,6 +33,8 @@ import javax.swing.table.TableColumn;
 
 import com.toedter.calendar.JDateChooser;
 
+import CustomUI.BtnCS;
+import CustomUI.JtfCS;
 import DAO.AirportDAO;
 import DAO.FlightDAO;
 import DAO.PlaneDAO;
@@ -55,6 +57,10 @@ public class OperationFlightUC extends JPanel {
 	private JComboBox<String> comboBoxFlight;
 	private JComboBox<String> comboBoxFlightFrom;
 	private JComboBox<String> comboBoxFlightTo;
+	private BtnCS btnSave;
+	private BtnCS btnCancel;
+	private BtnCS btnAddIntermediateFlight;
+	private BtnCS btnRemoveIntermediateFlight;
 
 	public OperationFlightUC() throws ClassNotFoundException, SQLException {
 		setBackground(new Color(240, 240, 240));
@@ -72,10 +78,11 @@ public class OperationFlightUC extends JPanel {
 		panel_1.setLayout(null);
 
 		JLabel lblNewLabel = new JLabel("Thông Tin Chuyến Bay");
+		lblNewLabel.setForeground(new Color(3, 4, 94));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(64, 16, 252, 36);
+		lblNewLabel.setBounds(0, 16, 378, 36);
 		panel_1.add(lblNewLabel);
-		lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		lblNewLabel.setFont(new Font("Times New Roman", Font.BOLD, 27));
 
 		// -----------------------------------------------------------------
 		try {
@@ -172,22 +179,25 @@ public class OperationFlightUC extends JPanel {
 		spinnerMinute.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
 		spinnerMinute.setBounds(238, 327, 63, 36);
 		panel_1.add(spinnerMinute);
+		
 		// -----------------------------------------------------------------------------------
-		txtFlightTime = new JTextField();
+		txtFlightTime = new JtfCS();
 		txtFlightTime.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-		txtFlightTime.setBounds(121, 392, 200, 36);
+		txtFlightTime.setBounds(121, 392, 200, 40);
 		panel_1.add(txtFlightTime);
 		txtFlightTime.setColumns(10);
 
-		txtFlightCost = new JTextField();
+		txtFlightCost = new JtfCS();
 		txtFlightCost.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-		txtFlightCost.setBounds(121, 455, 200, 36);
+		txtFlightCost.setBounds(121, 455, 200, 40);
 		panel_1.add(txtFlightCost);
 		txtFlightCost.setColumns(10);
 
-		JButton btnSave = new JButton("Lưu");
+		btnSave = new BtnCS();
+		btnSave.setRadius(20);
+		btnSave.setText("Lưu");
 		btnSave.setForeground(new Color(255, 255, 255));
-		btnSave.setBackground(new Color(0, 0, 160));
+		btnSave.setBackground(new Color(3, 4, 94));
 		btnSave.setFont(new Font("Arial", Font.BOLD, 20));
 		btnSave.setBounds(6, 516, 162, 45);
 		panel_1.add(btnSave);
@@ -334,7 +344,14 @@ public class OperationFlightUC extends JPanel {
 		    }
 		});
 
-		JButton btnCancel = new JButton("Huỷ");
+		
+		btnCancel = new BtnCS();
+		btnCancel.setRadius(20);
+		btnCancel.setColorOver(new Color(192, 192, 192));
+		btnCancel.setColorClick(new Color(192, 192, 192));
+		btnCancel.setColor(new Color(128, 128, 128));
+		btnCancel.setBorderColor(new Color(128, 128, 128));
+		btnCancel.setText("Huỷ");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -345,7 +362,7 @@ public class OperationFlightUC extends JPanel {
 			}
 		});
 		btnCancel.setForeground(new Color(255, 255, 255));
-		btnCancel.setBackground(new Color(192, 192, 192));
+		btnCancel.setBackground(new Color(128, 128, 128));
 		btnCancel.setFont(new Font("Arial", Font.BOLD, 20));
 		btnCancel.setBounds(206, 516, 162, 45);
 		panel_1.add(btnCancel);
@@ -435,9 +452,13 @@ public class OperationFlightUC extends JPanel {
 		}
 		scrollPane_1.setViewportView(table_1);
 
+		
 		// ---------------------------------------------------------------------
-		JButton btnAddIntermediateFlight = new JButton("+");
-		btnAddIntermediateFlight.setFont(new Font("Lucida Grande", Font.PLAIN, 17));
+		btnAddIntermediateFlight = new BtnCS();
+		btnAddIntermediateFlight.setForeground(new Color(255, 255, 255));
+		btnAddIntermediateFlight.setRadius(30);
+		btnAddIntermediateFlight.setText("+");
+		btnAddIntermediateFlight.setFont(new Font("Times New Roman", Font.BOLD, 20));
 		btnAddIntermediateFlight.setBounds(691, 16, 106, 45);
 		panel.add(btnAddIntermediateFlight);
 		btnAddIntermediateFlight.addActionListener(new ActionListener() {
@@ -449,8 +470,11 @@ public class OperationFlightUC extends JPanel {
 			}
 		});
 
-		JButton btnRemoveIntermediateFlight = new JButton("-");
-		btnRemoveIntermediateFlight.setFont(new Font("Lucida Grande", Font.PLAIN, 17));
+		btnRemoveIntermediateFlight = new BtnCS();
+		btnRemoveIntermediateFlight.setForeground(new Color(255, 255, 255));
+		btnRemoveIntermediateFlight.setRadius(30);
+		btnRemoveIntermediateFlight.setText("-");
+		btnRemoveIntermediateFlight.setFont(new Font("Times New Roman", Font.BOLD, 20));
 
 		btnRemoveIntermediateFlight.setBounds(827, 16, 106, 45);
 		panel.add(btnRemoveIntermediateFlight);
