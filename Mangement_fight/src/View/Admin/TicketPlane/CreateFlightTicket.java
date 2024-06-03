@@ -65,6 +65,7 @@ public class CreateFlightTicket extends JPanel {
 	private Map<JButton, Color> seatOriginalColors = new HashMap<>();
 	private TicketClass currentTicketClass = null;
 	private JButton btnMaGhe;
+	String var ;
 
 
 
@@ -72,19 +73,26 @@ public class CreateFlightTicket extends JPanel {
 	//------------------------
 	
 	
-    public CreateFlightTicket() {
+    public CreateFlightTicket(String var1) {
         setBackground(new Color(240, 240, 240));
         setBounds(0, 0, 1500, 560);
         setLayout(null);
+        if (var1 == null || var1.isEmpty()) {
+        	var = "FL0001";
+        }
+        else {
+        	var = var1;
+        	
+        }
         
         // Initialize UI components
-        initializeComponents();
+        initializeComponents(var);
         
     }
     
     
     //-------------------------------------------------
-    private void initializeComponents() {
+    private void initializeComponents(String var) {
     	//--------------------------------------
     	 /// Left panel setup
         JPanel panelLeft = new JPanel();
@@ -207,8 +215,7 @@ public class CreateFlightTicket extends JPanel {
         btnHuy.setFont(new Font("Tahoma", Font.BOLD, 15));
         panel_2.add(btnHuy);
 
-        // Flight comboBox
-        setupFlightComboBox(panel);
+        ;
         
         //----------------------------------------------
         // Ticket class panel setup
@@ -313,6 +320,10 @@ public class CreateFlightTicket extends JPanel {
             lbl.setPreferredSize(new Dimension(90, 26));
             panel_3.add(lbl);
         }
+        
+     // Flight comboBox
+        setupFlightComboBox(panel);
+        
     }
 
     
@@ -321,11 +332,27 @@ public class CreateFlightTicket extends JPanel {
         try {
             ResultSet rs = FlightDAO.selectAll();
             DefaultComboBoxModel<String> flightModel = new DefaultComboBoxModel<>();
+            String selectedFlightID = null;
+
             while (rs.next()) {
                 String flightID = rs.getString("FlightID");
                 flightModel.addElement(flightID);
+                if (flightID.equals(var)) {
+                    selectedFlightID = flightID;
+                }
             }
+
             comboBoxFlight = new JComboBox<>(flightModel);
+            if (selectedFlightID != null) {
+                comboBoxFlight.setSelectedItem(selectedFlightID);
+            }
+            //-----------------------------------------
+            String selectedFlight1 = (String) comboBoxFlight.getSelectedItem();
+            ResultSet rs1 = SeatDAO.sellectTicketClass(selectedFlight1);
+            loadRsToTableTicketLevel(rs1);
+            CreateSeat(selectedFlight1);
+            //----------------------------------
+
             comboBoxFlight.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -334,19 +361,19 @@ public class CreateFlightTicket extends JPanel {
                         ResultSet rs = SeatDAO.sellectTicketClass(selectedFlight);
                         loadRsToTableTicketLevel(rs);
                         CreateSeat(selectedFlight); // Call CreateSeat with the selected flight
-                        
-                        
                     } catch (ClassNotFoundException | SQLException e1) {
                         e1.printStackTrace();
                     }
                 }
             });
+
             JScrollPane scrollPaneFlight = new JScrollPane(comboBoxFlight);
             scrollPaneFlight.setBounds(0, 67, 200, 30);
             panel.add(scrollPaneFlight);
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+        
     }
     
     

@@ -65,7 +65,7 @@ public class Admin_header extends JPanel {
         //--------------------------------------------------------------
         createButton("VÉ MÁY BAY",new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                clearAndShow(new FlightTicket());
+                clearAndShow(new FlightTicket(null));
 				highlightButton(buttons[1]);
             }
         }, gbc, 2);
