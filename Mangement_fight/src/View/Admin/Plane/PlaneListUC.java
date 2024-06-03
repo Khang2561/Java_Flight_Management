@@ -125,6 +125,7 @@ public class PlaneListUC extends JPanel {
 		panel.setLayout(new GridLayout(0, 2, 30, 0));
 		
 		JButton btnThongTin = new JButton("Điều chỉnh");
+
 		btnThongTin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Create a new panel that you want to show

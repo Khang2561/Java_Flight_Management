@@ -838,6 +838,7 @@ public class OperationPlaneUC extends JPanel {
 	private static void loadPlaneFromDB(String planeID) {
 		try {
 			ResultSet rs = PlaneDAO.selectAll();
+//			System.out.println(planeID);
 			while(rs.next()) {
 				if(rs.getString("PlaneID").equals(planeID))
 				{
