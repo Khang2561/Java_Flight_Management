@@ -67,6 +67,7 @@ public class Admin_header extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 clearAndShow(new FlightTicket(null));
 				highlightButton(buttons[1]);
+				FlightTicket.HightLight();
             }
         }, gbc, 2);
         //----------------------------------------------------------------
@@ -75,6 +76,7 @@ public class Admin_header extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 clearAndShow(new PlaneUC());
                 highlightButton(buttons[2]);
+                PlaneUC.HightLight();
             }
         }, gbc, 3);
         //------------------------------------------------------------------

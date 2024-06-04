@@ -13,10 +13,10 @@ import java.awt.Font;
 public class FlightTicket extends JPanel {
 
     private static final long serialVersionUID = 1L;
-    private JPanel panel_1;
+    private static JPanel panel_1;
     String flightID;
     private BtnCS button;
-    private BtnCS button_1;
+    private static BtnCS button_1;
     public static BtnCS button_2;
     private static BtnCS selectedButton = null;  // Track the currently selected button
 
@@ -103,7 +103,7 @@ public class FlightTicket extends JPanel {
     }
 
     //---------------------------------------------
-    private void clearAndShow(JPanel newPanel) {
+    private static void clearAndShow(JPanel newPanel) {
         panel_1.removeAll(); // Xóa tất cả các thành phần trên contentPane
         panel_1.add(newPanel); // Thêm form mới vào contentPane
         newPanel.setSize(1500, 560);
@@ -113,13 +113,13 @@ public class FlightTicket extends JPanel {
     }
 
     //---------------------------------------------
-    private void selectButton(BtnCS button) {
+    private static void selectButton(BtnCS button) {
         if (selectedButton != null) {
             selectedButton.setBackground(Color.WHITE); // Reset background color of previously selected button
             selectedButton.setForeground(Color.BLACK); // Reset text color of previously selected button
         }
         selectedButton = button;
-        button.setBackground(Color.RED); // Highlight the currently selected button with red background
+        button.setBackground(new Color(3,4,94)); // Highlight the currently selected button with red background
         button.setForeground(Color.WHITE); // Highlight the currently selected button with white text
     }
 
@@ -142,4 +142,16 @@ public class FlightTicket extends JPanel {
             }
         });
     }
+      //--------------------------------------------
+      public static void HightLight() {
+    	  try {
+			selectButton(button_1);
+			
+			clearAndShow(new SearchFlightTicket());
+            button_2.setBackground(new Color(255, 255, 255));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+      }
 }

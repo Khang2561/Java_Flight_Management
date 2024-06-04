@@ -24,8 +24,8 @@ public class PlaneUC extends JPanel {
 	public static JPanel panel;
 	private static JButton selectedButton = null;
 	public static BtnCS btnPlaneOperation;
-	private BtnCS btnPlaneList;
-	private BtnCS btnNewPlane;
+	private static BtnCS btnPlaneList;
+	private static BtnCS btnNewPlane;
 
 
 	/**
@@ -100,7 +100,7 @@ public class PlaneUC extends JPanel {
 		btnPlaneOperation.setText("Chi tiết máy bay");
 		btnPlaneOperation.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnPlaneOperation.setEnabled(false);
-		btnPlaneOperation.setBackground(Color.LIGHT_GRAY);
+		btnPlaneOperation.setBackground(new Color(255, 255, 255));
 		btnPlaneOperation.setEnabled(false);
 		btnPlaneOperation.setBounds(1190, 0, 175, 53); 
 
@@ -129,7 +129,7 @@ public class PlaneUC extends JPanel {
 		btnPlaneOperation.setEnabled(temp);
 	}
 	//-----------------------------------------------------
-	private void clearAndShow(JPanel newPanel) {
+	private static void clearAndShow(JPanel newPanel) {
 		contentPanel.removeAll(); // Xóa tất cả các thành phần trên contentPane
 		contentPanel.add(newPanel); // Thêm form mới vào contentPane
         newPanel.setSize(1365, 520);
@@ -138,13 +138,13 @@ public class PlaneUC extends JPanel {
         contentPanel.repaint(); // Vẽ lại giao diện
     }
 	//------------------------------------------------------
-	private void selectButton(BtnCS button) {
+	private static void selectButton(BtnCS button) {
         if (selectedButton != null) {
             selectedButton.setBackground(Color.WHITE); // Reset background color of previously selected button
             selectedButton.setForeground(Color.BLACK); // Reset text color of previously selected button
         }
         selectedButton = button;
-        button.setBackground(Color.RED); // Highlight the currently selected button with red background
+        button.setBackground(new Color(3,4,94)); // Highlight the currently selected button with red background
         button.setForeground(Color.WHITE); // Highlight the currently selected button with white text
     }
 	//-------------------------------------------------------
@@ -166,5 +166,11 @@ public class PlaneUC extends JPanel {
             }
         });
     }
+	//-----------------------------------------------------
+	public static void HightLight() {
+		selectButton(btnPlaneList);
+		clearAndShow(new PlaneListUC());
+		btnNewPlane.setBackground(new Color(255, 255, 255));
+	}
 
 }
