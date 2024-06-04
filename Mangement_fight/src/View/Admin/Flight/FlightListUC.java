@@ -30,15 +30,20 @@ import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
+import com.raven.datechooser.DateChooser;
 import com.toedter.calendar.JDateChooser;
 
 import CustomUI.BtnCS;
+import CustomUI.JtfCS;
 import DAO.FlightDAO;
 import View.Admin.Admin_header;
 import View.Admin.FormAdmin;
 import View.Admin.TicketPlane.CreateFlightTicket;
 import View.Admin.TicketPlane.FlightTicket;
 import libData.JDBCUtil;
+import javax.swing.JTextField;
+import java.awt.Button;
+import com.raven.datechooser.EventDateChooser;
 
 public class FlightListUC extends JPanel {
 
@@ -48,6 +53,8 @@ public class FlightListUC extends JPanel {
 	private Container panel;
 	private String flightID;
 	private BtnCS btnSearch;
+	private JTextField textField;
+	private JTextField DateTime;
 
 	public FlightListUC() throws ClassNotFoundException, SQLException {
 		setBackground(new Color(240, 240, 240));
@@ -90,11 +97,14 @@ public class FlightListUC extends JPanel {
 		comboBoxFrom.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
 		comboBoxFrom.setBounds(413, 11, 173, 35);
 		panel.add(comboBoxFrom);
-
+		
+		/*
 		JDateChooser dateChooser = new JDateChooser();
 		dateChooser.setDateFormatString("yyyy-MM-dd");
 		dateChooser.setBounds(106, 11, 198, 35);
 		panel.add(dateChooser);
+		*/	
+		//JDateChooser dateChooser = new JDateChooser();
 
 		JLabel lblNewLabel = new JLabel("Ngày bay:");
 		lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
@@ -230,78 +240,106 @@ public class FlightListUC extends JPanel {
 		separator.setBackground(UIManager.getColor("InternalFrame.inactiveTitleForeground"));
 		separator.setBounds(0, 0, 1500, 5);
 		panel.add(separator);
+		
+		
+		//----------------------------------------------------------
+		
+		
+		// Đảm bảo DateChooser sử dụng cùng định dạng "dd-MM-yyyy"
+		DateChooser dateChooser1 = new com.raven.datechooser.DateChooser();
+		dateChooser1.setDateFormat("dd-MM-yyyy");  // Use a String format here
 
+		DateTime = new JtfCS();
+		DateTime.setFont(new Font("Tahoma", Font.BOLD, 13));
+		DateTime.setBounds(103, 11, 166, 37);
+		panel.add(DateTime);
+		DateTime.setColumns(10);
+		dateChooser1.setTextRefernce(DateTime);
+		
+		
+		
+		//----------------------------------------------------------
 		btnSearch.addActionListener(e -> {
-			try {
-				String fromCity = (String) comboBoxFrom.getSelectedItem();
-				String toCity = (String) comboBoxTo.getSelectedItem();
-				Date selectedDate = dateChooser.getDate();
-				loadFlightData(fromCity, toCity, selectedDate);
-			} catch (ClassNotFoundException | SQLException ex) {
-				ex.printStackTrace();
-			}
+		    try {
+		        String fromCity = (String) comboBoxFrom.getSelectedItem();
+		        String toCity = (String) comboBoxTo.getSelectedItem();
+		        String selectedDate = DateTime.getText();  // Ngày tháng từ DateChooser
+		        loadFlightData(fromCity, toCity, selectedDate);
+		    } catch (ClassNotFoundException | SQLException ex) {
+		        ex.printStackTrace();
+		    } catch (Exception ex) {
+		        ex.printStackTrace();
+		    }
 		});
 	}
 	//-----------------------------------------------------------------------------------------------------
-	private void loadFlightData(String fromCity, String toCity, Date selectedDate)
-			throws ClassNotFoundException, SQLException {
-		// Clear existing data
-		tableModel.setRowCount(0);
+	private void loadFlightData(String fromCity, String toCity, String selectedDate)
+	        throws ClassNotFoundException, SQLException {
+	    // Clear existing data
+	    tableModel.setRowCount(0);
 
-		Connection conn = null;
-		Statement stmt = null;
-		ResultSet rs = null;
+	    Connection conn = null;
+	    Statement stmt = null;
+	    ResultSet rs = null;
 
-		try {
-			// Get connection from JDBCUtil
-			conn = JDBCUtil.getConnection();
-			StringBuilder queryBuilder = new StringBuilder(
-					"SELECT FLIGHT.FlightID, DEP_AIRPORT.AirportName AS DepartureAirport, DEP_AIRPORT.CityName AS DepartureCity, "
-							+ "ARR_AIRPORT.AirportName AS ArrivalAirport, ARR_AIRPORT.CityName AS ArrivalCity, FLIGHT.DepartureDateTime, "
-							+ "PLANE.SeatCount - COUNT(FLIGHT_TICKET.FlightTicketID) AS SeatsRemaining, COUNT(FLIGHT_TICKET.FlightTicketID) AS SeatsBooked "
-							+ "FROM FLIGHT "
-							+ "JOIN AIRPORT AS DEP_AIRPORT ON FLIGHT.DepartureAirportCode = DEP_AIRPORT.AirportID "
-							+ "JOIN AIRPORT AS ARR_AIRPORT ON FLIGHT.ArrivalAirportCode = ARR_AIRPORT.AirportID "
-							+ "JOIN PLANE ON FLIGHT.PlaneID = PLANE.PlaneID "
-							+ "LEFT JOIN FLIGHT_TICKET ON FLIGHT.FlightID = FLIGHT_TICKET.FlightID " + "WHERE 1=1 ");
+	    try {
+	        // Get connection from JDBCUtil
+	        conn = JDBCUtil.getConnection();
+	        StringBuilder queryBuilder = new StringBuilder(
+	                "SELECT FLIGHT.FlightID, DEP_AIRPORT.AirportName AS DepartureAirport, DEP_AIRPORT.CityName AS DepartureCity, "
+	                        + "ARR_AIRPORT.AirportName AS ArrivalAirport, ARR_AIRPORT.CityName AS ArrivalCity, FLIGHT.DepartureDateTime, "
+	                        + "PLANE.SeatCount - COUNT(FLIGHT_TICKET.FlightTicketID) AS SeatsRemaining, COUNT(FLIGHT_TICKET.FlightTicketID) AS SeatsBooked "
+	                        + "FROM FLIGHT "
+	                        + "JOIN AIRPORT AS DEP_AIRPORT ON FLIGHT.DepartureAirportCode = DEP_AIRPORT.AirportID "
+	                        + "JOIN AIRPORT AS ARR_AIRPORT ON FLIGHT.ArrivalAirportCode = ARR_AIRPORT.AirportID "
+	                        + "JOIN PLANE ON FLIGHT.PlaneID = PLANE.PlaneID "
+	                        + "LEFT JOIN FLIGHT_TICKET ON FLIGHT.FlightID = FLIGHT_TICKET.FlightID "
+	                        + "WHERE 1=1 ");
 
-			if (fromCity != null && !fromCity.isEmpty()) {
-				queryBuilder.append("AND DEP_AIRPORT.CityName = N'").append(fromCity).append("' ");
-			}
-			if (toCity != null && !toCity.isEmpty()) {
-				queryBuilder.append("AND ARR_AIRPORT.CityName = N'").append(toCity).append("' ");
-			}
-			if (selectedDate != null) {
-				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-				String dateStr = dateFormat.format(selectedDate);
-				queryBuilder.append("AND CONVERT(date, FLIGHT.DepartureDateTime) = '").append(dateStr).append("' ");
-			}
-			queryBuilder.append(
-					"GROUP BY FLIGHT.FlightID, DEP_AIRPORT.AirportName, DEP_AIRPORT.CityName, ARR_AIRPORT.AirportName, ARR_AIRPORT.CityName, FLIGHT.DepartureDateTime, PLANE.SeatCount");
+	        if (fromCity != null && !fromCity.isEmpty()) {
+	            queryBuilder.append("AND DEP_AIRPORT.CityName = N'").append(fromCity).append("' ");
+	        }
+	        if (toCity != null && !toCity.isEmpty()) {
+	            queryBuilder.append("AND ARR_AIRPORT.CityName = N'").append(toCity).append("' ");
+	        }
+	        if (selectedDate != null && !selectedDate.isEmpty()) {
+	            // Chuyển đổi định dạng ngày từ dd-MM-yyyy sang yyyy-MM-dd để sử dụng trong SQL query
+	            SimpleDateFormat inputDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+	            SimpleDateFormat sqlDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	            String dateStr = sqlDateFormat.format(inputDateFormat.parse(selectedDate));
+	            queryBuilder.append("AND CONVERT(date, FLIGHT.DepartureDateTime) = '").append(dateStr).append("' ");
+	        }
+	        queryBuilder.append(
+	                "GROUP BY FLIGHT.FlightID, DEP_AIRPORT.AirportName, DEP_AIRPORT.CityName, ARR_AIRPORT.AirportName, ARR_AIRPORT.CityName, FLIGHT.DepartureDateTime, PLANE.SeatCount");
 
-			String query = queryBuilder.toString();
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery(query);
+	        String query = queryBuilder.toString();
+	        stmt = conn.createStatement();
+	        rs = stmt.executeQuery(query);
 
-			while (rs.next()) {
-				String flightID = rs.getString("FlightID");
-				String departureAirport = rs.getString("DepartureAirport");
-				String departureCity = rs.getString("DepartureCity");
-				String arrivalAirport = rs.getString("ArrivalAirport");
-				String arrivalCity = rs.getString("ArrivalCity");
-				String departureDateTime = rs.getString("DepartureDateTime");
-				int seatsRemaining = rs.getInt("SeatsRemaining");
-				int seatsBooked = rs.getInt("SeatsBooked");
+	        SimpleDateFormat outputDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
 
-				tableModel.addRow(new Object[] { flightID, departureAirport, departureCity, arrivalAirport, arrivalCity,
-						departureDateTime, seatsRemaining, seatsBooked });
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			JDBCUtil.close(rs, stmt, conn);
-		}
+	        while (rs.next()) {
+	            String flightID = rs.getString("FlightID");
+	            String departureAirport = rs.getString("DepartureAirport");
+	            String departureCity = rs.getString("DepartureCity");
+	            String arrivalAirport = rs.getString("ArrivalAirport");
+	            String arrivalCity = rs.getString("ArrivalCity");
+	            String departureDateTime = outputDateFormat.format(rs.getTimestamp("DepartureDateTime"));
+	            int seatsRemaining = rs.getInt("SeatsRemaining");
+	            int seatsBooked = rs.getInt("SeatsBooked");
+
+	            tableModel.addRow(new Object[] { flightID, departureAirport, departureCity, arrivalAirport, arrivalCity,
+	                    departureDateTime, seatsRemaining, seatsBooked });
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        JDBCUtil.close(rs, stmt, conn);
+	    }
 	}
+
 	//---------------------------------------------------------------------------------------------------
 	private void populateComboBoxWithCities(JComboBox<String> comboBox) throws ClassNotFoundException, SQLException {
 		Connection conn = null;
@@ -349,5 +387,4 @@ public class FlightListUC extends JPanel {
         FormAdmin.contentPane.repaint(); // Vẽ lại giao diện
     }
 	
-
 }
