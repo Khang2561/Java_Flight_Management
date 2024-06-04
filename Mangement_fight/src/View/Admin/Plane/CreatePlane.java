@@ -22,7 +22,8 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
-
+import CustomUI.BtnCS;
+import CustomUI.JtfCS;
 import DAO.PlaneDAO;
 import DAO.SeatDAO;
 import DAO.TicketClassDAO;
@@ -41,8 +42,8 @@ import java.awt.event.MouseEvent;
 public class CreatePlane extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JTextField textfieldPlaneName;
-	private static JTextField textFieldChairCount;
+	private JtfCS textfieldPlaneName;
+	private static JtfCS textFieldChairCount;
 	private JPanel seatPanel;
 	private JPanel panelSeatNumer;
 	private JTable tableClassTicket;
@@ -52,7 +53,7 @@ public class CreatePlane extends JPanel {
 	private static JPanel panelSeatMap;
 	public static TicketClass[] arrayticket = new TicketClass[6];
 	private static Color tmpColor = new Color(0, 102, 204);
-	private static AbstractButton btnNewButton_1;
+	private static BtnCS btnNewButton_1;
 	//------------------------------
 
 	/**
@@ -75,34 +76,44 @@ public class CreatePlane extends JPanel {
 		panel.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Tạo máy bay");
-		lblNewLabel.setBounds(41, 20, 131, 19);
+		lblNewLabel.setForeground(new Color(0, 0, 128));
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setBounds(10, 10, 179, 29);
 		lblNewLabel.setLabelFor(panel);
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lblNewLabel.setFont(new Font("Times New Roman", Font.BOLD, 24));
 		panel.add(lblNewLabel);
 		
-		textfieldPlaneName = new JTextField();
-		textfieldPlaneName.setBounds(0, 67, 197, 30);
+		textfieldPlaneName = new JtfCS();
+		textfieldPlaneName.setBounds(0, 67, 197, 41);
 		panel.add(textfieldPlaneName);
 		
 		JLabel lblNewLabel_2 = new JLabel("Tên máy bay");
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNewLabel_2.setFont(new Font("Times New Roman", Font.BOLD, 16));
 		lblNewLabel_2.setBounds(0, 49, 90, 19);
 		panel.add(lblNewLabel_2);
 		
-		textFieldChairCount = new JTextField();
+		textFieldChairCount = new JtfCS();
 		textFieldChairCount.setToolTipText("Là một số chia hết cho 6 ( Tối đa 60 )");
 		textFieldChairCount.setColumns(10);
-		textFieldChairCount.setBounds(0, 126, 197, 30);
+		textFieldChairCount.setBounds(0, 126, 197, 38);
 		panel.add(textFieldChairCount);
 		
 		// Khởi tạo label "Số lượng ghế"
 		JLabel lblNewLabel_2_1 = new JLabel("Số lượng ghế");
-		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNewLabel_2_1.setFont(new Font("Times New Roman", Font.BOLD, 16));
 		lblNewLabel_2_1.setBounds(0, 107, 90, 19);
 		panel.add(lblNewLabel_2_1);
 
 		// Khởi tạo button "Tải danh sách ghế"
-		JButton btnLoadSeat = new JButton("Tải danh sách ghế");
+		BtnCS btnLoadSeat = new BtnCS();
+		btnLoadSeat.setFont(new Font("Times New Roman", Font.BOLD, 13));
+		btnLoadSeat.setForeground(new Color(255, 255, 255));
+		btnLoadSeat.setColorOver(new Color(0, 128, 255));
+		btnLoadSeat.setColorClick(new Color(0, 128, 255));
+		btnLoadSeat.setColor(new Color(0, 0, 255));
+		btnLoadSeat.setBorderColor(new Color(0, 0, 255));
+		btnLoadSeat.setBackground(new Color(0, 0, 255));
+		btnLoadSeat.setText("Tải danh sách ghế");;
 		btnLoadSeat.addActionListener(new ActionListener() {
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
@@ -158,20 +169,20 @@ public class CreatePlane extends JPanel {
 		});
 
 		// Đặt vị trí và kích thước cho button
-		btnLoadSeat.setBounds(0, 130, 180, 30);
+		btnLoadSeat.setBounds(34, 179, 161, 34);
 		panel.add(btnLoadSeat);
 
 		btnLoadSeat.setBounds(36, 166, 161, 21);
 		panel.add(btnLoadSeat);
 		
 		JLabel lblNewLabel_2_1_1 = new JLabel("Chi tiết hạng vé");
-		lblNewLabel_2_1_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNewLabel_2_1_1.setBounds(0, 197, 114, 19);
+		lblNewLabel_2_1_1.setFont(new Font("Times New Roman", Font.BOLD, 16));
+		lblNewLabel_2_1_1.setBounds(0, 210, 114, 19);
 		panel.add(lblNewLabel_2_1_1);
 		
 		JPanel panelChitietve = new JPanel();
 		panelChitietve.setBorder(new LineBorder(Color.BLACK));
-		panelChitietve.setBounds(0, 226, 197, 243);
+		panelChitietve.setBounds(0, 239, 197, 207);
 		panel.add(panelChitietve);
 		
 		JPanel panel_2 = new JPanel();
@@ -179,7 +190,10 @@ public class CreatePlane extends JPanel {
 		panel.add(panel_2);
 		panel_2.setLayout(new GridLayout(0, 2, 40, 0));
 		
-		JButton btnLuu = new JButton("Lưu");
+		BtnCS btnLuu = new BtnCS();
+		btnLuu.setForeground(new Color(255, 255, 255));
+		btnLuu.setRadius(30);
+		btnLuu.setText("Lưu");
 		btnLuu.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        try {
@@ -233,14 +247,22 @@ public class CreatePlane extends JPanel {
 		});
 
 
-		btnLuu.setFont(new Font("Tahoma", Font.BOLD, 15));
+		btnLuu.setFont(new Font("Times New Roman", Font.BOLD, 20));
 		panel_2.add(btnLuu);
 		
 		
 		//------------------------------------------------------------------------
 		
-		JButton btnHuy = new JButton("Hủy");
-		btnHuy.setFont(new Font("Tahoma", Font.BOLD, 15));
+		BtnCS btnHuy = new BtnCS();
+		btnHuy.setColorOver(new Color(192, 192, 192));
+		btnHuy.setColorClick(new Color(192, 192, 192));
+		btnHuy.setColor(new Color(128, 128, 128));
+		btnHuy.setBorderColor(new Color(128, 128, 128));
+		btnHuy.setBackground(new Color(128, 128, 128));
+		btnHuy.setForeground(new Color(255, 255, 255));
+		btnHuy.setRadius(30);
+		btnHuy.setText("Hủy");
+		btnHuy.setFont(new Font("Times New Roman", Font.BOLD, 20));
 		panel_2.add(btnHuy);
 		
 		btnHuy.addActionListener(new ActionListener() {
@@ -277,12 +299,17 @@ public class CreatePlane extends JPanel {
 		panel_1.setLayout(null);
 		
 		JLabel lblNewLabel_1 = new JLabel("Hạng vé", SwingConstants.CENTER);
-		lblNewLabel_1.setBounds(10, 18, 210, 19);
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lblNewLabel_1.setForeground(new Color(0, 0, 128));
+		lblNewLabel_1.setBounds(10, 10, 210, 30);
+		lblNewLabel_1.setFont(new Font("Times New Roman", Font.BOLD, 24));
 		lblNewLabel_1.setLabelFor(panel_1);
 		panel_1.add(lblNewLabel_1);
 		
-		btnNewButton_1 = new JButton("Chưa có hạng vé");
+		btnNewButton_1 = new BtnCS();
+		btnNewButton_1.setColor(new Color(192, 192, 192));
+		btnNewButton_1.setBorderColor(new Color(192, 192, 192));
+		btnNewButton_1.setBackground(new Color(192, 192, 192));
+		btnNewButton_1.setText("Chưa có hạng vé");
 		btnNewButton_1.setEnabled(false);
 		btnNewButton_1.setBounds(10, 479, 210, 41);
 		btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 15));
@@ -330,7 +357,7 @@ public class CreatePlane extends JPanel {
 		
 		//create chi tiet hang ve table
 		JScrollPane scrollpane1 = new JScrollPane((Component) null);
-		scrollpane1.setBounds(0, 0, 197, 243);
+		scrollpane1.setBounds(0, 0, 197, 206);
 		panelChitietve.add(scrollpane1);
 		
 		countTicketClassTable = new JTable();
