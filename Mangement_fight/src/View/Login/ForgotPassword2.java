@@ -9,18 +9,22 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import CustomUI.BtnCS;
+import CustomUI.JtfCS;
+import CustomUI.PanelRound;
+
 import java.awt.Button;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 
-public class ForgotPassword2 extends JPanel {
+public class ForgotPassword2 extends PanelRound {
 
 	private static final long serialVersionUID = 1L;
-	private static JTextField txtOTP;
+	private static JtfCS txtOTP;
 	JLabel lblReturn;
 	JLabel lblResend;
-	Button btnAccept;
+	BtnCS btnAccept;
 	
 	public static String getOTPText() {
 		return txtOTP.getText();
@@ -30,6 +34,10 @@ public class ForgotPassword2 extends JPanel {
 	 * Create the panel.
 	 */
 	public ForgotPassword2() {
+		setRoundTopRight(50);
+		setRoundTopLeft(50);
+		setRoundBottomRight(50);
+		setRoundBottomLeft(50);
 		
 		setBackground(new Color(255, 255, 255));
 		setBounds(100, 100, 300, 406);
@@ -48,15 +56,17 @@ public class ForgotPassword2 extends JPanel {
         lbl2.setBounds(98, 68, 91, 15);
         add(lbl2);
         
-        txtOTP = new JTextField();
-        txtOTP.setBounds(38, 110, 225, 30);
+        txtOTP = new JtfCS();
+        txtOTP.setBounds(38, 110, 225, 44);
         add(txtOTP);
         txtOTP.setColumns(10);
         
-        btnAccept = new Button("Xác nhận");
+        btnAccept = new BtnCS();
+        btnAccept.setRadius(30);
+        btnAccept.setText("Xác nhận");
         btnAccept.setForeground(new Color(255, 255, 255));
-        btnAccept.setBackground(new Color(128, 152, 249));
-        btnAccept.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+        btnAccept.setBackground(new Color(3, 4, 94));
+        btnAccept.setFont(new Font("Times New Roman", Font.BOLD, 19));
         btnAccept.setBounds(38, 179, 225, 30);
         add(btnAccept);
         
@@ -74,7 +84,7 @@ public class ForgotPassword2 extends JPanel {
         });
         lblResend.setForeground(new Color(128, 152, 249));
         lblResend.setFont(new Font("Times New Roman", Font.BOLD, 12));
-        lblResend.setBounds(200, 146, 80, 15);
+        lblResend.setBounds(197, 154, 80, 15);
         add(lblResend);
         
 		lblReturn = new JLabel("");

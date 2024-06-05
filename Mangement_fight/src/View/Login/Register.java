@@ -12,6 +12,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import CustomUI.BtnCS;
+import CustomUI.JtfCS;
 import CustomUI.PanelRound;
 
 import java.awt.event.MouseAdapter;
@@ -20,11 +21,11 @@ import java.awt.event.MouseEvent;
 public class Register extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-    private static JTextField txtUsername;
+    private static JtfCS txtUsername;
     private static JPasswordField txtPassword;
     private static JPasswordField txtConfirmPassword;
-    private static JTextField txtEmail;
-    private static JTextField txtPhoneNumber;
+    private static JtfCS txtEmail;
+    private static JtfCS txtPhoneNumber;
     public JLabel lblLogin;
     private JLabel lblNewLabel;
     private JLabel lblEmail;
@@ -76,33 +77,33 @@ public class Register extends JPanel {
 		JLabel lbl1 = new JLabel("Tạo tài khoản");
 		lbl1.setForeground(new Color(0, 0, 128));
 		lbl1.setFont(new Font("Times New Roman", Font.BOLD, 24));
-		lbl1.setBounds(83, 10, 149, 29);
+		lbl1.setBounds(73, 22, 149, 29);
 		layeredPane.add(lbl1);
 		
-		txtUsername = new JTextField();
+		txtUsername = new JtfCS();
 		txtUsername.setFont(new Font("Arial", Font.PLAIN, 12));
-		txtUsername.setBounds(38, 85, 225, 28);
+		txtUsername.setBounds(38, 74, 225, 40);
 		layeredPane.add(txtUsername, JLayeredPane.DEFAULT_LAYER);
 		txtUsername.setColumns(10);
 		
 		txtPassword = new JPasswordField();
-		txtPassword.setBounds(38, 202, 225, 28);
+		txtPassword.setBounds(38, 224, 225, 28);
 		layeredPane.add(txtPassword, JLayeredPane.DEFAULT_LAYER);
 		
 		txtConfirmPassword = new JPasswordField();
-		txtConfirmPassword.setBounds(38, 247, 225, 28);
+		txtConfirmPassword.setBounds(38, 276, 225, 28);
 		layeredPane.add(txtConfirmPassword, JLayeredPane.DEFAULT_LAYER);
 		
-		txtEmail = new JTextField();
+		txtEmail = new JtfCS();
 		txtEmail.setFont(new Font("Arial", Font.PLAIN, 12));
 		txtEmail.setColumns(10);
-		txtEmail.setBounds(38, 124, 225, 28);
+		txtEmail.setBounds(38, 124, 225, 41);
 		layeredPane.add(txtEmail, JLayeredPane.DEFAULT_LAYER);
 		
-		txtPhoneNumber = new JTextField();
+		txtPhoneNumber = new JtfCS();
 		txtPhoneNumber.setFont(new Font("Arial", Font.PLAIN, 12));
 		txtPhoneNumber.setColumns(10);
-		txtPhoneNumber.setBounds(38, 163, 225, 28);
+		txtPhoneNumber.setBounds(38, 175, 225, 39);
 		layeredPane.add(txtPhoneNumber, JLayeredPane.DEFAULT_LAYER);
 		
 		btnSignUp = new BtnCS();
@@ -147,7 +148,7 @@ public class Register extends JPanel {
 		lblNewLabel = new JLabel("Họ và tên");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 10));
 		lblNewLabel.setForeground(new Color(0, 0, 0));
-		lblNewLabel.setBounds(38, 72, 73, 14);
+		lblNewLabel.setBounds(38, 61, 73, 14);
 		layeredPane.add(lblNewLabel);
 		
 		lblEmail = new JLabel("Email");
@@ -159,19 +160,19 @@ public class Register extends JPanel {
 		lblS = new JLabel("Số điện thoại");
 		lblS.setFont(new Font("Tahoma", Font.BOLD, 10));
 		lblS.setForeground(new Color(0, 0, 0));
-		lblS.setBounds(38, 150, 73, 14);
+		lblS.setBounds(38, 162, 73, 14);
 		layeredPane.add(lblS);
 		
 		lblMtKhu = new JLabel("Mật khẩu");
 		lblMtKhu.setFont(new Font("Tahoma", Font.BOLD, 10));
 		lblMtKhu.setForeground(new Color(0, 0, 0));
-		lblMtKhu.setBounds(38, 191, 73, 14);
+		lblMtKhu.setBounds(38, 213, 73, 14);
 		layeredPane.add(lblMtKhu);
 		
 		lblNhpLiMt = new JLabel("Nhập lại mật khẩu");
 		lblNhpLiMt.setFont(new Font("Tahoma", Font.BOLD, 10));
 		lblNhpLiMt.setForeground(new Color(0, 0, 0));
-		lblNhpLiMt.setBounds(38, 233, 106, 14);
+		lblNhpLiMt.setBounds(38, 262, 106, 14);
 		layeredPane.add(lblNhpLiMt);
 	}
 }
