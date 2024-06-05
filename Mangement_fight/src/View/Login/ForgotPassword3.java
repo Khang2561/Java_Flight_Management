@@ -10,16 +10,20 @@ import javax.swing.JPanel;
 import javax.swing.ImageIcon;
 import java.awt.Button;
 import javax.swing.JPasswordField;
+
+import CustomUI.BtnCS;
+import CustomUI.PanelRound;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class ForgotPassword3 extends JPanel {
+public class ForgotPassword3 extends PanelRound {
 
 	private static final long serialVersionUID = 1L;
 	private static JPasswordField txtNewPassword;
 	private static JPasswordField txtConfirmPassword;
 	static String email;
-	Button btnAccept;
+	BtnCS btnAccept;
 	JLabel lblReturn;
 	
 	public static String getNewPasswordText() {
@@ -34,24 +38,32 @@ public class ForgotPassword3 extends JPanel {
 	 */
 	public ForgotPassword3() {
 		
-		setBackground(new Color(255, 255, 255));
+		setBackground(null);
 		setBounds(100, 100, 300, 406);
 		setLayout(null);
 		
         // Create a JLayeredPane
-        JLayeredPane layeredPane = new JLayeredPane();
+		PanelRound layeredPane = new PanelRound();
+		layeredPane.setRoundTopRight(50);
+		layeredPane.setRoundTopLeft(50);
+		layeredPane.setRoundBottomRight(50);
+		layeredPane.setRoundBottomLeft(50);
         layeredPane.setBounds(0, 0, 300, 406);
+        layeredPane.setBackground(Color.WHITE);
+        layeredPane.setLayout(null);
         add(layeredPane);
 
         JLabel lbl1 = new JLabel("Nhập mật khẩu mới");
         lbl1.setFont(new Font("Times New Roman", Font.BOLD, 24));
         lbl1.setBounds(53, 41, 237, 29);
-        add(lbl1);
+        layeredPane.add(lbl1);
         
-        btnAccept = new Button("Xác nhận");
-        btnAccept.setBackground(new Color(128, 152, 249));
+        btnAccept = new BtnCS();
+        btnAccept.setRadius(30);
+        btnAccept.setText("Xác nhận");
+        btnAccept.setBackground(new Color(3,4,94));
         btnAccept.setForeground(new Color(255, 255, 255));
-        btnAccept.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+        btnAccept.setFont(new Font("Times New Roman", Font.BOLD, 19));
         btnAccept.setBounds(39, 217, 225, 32);
         layeredPane.add(btnAccept);
         
@@ -85,7 +97,7 @@ public class ForgotPassword3 extends JPanel {
 		lblNewLabel.setForeground(new Color(113, 113, 122));
 		lblNewLabel.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		lblNewLabel.setBounds(53, 81, 252, 15);
-		add(lblNewLabel);
+		layeredPane.add(lblNewLabel);
 		
         JLabel lblShowAndHidePassword_1 =  Utils.lblShowAndHidePassword(txtNewPassword, 20, 20);
         lblShowAndHidePassword_1.setBounds(240, 127, 20, 20);  // Adjust the position as needed
