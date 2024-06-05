@@ -30,6 +30,7 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
+import com.raven.datechooser.DateChooser;
 import com.toedter.calendar.JDateChooser;
 
 import CustomUI.BtnCS;
@@ -39,6 +40,7 @@ import DAO.FlightDAO;
 import DAO.PlaneDAO;
 import DAO.TicketClassDAO;
 import View.Admin.Admin_header;
+import combo_suggestion.ComboBoxSuggestion;
 import libData.JDBCUtil;
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -56,7 +58,7 @@ public class DetailFlightUC extends JPanel {
 	private JComboBox<String> comboBoxFlight;
 	private JComboBox<String> comboBoxFlightFrom;
 	private JComboBox<String> comboBoxFlightTo;
-	private JDateChooser dateFlightDate;
+	private JtfCS dateFlightDate;
 	private JSpinner spinnerHour;
 	private JSpinner spinnerMinute;
 	private JButton btnSave;
@@ -132,19 +134,21 @@ public class DetailFlightUC extends JPanel {
 				airportModelTo.addElement(airportName);
 			}
 
-			comboBoxFlightFrom = new JComboBox<>(airportModelFrom);
-			comboBoxFlightTo = new JComboBox<>(airportModelTo);
+			comboBoxFlightFrom = new ComboBoxSuggestion<>();
+			comboBoxFlightFrom.setModel(airportModelFrom);
+			comboBoxFlightTo = new ComboBoxSuggestion<>();
+			comboBoxFlightTo.setModel(airportModelTo);
 
-			JScrollPane scrollPaneFlightFrom = new JScrollPane(comboBoxFlightFrom);
-			JScrollPane scrollPaneFlightTo = new JScrollPane(comboBoxFlightTo);
+			//JScrollPane scrollPaneFlightFrom = new JScrollPane(comboBoxFlightFrom);
+			//JScrollPane scrollPaneFlightTo = new JScrollPane(comboBoxFlightTo);
 
 			// Đặt vị trí và kích thước cho JScrollPane
-			scrollPaneFlightFrom.setBounds(121, 100, 252, 40);
-			scrollPaneFlightTo.setBounds(121, 155, 252, 40);
+			comboBoxFlightFrom.setBounds(121, 100, 252, 40);
+			comboBoxFlightTo.setBounds(121, 155, 252, 40);
 
 			// Thêm JScrollPane vào panel
-			panel_1.add(scrollPaneFlightFrom);
-			panel_1.add(scrollPaneFlightTo);
+			panel_1.add(comboBoxFlightFrom);
+			panel_1.add(comboBoxFlightTo);
 
 		} catch (ClassNotFoundException | SQLException ex) {
 			ex.printStackTrace();
@@ -160,12 +164,13 @@ public class DetailFlightUC extends JPanel {
 				flightModel.addElement(flightID1);
 			}
 			// Khởi tạo comboBoxFlight và đặt vào model đã tạo
-			comboBoxFlight = new JComboBox<>(flightModel);
-			JScrollPane scrollPaneFlight = new JScrollPane(comboBoxFlight);
+			comboBoxFlight = new ComboBoxSuggestion<>();
+			comboBoxFlight.setModel(flightModel);
+			//JScrollPane scrollPaneFlight = new JScrollPane(comboBoxFlight);
 			// Đặt vị trí và kích thước cho JScrollPane
-			scrollPaneFlight.setBounds(121, 212, 252, 36);
+			comboBoxFlight.setBounds(121, 212, 252, 36);
 			// Thêm JScrollPane vào panel
-			panel_1.add(scrollPaneFlight);
+			panel_1.add(comboBoxFlight);
 
 			// Thêm bộ lắng nghe sự kiện cho comboBoxFlight
 			comboBoxFlight.addActionListener(new ActionListener() {
@@ -190,11 +195,24 @@ public class DetailFlightUC extends JPanel {
 			ex.printStackTrace();
 		}
 		// ----------------------------------------------------------------------------------
+		/*
 		dateFlightDate = new JDateChooser();
 		dateFlightDate.setDateFormatString("yyyy-MM-dd");
 		dateFlightDate.setBounds(121, 266, 252, 36);
 		panel_1.add(dateFlightDate);
-
+		*/
+		DateChooser DateTime = new com.raven.datechooser.DateChooser();
+		DateTime.setDateFormat("dd-MM-yyyy");
+		
+		dateFlightDate = new JtfCS();
+		dateFlightDate.setFont(new Font("Tahoma", Font.BOLD, 13));
+		//DateTime.setBounds(103, 11, 166, 37);
+		panel.add(dateFlightDate);
+		dateFlightDate.setColumns(10);
+		DateTime.setTextRefernce(dateFlightDate);
+		dateFlightDate.setBounds(121, 266, 252, 36);
+		panel_1.add(dateFlightDate);
+		//------------------------------------------------
 		spinnerHour = new JSpinner(new SpinnerNumberModel(0, 0, 23, 1));
 		spinnerHour.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
 		spinnerHour.setBounds(121, 327, 63, 36);
@@ -238,7 +256,7 @@ public class DetailFlightUC extends JPanel {
 		            String flightFromCode = (String) comboBoxFlightFrom.getSelectedItem();
 		            String flightToCode = (String) comboBoxFlightTo.getSelectedItem();
 		            String planeID = (String) comboBoxFlight.getSelectedItem();
-		            java.util.Date departureDate = dateFlightDate.getDate();
+		            String departureDate = dateFlightDate.getText();
 		            int spinnerHourValue = (int) spinnerHour.getValue();
 		            int spinnerMinuteValue = (int) spinnerMinute.getValue();
 		            String flightTime = txtFlightTime.getText();
@@ -324,26 +342,6 @@ public class DetailFlightUC extends JPanel {
 		                        note);
 		            }
 
-//		            // Chèn thông tin vào bảng FLIGHT_TICKET_CLASS_DETAIL
-//		            for (int i = 0; i < table_1.getRowCount(); i++) {
-//		                String ticketClassID = table_1.getValueAt(i, 0).toString();
-//		                String fare = table_1.getValueAt(i, 1).toString();
-//		                int seatCapacity = Integer.parseInt(table_1.getValueAt(i, 2).toString());
-//		                int ticketSold = Integer.parseInt(table_1.getValueAt(i, 3).toString());
-//		                int seatRemaining = seatCapacity - ticketSold;
-		//
-//		                String insertTicketClassDetailSQL = String.format(
-//		                        "INSERT INTO FLIGHT_TICKET_CLASS_DETAIL (FlightID, TicketClassID, Fare, SeatCapacity, TicketSold, SeatRemaining) VALUES (?, ?, ?, ?, ?, ?)");
-//		                try (PreparedStatement pstmt = conn.prepareStatement(insertTicketClassDetailSQL)) {
-//		                    pstmt.setInt(1, newFlightID);
-//		                    pstmt.setString(2, ticketClassID);
-//		                    pstmt.setFloat(3, Float.parseFloat(fare));
-//		                    pstmt.setInt(4, seatCapacity);
-//		                    pstmt.setInt(5, ticketSold);
-//		                    pstmt.setInt(6, seatRemaining);
-//		                    pstmt.executeUpdate();
-//		                }
-//		            }
 
 		            conn.commit(); // Xác nhận transaction
 
@@ -582,7 +580,7 @@ public class DetailFlightUC extends JPanel {
 	                comboBoxFlightFrom.setSelectedItem(departureAirport);
 	                comboBoxFlightTo.setSelectedItem(arrivalAirport);
 	                comboBoxFlight.setSelectedItem(planeID);
-	                dateFlightDate.setDate(flightDate);
+	                //dateFlightDate.setDate(flightDate);
 	                spinnerHour.setValue(hour);
 	                spinnerMinute.setValue(minute);
 	                txtFlightTime.setText(String.valueOf(flightDuration));

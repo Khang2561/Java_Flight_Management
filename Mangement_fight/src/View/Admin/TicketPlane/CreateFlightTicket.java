@@ -37,6 +37,7 @@ import DAO.TicketDAO;
 import Model.TicketClass;
 import View.Admin.Admin_header;
 import View.Admin.Flight.FlightUC;
+import combo_suggestion.ComboBoxSuggestion;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -52,7 +53,7 @@ public class CreateFlightTicket extends JPanel {
     private JtfCS tfSDT;
     private JtfCS tfEmail;
     private DefaultTableModel modelTicketLevel;
-    private JComboBox<String> comboBoxFlight;
+    private ComboBoxSuggestion<String> comboBoxFlight;
     private JPanel panel_2;
 	private static JPanel panelSeatMap;
 	private JPanel panelSeatNumer;
@@ -351,12 +352,9 @@ public class CreateFlightTicket extends JPanel {
             lbl.setPreferredSize(new Dimension(90, 26));
             panel_3.add(lbl);
         }
-        
      // Flight comboBox
-        setupFlightComboBox(panel);
-        
+        setupFlightComboBox(panel);   
     }
-
     
     //-----------------------------------------------------------------------------
     private void setupFlightComboBox(JPanel panel) {
@@ -373,7 +371,8 @@ public class CreateFlightTicket extends JPanel {
                 }
             }
 
-            comboBoxFlight = new JComboBox<>(flightModel);
+            comboBoxFlight = new ComboBoxSuggestion<>();
+            comboBoxFlight.setModel(flightModel);
             if (selectedFlightID != null) {
                 comboBoxFlight.setSelectedItem(selectedFlightID);
             }

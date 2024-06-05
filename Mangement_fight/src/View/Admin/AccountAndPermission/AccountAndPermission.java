@@ -27,6 +27,7 @@ import DAO.PermissionDAO;
 import Model.Account;
 import Model.Airport;
 import Model.Permission;
+import combo_suggestion.ComboBoxSuggestion;
 
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
@@ -101,7 +102,7 @@ public class AccountAndPermission extends JPanel {
 	private BtnCS buttonLuuAp;
 	private PanelRound panel;
 	private PanelRound panel_1;
-	private JComboBox cbQuyen;
+	private ComboBoxSuggestion cbQuyen;
 	
 	//main AccountAndPermission
 	public AccountAndPermission() throws ClassNotFoundException, SQLException{
@@ -513,7 +514,8 @@ public class AccountAndPermission extends JPanel {
 		tfMK.setBounds(232, 164, 522, 42);
 		panel_1.add(tfMK);
 		//combo box for add permission
-		cbQuyen = new JComboBox();
+		cbQuyen = new ComboBoxSuggestion();
+		cbQuyen.setEditable(false);
 		cbQuyen.setFont(new Font("Times New Roman", Font.BOLD, 17));
 		cbQuyen.setModel(new DefaultComboBoxModel(new String[] {"Siêu quản trị", "Quản trị", "Ban giám đốc", "Nhân viên"}));
 		cbQuyen.setBounds(232, 208, 522, 30);
