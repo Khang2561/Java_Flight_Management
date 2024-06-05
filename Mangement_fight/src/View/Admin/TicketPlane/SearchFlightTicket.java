@@ -13,17 +13,24 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+
+import CustomUI.BtnCS;
 import CustomUI.CurrencyTableCellRenderer;
+import CustomUI.JtfCS;
 import CustomUI.TableActionCellRender;
 import DAO.TicketDAO;
+import combo_suggestion.ComboBoxSuggestion;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Font;
 
 public class SearchFlightTicket extends JPanel {
 
     private static final long serialVersionUID = 1L;
-    private JTextField textField;
+    private JtfCS textField;
     private JTable table;
+    private BtnCS button;
 
     /**
      * Create the panel.
@@ -42,17 +49,20 @@ public class SearchFlightTicket extends JPanel {
 
     
     private void initializeComponents() {
-        JComboBox<String> comboBox = new JComboBox<>();
+    	ComboBoxSuggestion<String> comboBox = new ComboBoxSuggestion<>();
         comboBox.setModel(new DefaultComboBoxModel<>(new String[]{"Tìm kiếm theo mã vé", "Tìm kiếm theo mã chuyến bay "}));
         comboBox.setBounds(25, 10, 216, 36);
         add(comboBox);
 
-        textField = new JTextField();
+        textField = new JtfCS();
         textField.setBounds(286, 10, 248, 36);
         add(textField);
         textField.setColumns(10);
 
-        Button button = new Button("Search");
+        button = new BtnCS();
+        button.setFont(new Font("Times New Roman", Font.BOLD, 18));
+        button.setForeground(new Color(255, 255, 255));
+        button.setText("Tìm ");
         button.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		if(textField.getText().isEmpty()) {

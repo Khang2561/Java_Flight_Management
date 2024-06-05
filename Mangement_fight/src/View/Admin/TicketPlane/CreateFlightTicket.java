@@ -25,18 +25,19 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
-import DAO.AAADAO;
+import CustomUI.BtnCS;
+import CustomUI.JtfCS;
 import DAO.FlightDAO;
 import DAO.SeatDAO;
 import DAO.TicketDAO;
 import Model.TicketClass;
 import View.Admin.Admin_header;
 import View.Admin.Flight.FlightUC;
+import combo_suggestion.ComboBoxSuggestion;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -46,17 +47,17 @@ public class CreateFlightTicket extends JPanel {
 
     private static final long serialVersionUID = 1L;
     private JTable table_1;
-    private JTextField tfGiaVe;
-    private JTextField tfHoVaTen;
-    private JTextField tfCCCD;
-    private JTextField tfSDT;
-    private JTextField tfEmail;
+    private JtfCS tfGiaVe;
+    private JtfCS tfHoVaTen;
+    private JtfCS tfCCCD;
+    private JtfCS tfSDT;
+    private JtfCS tfEmail;
     private DefaultTableModel modelTicketLevel;
-    private JComboBox<String> comboBoxFlight;
+    private ComboBoxSuggestion<String> comboBoxFlight;
     private JPanel panel_2;
 	private static JPanel panelSeatMap;
 	private JPanel panelSeatNumer;
-	private JComponent btnHangVe;
+	private BtnCS btnHangVe;
 	public static TicketClass[] arrayticket = new TicketClass[6];
 	private JButton[] seatButtons;
 	private String tmp;
@@ -64,8 +65,10 @@ public class CreateFlightTicket extends JPanel {
 	private String selectedSeatName ;
 	private Map<JButton, Color> seatOriginalColors = new HashMap<>();
 	private TicketClass currentTicketClass = null;
-	private JButton btnMaGhe;
+	private BtnCS btnMaGhe;
 	String var ;
+	private BtnCS btnTao;
+	private BtnCS btnHuy;
 
 
 
@@ -105,9 +108,11 @@ public class CreateFlightTicket extends JPanel {
         panel.setLayout(null);
 
         // Labels and text fields
-        JLabel lblTitle = new JLabel("Thông tin máy bay");
-        lblTitle.setBounds(29, 20, 171, 19);
-        lblTitle.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        JLabel lblTitle = new JLabel("THÔNG TIN MÁY BAY ");
+        lblTitle.setForeground(new Color(3, 4, 128));
+        lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
+        lblTitle.setBounds(0, 10, 242, 29);
+        lblTitle.setFont(new Font("Times New Roman", Font.BOLD, 19));
         panel.add(lblTitle);
 
         JLabel lblFlightID = new JLabel("Mã chuyến bay ");
@@ -141,35 +146,46 @@ public class CreateFlightTicket extends JPanel {
         panel.add(lblEmail);
         
         //-----------------------------------------------
-        tfGiaVe = new JTextField();
+        tfGiaVe = new JtfCS();
+        tfGiaVe.setFont(new Font("Times New Roman", Font.BOLD, 16));
         tfGiaVe.setEditable(false);
         tfGiaVe.setEnabled(false);
-        tfGiaVe.setBounds(0, 125, 197, 30);
+        tfGiaVe.setBounds(0, 125, 207, 41);
         panel.add(tfGiaVe);
 
-        tfHoVaTen = new JTextField();
-        tfHoVaTen.setBounds(0, 183, 197, 30);
+        tfHoVaTen = new JtfCS();
+        tfHoVaTen.setFont(new Font("Times New Roman", Font.BOLD, 16));
+        tfHoVaTen.setBounds(0, 183, 207, 41);
         panel.add(tfHoVaTen);
 
-        tfCCCD = new JTextField();
-        tfCCCD.setBounds(0, 241, 197, 30);
+        tfCCCD = new JtfCS();
+        tfCCCD.setFont(new Font("Times New Roman", Font.BOLD, 16));
+        tfCCCD.setBounds(0, 241, 207, 41);
         panel.add(tfCCCD);
 
-        tfSDT = new JTextField();
-        tfSDT.setBounds(0, 299, 197, 30);
+        tfSDT = new JtfCS();
+        tfSDT.setFont(new Font("Times New Roman", Font.BOLD, 16));
+        tfSDT.setBounds(0, 299, 207, 41);
         panel.add(tfSDT);
 
-        tfEmail = new JTextField();
-        tfEmail.setBounds(3, 357, 197, 30);
+        tfEmail = new JtfCS();
+        tfEmail.setFont(new Font("Times New Roman", Font.BOLD, 16));
+        tfEmail.setBounds(0, 357, 207, 41);
         panel.add(tfEmail);
 
         // Buttons
         panel_2 = new JPanel();
-        panel_2.setBounds(0, 479, 197, 41);
+        panel_2.setBounds(0, 419, 197, 41);
         panel.add(panel_2);
         panel_2.setLayout(null);
 
-        JButton btnTao = new JButton("Tạo");
+        btnTao = new BtnCS();
+        btnTao.setRadius(20);
+        btnTao.setForeground(new Color(255, 255, 255));
+        btnTao.setColor(new Color(3, 4, 94));
+        btnTao.setBorderColor(new Color(3, 4, 94));
+        btnTao.setBackground(new Color(3, 4, 94));
+        btnTao.setText("Tạo");
         btnTao.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
@@ -201,7 +217,15 @@ public class CreateFlightTicket extends JPanel {
         btnTao.setFont(new Font("Tahoma", Font.BOLD, 15));
         panel_2.add(btnTao);
 
-        JButton btnHuy = new JButton("Hủy");
+        btnHuy = new BtnCS();
+        btnHuy.setRadius(20);
+        btnHuy.setColorOver(new Color(192, 192, 192));
+        btnHuy.setColorClick(new Color(192, 192, 192));
+        btnHuy.setForeground(new Color(255, 255, 255));
+        btnHuy.setColor(new Color(128, 128, 128));
+        btnHuy.setBorderColor(new Color(128, 128, 128));
+        btnHuy.setBackground(new Color(128, 128, 128));
+        btnHuy.setText("Hủy");
         btnHuy.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		try {
@@ -268,18 +292,26 @@ public class CreateFlightTicket extends JPanel {
         });
 
 
-        btnHangVe = new JButton("Chưa có hạng vé");
-        btnHangVe.setFont(new Font("Tahoma", Font.BOLD, 15));
+        btnHangVe = new BtnCS();
+        btnHangVe.setForeground(new Color(255, 255, 255));
+        btnHangVe.setBorderColor(new Color(255, 255, 255));
+        btnHangVe.setText("Chưa có hạng vé");
+        btnHangVe.setFont(new Font("Times New Roman", Font.BOLD, 20));
         btnHangVe.setBounds(30, 479, 197, 41);
         panel_1.add(btnHangVe);
 
         JLabel lblHngV = new JLabel("HẠNG VÉ ");
-        lblHngV.setFont(new Font("Tahoma", Font.PLAIN, 17));
-        lblHngV.setBounds(89, 10, 82, 19);
+        lblHngV.setForeground(new Color(3, 4, 128));
+        lblHngV.setHorizontalAlignment(SwingConstants.CENTER);
+        lblHngV.setFont(new Font("Times New Roman", Font.BOLD, 19));
+        lblHngV.setBounds(0, 10, 242, 19);
         panel_1.add(lblHngV);
         
-        btnMaGhe = new JButton("Chưa chọn");
-        btnMaGhe.setFont(new Font("Tahoma", Font.BOLD, 15));
+        btnMaGhe = new BtnCS();
+        btnMaGhe.setForeground(new Color(255, 255, 255));
+        btnMaGhe.setBackground(new Color(0, 0, 0));
+        btnMaGhe.setText("Chưa chọn");
+        btnMaGhe.setFont(new Font("Times New Roman", Font.BOLD, 20));
         btnMaGhe.setBounds(30, 428, 197, 41);
         panel_1.add(btnMaGhe);
         
@@ -320,12 +352,9 @@ public class CreateFlightTicket extends JPanel {
             lbl.setPreferredSize(new Dimension(90, 26));
             panel_3.add(lbl);
         }
-        
      // Flight comboBox
-        setupFlightComboBox(panel);
-        
+        setupFlightComboBox(panel);   
     }
-
     
     //-----------------------------------------------------------------------------
     private void setupFlightComboBox(JPanel panel) {
@@ -342,7 +371,8 @@ public class CreateFlightTicket extends JPanel {
                 }
             }
 
-            comboBoxFlight = new JComboBox<>(flightModel);
+            comboBoxFlight = new ComboBoxSuggestion<>();
+            comboBoxFlight.setModel(flightModel);
             if (selectedFlightID != null) {
                 comboBoxFlight.setSelectedItem(selectedFlightID);
             }

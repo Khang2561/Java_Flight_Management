@@ -10,6 +10,10 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
+import CustomUI.BtnCS;
+import CustomUI.PanelRound;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -27,7 +31,7 @@ public class Register extends JPanel {
     private JLabel lblS;
     private JLabel lblMtKhu;
     private JLabel lblNhpLiMt;
-    Button btnSignUp;
+    BtnCS btnSignUp;
     
     public static String getUsernameText() {
     	return txtUsername.getText();
@@ -56,16 +60,24 @@ public class Register extends JPanel {
 		setBackground(new Color(255, 255, 255));
 		setBounds(100, 100, 300, 406);
 		setLayout(null);
+		setBackground(null);
 		
 		  // Create a JLayeredPane
-        JLayeredPane layeredPane = new JLayeredPane();
+		PanelRound layeredPane = new PanelRound();
+		layeredPane.setBackground(new Color(255, 255, 255));
+		layeredPane.setRoundTopRight(50);
+		layeredPane.setRoundTopLeft(50);
+		layeredPane.setRoundBottomRight(50);
+		layeredPane.setRoundBottomLeft(50);
+        layeredPane.setLayout(null);
         layeredPane.setBounds(0, 0, 300, 406);
         add(layeredPane);
 		
 		JLabel lbl1 = new JLabel("Tạo tài khoản");
+		lbl1.setForeground(new Color(0, 0, 128));
 		lbl1.setFont(new Font("Times New Roman", Font.BOLD, 24));
-		lbl1.setBounds(73, 41, 149, 29);
-		add(lbl1);
+		lbl1.setBounds(83, 10, 149, 29);
+		layeredPane.add(lbl1);
 		
 		txtUsername = new JTextField();
 		txtUsername.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -93,18 +105,20 @@ public class Register extends JPanel {
 		txtPhoneNumber.setBounds(38, 163, 225, 28);
 		layeredPane.add(txtPhoneNumber, JLayeredPane.DEFAULT_LAYER);
 		
-		btnSignUp = new Button("Đăng ký");
+		btnSignUp = new BtnCS();
+		btnSignUp.setRadius(30);
+		btnSignUp.setText("Đăng ký");
 		btnSignUp.setForeground(new Color(255, 255, 255));
-		btnSignUp.setFont(new Font("Arial", Font.PLAIN, 13));
-		btnSignUp.setBackground(new Color(128, 152, 249));
-		btnSignUp.setBounds(38, 281, 225, 32);
+		btnSignUp.setFont(new Font("Arial", Font.BOLD, 18));
+		btnSignUp.setBackground(new Color(3, 4, 94));
+		btnSignUp.setBounds(38, 339, 225, 32);
 		layeredPane.add(btnSignUp);
 		
 		JLabel lbl2 = new JLabel("Đã có tài khoản?");
 		lbl2.setForeground(new Color(113, 113, 122));
 		lbl2.setFont(new Font("Arial", Font.PLAIN, 12));
-		lbl2.setBounds(73, 323, 112, 15);
-		add(lbl2);
+		lbl2.setBounds(73, 381, 112, 15);
+		layeredPane.add(lbl2);
 		
 		lblLogin = new JLabel("Đăng nhập");
 		lblLogin.addMouseListener(new MouseAdapter() {
@@ -119,7 +133,7 @@ public class Register extends JPanel {
 		});
 		lblLogin.setForeground(new Color(128, 152, 249));
 		lblLogin.setFont(new Font("Arial", Font.BOLD, 12));
-		lblLogin.setBounds(168, 323, 73, 15);
+		lblLogin.setBounds(168, 381, 73, 15);
 		layeredPane.add(lblLogin, JLayeredPane.DEFAULT_LAYER);
 		
 		JLabel lblShowAndHidePassword_1 = Utils.lblShowAndHidePassword(txtPassword, 20, 20);
@@ -131,27 +145,32 @@ public class Register extends JPanel {
 		layeredPane.add(lblShowAndHidePassword_2, JLayeredPane.POPUP_LAYER);
 		
 		lblNewLabel = new JLabel("Họ và tên");
-		lblNewLabel.setForeground(new Color(128, 128, 128));
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 10));
+		lblNewLabel.setForeground(new Color(0, 0, 0));
 		lblNewLabel.setBounds(38, 72, 73, 14);
 		layeredPane.add(lblNewLabel);
 		
 		lblEmail = new JLabel("Email");
-		lblEmail.setForeground(Color.GRAY);
+		lblEmail.setFont(new Font("Tahoma", Font.BOLD, 10));
+		lblEmail.setForeground(new Color(0, 0, 0));
 		lblEmail.setBounds(38, 112, 73, 14);
 		layeredPane.add(lblEmail);
 		
 		lblS = new JLabel("Số điện thoại");
-		lblS.setForeground(Color.GRAY);
+		lblS.setFont(new Font("Tahoma", Font.BOLD, 10));
+		lblS.setForeground(new Color(0, 0, 0));
 		lblS.setBounds(38, 150, 73, 14);
 		layeredPane.add(lblS);
 		
 		lblMtKhu = new JLabel("Mật khẩu");
-		lblMtKhu.setForeground(Color.GRAY);
+		lblMtKhu.setFont(new Font("Tahoma", Font.BOLD, 10));
+		lblMtKhu.setForeground(new Color(0, 0, 0));
 		lblMtKhu.setBounds(38, 191, 73, 14);
 		layeredPane.add(lblMtKhu);
 		
 		lblNhpLiMt = new JLabel("Nhập lại mật khẩu");
-		lblNhpLiMt.setForeground(Color.GRAY);
+		lblNhpLiMt.setFont(new Font("Tahoma", Font.BOLD, 10));
+		lblNhpLiMt.setForeground(new Color(0, 0, 0));
 		lblNhpLiMt.setBounds(38, 233, 106, 14);
 		layeredPane.add(lblNhpLiMt);
 	}

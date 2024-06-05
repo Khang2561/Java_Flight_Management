@@ -6,6 +6,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import CustomUI.JtfCS;
 import View.Admin.Admin_header;
 import View.Admin.FormAdmin;
 import libData.JDBCUtil;
@@ -72,9 +73,10 @@ public class PlaneListUC extends JPanel {
 		scrollPane.setBounds(0, 80, 1365, 430);
 		add(scrollPane);
 		
-		textFieldSearch = new JTextField();
+		textFieldSearch = new JtfCS();
+		textFieldSearch.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		textFieldSearch.setToolTipText("Mã máy bay hoặc tên máy bay");
-		textFieldSearch.setBounds(0, 45, 249, 25);
+		textFieldSearch.setBounds(0, 35, 249, 35);
 		add(textFieldSearch);
 		textFieldSearch.setColumns(10);
 		textFieldSearch.addActionListener(new ActionListener() {
@@ -116,7 +118,7 @@ public class PlaneListUC extends JPanel {
 		
 		JLabel lblNewLabel = new JLabel("Nhập mã máy bay hoặc tên máy bay");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel.setBounds(0, 10, 260, 25);
+		lblNewLabel.setBounds(0, 0, 260, 25);
 		add(lblNewLabel);
 		
 		JPanel panel = new JPanel();
@@ -125,13 +127,8 @@ public class PlaneListUC extends JPanel {
 		panel.setLayout(new GridLayout(0, 2, 30, 0));
 		
 		JButton btnThongTin = new JButton("Điều chỉnh");
-		btnThongTin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// Create a new panel that you want to show
-				OperationPlaneUC newPanel = new OperationPlaneUC(null); // Replace this with your actual new panel
-                clearAndShow(newPanel);
-			}
-		});
+
+
 		btnThongTin.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		panel.add(btnThongTin);
 		btnThongTin.addActionListener(new ActionListener() {

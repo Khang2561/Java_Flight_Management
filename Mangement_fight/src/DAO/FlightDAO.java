@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
@@ -64,40 +66,49 @@ public class FlightDAO implements DAOInterface<Flight> {
 		return rs;
 	}
 
-	// Phương thức chèn chuyến bay mới vào bảng FLIGHT
+
 	public static String insertFlight(Connection conn, String flightFrom, String flightTo, String planeID,
-			java.util.Date departureDate, int spinnerHour, int spinnerMinute, int flightTime, float flightCost)
-			throws SQLException {
-		// Tạo FlightID mới bằng cách tăng giá trị cuối cùng lên 1 đơn vị
-		String newFlightID = generateNewFlightID(conn);
+	        String departureDate, int spinnerHour, int spinnerMinute, int flightTime, float flightCost)
+	        throws SQLException, ParseException {
+	    // Tạo FlightID mới bằng cách tăng giá trị cuối cùng lên 1 đơn vị
+	    String newFlightID = generateNewFlightID(conn);
 
-		// Kết hợp departureDate, spinnerHour và spinnerMinute thành SMALLDATETIME
-		java.util.Calendar cal = java.util.Calendar.getInstance();
-		cal.setTime(departureDate);
-		cal.set(java.util.Calendar.HOUR_OF_DAY, spinnerHour);
-		cal.set(java.util.Calendar.MINUTE, spinnerMinute);
+	    // Định dạng ngày tháng đầu vào
+	    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+	    java.util.Date parsedDate = dateFormat.parse(departureDate);
 
-		java.sql.Timestamp departureDateTime = new java.sql.Timestamp(cal.getTimeInMillis());
-		String insertFlightSQL = "INSERT INTO FLIGHT (FlightID, PlaneID, DepartureAirportCode, ArrivalAirportCode, TicketPrice, DepartureDateTime, FlightDuration) "
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
-		try (PreparedStatement pstmt = conn.prepareStatement(insertFlightSQL,
-				PreparedStatement.RETURN_GENERATED_KEYS)) {
-			pstmt.setString(1, newFlightID);
-			pstmt.setString(2, planeID);
-			pstmt.setString(3, flightFrom);
-			pstmt.setString(4, flightTo);
-			pstmt.setFloat(5, flightCost);
-			pstmt.setTimestamp(6, departureDateTime);
-			pstmt.setInt(7, flightTime);
+	    // Kết hợp departureDate, spinnerHour và spinnerMinute thành SMALLDATETIME
+	    java.util.Calendar cal = java.util.Calendar.getInstance();
+	    cal.setTime(parsedDate);
+	    cal.set(java.util.Calendar.HOUR_OF_DAY, spinnerHour);
+	    cal.set(java.util.Calendar.MINUTE, spinnerMinute);
 
-			int affectedRows = pstmt.executeUpdate();
+	    java.sql.Timestamp departureDateTime = new java.sql.Timestamp(cal.getTimeInMillis());
 
-			if (affectedRows == 0) {
-				throw new SQLException("Creating flight failed, no rows affected.");
-			}
-			return newFlightID;
-		}
+	    // Điều chỉnh giá trị của flightCost nếu cần thiết (ví dụ: làm tròn đến 2 chữ số thập phân)
+	    flightCost = Math.round(flightCost * 100) / 100.0f;
+
+	    String insertFlightSQL = "INSERT INTO FLIGHT (FlightID, PlaneID, DepartureAirportCode, ArrivalAirportCode, TicketPrice, DepartureDateTime, FlightDuration) "
+	            + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+	    try (PreparedStatement pstmt = conn.prepareStatement(insertFlightSQL,
+	            PreparedStatement.RETURN_GENERATED_KEYS)) {
+	        pstmt.setString(1, newFlightID);
+	        pstmt.setString(2, planeID);
+	        pstmt.setString(3, flightFrom);
+	        pstmt.setString(4, flightTo);
+	        pstmt.setFloat(5, flightCost);
+	        pstmt.setTimestamp(6, departureDateTime);
+	        pstmt.setInt(7, flightTime);
+
+	        int affectedRows = pstmt.executeUpdate();
+
+	        if (affectedRows == 0) {
+	            throw new SQLException("Creating flight failed, no rows affected.");
+	        }
+	        return newFlightID;
+	    }
 	}
+
 
 	// Phương thức tạo FlightID mới
 	private static String generateNewFlightID(Connection conn) throws SQLException {
@@ -172,5 +183,7 @@ public class FlightDAO implements DAOInterface<Flight> {
             throw new SQLException("Error while deleting flight", ex);
         }
     }
+
+	
 
 }
