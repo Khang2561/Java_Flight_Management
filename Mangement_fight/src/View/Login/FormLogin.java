@@ -17,6 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import CustomUI.PanelRound;
 import DAO.AAADAO;
 import Model.Account;
 import View.Admin.FormAdmin;
@@ -37,7 +38,7 @@ import java.awt.Color;
 public class FormLogin extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
+	private PanelRound contentPane;
 	private int mouseX, mouseY;
 	private static int otp;
 	JPanel panelLogin;
@@ -45,11 +46,10 @@ public class FormLogin extends JFrame {
 	JPanel panelRegister;
 	JPanel panelForgotPassword2;
 	JPanel panelForgotPassword3;
-	FormAdmin formAdmin = new FormAdmin();
+	FormAdmin formAdmin; //= new FormAdmin();
 	
-	
+	//------------------------------------------------------------------------------------------------
 	public void switchPanel(JPanel prePanel, JPanel nxtPanel) {
-        
         contentPane.remove(prePanel);
         
         nxtPanel.setBounds(417, 44, 300, 406);
@@ -58,7 +58,7 @@ public class FormLogin extends JFrame {
         contentPane.revalidate();
         contentPane.repaint();
 	}
-	
+	//------------------------------------------------------------------
 	//Hàm gửi mã OTP
 	public static void sendOTP(String to) {
 		// Sender Email
@@ -70,8 +70,6 @@ public class FormLogin extends JFrame {
 	    prop.put("mail.smtp.port", "587");
 	    prop.put("mail.smtp.auth", "true");
 	    prop.put("mail.smtp.starttls.enable", "true"); //TLS
-	        
-	        
 	    // Create authenticator
 	    Authenticator auth = new Authenticator() {
 	        	
@@ -89,7 +87,6 @@ public class FormLogin extends JFrame {
 	    // send Email
 	    // create message
 	    MimeMessage msg = new MimeMessage(session);
-	        
 	    try {
 	        	
 	    	msg.addHeader("Content-type", "text/HTML; charset=UTF-8");
@@ -142,6 +139,7 @@ public class FormLogin extends JFrame {
 		setUndecorated(true);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocation(400,200);
 		setSize(750, 488);
 		setTitle("Flight Airline");
 		
@@ -161,7 +159,7 @@ public class FormLogin extends JFrame {
             }
         });
         		
-		contentPane = new JPanel();
+		contentPane = new PanelRound();
 		contentPane.setBackground(new Color(0, 128, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -170,6 +168,7 @@ public class FormLogin extends JFrame {
 		
 		//hien thi form dang nhap
 		panelLogin = new loggin_form(this, formAdmin);
+		panelLogin.setBackground(null);
 		panelForgotPassword1 = new ForgotPassword1();
 		panelRegister = new Register();	
 		panelForgotPassword2 = new ForgotPassword2();
@@ -388,12 +387,15 @@ public class FormLogin extends JFrame {
         //add anh login
         JLabel lblBackgroundImg = new JLabel("");
         lblBackgroundImg.setBounds(0, 0, 375, 488);
-        ImageIcon scaledBackgroundImg = Utils.scaledImage(FormLogin.class.getResource("/Resource/flight.jpg").getPath(), lblBackgroundImg.getWidth(), lblBackgroundImg.getHeight());
+        ImageIcon scaledBackgroundImg = Utils.scaledImage(getClass().getResource("/Resource/flight.jpg"), lblBackgroundImg.getWidth(), lblBackgroundImg.getHeight());
         lblBackgroundImg.setIcon(scaledBackgroundImg);
         contentPane.add(lblBackgroundImg);
         
         //add nut thoat
         JLabel lblExit = new JLabel(); 
+        lblExit.setBounds(720, 12, 18, 20); 
+        ImageIcon scaledExitIcon = Utils.scaledImage(FormLogin.class.getResource("/Resource/CloseIcon2.png"), lblExit.getWidth(), lblExit.getHeight());
+        lblExit.setIcon(scaledExitIcon);
         lblExit.addMouseListener(new MouseAdapter() {
         	@Override
         	public void mouseClicked(MouseEvent e) {
@@ -408,9 +410,6 @@ public class FormLogin extends JFrame {
         		lblExit.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         	}
         });
-        lblExit.setBounds(720, 12, 18, 20); 
-        ImageIcon scaledExitIcon = Utils.scaledImage(FormLogin.class.getResource("/Resource/CloseIcon2.png").getPath(), lblExit.getWidth(), lblExit.getHeight());
-        lblExit.setIcon(scaledExitIcon);
         contentPane.add(lblExit);
 	}
 	
