@@ -35,6 +35,11 @@ import com.toedter.calendar.JDateChooser;
 
 import CustomUI.BtnCS;
 import CustomUI.JtfCS;
+import CustomUI.Table.TableActionCellEditor;
+import CustomUI.Table.TableActionCellRender;
+import CustomUI.Table.JTblCS;
+import CustomUI.Table.TablePanelAction;
+import CustomUI.Table.TableActionEvent;
 import DAO.FlightDAO;
 import View.Admin.Admin_header;
 import View.Admin.FormAdmin;
@@ -49,7 +54,7 @@ import com.raven.datechooser.EventDateChooser;
 public class FlightListUC extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JTable table;
+	private JTblCS table;
 	private DefaultTableModel tableModel;
 	private Container panel;
 	private String flightID;
@@ -75,19 +80,115 @@ public class FlightListUC extends JPanel {
 		btnSearch.setBounds(1354, 11, 106, 35);
 		panel.add(btnSearch);
 
+		//Danh sách chuyến bay
 		tableModel = new DefaultTableModel(new Object[][] {}, new String[] { "Mã Chuyến Bay", "Sân Bay Cất Cánh",
-				"Nơi Cất Cánh", "Sân Bay Hạ Cánh", "Nơi Hạ Cánh", "Thời Gian", "Ghế Trống", "Ghế Đã Đặt" });
+						"Nơi Cất Cánh", "Sân Bay Hạ Cánh", "Nơi Hạ Cánh", "Thời Gian", "Ghế Trống", "Ghế Đã Đặt", "Thao tác" }) {
+				    @Override
+				    public boolean isCellEditable(int row, int column) {
+				        // Only the third column is editable
+				    	return column == 8;
+				    }
+		};; 
 
-		table = new JTable(tableModel);
+		table = new JTblCS("FlightListUC");
 		table.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		table.setBackground(SystemColor.control);
-		table.getTableHeader().setFont(new Font("Tahoma", Font.PLAIN, 15));
-		table.setRowHeight(30);
+		table.getTableHeader().setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		table.setModel(tableModel);
+		table.setRowHeight(50);
 		setJTableColumnsWidth(table, 1421, 7, 13, 6, 13, 6, 10, 5, 6, 15);
 
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(39, 58, 1307, 488);
+		scrollPane.setBounds(39, 58, 1421, 473);
 		panel.add(scrollPane);
+
+		table.fixTable(scrollPane);
+		table.getColumnModel().getColumn(8).setCellRenderer(new TableActionCellRender());
+        table.getColumnModel().getColumn(8).setCellEditor(new TableActionCellEditor(new TableActionEvent() {
+            @Override
+            public void onEdit(int row) {
+            	int selectedRow = table.getSelectedRow();
+		        if (selectedRow == -1) {
+		            JOptionPane.showMessageDialog(null, "Hãy lựa chọn chuyến bay cần chỉnh sửa.", "Thông báo",
+		                    JOptionPane.ERROR_MESSAGE);
+		            return;
+		        } else {
+		            try {
+		            	FlightUC.selectButton(FlightUC.btnDetailFlight);
+		            	
+		                String flightID = table.getValueAt(selectedRow, 0).toString();
+		                DetailFlightUC detailFlightUC = new DetailFlightUC(flightID); // Khởi tạo DetailFlightUC với flightID
+		                FlightUC.switchDetailFlightUC(detailFlightUC);
+		            } catch (ClassNotFoundException | SQLException ex) {
+		                ex.printStackTrace();
+		                JOptionPane.showMessageDialog(null, "Đã xảy ra lỗi khi tải chi tiết chuyến bay.", "Lỗi",
+		                        JOptionPane.ERROR_MESSAGE);
+		            }
+		        }
+            }
+
+			@Override
+			public void onDelete(int row) {
+				int selectedRow = table.getSelectedRow();
+		        if (selectedRow == -1) {
+		            JOptionPane.showMessageDialog(null, "Hãy lựa chọn chuyến bay cần xoá.", "Thông báo",
+		                    JOptionPane.ERROR_MESSAGE);
+		            return;
+		        }
+		        int option = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn xóa chuyến bay không?",
+		                "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
+		        if (option == JOptionPane.YES_OPTION) {
+		            try {
+		                // Lấy ID của chuyến bay từ hàng được chọn trong bảng
+		                String flightID = table.getValueAt(selectedRow, 0).toString();
+
+		                // Tạo kết nối và gọi phương thức deleteFlight
+		                Connection conn = JDBCUtil.getConnection();
+		                FlightDAO.deleteFlight(conn, flightID);
+
+		                // Đóng kết nối
+		                conn.close();
+
+		                // Nạp lại dữ liệu bảng sau khi xóa
+		                try {
+		                    loadFlightData(null, null, null);
+		                } catch (ClassNotFoundException ex) {
+		                    ex.printStackTrace();
+		                    // In ra thông tin về lỗi để debug
+		                }
+
+		                // Hiển thị thông báo thành công
+		                JOptionPane.showMessageDialog(null, "Đã xoá chuyến bay thành công", "Thông báo",
+		                        JOptionPane.INFORMATION_MESSAGE);
+		            } catch (SQLException ex) {
+		                ex.printStackTrace();
+		                JOptionPane.showMessageDialog(null, "Lỗi khi xóa chuyến bay. Vui lòng thử lại", "Thông báo",
+		                        JOptionPane.ERROR_MESSAGE);
+		            }
+		        }
+			}
+			
+			@Override
+			public void onBookTicket(int row) {
+				 int selectedRow = table.getSelectedRow();
+			        if (selectedRow == -1) {
+			            JOptionPane.showMessageDialog(null, "Hãy lựa chọn chuyến bay cần đặt vé.", "Thông báo", JOptionPane.ERROR_MESSAGE);
+			            return;
+			        } else {
+			            String flightID = table.getValueAt(selectedRow, 0).toString();
+			            clearAndShow(new FlightTicket(flightID));
+			            try {
+							
+							Admin_header.highlightButton1();
+							FlightTicket.button_2.setBackground(new Color(3,4,94));
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+			            // Proceed with the rest of your code to switch to the CreateFlightTicket view
+			        }
+			    }
+        }));
 
 		ComboBoxSuggestion<String> comboBoxTo = new ComboBoxSuggestion<>();
 		comboBoxTo.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
@@ -127,7 +228,7 @@ public class FlightListUC extends JPanel {
 		populateComboBoxWithCities(comboBoxTo);
 
 		//------------------------------------------------
-		JButton btnBook = new JButton("Đặt vé");
+		/*JButton btnBook = new JButton("Đặt vé");
 		btnBook.addActionListener(new ActionListener() {
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
@@ -153,10 +254,10 @@ public class FlightListUC extends JPanel {
 		btnBook.setBackground(new Color(51, 51, 255));
 		btnBook.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
 		btnBook.setBounds(1354, 186, 106, 35);
-		panel.add(btnBook);
+		panel.add(btnBook);*/
 
 		//-----------------------------------------------
-		JLabel lblEdit = new JLabel("");
+		/*JLabel lblEdit = new JLabel("");
 		lblEdit.setFont(new Font("Lucida Grande", Font.PLAIN, 9));
 		Image img = new ImageIcon(this.getClass().getResource("/Resource/EditIcon.png")).getImage();
 		lblEdit.setIcon(new ImageIcon(img));
@@ -185,10 +286,10 @@ public class FlightListUC extends JPanel {
 		            }
 		        }
 		    }
-		});
+		});*/
 		
 		//----------------------------------------------------------------
-		JLabel lblDelete = new JLabel("");
+		/*JLabel lblDelete = new JLabel("");
 		Image img1 = new ImageIcon(this.getClass().getResource("/Resource/DeleteIcon.png")).getImage();
 		lblDelete.setIcon(new ImageIcon(img1));
 		lblDelete.setBounds(1386, 281, 42, 35);
@@ -234,7 +335,7 @@ public class FlightListUC extends JPanel {
 		            }
 		        }
 		    }
-		});
+		});*/
 
 		JSeparator separator = new JSeparator();
 		separator.setForeground(UIManager.getColor("InternalFrame.inactiveTitleForeground"));
@@ -330,7 +431,8 @@ public class FlightListUC extends JPanel {
 	            int seatsBooked = rs.getInt("SeatsBooked");
 
 	            tableModel.addRow(new Object[] { flightID, departureAirport, departureCity, arrivalAirport, arrivalCity,
-	                    departureDateTime, seatsRemaining, seatsBooked });
+	                    departureDateTime, seatsRemaining, seatsBooked});
+	            
 	        }
 	    } catch (SQLException e) {
 	        e.printStackTrace();
