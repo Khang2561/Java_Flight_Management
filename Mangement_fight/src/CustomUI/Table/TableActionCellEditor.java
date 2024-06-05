@@ -19,6 +19,14 @@ public class TableActionCellEditor extends DefaultCellEditor {
         TablePanelAction action = new TablePanelAction();
         action.initEvent(event, row);
         action.setBackground(jtable.getBackground());
+        if (jtable instanceof JTblCS) {
+            JTblCS table = (JTblCS) jtable;
+            if ("FlightListUC".equals(table.getParentClassName())) {
+                action.getBtnBook().setVisible(true);
+            } else {
+                action.getBtnBook().setVisible(false);
+            }
+        }
         return action;
     }
 }

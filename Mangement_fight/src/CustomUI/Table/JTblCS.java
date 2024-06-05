@@ -19,8 +19,10 @@ public class JTblCS extends JTable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private String parentClassName;
 
-	public JTblCS() {
+	public JTblCS(String parentClassName) {
+		this.parentClassName = parentClassName;
 		setShowHorizontalLines(true);
 		setShowVerticalLines(false);
         setGridColor(Color.BLACK);
@@ -65,5 +67,9 @@ public class JTblCS extends JTable {
         p.setBackground(Color.WHITE);
         scroll.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
         scroll.setBorder(new EmptyBorder(5, 10, 5, 10));
+    }
+    
+    public String getParentClassName() { // Add a getter for the parent class name
+        return parentClassName;
     }
 }
