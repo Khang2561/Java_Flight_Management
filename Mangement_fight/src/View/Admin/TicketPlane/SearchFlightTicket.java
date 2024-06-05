@@ -19,6 +19,8 @@ import CustomUI.CurrencyTableCellRenderer;
 import CustomUI.JtfCS;
 import CustomUI.TableActionCellRender;
 import DAO.TicketDAO;
+import combo_suggestion.ComboBoxSuggestion;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
@@ -47,7 +49,7 @@ public class SearchFlightTicket extends JPanel {
 
     
     private void initializeComponents() {
-        JComboBox<String> comboBox = new JComboBox<>();
+    	ComboBoxSuggestion<String> comboBox = new ComboBoxSuggestion<>();
         comboBox.setModel(new DefaultComboBoxModel<>(new String[]{"Tìm kiếm theo mã vé", "Tìm kiếm theo mã chuyến bay "}));
         comboBox.setBounds(25, 10, 216, 36);
         add(comboBox);

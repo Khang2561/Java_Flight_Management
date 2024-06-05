@@ -40,6 +40,7 @@ import View.Admin.Admin_header;
 import View.Admin.FormAdmin;
 import View.Admin.TicketPlane.CreateFlightTicket;
 import View.Admin.TicketPlane.FlightTicket;
+import combo_suggestion.ComboBoxSuggestion;
 import libData.JDBCUtil;
 import javax.swing.JTextField;
 import java.awt.Button;
@@ -88,12 +89,12 @@ public class FlightListUC extends JPanel {
 		scrollPane.setBounds(39, 58, 1307, 488);
 		panel.add(scrollPane);
 
-		JComboBox<String> comboBoxTo = new JComboBox<>();
+		ComboBoxSuggestion<String> comboBoxTo = new ComboBoxSuggestion<>();
 		comboBoxTo.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
 		comboBoxTo.setBounds(679, 11, 173, 35);
 		panel.add(comboBoxTo);
 
-		JComboBox<String> comboBoxFrom = new JComboBox<>();
+		ComboBoxSuggestion<String> comboBoxFrom = new ComboBoxSuggestion<>();
 		comboBoxFrom.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
 		comboBoxFrom.setBounds(413, 11, 173, 35);
 		panel.add(comboBoxFrom);

@@ -20,7 +20,6 @@ import CustomUI.Table.TableActionCellRender;
 import CustomUI.Table.TableActionEvent;
 import CustomUI.Table.JTblCS;
 import CustomUI.Table.TablePanelAction;
-import DALs.AirportDAL;
 import DAO.AAADAO;
 import DAO.AirportDAO;
 import DAO.ParametersDAO;
