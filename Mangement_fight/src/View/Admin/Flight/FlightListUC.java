@@ -75,9 +75,9 @@ public class FlightListUC extends JPanel {
 		btnSearch = new BtnCS();
 		btnSearch.setForeground(new Color(255, 255, 255));
 		btnSearch.setRadius(20);
-		btnSearch.setText("Tìm kiến");
+		btnSearch.setText("Tìm kiếm");
 		btnSearch.setFont(new Font("Times New Roman", Font.BOLD, 18));
-		btnSearch.setBounds(1354, 11, 106, 35);
+		btnSearch.setBounds(1350, 12, 110, 35);
 		panel.add(btnSearch);
 
 		//Danh sách chuyến bay
@@ -88,10 +88,14 @@ public class FlightListUC extends JPanel {
 				        // Only the third column is editable
 				    	return column == 8;
 				    }
-		};; 
+		};
 
 		table = new JTblCS("FlightListUC");
-		table.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		table.setSurrendersFocusOnKeystroke(true);
+		table.setColumnSelectionAllowed(false);
+		table.setRowSelectionAllowed(false);
+		table.setCellSelectionEnabled(false);
+		table.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		table.setBackground(SystemColor.control);
 		table.getTableHeader().setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		table.setModel(tableModel);
@@ -185,9 +189,14 @@ public class FlightListUC extends JPanel {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-			            // Proceed with the rest of your code to switch to the CreateFlightTicket view
 			        }
 			    }
+
+			@Override
+			public void onCancelTicket(int row) {
+				// TODO Auto-generated method stub
+				
+			}
         }));
 
 		ComboBoxSuggestion<String> comboBoxTo = new ComboBoxSuggestion<>();

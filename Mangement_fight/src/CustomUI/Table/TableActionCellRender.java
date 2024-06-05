@@ -3,12 +3,11 @@ package CustomUI.Table;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Container;
+
 
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
-import View.Admin.Flight.FlightListUC;
 
 
 
@@ -32,6 +31,16 @@ public class TableActionCellRender extends DefaultTableCellRenderer {
                 action.getBtnBook().setVisible(true);
             } else {
                 action.getBtnBook().setVisible(false);
+            }
+            
+            if ("SearchFlightTicket".equals(table.getParentClassName())) {
+            	action.getCmdEdit().setVisible(false);
+            	action.getCmdDelete().setVisible(false);
+            	action.getCmdCancel().setVisible(true);
+            } else {
+            	action.getCmdEdit().setVisible(true);
+            	action.getCmdDelete().setVisible(true);
+            	action.getCmdCancel().setVisible(false);
             }
         }
         

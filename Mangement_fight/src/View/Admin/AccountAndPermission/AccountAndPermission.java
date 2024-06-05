@@ -454,6 +454,12 @@ public class AccountAndPermission extends JPanel {
 				// TODO Auto-generated method stub
 				
 			}
+
+			@Override
+			public void onCancelTicket(int row) {
+				// TODO Auto-generated method stub
+				
+			}
         }));
 		
 		

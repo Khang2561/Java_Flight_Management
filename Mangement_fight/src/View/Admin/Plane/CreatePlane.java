@@ -24,6 +24,7 @@ import javax.swing.table.DefaultTableModel;
 
 import CustomUI.BtnCS;
 import CustomUI.JtfCS;
+import CustomUI.Table.JTblCS;
 import DAO.PlaneDAO;
 import DAO.SeatDAO;
 import DAO.TicketClassDAO;
@@ -46,7 +47,7 @@ public class CreatePlane extends JPanel {
 	private static JtfCS textFieldChairCount;
 	private JPanel seatPanel;
 	private JPanel panelSeatNumer;
-	private JTable tableClassTicket;
+	private JTblCS tableClassTicket;
 	private DefaultTableModel modelTicketLevel;
 	private JTable countTicketClassTable;
 	private static DefaultTableModel modelTicketcount;
@@ -323,7 +324,7 @@ public class CreatePlane extends JPanel {
 		scrollPane.setBounds(10, 58, 210, 155);
 		panel_1.add(scrollPane);
 		//table cho hang ve 
-		tableClassTicket = new JTable();
+		tableClassTicket = new JTblCS("PlaneTicketLevel");
 		tableClassTicket.setEnabled(false);
 		tableClassTicket.addMouseListener(new MouseAdapter() {
 			@Override

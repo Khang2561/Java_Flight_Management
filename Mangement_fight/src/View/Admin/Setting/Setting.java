@@ -203,6 +203,12 @@ public class Setting extends JPanel {
 				
 			}
 
+			@Override
+			public void onCancelTicket(int row) {
+				// TODO Auto-generated method stub
+				
+			}
+
 
         }));
 		
@@ -924,6 +930,12 @@ public class Setting extends JPanel {
 					
 				}
 
+				@Override
+				public void onCancelTicket(int row) {
+					// TODO Auto-generated method stub
+					
+				}
+
 	        }));
 		
 	}
@@ -941,7 +953,6 @@ public class Setting extends JPanel {
 	            rs.getString("AirportName"),
 	            rs.getString("CityName"),
 	            rs.getString("CountryName"),
-	            new TablePanelAction()
 	        };
 	        model.addRow(row);  
 	    }
