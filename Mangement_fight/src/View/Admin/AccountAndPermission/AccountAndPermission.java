@@ -339,7 +339,7 @@ public class AccountAndPermission extends JPanel {
 		
 		//--------------table for account ----------------------------------
 		//create account table
-		table = new JTblCS(); 
+		table = new JTblCS("AccountAndPermission"); 
 		table.setSurrendersFocusOnKeystroke(true);
 		table.setColumnSelectionAllowed(false);
 		table.setCellSelectionEnabled(false);
@@ -447,6 +447,18 @@ public class AccountAndPermission extends JPanel {
 				    }
 				}
 				else return;
+			}
+
+			@Override
+			public void onBookTicket(int row) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onCancelTicket(int row) {
+				// TODO Auto-generated method stub
+				
 			}
         }));
 		

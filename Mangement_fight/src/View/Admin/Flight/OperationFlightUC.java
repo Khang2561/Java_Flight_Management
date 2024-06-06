@@ -36,6 +36,7 @@ import com.toedter.calendar.JDateChooser;
 
 import CustomUI.BtnCS;
 import CustomUI.JtfCS;
+import CustomUI.Table.JTblCS;
 import DAO.AirportDAO;
 import DAO.FlightDAO;
 import DAO.PlaneDAO;
@@ -52,9 +53,9 @@ public class OperationFlightUC extends JPanel {
 	private JTextField txtFlightHour;
 	private JTextField txtFlightTime;
 	private JTextField txtFlightCost;
-	private JTable tableIntermediateFlight;
+	private JTblCS tableIntermediateFlight;
 	private DefaultTableModel tableModel;
-	private JTable table_1;
+	private JTblCS table_1;
 	private DefaultTableModel modelTicketLevel;
 	private JComboBox<String> comboBoxFlight;
 	private JComboBox<String> comboBoxFlightFrom;
@@ -408,15 +409,15 @@ public class OperationFlightUC extends JPanel {
 		panel_2.setLayout(null);
 
 		JScrollPane scrollPane_1 = new JScrollPane((Component) null);
-		scrollPane_1.setBounds(0, 0, 204, 76);
+		scrollPane_1.setBounds(0, 0, 204, 200);
 		panel_2.add(scrollPane_1);
 
 		// table ticket class
-		table_1 = new JTable();
+		table_1 = new JTblCS("OperationFlightTicketLevel");
 		table_1.setSurrendersFocusOnKeystroke(true);
 		table_1.setColumnSelectionAllowed(true);
 		table_1.setCellSelectionEnabled(true);
-		table_1.setFont(new Font("Times New Roman", Font.BOLD, 15)); // Thiết lập font cho bảng
+		table_1.setFont(new Font("Times New Roman", Font.BOLD, 14)); // Thiết lập font cho bảng
 
 		Object[] column1 = { "Tên hạng vé", "Số lượng" };
 		modelTicketLevel = new DefaultTableModel();
@@ -430,6 +431,7 @@ public class OperationFlightUC extends JPanel {
 			ex.printStackTrace();
 		}
 		scrollPane_1.setViewportView(table_1);
+		table_1.fixTable(scrollPane_1);
 
 		
 		// ---------------------------------------------------------------------
@@ -484,13 +486,14 @@ public class OperationFlightUC extends JPanel {
 		scrollPane.setBounds(690, 73, 767, 486);
 		panel.add(scrollPane);
 
-		tableIntermediateFlight = new JTable();
-		tableIntermediateFlight.setFont(new Font("Lucida Grande", Font.PLAIN, 14));
+		tableIntermediateFlight = new JTblCS("Intermediate");
+		tableIntermediateFlight.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		tableIntermediateFlight.getTableHeader().setFont(new Font("Tahoma", Font.PLAIN, 15));
 		tableIntermediateFlight.setBackground(SystemColor.window);
 		tableIntermediateFlight.setRowHeight(30);
 		setJTableColumnsWidth(tableIntermediateFlight, 767, 10, 40, 25, 25);
 		scrollPane.setViewportView(tableIntermediateFlight);
+		tableIntermediateFlight.fixTable(scrollPane);
 
 		tableModel = new DefaultTableModel(new Object[][] {},
 				new String[] { "STT", "Tên Sân Bay", "Thời Gian Dừng", "Ghi chú" }) {

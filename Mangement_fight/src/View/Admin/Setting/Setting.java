@@ -98,14 +98,14 @@ public class Setting extends JPanel {
 		lblNewLabel.setBounds(741, 5, 88, 25);
 		panel.add(lblNewLabel);
 		// create airport table
-		table = new JTblCS(); 
+		table = new JTblCS("Setting"); 
 		table.setSurrendersFocusOnKeystroke(true);
 		table.setColumnSelectionAllowed(false);
 		table.setRowSelectionAllowed(false);
 		table.setCellSelectionEnabled(false);
 		table.setFont(new Font("Times New Roman", Font.BOLD, 15)); // Thiết lập font cho bảng
 		//table model
-        model = new DefaultTableModel(){
+        model = new DefaultTableModel() {
         	  @Override
               public boolean isCellEditable(int row, int column) {
                   if (column == 3)
@@ -195,6 +195,18 @@ public class Setting extends JPanel {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+			}
+
+			@Override
+			public void onBookTicket(int row) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onCancelTicket(int row) {
+				// TODO Auto-generated method stub
+				
 			}
 
 
@@ -808,7 +820,7 @@ public class Setting extends JPanel {
 		panel_1_2.add(scrollPane_1);
 		
 		//table ticket class
-		table_1 = new JTblCS();
+		table_1 = new JTblCS("Setting");
 		table_1.setSurrendersFocusOnKeystroke(true);
 		table_1.setColumnSelectionAllowed(false);
 		table_1.setCellSelectionEnabled(false);
@@ -912,6 +924,17 @@ public class Setting extends JPanel {
 					}
 				}
 
+				@Override
+				public void onBookTicket(int row) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void onCancelTicket(int row) {
+					// TODO Auto-generated method stub
+					
+				}
 
 	        }));
 		
@@ -930,7 +953,6 @@ public class Setting extends JPanel {
 	            rs.getString("AirportName"),
 	            rs.getString("CityName"),
 	            rs.getString("CountryName"),
-	            new TablePanelAction()
 	        };
 	        model.addRow(row);  
 	    }
@@ -962,9 +984,8 @@ public class Setting extends JPanel {
 	    modelTicketLevel.setRowCount(0);
 	    while (rs.next()) {
 	    	Object[] row = new Object[] {
-	    			rs.getString("TicketClassName"), // Use getString instead of getInt
-			        rs.getString("PricePercentage"), // Assuming PricePercentage is also a string
-			        new TablePanelAction()
+	    			rs.getString("TicketClassName"), 
+			        rs.getString("PricePercentage"), 
 			};
 			modelTicketLevel.addRow(row); 
 	    }
