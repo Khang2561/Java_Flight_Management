@@ -5,19 +5,20 @@ import java.awt.Color;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import java.awt.Button;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import CustomUI.BtnCS;
 import CustomUI.CurrencyTableCellRenderer;
 import CustomUI.JtfCS;
-import CustomUI.TableActionCellRender;
+import CustomUI.Table.JTblCS;
+import CustomUI.Table.TableActionCellEditor;
+import CustomUI.Table.TableActionCellRender;
+import CustomUI.Table.TableActionEvent;
+import CustomUI.Table.TablePanelAction;
+import DAO.AirportDAO;
 import DAO.TicketDAO;
 import combo_suggestion.ComboBoxSuggestion;
 
@@ -29,7 +30,7 @@ public class SearchFlightTicket extends JPanel {
 
     private static final long serialVersionUID = 1L;
     private JtfCS textField;
-    private JTable table;
+    private JTblCS table;
     private BtnCS button;
 
     /**
@@ -101,25 +102,37 @@ public class SearchFlightTicket extends JPanel {
         scrollPane.setBounds(25, 71, 1451, 447);
         add(scrollPane);
 
-        table = new JTable();
-        table.setEnabled(false);
+        table = new JTblCS("SearchFlightTicket");
+        table.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		table.setSurrendersFocusOnKeystroke(true);
+		table.setColumnSelectionAllowed(false);
+		table.setRowSelectionAllowed(false);
+		table.setCellSelectionEnabled(false);
         scrollPane.setViewportView(table);
-
-        table.setRowHeight(45);
+        table.fixTable(scrollPane);
+        table.setRowHeight(50);
     }
 
     
     //model của table 
     private void setupTable() {
         DefaultTableModel model = new DefaultTableModel(
-            new Object[][] {
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-            },
+            new Object[][] {},
             new String[] {
                 "Mã vé", "Mã chuyến bay", "Họ và tên", "CMND/CCCD", "Số điện thoại", "Email", "Ghế", "Hạng vé", "Giá tiền", "Thao tác"
             }
-        );
+        ) {
+      	  @Override
+          public boolean isCellEditable(int row, int column) {
+              if (column == 9)
+              {
+            	  return true;
+              }
+              return false;
+    	  }
+
+        };
+        
         table.setModel(model);
 
         try (ResultSet rs = TicketDAO.findTicketAll()) {
@@ -127,9 +140,34 @@ public class SearchFlightTicket extends JPanel {
         } catch (SQLException | ClassNotFoundException ex) {
             ex.printStackTrace();
         }
+        
+		table.getColumnModel().getColumn(9).setCellRenderer(new TableActionCellRender());
+        table.getColumnModel().getColumn(9).setCellEditor(new TableActionCellEditor(new TableActionEvent() {
+            @Override
+            public void onEdit(int row) {
+             
+            }
 
-        // Set the custom cell renderer for the "Thao tác" column (10th column, index 9)
-        table.getColumnModel().getColumn(9).setCellRenderer(new TableActionCellRender());
+			@Override
+			public void onDelete(int row) {
+				// TODO Auto-generated method stub
+			
+			}
+
+			@Override
+			public void onBookTicket(int row) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onCancelTicket(int row) {
+				// TODO Auto-generated method stub
+				
+			}
+
+
+        }));
 
         // Set the custom cell renderer for the "Giá tiền" column (9th column, index 8)
         table.getColumnModel().getColumn(8).setCellRenderer(new CurrencyTableCellRenderer());
@@ -138,7 +176,7 @@ public class SearchFlightTicket extends JPanel {
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
         for (int i = 0; i < table.getColumnCount(); i++) {
-            if (i != 8) { // Skip the "Giá tiền" column
+            if (i != 8 && i!= 9) { // Skip the "Giá tiền" column
                 table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
             }
         }
@@ -150,7 +188,7 @@ public class SearchFlightTicket extends JPanel {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
         while (rs.next()) {
-            model.addRow(new Object[] {
+            Object[] row = new Object[] {
                 rs.getString("TicketID"),
                 rs.getString("FlightID"),
                 rs.getString("FullName"),
@@ -160,8 +198,8 @@ public class SearchFlightTicket extends JPanel {
                 rs.getString("SeatID"),
                 rs.getString("TicketClassName"),
                 rs.getDouble("Price"), // Ensure this is a numeric value for the currency renderer
-                "Thao tác" // Placeholder for actions
-            });
+            };
+            model.addRow(row);
         }
     }
 }

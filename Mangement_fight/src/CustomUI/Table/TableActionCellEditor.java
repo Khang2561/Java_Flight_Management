@@ -26,6 +26,16 @@ public class TableActionCellEditor extends DefaultCellEditor {
             } else {
                 action.getBtnBook().setVisible(false);
             }
+            
+            if ("SearchFlightTicket".equals(table.getParentClassName())) {
+            	action.getCmdEdit().setVisible(false);
+            	action.getCmdDelete().setVisible(false);
+            	action.getCmdCancel().setVisible(true);
+            } else {
+            	action.getCmdEdit().setVisible(true);
+            	action.getCmdDelete().setVisible(true);
+            	action.getCmdCancel().setVisible(false);
+            }
         }
         return action;
     }

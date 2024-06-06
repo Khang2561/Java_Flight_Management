@@ -41,5 +41,5 @@ public class TableActionButton extends JButton {
          // Ensure the button's size fits the icon with padding
          setPreferredSize(new java.awt.Dimension(icon.getIconWidth() + 10, icon.getIconHeight() + 10));
     }
-
+    
 }

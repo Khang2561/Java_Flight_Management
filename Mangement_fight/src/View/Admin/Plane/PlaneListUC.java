@@ -7,6 +7,11 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import CustomUI.JtfCS;
+import CustomUI.Table.JTblCS;
+import CustomUI.Table.TableActionCellEditor;
+import CustomUI.Table.TableActionCellRender;
+import CustomUI.Table.TableActionEvent;
+import DAO.AirportDAO;
 import View.Admin.Admin_header;
 import View.Admin.FormAdmin;
 import libData.JDBCUtil;
@@ -32,25 +37,36 @@ import java.awt.event.ActionEvent;
 public class PlaneListUC extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JTable table;
+	private JTblCS table;
 	private JTextField textFieldSearch;
 	static Connection c = JDBCUtil.getConnection();
 	public PlaneListUC() {
 		setLayout(null);
 		setBounds(0, 0, 1365, 520);
-		table = new JTable();
+		table = new JTblCS("PlaneListUC");
 
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
 			new String[] {
-				"Mã máy bay", "Tên máy bay", "Số lượng ghế"
+				"Mã máy bay", "Tên máy bay", "Số lượng ghế", "Thao tác"
 			}
-		));
-		table.getTableHeader().setFont(new Font("Tahoma", Font.BOLD, 15));
+			
+		)
+		{
+      	  @Override
+          public boolean isCellEditable(int row, int column) {
+              if (column == 3)
+              {
+            	  return true;
+              }
+              return false;
+    	  }
+      	});
+		table.getTableHeader().setFont(new Font("Times New Roman", Font.BOLD, 15));
 		table.getTableHeader().setReorderingAllowed(false);
-		table.setRowHeight(50);
-		table.setFont(new Font("Arial", Font.PLAIN, 20));
+		table.setRowHeight(40);
+		table.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		
 		//load db
 		
@@ -72,6 +88,52 @@ public class PlaneListUC extends JPanel {
 		JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setBounds(0, 80, 1365, 430);
 		add(scrollPane);
+		table.fixTable(scrollPane);
+		
+		table.getColumnModel().getColumn(3).setCellRenderer(new TableActionCellRender());
+        table.getColumnModel().getColumn(3).setCellEditor(new TableActionCellEditor(new TableActionEvent() {
+            @Override
+            public void onEdit(int row) {
+            	//thong bao neu chua chon may bay
+				int selectedRow = table.getSelectedRow();
+                if (selectedRow == -1) {
+                    JOptionPane.showMessageDialog(null, "Hãy chọn một máy bay để điều chỉnh.", "Thông báo", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+				OperationPlaneUC ope = new OperationPlaneUC(table.getValueAt(selectedRow, 0).toString());
+				clearAndShow(ope);
+            }
+
+			@Override
+			public void onDelete(int row) {
+				int selectedRow = table.getSelectedRow();
+				String sql = "DELETE FROM PLANE WHERE PlaneID = ?";
+				PreparedStatement pstmt;
+				try {
+					pstmt = c.prepareStatement(sql);
+                    pstmt.setString(1, table.getValueAt(selectedRow, 0).toString());
+                    pstmt.executeUpdate();
+                    showAndReloadTable();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+
+			@Override
+			public void onBookTicket(int row) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onCancelTicket(int row) {
+				// TODO Auto-generated method stub
+				
+			}
+
+
+        }));
 		
 		textFieldSearch = new JtfCS();
 		textFieldSearch.setFont(new Font("Times New Roman", Font.BOLD, 15));
@@ -126,7 +188,7 @@ public class PlaneListUC extends JPanel {
 		add(panel);
 		panel.setLayout(new GridLayout(0, 2, 30, 0));
 		
-		JButton btnThongTin = new JButton("Điều chỉnh");
+		/*JButton btnThongTin = new JButton("Điều chỉnh");
 
 
 		btnThongTin.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -170,7 +232,7 @@ public class PlaneListUC extends JPanel {
 					e1.printStackTrace();
 				}
 			}
-		});
+		});*/
 
 
 	}

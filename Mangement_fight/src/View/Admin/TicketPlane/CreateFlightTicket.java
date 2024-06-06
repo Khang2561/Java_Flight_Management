@@ -31,6 +31,7 @@ import javax.swing.table.DefaultTableModel;
 
 import CustomUI.BtnCS;
 import CustomUI.JtfCS;
+import CustomUI.Table.JTblCS;
 import DAO.FlightDAO;
 import DAO.SeatDAO;
 import DAO.TicketDAO;
@@ -46,7 +47,7 @@ import java.awt.event.MouseEvent;
 public class CreateFlightTicket extends JPanel {
 
     private static final long serialVersionUID = 1L;
-    private JTable table_1;
+    private JTblCS table_1;
     private JtfCS tfGiaVe;
     private JtfCS tfHoVaTen;
     private JtfCS tfCCCD;
@@ -257,7 +258,7 @@ public class CreateFlightTicket extends JPanel {
         scrollPane.setBounds(0, 0, 197, 175);
         panelHangve.add(scrollPane);
 
-        table_1 = new JTable();
+        table_1 = new JTblCS("FlightTicketLevel");
         table_1.setFont(new Font("Times New Roman", Font.BOLD, 15));
         modelTicketLevel = new DefaultTableModel();
         modelTicketLevel.setColumnIdentifiers(new Object[] {"Tên hạng vé", "Số lượng"});
