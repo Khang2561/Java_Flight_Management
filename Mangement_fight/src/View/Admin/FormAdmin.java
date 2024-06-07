@@ -52,7 +52,7 @@ public class FormAdmin extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(null);
 		//header
-		JPanel header1 = new Admin_header();
+		JPanel header1 = Admin_header.getInstance();
 		header1.setBounds(0, 0, 1500, 70);
 		HomeAdmin framehome = new HomeAdmin();
 		contentPane.add(framehome);
