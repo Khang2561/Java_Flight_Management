@@ -8,6 +8,8 @@ import java.awt.Component;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
+import DAO.AAADAO;
+
 
 
 
@@ -41,6 +43,17 @@ public class TableActionCellRender extends DefaultTableCellRenderer {
             	action.getCmdEdit().setVisible(true);
             	action.getCmdDelete().setVisible(true);
             	action.getCmdCancel().setVisible(false);
+            }
+            
+            AAADAO dao = AAADAO.getInstance();
+            
+            if (dao.getCurrentAccount().getRoleID().equals("RL0003")) {
+            	action.getCmdEdit().setVisible(false);
+            	action.getCmdDelete().setVisible(false);
+            }
+            else {
+            	action.getCmdEdit().setVisible(true);
+            	action.getCmdDelete().setVisible(true);
             }
         }
         
