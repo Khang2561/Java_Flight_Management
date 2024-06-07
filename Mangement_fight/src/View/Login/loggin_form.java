@@ -125,7 +125,10 @@ public class loggin_form extends JPanel {
 		            
 		            String permissonCode = permisson.getPMS(account.getRoleID());
 		            
-		            permisson.setPermsionAccess(permissonCode, Admin_header.buttons);
+		            // Get the single instance of Admin_header
+	                Admin_header adminHeader = Admin_header.getInstance();
+		            
+		            permisson.setPermsionAccess(permissonCode, adminHeader.buttons);
 					
 				}catch (Exception ex) {
 					System.out.println(ex.getMessage());
