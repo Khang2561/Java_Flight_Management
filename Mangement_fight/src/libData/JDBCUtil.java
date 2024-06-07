@@ -22,8 +22,6 @@ public class JDBCUtil {
 
             String userName = "admin";
             String password = "1";
-
-
             c = DriverManager.getConnection(url, userName, password);
           
            
@@ -88,4 +86,3 @@ public class JDBCUtil {
 
 
 }
-
