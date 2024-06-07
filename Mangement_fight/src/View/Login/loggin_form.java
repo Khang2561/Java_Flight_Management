@@ -8,8 +8,9 @@ import java.awt.Font;
 import javax.swing.JTextField;
 
 import CustomUI.BtnCS;
+import CustomUI.JpwfCS;
 import CustomUI.JtfCS;
-import CustomUI.PanelRound;
+import CustomUI.LayeredPaneRound;
 import DAO.AAADAO;
 import DAO.PermissionDAO;
 import Model.Account;
@@ -31,8 +32,9 @@ import javax.swing.SwingConstants;
 public class loggin_form extends JPanel {
 
     public static final long serialVersionUID = 1L;
+    private JLabel lblShowAndHidePassword;
     private JtfCS txtUsername;
-    private JPasswordField txtPassword;
+    private JpwfCS txtPassword;
     public JLabel lblForgotPassword;
     private JLabel lbl2;
     public JLabel lblSignUp;
@@ -44,7 +46,7 @@ public class loggin_form extends JPanel {
 		setLayout(null);
 		
         // Create a JLayeredPane
-		PanelRound layeredPane = new PanelRound();
+		LayeredPaneRound layeredPane = new LayeredPaneRound();
 		layeredPane.setBackground(new Color(255, 255, 255));
 		layeredPane.setRoundTopRight(50);
 		layeredPane.setRoundTopLeft(50);
@@ -58,15 +60,15 @@ public class loggin_form extends JPanel {
         txtUsername.setBounds(38, 110, 225, 44);
         txtUsername.setRound(20);
         txtUsername.setFont(new Font("Arial", Font.PLAIN, 12));
-        layeredPane.add(txtUsername);  // Add to default layer
+        layeredPane.add(txtUsername, JLayeredPane.DEFAULT_LAYER);  // Add to default layer
         txtUsername.setColumns(10);
 		
-        txtPassword = new JPasswordField();
-        txtPassword.setBounds(38, 177, 225, 28);
-        layeredPane.add(txtPassword);  // Add to default layer
+        txtPassword = new JpwfCS();
+        txtPassword.setBounds(38, 176, 225, 44);
+        layeredPane.add(txtPassword, JLayeredPane.DEFAULT_LAYER);
 		
 		lblForgotPassword = new JLabel("Quên mật khẩu");
-		lblForgotPassword.setBounds(163, 218, 105, 17);
+		lblForgotPassword.setBounds(158, 221, 105, 17);
 		lblForgotPassword.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -138,12 +140,12 @@ public class loggin_form extends JPanel {
 		btnLogin.setForeground(new Color(255, 255, 255));
 		btnLogin.setFont(new Font("Times New Roman", Font.BOLD, 19));
 		btnLogin.setBackground(new Color(3, 4, 94));
-		layeredPane.add(btnLogin);
+		layeredPane.add(btnLogin, JLayeredPane.DEFAULT_LAYER);
 		
         // Create the show/hide password label
-        JLabel lblShowAndHidePassword =  Utils.lblShowAndHidePassword(txtPassword, 20, 20);
-        lblShowAndHidePassword.setBounds(240, 165, 20, 20);  // Adjust the position as needed
-        layeredPane.add(lblShowAndHidePassword, JLayeredPane.POPUP_LAYER);  // Add to popup layer (higher than default)
+        lblShowAndHidePassword =  Utils.lblShowAndHidePassword(txtPassword, 20, 20);
+        lblShowAndHidePassword.setBounds(238, 185, 20, 20);  // Adjust the position as needed
+        layeredPane.add(lblShowAndHidePassword, JLayeredPane.POPUP_LAYER);
         
         JLabel lblNewLabel = new JLabel("Email hoặc số điện thoại");
         lblNewLabel.setBounds(38, 95, 165, 14);

@@ -12,16 +12,17 @@ import java.awt.Button;
 import javax.swing.JPasswordField;
 
 import CustomUI.BtnCS;
-import CustomUI.PanelRound;
+import CustomUI.JpwfCS;
+import CustomUI.LayeredPaneRound;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class ForgotPassword3 extends PanelRound {
+public class ForgotPassword3 extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private static JPasswordField txtNewPassword;
-	private static JPasswordField txtConfirmPassword;
+	private static JpwfCS txtNewPassword;
+	private static JpwfCS txtConfirmPassword;
 	static String email;
 	BtnCS btnAccept;
 	JLabel lblReturn;
@@ -43,7 +44,7 @@ public class ForgotPassword3 extends PanelRound {
 		setLayout(null);
 		
         // Create a JLayeredPane
-		PanelRound layeredPane = new PanelRound();
+		LayeredPaneRound layeredPane = new LayeredPaneRound();
 		layeredPane.setRoundTopRight(50);
 		layeredPane.setRoundTopLeft(50);
 		layeredPane.setRoundBottomRight(50);
@@ -64,17 +65,17 @@ public class ForgotPassword3 extends PanelRound {
         btnAccept.setBackground(new Color(3,4,94));
         btnAccept.setForeground(new Color(255, 255, 255));
         btnAccept.setFont(new Font("Times New Roman", Font.BOLD, 19));
-        btnAccept.setBounds(39, 217, 225, 32);
-        layeredPane.add(btnAccept);
+        btnAccept.setBounds(38, 243, 225, 32);
+        layeredPane.add(btnAccept, JLayeredPane.DEFAULT_LAYER);
         
-        txtNewPassword = new JPasswordField();
+        txtNewPassword = new JpwfCS();
         txtNewPassword.setFont(new Font("Times New Roman", Font.PLAIN, 12));
-        txtNewPassword.setBounds(38, 124, 225, 30);
+        txtNewPassword.setBounds(38, 124, 225, 44);
         layeredPane.add(txtNewPassword, JLayeredPane.DEFAULT_LAYER);
         
-        txtConfirmPassword = new JPasswordField();
+        txtConfirmPassword = new JpwfCS();
         txtConfirmPassword.setFont(new Font("Times New Roman", Font.PLAIN, 12));
-        txtConfirmPassword.setBounds(38, 176, 225, 30);
+        txtConfirmPassword.setBounds(38, 188, 225, 44);
         layeredPane.add(txtConfirmPassword, JLayeredPane.DEFAULT_LAYER);
         
 		lblReturn = new JLabel("");
@@ -100,11 +101,11 @@ public class ForgotPassword3 extends PanelRound {
 		layeredPane.add(lblNewLabel);
 		
         JLabel lblShowAndHidePassword_1 =  Utils.lblShowAndHidePassword(txtNewPassword, 20, 20);
-        lblShowAndHidePassword_1.setBounds(240, 127, 20, 20);  // Adjust the position as needed
+        lblShowAndHidePassword_1.setBounds(238, 133, 20, 20);  // Adjust the position as needed
         layeredPane.add(lblShowAndHidePassword_1, JLayeredPane.POPUP_LAYER);
         
         JLabel lblShowAndHidePassword_2 = Utils.lblShowAndHidePassword(txtConfirmPassword, 20, 20);
-        lblShowAndHidePassword_2.setBounds(240, 179, 20, 20);
+        lblShowAndHidePassword_2.setBounds(238, 197, 20, 20);
         layeredPane.add(lblShowAndHidePassword_2, JLayeredPane.POPUP_LAYER);
         
         JLabel lblNewLabel_1 = new JLabel("Mật khẩu mới");
@@ -114,7 +115,7 @@ public class ForgotPassword3 extends PanelRound {
         
         JLabel lblNewLabel_1_1 = new JLabel("Nhập lại mật khẩu");
         lblNewLabel_1_1.setForeground(Color.GRAY);
-        lblNewLabel_1_1.setBounds(38, 162, 110, 14);
+        lblNewLabel_1_1.setBounds(38, 167, 110, 14);
         layeredPane.add(lblNewLabel_1_1);
 	}
 }

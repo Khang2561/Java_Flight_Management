@@ -12,7 +12,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import CustomUI.BtnCS;
+import CustomUI.JpwfCS;
 import CustomUI.JtfCS;
+import CustomUI.LayeredPaneRound;
 import CustomUI.PanelRound;
 
 import java.awt.event.MouseAdapter;
@@ -22,8 +24,8 @@ public class Register extends JPanel {
 
 	private static final long serialVersionUID = 1L;
     private static JtfCS txtUsername;
-    private static JPasswordField txtPassword;
-    private static JPasswordField txtConfirmPassword;
+    private static JpwfCS txtPassword;
+    private static JpwfCS txtConfirmPassword;
     private static JtfCS txtEmail;
     private static JtfCS txtPhoneNumber;
     public JLabel lblLogin;
@@ -64,7 +66,7 @@ public class Register extends JPanel {
 		setBackground(null);
 		
 		  // Create a JLayeredPane
-		PanelRound layeredPane = new PanelRound();
+		LayeredPaneRound layeredPane = new LayeredPaneRound();
 		layeredPane.setBackground(new Color(255, 255, 255));
 		layeredPane.setRoundTopRight(50);
 		layeredPane.setRoundTopLeft(50);
@@ -86,12 +88,12 @@ public class Register extends JPanel {
 		layeredPane.add(txtUsername, JLayeredPane.DEFAULT_LAYER);
 		txtUsername.setColumns(10);
 		
-		txtPassword = new JPasswordField();
-		txtPassword.setBounds(38, 224, 225, 28);
+		txtPassword = new JpwfCS();
+		txtPassword.setBounds(38, 224, 225, 39);
 		layeredPane.add(txtPassword, JLayeredPane.DEFAULT_LAYER);
 		
-		txtConfirmPassword = new JPasswordField();
-		txtConfirmPassword.setBounds(38, 276, 225, 28);
+		txtConfirmPassword = new JpwfCS();
+		txtConfirmPassword.setBounds(38, 276, 225, 39);
 		layeredPane.add(txtConfirmPassword, JLayeredPane.DEFAULT_LAYER);
 		
 		txtEmail = new JtfCS();
@@ -138,11 +140,11 @@ public class Register extends JPanel {
 		layeredPane.add(lblLogin, JLayeredPane.DEFAULT_LAYER);
 		
 		JLabel lblShowAndHidePassword_1 = Utils.lblShowAndHidePassword(txtPassword, 20, 20);
-		lblShowAndHidePassword_1.setBounds(240, 205, 20, 20);
+		lblShowAndHidePassword_1.setBounds(238, 233, 20, 20);
 		layeredPane.add(lblShowAndHidePassword_1, JLayeredPane.POPUP_LAYER);
 		
 		JLabel lblShowAndHidePassword_2 = Utils.lblShowAndHidePassword(txtConfirmPassword, 20, 20);
-		lblShowAndHidePassword_2.setBounds(240, 250, 20, 20);
+		lblShowAndHidePassword_2.setBounds(238, 285, 20, 20);
 		layeredPane.add(lblShowAndHidePassword_2, JLayeredPane.POPUP_LAYER);
 		
 		lblNewLabel = new JLabel("Họ và tên");

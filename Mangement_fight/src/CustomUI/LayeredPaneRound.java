@@ -7,9 +7,10 @@ import java.awt.Shape;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
-import javax.swing.JPanel;
 
-public class PanelRound extends JPanel{
+import javax.swing.JLayeredPane;
+
+public class LayeredPaneRound extends JLayeredPane{
 
     public int getRoundTopLeft() {
         return roundTopLeft;
@@ -52,7 +53,7 @@ public class PanelRound extends JPanel{
     private int roundBottomLeft = 0;
     private int roundBottomRight = 0;
 
-    public PanelRound() {
+    public LayeredPaneRound() {
         setOpaque(false);
     }
 
