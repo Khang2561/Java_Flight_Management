@@ -15,6 +15,15 @@ import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Properties;
+
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.swing.AbstractButton;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -70,6 +79,73 @@ public class CreateFlightTicket extends JPanel {
 	String var ;
 	private BtnCS btnTao;
 	private BtnCS btnHuy;
+	
+	
+	private void sendTicketMail(String to) {
+		// Sender Email
+				final String username = "testjavaemailotp@gmail.com";
+				final String password = "leky jzgd akvd eylc";
+				
+                String FlightID = (String) comboBoxFlight.getSelectedItem();  // sửa từ cmboBoxFlight.getSelecttionIndex();
+                String TicketClassID = arrayticket[table_1.getSelectedRow()].getTicketClassID();  // lấy ID của hạng vé từ bảng
+                String Price = tfGiaVe.getText();
+                String FullName = tfHoVaTen.getText();
+                String IDCard = tfCCCD.getText();
+                String PhoneNumber = tfSDT.getText();
+                String SeatID = btnMaGhe.getText();  // lấy mã ghế đã chọn
+				
+					
+				Properties prop = new Properties();
+			    prop.put("mail.smtp.host", "smtp.gmail.com");
+			    prop.put("mail.smtp.port", "587");
+			    prop.put("mail.smtp.auth", "true");
+			    prop.put("mail.smtp.starttls.enable", "true"); //TLS
+			    // Create authenticator
+			    Authenticator auth = new Authenticator() {
+			        	
+			    	@Override
+			    	protected PasswordAuthentication getPasswordAuthentication() {
+			        		
+			    		return new PasswordAuthentication(username, password);
+			    
+			    	}
+			    };
+			        
+			    //Create session
+			    Session session = Session.getInstance(prop, auth);
+			        
+			    // send Email
+			    // create message
+			    MimeMessage msg = new MimeMessage(session);
+			    try {
+			        	
+			    	msg.addHeader("Content-type", "text/HTML; charset=UTF-8");
+						
+					// Sender
+					msg.setFrom(username);
+					
+					String message = "Thân mến " + FullName + ",\n\n" +
+				                "Cảm ơn vì đã chọn chuyến bay của chúng tôi. Đây là chi tiết vé chuyến bay của bạn:\n\n" +
+				                "Mã chuyến bay: " + FlightID + "\n" +
+				                "Hạng vé: " + TicketClassID + "\n" +
+				                "Giá: " + Price + "\n" +
+				                "Họ tên: " + FullName + "\n" +
+				                "CMND: " + IDCard + "\n" +
+				                "Phone Number: " + PhoneNumber + "\n" +
+				                "Mã ghế: " + SeatID + "\n\n" +
+				                "Chúc bạn chuyến bay an toàn,\nAirline";
+
+					msg.setText(message);
+
+					Transport.send(msg);
+						
+					//Recipient
+					msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to, false));
+			    } catch (Exception e) {
+			    	// TODO Auto-generated catch block
+			    	e.printStackTrace();
+			    }
+	}
 
 
 
@@ -93,6 +169,7 @@ public class CreateFlightTicket extends JPanel {
         initializeComponents(var);
         
     }
+    
     
     
     //-------------------------------------------------
@@ -193,7 +270,7 @@ public class CreateFlightTicket extends JPanel {
                     String FlightTicketID = generateUniqueFlightId();
                     String FlightID = (String) comboBoxFlight.getSelectedItem();  // sửa từ cmboBoxFlight.getSelecttionIndex();
                     String TicketClassID = arrayticket[table_1.getSelectedRow()].getTicketClassID();  // lấy ID của hạng vé từ bảng
-                    String Price = tfGiaVe.getText();
+                    String Price = tfGiaVe.getText();  
                     String FullName = tfHoVaTen.getText();
                     String IDCard = tfCCCD.getText();
                     String PhoneNumber = tfSDT.getText();
@@ -202,6 +279,7 @@ public class CreateFlightTicket extends JPanel {
                     int i = TicketDAO.insert(FlightTicketID, FlightID, TicketClassID, Price, FullName, IDCard, PhoneNumber, Email, SeatID);
                     if (i > 0) {
                         JOptionPane.showMessageDialog(null, "Tạo vé máy bay thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        sendTicketMail(Email);
                         Admin_header.clearAndShow(new FlightUC());
                         
                     } else {

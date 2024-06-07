@@ -30,7 +30,17 @@ public class Admin_header extends JPanel {
     public static final long serialVersionUID = 1L;
     public static BtnCS[] buttons = new BtnCS[6];
     private static BtnCS selectedButton = null;  // Track the currently selected button
+    
+    // Static variable single_instance of type Admin_header
+    private static Admin_header single_instance = null;
+    
+    // Static method to create instance of Admin_header class
+    public static Admin_header getInstance() {
+        if (single_instance == null)
+            single_instance = new Admin_header();
 
+        return single_instance;
+    }
     /**
      * Create the panel.
      */
@@ -157,8 +167,8 @@ public class Admin_header extends JPanel {
     // Method to clear and show new panel
     public static void clearAndShow(JPanel newPanel) {
         FormAdmin.contentPane.removeAll(); // Xóa tất cả các thành phần trên contentPane
-        Admin_header tmp = new Admin_header();
-        FormAdmin.contentPane.add(tmp); // Thêm lại Admin_header vào contentPane
+        Admin_header header = Admin_header.getInstance();
+        FormAdmin.contentPane.add(header);
         FormAdmin.contentPane.add(newPanel); // Thêm form mới vào contentPane
         newPanel.setSize(1500, 653);
         newPanel.setLocation(0, 78);
