@@ -57,6 +57,7 @@ public class ForgotPassword2 extends PanelRound {
         add(lbl2);
         
         txtOTP = new JtfCS();
+        txtOTP.setRound(20);
         txtOTP.setBounds(38, 110, 225, 44);
         add(txtOTP);
         txtOTP.setColumns(10);

@@ -69,11 +69,13 @@ public class ForgotPassword3 extends JPanel {
         layeredPane.add(btnAccept, JLayeredPane.DEFAULT_LAYER);
         
         txtNewPassword = new JpwfCS();
+        txtNewPassword.setRound(20);
         txtNewPassword.setFont(new Font("Times New Roman", Font.PLAIN, 12));
         txtNewPassword.setBounds(38, 124, 225, 44);
         layeredPane.add(txtNewPassword, JLayeredPane.DEFAULT_LAYER);
         
         txtConfirmPassword = new JpwfCS();
+        txtConfirmPassword.setRound(20);
         txtConfirmPassword.setFont(new Font("Times New Roman", Font.PLAIN, 12));
         txtConfirmPassword.setBounds(38, 188, 225, 44);
         layeredPane.add(txtConfirmPassword, JLayeredPane.DEFAULT_LAYER);
@@ -109,11 +111,13 @@ public class ForgotPassword3 extends JPanel {
         layeredPane.add(lblShowAndHidePassword_2, JLayeredPane.POPUP_LAYER);
         
         JLabel lblNewLabel_1 = new JLabel("Mật khẩu mới");
+        lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 10));
         lblNewLabel_1.setForeground(new Color(128, 128, 128));
         lblNewLabel_1.setBounds(38, 109, 87, 14);
         layeredPane.add(lblNewLabel_1);
         
         JLabel lblNewLabel_1_1 = new JLabel("Nhập lại mật khẩu");
+        lblNewLabel_1_1.setFont(new Font("Tahoma", Font.BOLD, 10));
         lblNewLabel_1_1.setForeground(Color.GRAY);
         lblNewLabel_1_1.setBounds(38, 167, 110, 14);
         layeredPane.add(lblNewLabel_1_1);
