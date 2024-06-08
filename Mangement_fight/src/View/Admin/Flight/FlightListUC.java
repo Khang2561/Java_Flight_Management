@@ -27,7 +27,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.UIManager;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 
 import com.raven.datechooser.DateChooser;
@@ -48,6 +50,8 @@ import View.Admin.TicketPlane.FlightTicket;
 import combo_suggestion.ComboBoxSuggestion;
 import libData.JDBCUtil;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
 import java.awt.Button;
 import com.raven.datechooser.EventDateChooser;
 
@@ -56,10 +60,7 @@ public class FlightListUC extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JTblCS table;
 	private DefaultTableModel tableModel;
-	private Container panel;
-	private String flightID;
 	private BtnCS btnSearch;
-	private JTextField textField;
 	private JTextField DateTime;
 
 	public FlightListUC() throws ClassNotFoundException, SQLException {
@@ -81,8 +82,7 @@ public class FlightListUC extends JPanel {
 		panel.add(btnSearch);
 
 		//Danh sách chuyến bay
-		tableModel = new DefaultTableModel(new Object[][] {}, new String[] { "Mã Chuyến Bay", "Sân Bay Cất Cánh",
-						"Nơi Cất Cánh", "Sân Bay Hạ Cánh", "Nơi Hạ Cánh", "Thời Gian", "Ghế Trống", "Ghế Đã Đặt", "Thao tác" }) {
+		tableModel = new DefaultTableModel(new Object[][] {}, new String[] { "Mã Chuyến Bay", "Sân Bay Cất Cánh","Nơi Cất Cánh", "Sân Bay Hạ Cánh", "Nơi Hạ Cánh", "Thời Gian", "Ghế Trống", "Ghế Đã Đặt", "Thao tác" }) {
 				    @Override
 				    public boolean isCellEditable(int row, int column) {
 				        // Only the third column is editable
@@ -103,101 +103,118 @@ public class FlightListUC extends JPanel {
 		setJTableColumnsWidth(table, 1421, 7, 13, 6, 13, 6, 10, 5, 6, 15);
 
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(39, 58, 1421, 473);
-		panel.add(scrollPane);
+        scrollPane.setBounds(39, 58, 1421, 473);
+        panel.add(scrollPane);
 
-		table.fixTable(scrollPane);
-		table.getColumnModel().getColumn(8).setCellRenderer(new TableActionCellRender());
+        table.fixTable(scrollPane);
+        
+        // Center align the headers
+        DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer();
+        headerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        JTableHeader header = table.getTableHeader();
+        for (int i = 0; i < header.getColumnModel().getColumnCount(); i++) {
+            header.getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
+        }
+
+        // Center align the cell content except the action column
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        for (int i = 0; i < table.getColumnCount(); i++) {
+            if (i != 8) { // Skip the action column
+                table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+            }
+        }
+
+        // Set the custom cell renderer for the action column
+        table.getColumnModel().getColumn(8).setCellRenderer(new TableActionCellRender());
         table.getColumnModel().getColumn(8).setCellEditor(new TableActionCellEditor(new TableActionEvent() {
             @Override
             public void onEdit(int row) {
-            	int selectedRow = table.getSelectedRow();
-		        if (selectedRow == -1) {
-		            JOptionPane.showMessageDialog(null, "Hãy lựa chọn chuyến bay cần chỉnh sửa.", "Thông báo",
-		                    JOptionPane.ERROR_MESSAGE);
-		            return;
-		        } else {
-		            try {
-		            	FlightUC.selectButton(FlightUC.btnDetailFlight);
-		            	
-		                String flightID = table.getValueAt(selectedRow, 0).toString();
-		                DetailFlightUC detailFlightUC = new DetailFlightUC(flightID); // Khởi tạo DetailFlightUC với flightID
-		                FlightUC.switchDetailFlightUC(detailFlightUC);
-		            } catch (ClassNotFoundException | SQLException ex) {
-		                ex.printStackTrace();
-		                JOptionPane.showMessageDialog(null, "Đã xảy ra lỗi khi tải chi tiết chuyến bay.", "Lỗi",
-		                        JOptionPane.ERROR_MESSAGE);
-		            }
-		        }
+                int selectedRow = table.getSelectedRow();
+                if (selectedRow == -1) {
+                    JOptionPane.showMessageDialog(null, "Hãy lựa chọn chuyến bay cần chỉnh sửa.", "Thông báo",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                } else {
+                    try {
+                        FlightUC.selectButton(FlightUC.btnDetailFlight);
+
+                        String flightID = table.getValueAt(selectedRow, 0).toString();
+                        DetailFlightUC detailFlightUC = new DetailFlightUC(flightID); // Khởi tạo DetailFlightUC với flightID
+                        FlightUC.switchDetailFlightUC(detailFlightUC);
+                    } catch (ClassNotFoundException | SQLException ex) {
+                        ex.printStackTrace();
+                        JOptionPane.showMessageDialog(null, "Đã xảy ra lỗi khi tải chi tiết chuyến bay.", "Lỗi",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+                }
             }
 
-			@Override
-			public void onDelete(int row) {
-				int selectedRow = table.getSelectedRow();
-		        if (selectedRow == -1) {
-		            JOptionPane.showMessageDialog(null, "Hãy lựa chọn chuyến bay cần xoá.", "Thông báo",
-		                    JOptionPane.ERROR_MESSAGE);
-		            return;
-		        }
-		        int option = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn xóa chuyến bay không?",
-		                "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
-		        if (option == JOptionPane.YES_OPTION) {
-		            try {
-		                // Lấy ID của chuyến bay từ hàng được chọn trong bảng
-		                String flightID = table.getValueAt(selectedRow, 0).toString();
+            @Override
+            public void onDelete(int row) {
+                int selectedRow = table.getSelectedRow();
+                if (selectedRow == -1) {
+                    JOptionPane.showMessageDialog(null, "Hãy lựa chọn chuyến bay cần xoá.", "Thông báo",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                int option = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn xóa chuyến bay không?",
+                        "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
+                if (option == JOptionPane.YES_OPTION) {
+                    try {
+                        // Lấy ID của chuyến bay từ hàng được chọn trong bảng
+                        String flightID = table.getValueAt(selectedRow, 0).toString();
 
-		                // Tạo kết nối và gọi phương thức deleteFlight
-		                Connection conn = JDBCUtil.getConnection();
-		                FlightDAO.deleteFlight(conn, flightID);
+                        // Tạo kết nối và gọi phương thức deleteFlight
+                        Connection conn = JDBCUtil.getConnection();
+                        FlightDAO.deleteFlight(conn, flightID);
 
-		                // Đóng kết nối
-		                conn.close();
+                        // Đóng kết nối
+                        conn.close();
 
-		                // Nạp lại dữ liệu bảng sau khi xóa
-		                try {
-		                    loadFlightData(null, null, null);
-		                } catch (ClassNotFoundException ex) {
-		                    ex.printStackTrace();
-		                    // In ra thông tin về lỗi để debug
-		                }
+                        // Nạp lại dữ liệu bảng sau khi xóa
+                        try {
+                            loadFlightData(null, null, null);
+                        } catch (ClassNotFoundException ex) {
+                            ex.printStackTrace();
+                            // In ra thông tin về lỗi để debug
+                        }
 
-		                // Hiển thị thông báo thành công
-		                JOptionPane.showMessageDialog(null, "Đã xoá chuyến bay thành công", "Thông báo",
-		                        JOptionPane.INFORMATION_MESSAGE);
-		            } catch (SQLException ex) {
-		                ex.printStackTrace();
-		                JOptionPane.showMessageDialog(null, "Lỗi khi xóa chuyến bay. Vui lòng thử lại", "Thông báo",
-		                        JOptionPane.ERROR_MESSAGE);
-		            }
-		        }
-			}
-			
-			@Override
-			public void onBookTicket(int row) {
-				 int selectedRow = table.getSelectedRow();
-			        if (selectedRow == -1) {
-			            JOptionPane.showMessageDialog(null, "Hãy lựa chọn chuyến bay cần đặt vé.", "Thông báo", JOptionPane.ERROR_MESSAGE);
-			            return;
-			        } else {
-			            String flightID = table.getValueAt(selectedRow, 0).toString();
-			            clearAndShow(new FlightTicket(flightID));
-			            try {
-							
-							Admin_header.highlightButton1();
-							FlightTicket.button_2.setBackground(new Color(3,4,94));
-						} catch (Exception e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-			        }
-			    }
+                        // Hiển thị thông báo thành công
+                        JOptionPane.showMessageDialog(null, "Đã xoá chuyến bay thành công", "Thông báo",
+                                JOptionPane.INFORMATION_MESSAGE);
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                        JOptionPane.showMessageDialog(null, "Lỗi khi xóa chuyến bay. Vui lòng thử lại", "Thông báo",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
 
-			@Override
-			public void onCancelTicket(int row) {
-				// TODO Auto-generated method stub
-				
-			}
+            @Override
+            public void onBookTicket(int row) {
+                int selectedRow = table.getSelectedRow();
+                if (selectedRow == -1) {
+                    JOptionPane.showMessageDialog(null, "Hãy lựa chọn chuyến bay cần đặt vé.", "Thông báo", JOptionPane.ERROR_MESSAGE);
+                    return;
+                } else {
+                    String flightID = table.getValueAt(selectedRow, 0).toString();
+                    clearAndShow(new FlightTicket(flightID));
+                    try {
+                        Admin_header.highlightButton1();
+                        FlightTicket.button_2.setBackground(new Color(3, 4, 94));
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelTicket(int row) {
+                // TODO Auto-generated method stub
+            }
         }));
+   
 
 		ComboBoxSuggestion<String> comboBoxTo = new ComboBoxSuggestion<>();
 		comboBoxTo.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
@@ -209,14 +226,6 @@ public class FlightListUC extends JPanel {
 		comboBoxFrom.setBounds(413, 11, 173, 35);
 		panel.add(comboBoxFrom);
 		
-		/*
-		JDateChooser dateChooser = new JDateChooser();
-		dateChooser.setDateFormatString("yyyy-MM-dd");
-		dateChooser.setBounds(106, 11, 198, 35);
-		panel.add(dateChooser);
-		*/	
-		//JDateChooser dateChooser = new JDateChooser();
-
 		JLabel lblNewLabel = new JLabel("Ngày bay:");
 		lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		lblNewLabel.setBounds(39, 20, 72, 16);
@@ -237,125 +246,13 @@ public class FlightListUC extends JPanel {
 		populateComboBoxWithCities(comboBoxTo);
 
 		//------------------------------------------------
-		/*JButton btnBook = new JButton("Đặt vé");
-		btnBook.addActionListener(new ActionListener() {
-		    @Override
-		    public void actionPerformed(ActionEvent e) {
-		        int selectedRow = table.getSelectedRow();
-		        if (selectedRow == -1) {
-		            JOptionPane.showMessageDialog(null, "Hãy lựa chọn chuyến bay cần đặt vé.", "Thông báo", JOptionPane.ERROR_MESSAGE);
-		            return;
-		        } else {
-		            String flightID = table.getValueAt(selectedRow, 0).toString();
-		            clearAndShow(new FlightTicket(flightID));
-		            try {
-						
-						Admin_header.highlightButton1();
-						FlightTicket.button_2.setBackground(new Color(3,4,94));
-					} catch (Exception e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-		            // Proceed with the rest of your code to switch to the CreateFlightTicket view
-		        }
-		    }
-		});
-		btnBook.setBackground(new Color(51, 51, 255));
-		btnBook.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-		btnBook.setBounds(1354, 186, 106, 35);
-		panel.add(btnBook);*/
-
-		//-----------------------------------------------
-		/*JLabel lblEdit = new JLabel("");
-		lblEdit.setFont(new Font("Lucida Grande", Font.PLAIN, 9));
-		Image img = new ImageIcon(this.getClass().getResource("/Resource/EditIcon.png")).getImage();
-		lblEdit.setIcon(new ImageIcon(img));
-		lblEdit.setBounds(1386, 233, 42, 36);
-		panel.add(lblEdit);
-		// Event to handle edit button click
-		lblEdit.addMouseListener(new MouseAdapter() {
-		    @Override
-		    public void mouseClicked(MouseEvent e) {
-		        int selectedRow = table.getSelectedRow();
-		        if (selectedRow == -1) {
-		            JOptionPane.showMessageDialog(null, "Hãy lựa chọn chuyến bay cần chỉnh sửa.", "Thông báo",
-		                    JOptionPane.ERROR_MESSAGE);
-		            return;
-		        } else {
-		            try {
-		            	FlightUC.selectButton(FlightUC.btnDetailFlight);
-		            	
-		                String flightID = table.getValueAt(selectedRow, 0).toString();
-		                DetailFlightUC detailFlightUC = new DetailFlightUC(flightID); // Khởi tạo DetailFlightUC với flightID
-		                FlightUC.switchDetailFlightUC(detailFlightUC);
-		            } catch (ClassNotFoundException | SQLException ex) {
-		                ex.printStackTrace();
-		                JOptionPane.showMessageDialog(null, "Đã xảy ra lỗi khi tải chi tiết chuyến bay.", "Lỗi",
-		                        JOptionPane.ERROR_MESSAGE);
-		            }
-		        }
-		    }
-		});*/
-		
-		//----------------------------------------------------------------
-		/*JLabel lblDelete = new JLabel("");
-		Image img1 = new ImageIcon(this.getClass().getResource("/Resource/DeleteIcon.png")).getImage();
-		lblDelete.setIcon(new ImageIcon(img1));
-		lblDelete.setBounds(1386, 281, 42, 35);
-		panel.add(lblDelete);
-		lblDelete.addMouseListener(new MouseAdapter() {
-		    @Override
-		    public void mouseClicked(MouseEvent e) {
-		        int selectedRow = table.getSelectedRow();
-		        if (selectedRow == -1) {
-		            JOptionPane.showMessageDialog(null, "Hãy lựa chọn chuyến bay cần xoá.", "Thông báo",
-		                    JOptionPane.ERROR_MESSAGE);
-		            return;
-		        }
-		        int option = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn xóa chuyến bay không?",
-		                "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
-		        if (option == JOptionPane.YES_OPTION) {
-		            try {
-		                // Lấy ID của chuyến bay từ hàng được chọn trong bảng
-		                String flightID = table.getValueAt(selectedRow, 0).toString();
-
-		                // Tạo kết nối và gọi phương thức deleteFlight
-		                Connection conn = JDBCUtil.getConnection();
-		                FlightDAO.deleteFlight(conn, flightID);
-
-		                // Đóng kết nối
-		                conn.close();
-
-		                // Nạp lại dữ liệu bảng sau khi xóa
-		                try {
-		                    loadFlightData(null, null, null);
-		                } catch (ClassNotFoundException ex) {
-		                    ex.printStackTrace();
-		                    // In ra thông tin về lỗi để debug
-		                }
-
-		                // Hiển thị thông báo thành công
-		                JOptionPane.showMessageDialog(null, "Đã xoá chuyến bay thành công", "Thông báo",
-		                        JOptionPane.INFORMATION_MESSAGE);
-		            } catch (SQLException ex) {
-		                ex.printStackTrace();
-		                JOptionPane.showMessageDialog(null, "Lỗi khi xóa chuyến bay. Vui lòng thử lại", "Thông báo",
-		                        JOptionPane.ERROR_MESSAGE);
-		            }
-		        }
-		    }
-		});*/
-
 		JSeparator separator = new JSeparator();
 		separator.setForeground(UIManager.getColor("InternalFrame.inactiveTitleForeground"));
 		separator.setBackground(UIManager.getColor("InternalFrame.inactiveTitleForeground"));
 		separator.setBounds(0, 0, 1500, 5);
 		panel.add(separator);
 		
-		
 		//----------------------------------------------------------
-		
-		
 		// Đảm bảo DateChooser sử dụng cùng định dạng "dd-MM-yyyy"
 		DateChooser dateChooser1 = new com.raven.datechooser.DateChooser();
 		dateChooser1.setDateFormat("dd-MM-yyyy");  // Use a String format here
@@ -396,17 +293,7 @@ public class FlightListUC extends JPanel {
 	    try {
 	        // Get connection from JDBCUtil
 	        conn = JDBCUtil.getConnection();
-	        StringBuilder queryBuilder = new StringBuilder(
-	                "SELECT FLIGHT.FlightID, DEP_AIRPORT.AirportName AS DepartureAirport, DEP_AIRPORT.CityName AS DepartureCity, "
-	                        + "ARR_AIRPORT.AirportName AS ArrivalAirport, ARR_AIRPORT.CityName AS ArrivalCity, FLIGHT.DepartureDateTime, "
-	                        + "PLANE.SeatCount - COUNT(FLIGHT_TICKET.FlightTicketID) AS SeatsRemaining, COUNT(FLIGHT_TICKET.FlightTicketID) AS SeatsBooked "
-	                        + "FROM FLIGHT "
-	                        + "JOIN AIRPORT AS DEP_AIRPORT ON FLIGHT.DepartureAirportCode = DEP_AIRPORT.AirportID "
-	                        + "JOIN AIRPORT AS ARR_AIRPORT ON FLIGHT.ArrivalAirportCode = ARR_AIRPORT.AirportID "
-	                        + "JOIN PLANE ON FLIGHT.PlaneID = PLANE.PlaneID "
-	                        + "LEFT JOIN FLIGHT_TICKET ON FLIGHT.FlightID = FLIGHT_TICKET.FlightID "
-	                        + "WHERE 1=1 ");
-
+	        StringBuilder queryBuilder = new StringBuilder("SELECT FLIGHT.FlightID, DEP_AIRPORT.AirportName AS DepartureAirport, DEP_AIRPORT.CityName AS DepartureCity, ARR_AIRPORT.AirportName AS ArrivalAirport, ARR_AIRPORT.CityName AS ArrivalCity, FLIGHT.DepartureDateTime, PLANE.SeatCount - COUNT(FLIGHT_TICKET.FlightTicketID) AS SeatsRemaining, COUNT(FLIGHT_TICKET.FlightTicketID) AS SeatsBooked FROM FLIGHT JOIN AIRPORT AS DEP_AIRPORT ON FLIGHT.DepartureAirportCode = DEP_AIRPORT.AirportID JOIN AIRPORT AS ARR_AIRPORT ON FLIGHT.ArrivalAirportCode = ARR_AIRPORT.AirportID JOIN PLANE ON FLIGHT.PlaneID = PLANE.PlaneID LEFT JOIN FLIGHT_TICKET ON FLIGHT.FlightID = FLIGHT_TICKET.FlightID WHERE 1=1 ");
 	        if (fromCity != null && !fromCity.isEmpty()) {
 	            queryBuilder.append("AND DEP_AIRPORT.CityName = N'").append(fromCity).append("' ");
 	        }

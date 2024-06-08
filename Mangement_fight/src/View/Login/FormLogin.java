@@ -142,6 +142,7 @@ public class FormLogin extends JFrame {
 		setLocation(400,200);
 		setSize(750, 488);
 		setTitle("Flight Airline");
+		//setColor(null);
 		
 		//di chuyen window
 		addMouseListener(new MouseAdapter() {
