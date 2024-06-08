@@ -11,11 +11,11 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ConvolveOp;
 import java.awt.image.Kernel;
 
-import javax.swing.JTextField;
+import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.basic.BasicTextFieldUI;
+import javax.swing.plaf.basic.BasicPasswordFieldUI;
 
-public class JtfCS extends JTextField {
+public class JpwfCS extends JPasswordField {
 
     public int getRound() {
         return round;
@@ -42,7 +42,7 @@ public class JtfCS extends JTextField {
     private BufferedImage imageShadow;
     private final Insets shadowSize = new Insets(2, 5, 8, 5);
 
-    public JtfCS() {
+    public JpwfCS() {
         setUI(new TextUI());
         setOpaque(false);
         setForeground(new Color(80, 80, 80));
@@ -105,7 +105,7 @@ public class JtfCS extends JTextField {
         }
     }
 
-    private class TextUI extends BasicTextFieldUI {
+    private class TextUI extends BasicPasswordFieldUI {
 
         //  Override this method to remove background or not paint background
         @Override
@@ -114,5 +114,6 @@ public class JtfCS extends JTextField {
         }
     }
 }
+
 
 
