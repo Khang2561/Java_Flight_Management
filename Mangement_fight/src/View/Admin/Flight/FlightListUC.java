@@ -490,8 +490,8 @@ public class FlightListUC extends JPanel {
 	//----------------------------------------------------------------------------------------------
 	public static void clearAndShow(JPanel newPanel) {
         FormAdmin.contentPane.removeAll(); // Xóa tất cả các thành phần trên contentPane
-        Admin_header tmp = new Admin_header();
-        FormAdmin.contentPane.add(tmp); // Thêm lại Admin_header vào contentPane
+        Admin_header header = Admin_header.getInstance();
+        FormAdmin.contentPane.add(header);
         FormAdmin.contentPane.add(newPanel); // Thêm form mới vào contentPane
         newPanel.setSize(1500, 653);
         newPanel.setLocation(0, 78);
