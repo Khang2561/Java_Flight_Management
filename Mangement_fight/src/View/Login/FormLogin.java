@@ -370,7 +370,7 @@ public class FormLogin extends JFrame {
 	                         acc.setPhone(phone);
 	                         acc.setPassword(password);
 	                         acc.setCreated1();
-	                         acc.setRoleID("RL0004"); // Mặc định là nhân viên
+	                         acc.setRoleID("RL0003"); // Mặc định là nhân viên
 	                         
 	                         AAADAO.getInstance().insert(acc);
 
