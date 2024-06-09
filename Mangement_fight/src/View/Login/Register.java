@@ -19,6 +19,8 @@ import CustomUI.PanelRound;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Register extends JPanel {
 
@@ -83,26 +85,31 @@ public class Register extends JPanel {
 		layeredPane.add(lbl1);
 		
 		txtUsername = new JtfCS();
+		txtUsername.setRound(20);
 		txtUsername.setFont(new Font("Arial", Font.PLAIN, 12));
 		txtUsername.setBounds(38, 74, 225, 40);
 		layeredPane.add(txtUsername, JLayeredPane.DEFAULT_LAYER);
 		txtUsername.setColumns(10);
 		
 		txtPassword = new JpwfCS();
+		txtPassword.setRound(20);
 		txtPassword.setBounds(38, 224, 225, 39);
 		layeredPane.add(txtPassword, JLayeredPane.DEFAULT_LAYER);
 		
 		txtConfirmPassword = new JpwfCS();
+		txtConfirmPassword.setRound(20);
 		txtConfirmPassword.setBounds(38, 276, 225, 39);
 		layeredPane.add(txtConfirmPassword, JLayeredPane.DEFAULT_LAYER);
 		
 		txtEmail = new JtfCS();
+		txtEmail.setRound(20);
 		txtEmail.setFont(new Font("Arial", Font.PLAIN, 12));
 		txtEmail.setColumns(10);
 		txtEmail.setBounds(38, 124, 225, 41);
 		layeredPane.add(txtEmail, JLayeredPane.DEFAULT_LAYER);
 		
 		txtPhoneNumber = new JtfCS();
+		txtPhoneNumber.setRound(20);
 		txtPhoneNumber.setFont(new Font("Arial", Font.PLAIN, 12));
 		txtPhoneNumber.setColumns(10);
 		txtPhoneNumber.setBounds(38, 175, 225, 39);

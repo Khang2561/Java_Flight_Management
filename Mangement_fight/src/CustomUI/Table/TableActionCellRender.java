@@ -46,7 +46,6 @@ public class TableActionCellRender extends DefaultTableCellRenderer {
             }
             
             AAADAO dao = AAADAO.getInstance();
-            
             if (dao.getCurrentAccount().getRoleID().equals("RL0003")) {
             	action.getCmdEdit().setVisible(false);
             	action.getCmdDelete().setVisible(false);

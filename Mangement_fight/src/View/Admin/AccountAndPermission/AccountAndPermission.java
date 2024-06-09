@@ -529,7 +529,7 @@ public class AccountAndPermission extends JPanel {
 		cbQuyen = new ComboBoxSuggestion();
 		cbQuyen.setEditable(false);
 		cbQuyen.setFont(new Font("Times New Roman", Font.BOLD, 17));
-		cbQuyen.setModel(new DefaultComboBoxModel(new String[] {"Siêu quản trị", "Quản trị", "Ban giám đốc", "Nhân viên"}));
+		cbQuyen.setModel(new DefaultComboBoxModel(new String[] {"Siêu quản trị", "Quản trị", "Khách hàng", "Nhân viên"}));
 		cbQuyen.setBounds(232, 208, 522, 30);
 		panel_1.add(cbQuyen);
 		
@@ -580,7 +580,7 @@ public class AccountAndPermission extends JPanel {
 		                                acc.setRoleID("RL0001");
 		                            } else if (selectedRole.equals("Quản trị")) {
 		                                acc.setRoleID("RL0002");
-		                            } else if (selectedRole.equals("Ban giám đốc")) {
+		                            } else if (selectedRole.equals("Khách hàng")) {
 		                                acc.setRoleID("RL0003");
 		                            } else if (selectedRole.equals("Nhân viên")) {
 		                                acc.setRoleID("RL0004");

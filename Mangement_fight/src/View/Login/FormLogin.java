@@ -143,6 +143,7 @@ public class FormLogin extends JFrame {
 		setLocation(400,200);
 		setSize(750, 488);
 		setTitle("Flight Airline");
+		//setColor(null);
 		
 		//di chuyen window
 		addMouseListener(new MouseAdapter() {
@@ -343,7 +344,7 @@ public class FormLogin extends JFrame {
 				String phone = Register.getPhoneNumberText();
 				String password = Register.getPasswordText();
 				String cfmPassword = Register.getConfirmPasswordText();
-				boolean isAccountExists;			
+        boolean isAccountExists;			
 				try {
 					isAccountExists = AAADAO.isEmail(email);
 					
@@ -370,9 +371,9 @@ public class FormLogin extends JFrame {
 	                ex.printStackTrace();
 	            }
 			}
-        });
-        
-        ((RegisterOTP) panelRegisterOTP).btnAcceptOTP.addActionListener(new ActionListener() {
+    });
+    
+    ((RegisterOTP) panelRegisterOTP).btnAcceptOTP.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
@@ -380,7 +381,6 @@ public class FormLogin extends JFrame {
 				String email = Register.getEmailText();
 				String phone = Register.getPhoneNumberText();
 				String password = Register.getPasswordText();
-
 				String inputOTP = RegisterOTP.getOTPText();
 				if (inputOTP.trim().isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Dữ liệu OTP không được để trống", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
@@ -408,7 +408,7 @@ public class FormLogin extends JFrame {
 				}
 			}
         	
-        });
+    });
 			    	    
         //add anh login
         JLabel lblBackgroundImg = new JLabel("");

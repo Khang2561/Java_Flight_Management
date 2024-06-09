@@ -56,6 +56,7 @@ public class ForgotPassword1 extends JPanel {
 		panel.add(lbl1);
 		
 		txtEmail = new JtfCS();
+		txtEmail.setRound(20);
 		txtEmail.setBounds(41, 104, 225, 40);
 		panel.add(txtEmail);
 		txtEmail.setColumns(10);

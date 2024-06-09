@@ -7,8 +7,10 @@ import java.sql.SQLException;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 import CustomUI.BtnCS;
 import CustomUI.CurrencyTableCellRenderer;
@@ -97,6 +99,7 @@ public class SearchFlightTicket extends JPanel {
         });
         button.setBounds(588, 10, 134, 36);
         add(button);
+        
 
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBounds(25, 71, 1451, 447);
@@ -112,8 +115,6 @@ public class SearchFlightTicket extends JPanel {
         table.fixTable(scrollPane);
         table.setRowHeight(50);
     }
-
-    
     //model của table 
     private void setupTable() {
         DefaultTableModel model = new DefaultTableModel(
@@ -122,17 +123,12 @@ public class SearchFlightTicket extends JPanel {
                 "Mã vé", "Mã chuyến bay", "Họ và tên", "CMND/CCCD", "Số điện thoại", "Email", "Ghế", "Hạng vé", "Giá tiền", "Thao tác"
             }
         ) {
-      	  @Override
-          public boolean isCellEditable(int row, int column) {
-              if (column == 9)
-              {
-            	  return true;
-              }
-              return false;
-    	  }
-
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column == 9; // Only the action column is editable
+            }
         };
-        
+
         table.setModel(model);
 
         try (ResultSet rs = TicketDAO.findTicketAll()) {
@@ -140,45 +136,49 @@ public class SearchFlightTicket extends JPanel {
         } catch (SQLException | ClassNotFoundException ex) {
             ex.printStackTrace();
         }
-        
-		table.getColumnModel().getColumn(9).setCellRenderer(new TableActionCellRender());
+
+        // Set the custom cell renderer for the action column
+        table.getColumnModel().getColumn(9).setCellRenderer(new TableActionCellRender());
         table.getColumnModel().getColumn(9).setCellEditor(new TableActionCellEditor(new TableActionEvent() {
             @Override
             public void onEdit(int row) {
-             
+                // Handle edit action
             }
 
-			@Override
-			public void onDelete(int row) {
-				// TODO Auto-generated method stub
-			
-			}
+            @Override
+            public void onDelete(int row) {
+                // Handle delete action
+            }
 
-			@Override
-			public void onBookTicket(int row) {
-				// TODO Auto-generated method stub
-				
-			}
+            @Override
+            public void onBookTicket(int row) {
+                // Handle book ticket action
+            }
 
-			@Override
-			public void onCancelTicket(int row) {
-				// TODO Auto-generated method stub
-				
-			}
-
-
+            @Override
+            public void onCancelTicket(int row) {
+                // Handle cancel ticket action
+            }
         }));
 
-        // Set the custom cell renderer for the "Giá tiền" column (9th column, index 8)
+        // Set the custom cell renderer for the "Giá tiền" column
         table.getColumnModel().getColumn(8).setCellRenderer(new CurrencyTableCellRenderer());
 
         // Center align all other columns
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
         for (int i = 0; i < table.getColumnCount(); i++) {
-            if (i != 8 && i!= 9) { // Skip the "Giá tiền" column
+            if (i != 8 && i != 9) { // Skip the "Giá tiền" and action columns
                 table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
             }
+        }
+
+        // Center align the header
+        DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer();
+        headerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        JTableHeader header = table.getTableHeader();
+        for (int i = 0; i < header.getColumnModel().getColumnCount(); i++) {
+            header.getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
         }
     }
     

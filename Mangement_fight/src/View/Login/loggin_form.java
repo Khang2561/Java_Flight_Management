@@ -64,6 +64,7 @@ public class loggin_form extends JPanel {
         txtUsername.setColumns(10);
 		
         txtPassword = new JpwfCS();
+        txtPassword.setRound(20);
         txtPassword.setBounds(38, 176, 225, 44);
         layeredPane.add(txtPassword, JLayeredPane.DEFAULT_LAYER);
 		
