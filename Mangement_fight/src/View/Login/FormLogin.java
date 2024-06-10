@@ -44,6 +44,7 @@ public class FormLogin extends JFrame {
 	JPanel panelLogin;
 	JPanel panelForgotPassword1;
 	JPanel panelRegister;
+	JPanel panelRegisterOTP;
 	JPanel panelForgotPassword2;
 	JPanel panelForgotPassword3;
 	FormAdmin formAdmin; //= new FormAdmin();
@@ -172,6 +173,7 @@ public class FormLogin extends JFrame {
 		panelLogin.setBackground(null);
 		panelForgotPassword1 = new ForgotPassword1();
 		panelRegister = new Register();	
+		panelRegisterOTP = new RegisterOTP();
 		panelForgotPassword2 = new ForgotPassword2();
 		panelForgotPassword3 = new ForgotPassword3();
         panelLogin.setBounds(417, 44, 300, 406);
@@ -342,48 +344,71 @@ public class FormLogin extends JFrame {
 				String phone = Register.getPhoneNumberText();
 				String password = Register.getPasswordText();
 				String cfmPassword = Register.getConfirmPasswordText();
-				
-				if (name.trim().isEmpty() | email.trim().isEmpty() | phone.trim().isEmpty() | password.trim().isEmpty() | cfmPassword.trim().isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Dữ liệu không được để trống", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-				}
-				else if (!AAADAO.isValEmail(email.trim())) {
-					JOptionPane.showMessageDialog(null, "Email không đúng định dạng", "Thông báo", JOptionPane.ERROR_MESSAGE);
-				}
-				else if (!AAADAO.isValPhoneNumber(phone)) {
-					JOptionPane.showMessageDialog(null, "Số điện thoại phải có 10 chữ số", "Thông báo", JOptionPane.ERROR_MESSAGE);
-				}
-				else if (!password.trim().equals(cfmPassword.trim())) {
-					JOptionPane.showMessageDialog(null, "Mật khẩu nhập lại không khớp", "Thông báo", JOptionPane.ERROR_MESSAGE);
-				}
-				else {
-					try {
-						 boolean isAccountExists = AAADAO.isEmail(email);
-	                     if (isAccountExists) {
-	                         JOptionPane.showMessageDialog(null, "Email đã tồn tại!", "Thông báo", JOptionPane.WARNING_MESSAGE);
-	                     } else {
-	                         // continue if doesn't exist
-	                         String inputAccountId = AccountAndPermission.generateUniqueAccountId(); // create id for new account not duplicate
-	                         Account acc = new Account();
-	                         acc.setAccountID(inputAccountId);
-	                         acc.setName(name);
-	                         acc.setEmail(email);
-	                         acc.setPhone(phone);
-	                         acc.setPassword(password);
-	                         acc.setCreated1();
-	                         acc.setRoleID("RL0003"); // Mặc định là nhân viên
-	                         
-	                         AAADAO.getInstance().insert(acc);
+        boolean isAccountExists;			
+				try {
+					isAccountExists = AAADAO.isEmail(email);
+					
+					if (name.trim().isEmpty() | email.trim().isEmpty() | phone.trim().isEmpty() | password.trim().isEmpty() | cfmPassword.trim().isEmpty()) {
+						JOptionPane.showMessageDialog(null, "Dữ liệu không được để trống", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+					}
+					else if (!AAADAO.isValEmail(email.trim())) {
+						JOptionPane.showMessageDialog(null, "Email không đúng định dạng", "Thông báo", JOptionPane.ERROR_MESSAGE);
+					}
+					else if (!AAADAO.isValPhoneNumber(phone)) {
+						JOptionPane.showMessageDialog(null, "Số điện thoại phải có 10 chữ số", "Thông báo", JOptionPane.ERROR_MESSAGE);
+					}
+					else if (!password.trim().equals(cfmPassword.trim())) {
+						JOptionPane.showMessageDialog(null, "Mật khẩu nhập lại không khớp", "Thông báo", JOptionPane.ERROR_MESSAGE);
+					}
+					else if (isAccountExists) {
+						JOptionPane.showMessageDialog(null, "Email đã tồn tại!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+					}
+					else {
+						sendOTP(email);
+						switchPanel(panelRegister, panelRegisterOTP);
+					}
+				} catch (SQLException | ClassNotFoundException ex) {
+	                ex.printStackTrace();
+	            }
+			}
+    });
+    
+    ((RegisterOTP) panelRegisterOTP).btnAcceptOTP.addActionListener(new ActionListener() {
 
-	                         // success info
-	                         JOptionPane.showMessageDialog(null, "Đã tạo tài khoản thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-	                         switchPanel(panelRegister, panelLogin);
-	                     } 
-					} catch (SQLException | ClassNotFoundException ex) {
-		                ex.printStackTrace();
-		            }
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				String name = Register.getUsernameText();
+				String email = Register.getEmailText();
+				String phone = Register.getPhoneNumberText();
+				String password = Register.getPasswordText();
+				String inputOTP = RegisterOTP.getOTPText();
+				if (inputOTP.trim().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Dữ liệu OTP không được để trống", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+				} else {
+					if (Integer.parseInt(inputOTP) == otp) {
+						 // continue if doesn't exist
+				        String inputAccountId = AccountAndPermission.generateUniqueAccountId(); // create id for new account not duplicate
+				        Account acc = new Account();
+				        acc.setAccountID(inputAccountId);
+				        acc.setName(name);
+				        acc.setEmail(email);
+				        acc.setPhone(phone);
+				        acc.setPassword(password);
+				        acc.setCreated1();
+				        acc.setRoleID("RL0003"); // Mặc định là nhân viên
+				        
+				        AAADAO.getInstance().insert(acc);
+
+				        // success info
+				        JOptionPane.showMessageDialog(null, "Đã tạo tài khoản thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+				        switchPanel(panelRegisterOTP, panelLogin);
+					} else {
+						JOptionPane.showMessageDialog(null, "Mã OTP không chính xác", "Thông báo", JOptionPane.ERROR_MESSAGE);
+					}
 				}
 			}
-        });
+        	
+    });
 			    	    
         //add anh login
         JLabel lblBackgroundImg = new JLabel("");
