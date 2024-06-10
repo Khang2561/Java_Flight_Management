@@ -203,4 +203,45 @@ public class TicketDAO implements DAOInterface<Ticket> {
             if (connect != null) try { connect.close(); } catch (SQLException ignore) {}
         }
     }
+    
+    //-----------------------------------------------------------------
+    public static int cancelTicket(String FlightTicketID) throws SQLException, ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement preparedStatement = null;
+        int rowsAffected = 0;
+
+        try {
+            // B1: KET NOI VOI DATABASE
+            con = JDBCUtil.getConnection();
+            
+            // B2: THUC HIEN CAU LENH SQL 
+            String sql = "UPDATE FLIGHT_TICKET SET FlightStatus = 'Đã huỷ' WHERE FlightTicketID = ?";
+            
+            // B3: TAO STATEMENT
+            preparedStatement = con.prepareStatement(sql);
+            
+            // Set the FlightTicketID parameter
+            preparedStatement.setString(1, FlightTicketID);
+
+            // Execute the statement
+            rowsAffected = preparedStatement.executeUpdate();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e; // Rethrow the exception to indicate failure
+        } finally {
+            // Close resources in the reverse order of their creation
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            JDBCUtil.closeConnection(con);
+        }
+        
+        return rowsAffected;
+    }
+    
 }

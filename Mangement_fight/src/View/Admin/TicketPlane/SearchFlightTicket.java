@@ -158,7 +158,35 @@ public class SearchFlightTicket extends JPanel {
 
             @Override
             public void onCancelTicket(int row) {
-                // Handle cancel ticket action
+                // Get the TicketID from the table model
+                String ticketID = (String) table.getModel().getValueAt(row, 0);
+                
+                // Show a confirmation dialog
+                int confirm = JOptionPane.showConfirmDialog(
+                    null,
+                    "Bạn có chắc chắn muốn hủy vé có mã: " + ticketID + "?",
+                    "Xác nhận hủy vé",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE
+                );
+                
+                // Check if the user confirmed the cancellation
+                if (confirm == JOptionPane.YES_OPTION) {
+                    try {
+                        // Call the cancelTicket method from TicketDAO
+                        int result = TicketDAO.cancelTicket(ticketID);
+                        if (result > 0) {
+                            // If the ticket is successfully cancelled, remove the row from the table
+                            ((DefaultTableModel) table.getModel()).removeRow(row);
+                            JOptionPane.showMessageDialog(null, "Hủy vé thành công");
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Hủy vé thất bại.");
+                        }
+                    } catch (SQLException | ClassNotFoundException ex) {
+                        ex.printStackTrace();
+                        JOptionPane.showMessageDialog(null, "Lỗi khi hủy vé!");
+                    }
+                }
             }
         }));
 
