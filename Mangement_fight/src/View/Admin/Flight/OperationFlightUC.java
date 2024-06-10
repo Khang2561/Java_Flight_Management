@@ -13,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.NumberFormat;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
@@ -28,6 +29,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
@@ -44,6 +47,7 @@ import DAO.TicketClassDAO;
 import View.Admin.Admin_header;
 import combo_suggestion.ComboBoxSuggestion;
 import libData.JDBCUtil;
+import javax.swing.text.Document;
 
 public class OperationFlightUC extends JPanel {
 
@@ -65,6 +69,7 @@ public class OperationFlightUC extends JPanel {
 	private BtnCS btnAddIntermediateFlight;
 	private BtnCS btnRemoveIntermediateFlight;
 	private JtfCS DateTime;
+	
 
 	public OperationFlightUC() throws ClassNotFoundException, SQLException {
 		setBackground(new Color(240, 240, 240));
@@ -166,7 +171,7 @@ public class OperationFlightUC extends JPanel {
 		DateTime = new JtfCS();
 		DateTime.setFont(new Font("Tahoma", Font.BOLD, 13));
 		//DateTime.setBounds(103, 11, 166, 37);
-		panel.add(DateTime);
+		//panel.add(DateTime);
 		DateTime.setColumns(10);
 		dateFlightDate.setTextRefernce(DateTime);
 		
@@ -195,7 +200,7 @@ public class OperationFlightUC extends JPanel {
 		txtFlightCost.setBounds(121, 455, 200, 40);
 		panel_1.add(txtFlightCost);
 		txtFlightCost.setColumns(10);
-
+	
 		btnSave = new BtnCS();
 		btnSave.setRadius(20);
 		btnSave.setText("Lưu");
@@ -404,12 +409,12 @@ public class OperationFlightUC extends JPanel {
 
 		// --------------------------------------------------------------------
 		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(446, 16, 204, 76);
+		panel_2.setBounds(454, -13, 204, 190);
 		panel.add(panel_2);
 		panel_2.setLayout(null);
 
 		JScrollPane scrollPane_1 = new JScrollPane((Component) null);
-		scrollPane_1.setBounds(0, 0, 204, 200);
+		scrollPane_1.setBounds(0, 0, 204, 190);
 		panel_2.add(scrollPane_1);
 
 		// table ticket class

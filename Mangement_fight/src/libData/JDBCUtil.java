@@ -17,7 +17,7 @@ public class JDBCUtil {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
-            String url= "jdbc:sqlserver://localhost:1433;databaseName=FlightTicketManagement;"
+            String url= "jdbc:sqlserver://localhost:1433;databaseName=FlightTicketManagement1;"
             		+ "trustServerCertificate=true";
 
             String userName = "admin";

@@ -53,7 +53,6 @@ public class FlightUC extends JPanel {
 				try {
 					switchPanel(new FlightListUC());
 				} catch (ClassNotFoundException | SQLException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				btnNewFlight.setBackground(new Color(255, 255, 255));
@@ -76,7 +75,6 @@ public class FlightUC extends JPanel {
 				try {
 					switchPanel(new OperationFlightUC());
 				} catch (ClassNotFoundException | SQLException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				btnNewFlight.setBackground(new Color(3,4,94));
@@ -111,10 +109,6 @@ public class FlightUC extends JPanel {
 	
 	//-----------------------------------------------------------------------------------------
     public static void switchPanel(JPanel newPanel) {
-    	/*
-        CardLayout cl = (CardLayout)(panelMainContent.getLayout());
-        cl.show(panelMainContent, panelName);
-        */
     	panelMainContent.removeAll(); // Xóa tất cả các thành phần trên panel
         panelMainContent.add(newPanel); // Thêm form mới vào panel
         panelMainContent.revalidate(); // Cập nhật giao diện
