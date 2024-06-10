@@ -246,13 +246,6 @@ public class FlightListUC extends JPanel {
 		loadFlightData(null, null, null);
 		populateComboBoxWithCities(comboBoxFrom);
 		populateComboBoxWithCities(comboBoxTo);
-
-		//------------------------------------------------
-		JSeparator separator = new JSeparator();
-		separator.setForeground(UIManager.getColor("InternalFrame.inactiveTitleForeground"));
-		separator.setBackground(UIManager.getColor("InternalFrame.inactiveTitleForeground"));
-		separator.setBounds(0, 0, 1500, 5);
-		panel.add(separator);
 		
 		//----------------------------------------------------------
 		// Đảm bảo DateChooser sử dụng cùng định dạng "dd-MM-yyyy"
@@ -297,7 +290,7 @@ public class FlightListUC extends JPanel {
 	        StringBuilder queryBuilder = new StringBuilder(
 	            "SELECT FLIGHT.FlightID, DEP_AIRPORT.AirportName AS DepartureAirport, DEP_AIRPORT.CityName AS DepartureCity, " +
 	            "ARR_AIRPORT.AirportName AS ArrivalAirport, ARR_AIRPORT.CityName AS ArrivalCity, FLIGHT.DepartureDateTime, " +
-	            "PLANE.SeatCount - COUNT(FLIGHT_TICKET.FlightTicketID) AS SeatsRemaining, FLIGHT.TicketPrice  " +
+	            "PLANE.SeatCount - COUNT(CASE WHEN FLIGHT_TICKET.FlightStatus != 'Ðã hu?' THEN FLIGHT_TICKET.FlightTicketID END) AS SeatsRemaining, FLIGHT.TicketPrice  " +
 	            "FROM FLIGHT " +
 	            "JOIN AIRPORT AS DEP_AIRPORT ON FLIGHT.DepartureAirportCode = DEP_AIRPORT.AirportID " +
 	            "JOIN AIRPORT AS ARR_AIRPORT ON FLIGHT.ArrivalAirportCode = ARR_AIRPORT.AirportID " +

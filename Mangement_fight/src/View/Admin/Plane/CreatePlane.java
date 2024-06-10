@@ -31,6 +31,8 @@ import DAO.TicketClassDAO;
 import Model.Plane;
 import Model.Seat;
 import Model.TicketClass;
+import View.Admin.Admin_header;
+import View.Admin.Flight.FlightUC;
 
 import java.awt.FlowLayout;
 import java.awt.SystemColor;
@@ -236,6 +238,8 @@ public class CreatePlane extends JPanel {
 
 		                        // Thông báo nhập thành công
 		                        JOptionPane.showMessageDialog(null, "Đã thêm máy bay thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+		                        //--------------------------
+		                        Admin_header.clearAndShow(new PlaneUC());
 		                    }
 		                }
 		            }
@@ -289,7 +293,7 @@ public class CreatePlane extends JPanel {
 				for(int i=0;i<row;i++) {
 						modelTicketcount.setValueAt(0, i, 1);
 				}
-				
+				Admin_header.clearAndShow(new PlaneUC());
 			}
 		});
 		
@@ -459,49 +463,7 @@ public class CreatePlane extends JPanel {
 		panel_3.add(lblNewLabel_3);
 	}
 	
-	/*
-	private static void CreateSeat() {
-	    int numButtons = Integer.parseInt(textFieldChairCount.getText());
-	    JButton[] buttonArray = new JButton[numButtons];
-
-	    // Get the default color from the first ticket class
-	    Color defaultColor = arrayticket[0].getColorTicketClass();
-
-	    for (int i = 0; i < numButtons; i++) {
-	        buttonArray[i] = new JButton();
-	        buttonArray[i].setPreferredSize(new Dimension(90, 40)); // Kích thước cố định
-
-	        // Set the background color to the default color
-	        buttonArray[i].setBackground(defaultColor);
-
-	        // Add MouseListener to change the color when clicked
-	        buttonArray[i].addMouseListener(new MouseAdapter() {
-	            @Override
-	            public void mouseClicked(MouseEvent e) {
-	                JButton clickedButton = (JButton) e.getSource();
-	                // Truy vấn dữ liệu tương ứng với ghế được nhấp vào đây
-	                int seatIndex = panelSeatMap.getComponentZOrder(clickedButton);
-	                
-	                //String row = String.valueOf((seatIndex / 6) + 1); // Số nằm ngang
-	                //String column = String.valueOf((char) ('A' + seatIndex % 6)); // Chữ nằm dọc
-
-	                // Hiển thị thông tin ghế
-	                //System.out.println("Row: " + row);
-	                //System.out.println("Column: " + column);
-	            }
-	            
-	        });
-
-	        try {
-	            panelSeatMap.add(buttonArray[i]);
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        }
-
-	        panelSeatMap.revalidate();
-	        panelSeatMap.repaint();
-	    }
-	}*/
+	
 	
 	private static void CreateSeat() {
 	    int numButtons = Integer.parseInt(textFieldChairCount.getText());
@@ -607,34 +569,7 @@ public class CreatePlane extends JPanel {
 	        i++;
 	    }
 	}
-	/*
-	//tao ra so ngau nhien 
-	private String generateUniqueTicketClassId() {
-		String accountIdPrefix = "PE"; // Tiền tố của mã tài khoản
-		int accountIdDigits = 3; // Số chữ số sau tiền tố
-		String accountId = "";
-		boolean isUnique = false;
-			    
-		while (!isUnique) {
-			accountId = accountIdPrefix + generateRandomDigits(accountIdDigits); // Tạo mã tài khoản mới
-			// Kiểm tra xem mã tài khoản mới đã tồn tại hay chưa
-			 try {
-			            isUnique = !PlaneDAO.isPlaneIdExists(accountId);
-			        } catch (SQLException | ClassNotFoundException e) {
-			            e.printStackTrace();
-			        }
-			    }
-			    
-			    return accountId;
-	}
-	private String generateRandomDigits(int length) {
-		StringBuilder sb = new StringBuilder();
-		Random random = new Random();
-		for (int i = 0; i < length; i++) {
-			sb.append(random.nextInt(10)); // Thêm một chữ số ngẫu nhiên vào chuỗi
-		}
-		return sb.toString();
-	}*/
+	
 	
 	//--------------------
 	private static void addSeatToDatabase(String seatID, String planeID, String ticketClassID) {
