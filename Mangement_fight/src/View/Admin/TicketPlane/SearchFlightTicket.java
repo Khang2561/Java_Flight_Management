@@ -189,37 +189,39 @@ public class SearchFlightTicket extends JPanel {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
         while (rs.next()) {
-        	String email = rs.getString("Email");
-        	if (AAADAO.getCurrentAccount().getRoleID().equals("RL0003")) {
-        		if (email.equals(AAADAO.getCurrentAccount().getEmail())) {
-        			Object[] row = new Object[] {
-        	                rs.getString("TicketID"),
-        	                rs.getString("FlightID"),
-        	                rs.getString("FullName"),
-        	                rs.getString("IDCard"),
-        	                rs.getString("PhoneNumber"),
-        	                rs.getString("Email"),
-        	                rs.getString("SeatID"),
-        	                rs.getString("TicketClassName"),
-        	                rs.getDouble("Price"), // Ensure this is a numeric value for the currency renderer
-        	            };
-        	            model.addRow(row);
-        		}
-        	}
-        	else {
-        		 Object[] row = new Object[] {
-        	                rs.getString("TicketID"),
-        	                rs.getString("FlightID"),
-        	                rs.getString("FullName"),
-        	                rs.getString("IDCard"),
-        	                rs.getString("PhoneNumber"),
-        	                rs.getString("Email"),
-        	                rs.getString("SeatID"),
-        	                rs.getString("TicketClassName"),
-        	                rs.getDouble("Price"), // Ensure this is a numeric value for the currency renderer
-        	            };
-        	            model.addRow(row);
-        	}
+            String email = rs.getString("Email");
+            if (AAADAO.getCurrentAccount().getRoleID().equals("RL0003")) {
+                if (email.equals(AAADAO.getCurrentAccount().getEmail())) {
+                    double price = rs.getDouble("Price") / 100; // Reduce the price by a factor of 100
+                    Object[] row = new Object[] {
+                        rs.getString("TicketID"),
+                        rs.getString("FlightID"),
+                        rs.getString("FullName"),
+                        rs.getString("IDCard"),
+                        rs.getString("PhoneNumber"),
+                        rs.getString("Email"),
+                        rs.getString("SeatID"),
+                        rs.getString("TicketClassName"),
+                        price, // Use the reduced price
+                    };
+                    model.addRow(row);
+                }
+            } else {
+                double price = rs.getDouble("Price") / 100; // Reduce the price by a factor of 100
+                Object[] row = new Object[] {
+                    rs.getString("TicketID"),
+                    rs.getString("FlightID"),
+                    rs.getString("FullName"),
+                    rs.getString("IDCard"),
+                    rs.getString("PhoneNumber"),
+                    rs.getString("Email"),
+                    rs.getString("SeatID"),
+                    rs.getString("TicketClassName"),
+                    price, // Use the reduced price
+                };
+                model.addRow(row);
+            }
         }
     }
+
 }
