@@ -51,7 +51,7 @@ public class CreatePlane extends JPanel {
 	private JPanel panelSeatNumer;
 	private JTblCS tableClassTicket;
 	private DefaultTableModel modelTicketLevel;
-	private JTable countTicketClassTable;
+	private JTblCS countTicketClassTable;
 	private static DefaultTableModel modelTicketcount;
 	private static JPanel panelSeatMap;
 	public static TicketClass[] arrayticket = new TicketClass[6];
@@ -365,7 +365,7 @@ public class CreatePlane extends JPanel {
 		scrollpane1.setBounds(0, 0, 197, 206);
 		panelChitietve.add(scrollpane1);
 		
-		countTicketClassTable = new JTable();
+		countTicketClassTable = new JTblCS("countTicketClass");
 		countTicketClassTable.setSurrendersFocusOnKeystroke(false);
 		countTicketClassTable.setColumnSelectionAllowed(false);
 		countTicketClassTable.setCellSelectionEnabled(false);

@@ -48,11 +48,7 @@ public class TableActionCellRender extends DefaultTableCellRenderer {
         	action.getCmdEdit().setVisible(false);
         	action.getCmdDelete().setVisible(false);
         }
-        else {
-        	action.getCmdEdit().setVisible(true);
-        	action.getCmdDelete().setVisible(true);
-        }
-        
+  
         return action;
     }
     
