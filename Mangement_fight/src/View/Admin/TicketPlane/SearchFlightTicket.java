@@ -20,6 +20,7 @@ import CustomUI.Table.TableActionCellEditor;
 import CustomUI.Table.TableActionCellRender;
 import CustomUI.Table.TableActionEvent;
 import CustomUI.Table.TablePanelAction;
+import DAO.AAADAO;
 import DAO.AirportDAO;
 import DAO.TicketDAO;
 import combo_suggestion.ComboBoxSuggestion;
@@ -188,18 +189,37 @@ public class SearchFlightTicket extends JPanel {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
         while (rs.next()) {
-            Object[] row = new Object[] {
-                rs.getString("TicketID"),
-                rs.getString("FlightID"),
-                rs.getString("FullName"),
-                rs.getString("IDCard"),
-                rs.getString("PhoneNumber"),
-                rs.getString("Email"),
-                rs.getString("SeatID"),
-                rs.getString("TicketClassName"),
-                rs.getDouble("Price"), // Ensure this is a numeric value for the currency renderer
-            };
-            model.addRow(row);
+        	String email = rs.getString("Email");
+        	if (AAADAO.getCurrentAccount().getRoleID().equals("RL0003")) {
+        		if (email.equals(AAADAO.getCurrentAccount().getEmail())) {
+        			Object[] row = new Object[] {
+        	                rs.getString("TicketID"),
+        	                rs.getString("FlightID"),
+        	                rs.getString("FullName"),
+        	                rs.getString("IDCard"),
+        	                rs.getString("PhoneNumber"),
+        	                rs.getString("Email"),
+        	                rs.getString("SeatID"),
+        	                rs.getString("TicketClassName"),
+        	                rs.getDouble("Price"), // Ensure this is a numeric value for the currency renderer
+        	            };
+        	            model.addRow(row);
+        		}
+        	}
+        	else {
+        		 Object[] row = new Object[] {
+        	                rs.getString("TicketID"),
+        	                rs.getString("FlightID"),
+        	                rs.getString("FullName"),
+        	                rs.getString("IDCard"),
+        	                rs.getString("PhoneNumber"),
+        	                rs.getString("Email"),
+        	                rs.getString("SeatID"),
+        	                rs.getString("TicketClassName"),
+        	                rs.getDouble("Price"), // Ensure this is a numeric value for the currency renderer
+        	            };
+        	            model.addRow(row);
+        	}
         }
     }
 }
