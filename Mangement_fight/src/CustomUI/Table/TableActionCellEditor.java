@@ -34,21 +34,17 @@ public class TableActionCellEditor extends DefaultCellEditor {
             	action.getCmdDelete().setVisible(false);
             	action.getCmdCancel().setVisible(true);
             } else {
-            	action.getCmdEdit().setVisible(true);
-            	action.getCmdDelete().setVisible(true);
             	action.getCmdCancel().setVisible(false);
             }
-            
-            AAADAO dao = AAADAO.getInstance();
-            
-            if (dao.getCurrentAccount().getRoleID().equals("RL0003")) {
-            	action.getCmdEdit().setVisible(false);
-            	action.getCmdDelete().setVisible(false);
-            }
-            else {
-            	action.getCmdEdit().setVisible(true);
-            	action.getCmdDelete().setVisible(true);
-            }
+        }
+        
+        if (AAADAO.getCurrentAccount().getRoleID().equals("RL0003")) {
+        	action.getCmdEdit().setVisible(false);
+        	action.getCmdDelete().setVisible(false);
+        }
+        else {
+        	action.getCmdEdit().setVisible(true);
+        	action.getCmdDelete().setVisible(true);
         }
         return action;
     }

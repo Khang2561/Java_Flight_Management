@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import CustomUI.BtnCS;
+import DAO.AAADAO;
 import View.Admin.Admin_header;
 import View.Admin.FormAdmin;
 
@@ -68,6 +69,9 @@ public class FlightUC extends JPanel {
 		btnNewFlight.setText("Tạo Chuyến Bay Mới");
 		btnNewFlight.setBounds(329, 10, 211, 50);
 		btnNewFlight.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
+		if ("RL0003".equals(AAADAO.getCurrentAccount().getRoleID())) {
+		        btnNewFlight.setVisible(false); // Make btnNewFlight invisible
+		}
 		btnNewFlight.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -81,7 +85,7 @@ public class FlightUC extends JPanel {
 			}
 		});
 		addHoverEffect(btnNewFlight);
-
+		
 		btnDetailFlight = new BtnCS();
 		btnDetailFlight.setRadius(30);
 		btnDetailFlight.setText("Chi Tiết Chuyến Bay");
