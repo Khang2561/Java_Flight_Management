@@ -352,11 +352,15 @@ public class CreateFlightTicket extends JPanel {
                         double pricePercentage = Double.parseDouble(arrayticket[row].getPricePercentage());
                         // Get the ticket money and multiply by the price percentage
                         long ticketMoney = SeatDAO.TicketMoney((String) comboBoxFlight.getSelectedItem());
+                        ticketMoney = ticketMoney / 100;
                         double totalPrice = ticketMoney * pricePercentage;
 
-                        // Format the price in VND
-                        NumberFormat vndFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-                        tfGiaVe.setText(vndFormat.format(totalPrice));
+                        // Format the price in VND with dots separating every three digits
+                        NumberFormat vndFormat = NumberFormat.getInstance(new Locale("vi", "VN"));
+                        vndFormat.setMaximumFractionDigits(0); // Set to 0 decimal places
+                        String formattedPrice = vndFormat.format(totalPrice) + " VND";
+                        tfGiaVe.setText(formattedPrice);
+
                         // Highlight corresponding seats
                         highlightSeats(arrayticket[row]);
                         selectedSeat = null;
