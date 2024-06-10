@@ -49,7 +49,6 @@ import java.util.Calendar;
 public class DetailFlightUC extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JTextField txtPlaneID;
 	private static JTextField txtFlightTime;
 	private JTextField txtFlightCost;
 	private JTblCS tableIntermediateFlight;
@@ -196,12 +195,6 @@ public class DetailFlightUC extends JPanel {
 			ex.printStackTrace();
 		}
 		// ----------------------------------------------------------------------------------
-		/*
-		dateFlightDate = new JDateChooser();
-		dateFlightDate.setDateFormatString("yyyy-MM-dd");
-		dateFlightDate.setBounds(121, 266, 252, 36);
-		panel_1.add(dateFlightDate);
-		*/
 		DateChooser DateTime = new com.raven.datechooser.DateChooser();
 		DateTime.setDateFormat("dd-MM-yyyy");
 		
