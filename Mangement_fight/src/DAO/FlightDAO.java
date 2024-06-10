@@ -144,9 +144,10 @@ public class FlightDAO implements DAOInterface<Flight> {
     public static void deleteFlight(Connection conn, String flightID) throws SQLException {
         // Câu truy vấn để xóa các khóa ngoại liên quan đến FLIGHT
         String deleteFlightDetailSQL = "DELETE FROM FLIGHT_DETAIL WHERE FlightID = ?";
-        String deleteFlightTicketClassDetailSQL = "DELETE FROM FLIGHT_TICKET_CLASS_DETAIL WHERE FlightID = ?";
-        String deleteTicketSQL = "DELETE FROM TICKET WHERE FlightID = ?";
+        //String deleteFlightTicketClassDetailSQL = "DELETE FROM FLIGHT_TICKET_CLASS_DETAIL WHERE FlightID = ?";
+        //String deleteTicketSQL = "DELETE FROM TICKET WHERE FlightID = ?";
         String deleteFlightSQL = "DELETE FROM FLIGHT WHERE FlightID = ?";
+        //String deleteFlight1 = "DELETE FROM FLIGHT_TICKET WHERE FlightID=?;";
 
         // Sử dụng Transaction để đảm bảo tất cả các câu truy vấn đều được thực hiện
         try {
@@ -161,6 +162,7 @@ public class FlightDAO implements DAOInterface<Flight> {
 //                pstmtDeleteFlightTicketClassDetail.setString(1, flightID);
 //                pstmtDeleteTicket.setString(1, flightID);
                 pstmtDeleteFlight.setString(1, flightID);
+                
 
                 // Thực hiện các câu truy vấn xóa
                 pstmtDeleteFlightDetail.executeUpdate();

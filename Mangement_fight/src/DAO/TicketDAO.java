@@ -215,7 +215,7 @@ public class TicketDAO implements DAOInterface<Ticket> {
             con = JDBCUtil.getConnection();
             
             // B2: THUC HIEN CAU LENH SQL 
-            String sql = "UPDATE FLIGHT_TICKET SET FlightStatus = 'Đã huỷ' WHERE FlightTicketID = ?";
+            String sql = "DELETE FROM FLIGHT_TICKET WHERE FlightTicketID = ?";
             
             // B3: TAO STATEMENT
             preparedStatement = con.prepareStatement(sql);
