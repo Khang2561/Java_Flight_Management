@@ -220,7 +220,7 @@ public class SearchFlightTicket extends JPanel {
             String email = rs.getString("Email");
             if (AAADAO.getCurrentAccount().getRoleID().equals("RL0003")) {
                 if (email.equals(AAADAO.getCurrentAccount().getEmail())) {
-                    double price = rs.getDouble("Price") / 100; // Reduce the price by a factor of 100
+                    double price = rs.getDouble("Price") ; // Reduce the price by a factor of 100
                     Object[] row = new Object[] {
                         rs.getString("TicketID"),
                         rs.getString("FlightID"),
@@ -235,7 +235,7 @@ public class SearchFlightTicket extends JPanel {
                     model.addRow(row);
                 }
             } else {
-                double price = rs.getDouble("Price") / 100; // Reduce the price by a factor of 100
+                double price = rs.getDouble("Price") ; // Reduce the price by a factor of 100
                 Object[] row = new Object[] {
                     rs.getString("TicketID"),
                     rs.getString("FlightID"),
