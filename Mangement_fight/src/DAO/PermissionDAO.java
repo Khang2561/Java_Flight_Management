@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
+import CustomUI.BtnCS;
 import Model.Parameters;
 import Model.Permission;
 import libData.JDBCUtil;
@@ -227,7 +228,7 @@ public class PermissionDAO implements DAOInterface<Parameters> {
 		    }
 	}
 	
-	public void setPermsionAccess(String permissionCode, Button[] buttons) {
+	public void setPermsionAccess(String permissionCode, BtnCS[] buttons) {
 	    for (int i = 0; i < permissionCode.length(); i++) {
 	        char bit = permissionCode.charAt(i);
 	        if (bit == '1') {

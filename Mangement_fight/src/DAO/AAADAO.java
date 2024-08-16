@@ -342,6 +342,7 @@ public class AAADAO implements DAOInterface<Account>{
 		        account.setPassword(rs.getString("Password"));
 		        account.getCreated().getTime();
 		        account.setRoleID(rs.getString("RoleID"));
+		        setCurrentAccount(account);
 		        
 	        }  else {
 	        	JOptionPane.showMessageDialog(formLogin, "Tài khoản hoặc mật khẩu không đúng");
@@ -369,6 +370,16 @@ public class AAADAO implements DAOInterface<Account>{
 	// Kiểm tra SĐT phải có 10 chữ số
 	public static boolean isValPhoneNumber(String phone) {
 
-		return phone.length() == 10;	}
+		return phone.length() == 10;	
+	}
+	
+    private static Account currentAccount; // Static field to hold the current account
 
+    public static void setCurrentAccount(Account account) {
+        currentAccount = account; // Set the current account after login
+    }
+
+    public static Account getCurrentAccount() {
+        return currentAccount; // Retrieve the current account
+    }
 }

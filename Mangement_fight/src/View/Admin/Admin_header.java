@@ -23,13 +23,24 @@ import View.Admin.ChatBox.ChatBox;
 import View.Admin.Flight.FlightUC;
 import View.Admin.Plane.PlaneUC;
 import View.Admin.Setting.Setting;
+import View.Admin.TicketPlane.FlightTicket;
 
 public class Admin_header extends JPanel {
 
     public static final long serialVersionUID = 1L;
     public static BtnCS[] buttons = new BtnCS[6];
     private static BtnCS selectedButton = null;  // Track the currently selected button
+    
+    // Static variable single_instance of type Admin_header
+    private static Admin_header single_instance = null;
+    
+    // Static method to create instance of Admin_header class
+    public static Admin_header getInstance() {
+        if (single_instance == null)
+            single_instance = new Admin_header();
 
+        return single_instance;
+    }
     /**
      * Create the panel.
      */
@@ -50,7 +61,7 @@ public class Admin_header extends JPanel {
         gbc.gridwidth = 1;
         add(lblNewLabel, gbc);
 
-        // Create and add buttons
+        //-------------------------------------------------------------
         createButton("CHUYẾN BAY", new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
@@ -61,17 +72,24 @@ public class Admin_header extends JPanel {
                 }
             }
         }, gbc, 1);
-
-        createButton("VÉ MÁY BAY", null, gbc, 2);
-
+        //--------------------------------------------------------------
+        createButton("VÉ MÁY BAY",new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                clearAndShow(new FlightTicket(null));
+				highlightButton(buttons[1]);
+				FlightTicket.HightLight();
+            }
+        }, gbc, 2);
+        //----------------------------------------------------------------
         createButton("MÁY BAY", new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 clearAndShow(new PlaneUC());
                 highlightButton(buttons[2]);
+                PlaneUC.HightLight();
             }
         }, gbc, 3);
-
+        //------------------------------------------------------------------
         createButton("TÀI KHOẢN", new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
@@ -82,7 +100,7 @@ public class Admin_header extends JPanel {
                 }
             }
         }, gbc, 4);
-
+        //--------------------------------------------------------------------
         createButton("CÀI ĐẶT", new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
@@ -93,7 +111,7 @@ public class Admin_header extends JPanel {
                 }
             }
         }, gbc, 5);
-
+        //-----------------------------------------------------------------------
         createButton("CHAT BOX", new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 clearAndShow(new ChatBox());
@@ -145,12 +163,12 @@ public class Admin_header extends JPanel {
         add(button, gbc);
         buttons[gridx - 1] = button;
     }
-
+    //3,4,94
     // Method to clear and show new panel
     public static void clearAndShow(JPanel newPanel) {
         FormAdmin.contentPane.removeAll(); // Xóa tất cả các thành phần trên contentPane
-        Admin_header tmp = new Admin_header();
-        FormAdmin.contentPane.add(tmp); // Thêm lại Admin_header vào contentPane
+        Admin_header header = Admin_header.getInstance();
+        FormAdmin.contentPane.add(header);
         FormAdmin.contentPane.add(newPanel); // Thêm form mới vào contentPane
         newPanel.setSize(1500, 653);
         newPanel.setLocation(0, 78);
@@ -167,5 +185,15 @@ public class Admin_header extends JPanel {
         button.setBackground(new Color(3, 4, 94)); // Highlight the currently selected button with black background
         button.setForeground(Color.WHITE); // Set text color to white
         selectedButton = button; // Update the currently selected button
+    }
+    //-------------------------------------------------------
+    public static void highlightButton1() {
+        if (selectedButton != null) {
+            selectedButton.setBackground(Color.WHITE); // Reset background color of previously selected button
+            selectedButton.setForeground(Color.BLACK); // Reset text color of previously selected button
+        }
+        buttons[1].setBackground(new Color(3, 4, 94)); // Highlight the currently selected button with black background
+        buttons[1].setForeground(Color.WHITE); // Set text color to white
+        selectedButton = buttons[1]; // Update the currently selected button
     }
 }

@@ -169,7 +169,24 @@ public class TicketClassDAO implements DAOInterface<TicketClass>{
 	    } 
 		return rs;
 	}
-	
+	public static ResultSet findTCColorByID(String ID) throws SQLException, ClassNotFoundException{
+		 //ket noi sql nguyen mau
+		Connection connect = null;
+	    PreparedStatement stmt = null;
+	    ResultSet rs = null;
+	    String query = "SELECT * FROM TICKET_CLASS WHERE TicketClassID = ?;";
+	    try {
+	    	connect = JDBCUtil.getConnection();
+	    	stmt = connect.prepareStatement(query);
+	    	stmt.setString(1, ID);
+	    	rs = stmt.executeQuery();
+	    //
+	    } catch (SQLException ex) {
+	       Logger.getLogger(null);
+	       throw ex;
+	    } 
+		return rs;
+	}
 	public static int deleteByName(String name) {
 	    Connection con = null;
 	    PreparedStatement preparedStatement = null;
