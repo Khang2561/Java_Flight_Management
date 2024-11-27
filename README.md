@@ -93,7 +93,7 @@
 ## III. Tác giả
 1. Nguyễn Phúc Khang - 21522194
 2. Lý Nam Kháng - 21522191
-3. 
+3. Trần Anh Hào - 
 
 <!-- NGƯỜI HƯỚNG DẪN -->
 <div id="Nguoihuongdan"></div>
